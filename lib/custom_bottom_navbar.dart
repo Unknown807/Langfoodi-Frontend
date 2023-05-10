@@ -4,11 +4,15 @@ class CustomBottomNavBar extends StatelessWidget implements PreferredSizeWidget 
   final Color backgroundColor = Colors.green;
   final AppBar appBar;
 
-  const CustomBottomNavBar({Key? key, required this.appBar})
+  final int selectedIndex;
+  final ValueChanged<int>? onTap;
+
+  const CustomBottomNavBar({Key? key, required this.appBar, required this.selectedIndex, this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
@@ -29,6 +33,8 @@ class CustomBottomNavBar extends StatelessWidget implements PreferredSizeWidget 
           label: 'Chats',
         ),
       ],
+      currentIndex: selectedIndex, //New
+      onTap: onTap
     );
   }
 

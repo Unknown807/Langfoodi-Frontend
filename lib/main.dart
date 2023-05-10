@@ -34,9 +34,57 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  List<Widget> getPages() =>
+  [
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          'You have pushed the button this many times:',
+        ),
+        Text(
+          '$_counter',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      ],
+    ),
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Text(
+            'This is the second page!'
+        )
+      ],
+    ),
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Text(
+            'This is the third page!'
+        )
+      ],
+    ),
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const <Widget>[
+        Text(
+            'This is the fourth page!'
+        )
+      ],
+    ),
+  ];
+
   void _incrementCounter() {
     setState(() {
       _counter++;
+    });
+  }
+
+  int _selectedIndex = 0;
+
+  void onBottomNavSelect(int index){
+    setState(() {
+      _selectedIndex = index;
     });
   }
 
@@ -49,20 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: CustomBottomNavBar(
         appBar: AppBar(),
+        selectedIndex: _selectedIndex,
+        onTap: onBottomNavSelect
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
+        child: getPages().elementAt(_selectedIndex)
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
