@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_social_media/custom_bottom_navbar.dart';
+import 'package:recipe_social_media/custom_navbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,50 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomNavBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )
-          ),
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                    Icons.person
-                ),
-              )
-          ),
-        ],
+        appBar: AppBar(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood),
-            label: 'My creations',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
-          ),
-        ],
+      bottomNavigationBar: CustomBottomNavBar(
+        appBar: AppBar(),
       ),
       body: Center(
         child: Column(
