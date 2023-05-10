@@ -101,7 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: onBottomNavSelect
       ),
       body: Center(
-        child: getPages().elementAt(_selectedIndex)
+        child: IndexedStack(
+          index: _selectedIndex,
+          alignment: Alignment.center,
+          children: getPages(),
+        )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
