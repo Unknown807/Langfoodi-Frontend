@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:recipe_social_media/services/validation_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -10,6 +11,71 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool registerBtnFocus = false;
+
+  // Used for validating each sign up field before submitting to server
+  final emailController = TextEditingController();
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  String? emailErrTxt;
+  String? userNameErrTxt;
+  String? passwordErrTxt;
+  String? confirmPasswordErrTxt;
+
+  void validateEmail() {
+    setState(() {
+      String text = emailController.text;
+      bool validEmail = ValidationService.isValidEmail(text) &&
+          !ValidationService.emailExists(text);
+      emailErrTxt = validEmail || text.isEmpty ? null : "Invalid email address";
+    });
+  }
+
+  void validateUserName() {
+    setState(() {
+      String text = userNameController.text;
+      bool validUserName =
+          ValidationService.isValidUserName(text) &&
+              !ValidationService.userNameExists(text);
+      userNameErrTxt =
+          validUserName || text.isEmpty ? null : "Needs 3+ length & only letters/numbers";
+    });
+  }
+
+  void matchingPasswords() {
+    if (passwordController.text == confirmPasswordController.text) {
+      passwordErrTxt = null;
+      confirmPasswordErrTxt = null;
+    } else {
+      passwordErrTxt = "Passwords must match";
+      confirmPasswordErrTxt = "Passwords must match";
+    }
+  }
+
+  void validatePasswords() {
+    setState(() {
+      bool validPassword = ValidationService.isValidPassword(passwordController.text);
+      bool validConfirmPassword = ValidationService.isValidPassword(confirmPasswordController.text);
+
+      if (validPassword && validConfirmPassword) {
+        matchingPasswords();
+      } else {
+        String errMsg = "Needs 8+ length & one of each character - upper case, lower case, number & special";
+        passwordErrTxt = validPassword || passwordController.text.isEmpty ? null : errMsg;
+        confirmPasswordErrTxt = validConfirmPassword || confirmPasswordController.text.isEmpty ? null : errMsg;
+      }
+    });
+  }
+
+  void validateAllFields() {}
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    userNameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +132,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                         bottom: BorderSide(
                                             color: Colors.grey.shade100))),
                                 child: TextField(
+                                  controller: userNameController,
+                                  onChanged: (_) {
+                                    validateUserName();
+                                  },
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
+                                      errorText: userNameErrTxt,
                                       hintText: "Username",
                                       hintStyle: TextStyle(
                                           color: Colors.grey.shade400)),
@@ -79,8 +150,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                         bottom: BorderSide(
                                             color: Colors.grey.shade100))),
                                 child: TextField(
+                                  controller: emailController,
+                                  onChanged: (_) {
+                                    validateEmail();
+                                  },
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
+                                      errorText: emailErrTxt,
                                       hintText: "Email",
                                       hintStyle: TextStyle(
                                           color: Colors.grey.shade400)),
@@ -92,18 +168,28 @@ class _RegisterPageState extends State<RegisterPage> {
                                         bottom: BorderSide(
                                             color: Colors.grey.shade100))),
                                 child: TextField(
+                                    onChanged: (_) {
+                                      validatePasswords();
+                                    },
+                                    controller: passwordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
+                                        errorText: passwordErrTxt,
                                         hintText: "Password",
                                         hintStyle: TextStyle(
                                             color: Colors.grey.shade400)))),
                             Container(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextField(
+                                    onChanged: (_) {
+                                      validatePasswords();
+                                    },
+                                    controller: confirmPasswordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
+                                        errorText: confirmPasswordErrTxt,
                                         hintText: "Confirm Password",
                                         hintStyle: TextStyle(
                                             color: Colors.grey.shade400))))

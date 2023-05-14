@@ -12,9 +12,26 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool loginBtnFocus = false;
 
+  // Used for validating each sign up field before submitting to server
+  final nameAndEmailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   void gotoRegisterPage() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const RegisterPage()));
+  }
+
+  void attemptLogin() {
+    setState(() {
+      loginBtnFocus = !loginBtnFocus;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          loginBtnFocus = !loginBtnFocus;
+        });
+      });
+
+
+    });
   }
 
   @override
@@ -53,6 +70,11 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(children: <Widget>[
+                      Text("Error",
+                          style: TextStyle(
+                            color: Color.fromRGBO(244, 113, 116, 1),
+                          )),
+                      SizedBox(height: 5),
                       Container(
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -72,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                                         bottom: BorderSide(
                                             color: Colors.grey.shade100))),
                                 child: TextField(
+                                  controller: nameAndEmailController,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Username or Email",
@@ -81,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextField(
+                                    controller: passwordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -103,16 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              loginBtnFocus = !loginBtnFocus;
-                              Timer(const Duration(milliseconds: 300), () {
-                                setState(() {
-                                  loginBtnFocus = !loginBtnFocus;
-                                });
-                              });
-                            });
-                          },
+                          onTap: attemptLogin,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             curve: Curves.easeInOut,
