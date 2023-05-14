@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/login_page.dart';
-
+import 'package:recipe_social_media/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      //home: const MyHomePage(title: 'Recipe Social Media'),
       home: const LoginPage(),
     );
   }
 }
-
-
