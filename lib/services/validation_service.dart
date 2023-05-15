@@ -12,7 +12,7 @@ class ValidationService {
   }
 
   static bool isValidUserName(String userName) {
-    return RegExp(r"^(?=.*?[A-Z])?(?=.*?[a-z])?(?=.*?[0-9])?.{3,}$")
+    return RegExp(r"^[a-zA-Z0-9]{3,}$")
         .hasMatch(userName);
   }
 

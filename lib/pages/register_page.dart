@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
       String text = emailController.text;
       bool validEmail = ValidationService.isValidEmail(text) &&
           !ValidationService.emailExists(text);
+
       emailErrTxt = validEmail || text.isEmpty ? null : "Invalid email address";
     });
   }
@@ -34,11 +35,12 @@ class _RegisterPageState extends State<RegisterPage> {
   void validateUserName() {
     setState(() {
       String text = userNameController.text;
-      bool validUserName =
-          ValidationService.isValidUserName(text) &&
-              !ValidationService.userNameExists(text);
-      userNameErrTxt =
-          validUserName || text.isEmpty ? null : "Needs 3+ length & only letters/numbers";
+      bool validUserName = ValidationService.isValidUserName(text) &&
+          !ValidationService.userNameExists(text);
+
+      userNameErrTxt = validUserName || text.isEmpty
+          ? null
+          : "Needs 3+ length & only letters/numbers";
     });
   }
 
@@ -54,26 +56,65 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void validatePasswords() {
     setState(() {
-      bool validPassword = ValidationService.isValidPassword(passwordController.text);
-      bool validConfirmPassword = ValidationService.isValidPassword(confirmPasswordController.text);
+      bool validPassword =
+          ValidationService.isValidPassword(passwordController.text);
+      bool validConfirmPassword =
+          ValidationService.isValidPassword(confirmPasswordController.text);
 
       if (validPassword && validConfirmPassword) {
         matchingPasswords();
       } else {
-        String errMsg = "Needs 8+ length & one of each character - upper case, lower case, number & special";
-        passwordErrTxt = validPassword || passwordController.text.isEmpty ? null : errMsg;
-        confirmPasswordErrTxt = validConfirmPassword || confirmPasswordController.text.isEmpty ? null : errMsg;
+        String errMsg =
+            "Needs 8+ length & one of each character - upper case, lower case, number & special";
+
+        passwordErrTxt =
+            validPassword || passwordController.text.isEmpty
+                ? null
+                : errMsg;
+
+        confirmPasswordErrTxt =
+            validConfirmPassword || confirmPasswordController.text.isEmpty
+                ? null
+                : errMsg;
       }
     });
   }
 
-  void validateAllFields() {}
+  void validateAllFields() {
+    setState(() {
+      registerBtnFocus = !registerBtnFocus;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          registerBtnFocus = !registerBtnFocus;
+        });
+      });
+    });
+
+    bool validFields = [
+          emailErrTxt,
+          userNameErrTxt,
+          passwordErrTxt,
+          confirmPasswordErrTxt
+        ].every((txt) => txt == null) &&
+        [
+          emailController.text,
+          userNameController.text,
+          passwordController.text,
+          confirmPasswordController.text
+        ].every((txt) => txt.isNotEmpty);
+
+    if (validFields) {
+      //TODO: Attempt to register the user here by calling an AuthService method
+      print("attempt");
+    }
+  }
 
   @override
   void dispose() {
     emailController.dispose();
     userNameController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -196,16 +237,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ])),
                       const SizedBox(height: 20),
                       GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              registerBtnFocus = !registerBtnFocus;
-                              Timer(const Duration(milliseconds: 300), () {
-                                setState(() {
-                                  registerBtnFocus = !registerBtnFocus;
-                                });
-                              });
-                            });
-                          },
+                          onTap: validateAllFields,
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             curve: Curves.easeInOut,

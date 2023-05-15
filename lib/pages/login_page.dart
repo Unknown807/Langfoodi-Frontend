@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/pages/register_page.dart';
+import 'package:recipe_social_media/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loginBtnFocus = false;
+  bool loginAttemptErr = false;
 
   // Used for validating each sign up field before submitting to server
   final nameAndEmailController = TextEditingController();
@@ -21,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => const RegisterPage()));
   }
 
-  void attemptLogin() {
+  void attemptLogin() async {
     setState(() {
       loginBtnFocus = !loginBtnFocus;
       Timer(const Duration(milliseconds: 300), () {
@@ -29,9 +31,17 @@ class _LoginPageState extends State<LoginPage> {
           loginBtnFocus = !loginBtnFocus;
         });
       });
-
-
     });
+
+    //TODO: Call auth service to attempt login
+    loginAttemptErr = true;
+  }
+
+  @override
+  void dispose() {
+    nameAndEmailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(children: <Widget>[
-                      Text("Error",
+                      Text(loginAttemptErr ? "Invalid Login Details" : "",
                           style: TextStyle(
                             color: Color.fromRGBO(244, 113, 116, 1),
                           )),
