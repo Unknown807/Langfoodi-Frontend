@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:recipe_social_media/pages/register_page.dart';
 import 'package:recipe_social_media/services/auth_service.dart';
+import 'package:recipe_social_media/services/validation_service.dart';
+
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,6 +23,11 @@ class _LoginPageState extends State<LoginPage> {
   final nameAndEmailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  void gotoHomePage() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")));
+  }
+
   void gotoRegisterPage() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const RegisterPage()));
@@ -25,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void attemptLogin() async {
     setState(() {
+      loginAttemptErr = false;
       loginBtnFocus = !loginBtnFocus;
       Timer(const Duration(milliseconds: 300), () {
         setState(() {
@@ -33,8 +44,22 @@ class _LoginPageState extends State<LoginPage> {
       });
     });
 
-    //TODO: Call auth service to attempt login
-    loginAttemptErr = true;
+    if (!ValidationService.isValidUserName(nameAndEmailController.text) && !ValidationService.isValidEmail(nameAndEmailController.text)) {
+      setState(() {
+        loginAttemptErr = true;
+      });
+      return;
+    }
+
+    Response resp = await AuthService.attemptLogin(nameAndEmailController.text, passwordController.text);
+    if (resp.statusCode == 200) {
+      AuthService.setToken(jsonDecode(resp.body)["token"]);
+      gotoHomePage();
+    } else {
+      setState(() {
+        loginAttemptErr = true;
+      });
+    }
   }
 
   @override
@@ -81,10 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.all(30.0),
                     child: Column(children: <Widget>[
                       Text(loginAttemptErr ? "Invalid Login Details" : "",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromRGBO(244, 113, 116, 1),
                           )),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Container(
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(

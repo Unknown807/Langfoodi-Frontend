@@ -7,17 +7,9 @@ class ValidationService {
         .hasMatch(email);
   }
 
-  static bool emailExists(String email) {
-    return false;
-  }
-
   static bool isValidUserName(String userName) {
     return RegExp(r"^[a-zA-Z0-9]{3,}$")
         .hasMatch(userName);
-  }
-
-  static bool userNameExists(String userName) {
-    return false;
   }
 
   static bool isValidPassword(String password) {

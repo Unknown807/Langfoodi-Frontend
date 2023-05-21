@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:recipe_social_media/pages/home_page.dart';
+import 'package:recipe_social_media/services/auth_service.dart';
 import 'package:recipe_social_media/services/validation_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -11,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool registerBtnFocus = false;
+  bool registerAttemptErr = false;
 
   // Used for validating each sign up field before submitting to server
   final emailController = TextEditingController();
@@ -22,11 +27,15 @@ class _RegisterPageState extends State<RegisterPage> {
   String? passwordErrTxt;
   String? confirmPasswordErrTxt;
 
+  void gotoHomePage() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: "Home Page")));
+  }
+
   void validateEmail() {
     setState(() {
       String text = emailController.text;
-      bool validEmail = ValidationService.isValidEmail(text) &&
-          !ValidationService.emailExists(text);
+      bool validEmail = ValidationService.isValidEmail(text);
 
       emailErrTxt = validEmail || text.isEmpty ? null : "Invalid email address";
     });
@@ -35,8 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void validateUserName() {
     setState(() {
       String text = userNameController.text;
-      bool validUserName = ValidationService.isValidUserName(text) &&
-          !ValidationService.userNameExists(text);
+      bool validUserName = ValidationService.isValidUserName(text);
 
       userNameErrTxt = validUserName || text.isEmpty
           ? null
@@ -68,9 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
             "Needs 8+ length & one of each character - upper case, lower case, number & special";
 
         passwordErrTxt =
-            validPassword || passwordController.text.isEmpty
-                ? null
-                : errMsg;
+            validPassword || passwordController.text.isEmpty ? null : errMsg;
 
         confirmPasswordErrTxt =
             validConfirmPassword || confirmPasswordController.text.isEmpty
@@ -80,8 +86,9 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  void validateAllFields() {
+  void validateAllFields() async {
     setState(() {
+      registerAttemptErr = false;
       registerBtnFocus = !registerBtnFocus;
       Timer(const Duration(milliseconds: 300), () {
         setState(() {
@@ -104,8 +111,17 @@ class _RegisterPageState extends State<RegisterPage> {
         ].every((txt) => txt.isNotEmpty);
 
     if (validFields) {
-      //TODO: Attempt to register the user here by calling an AuthService method
-      print("attempt");
+      Response resp = await AuthService.attemptRegister(userNameController.text, emailController.text,
+              passwordController.text);
+
+      if (resp.statusCode == 200) {
+        AuthService.setToken(jsonDecode(resp.body)["token"]);
+        gotoHomePage();
+      } else {
+        setState(() {
+          registerAttemptErr = true;
+        });
+      }
     }
   }
 
@@ -154,6 +170,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(children: <Widget>[
+                      Text(registerAttemptErr ? "Username/Email Already Exists" : "",
+                          style: const TextStyle(
+                            color: Color.fromRGBO(244, 113, 116, 1),
+                          )),
+                      const SizedBox(height: 5),
                       Container(
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
