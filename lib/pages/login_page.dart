@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:recipe_social_media/pages/register_page.dart';
+import 'package:recipe_social_media/register/register_page.dart';
 import 'package:recipe_social_media/services/auth_service.dart';
-import 'package:recipe_social_media/services/validation_service.dart';
-
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,13 +41,6 @@ class _LoginPageState extends State<LoginPage> {
         });
       });
     });
-
-    if (!ValidationService.isValidUserName(nameAndEmailController.text) && !ValidationService.isValidEmail(nameAndEmailController.text)) {
-      setState(() {
-        loginAttemptErr = true;
-      });
-      return;
-    }
 
     Response resp = await AuthService.attemptLogin(nameAndEmailController.text, passwordController.text);
     if (resp.statusCode == 200) {

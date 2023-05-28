@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:recipe_social_media/services/request_service.dart';
-import 'package:recipe_social_media/services/validation_service.dart';
 
 class AuthService {
   static const _storage = FlutterSecureStorage();
@@ -26,8 +23,8 @@ class AuthService {
   static Future<Response> attemptLogin(String userNameOrEmail, String password) {
     var user = {
       "password": password,
-      "email": ValidationService.isValidEmail(userNameOrEmail) ? userNameOrEmail : "",
-      "username": ValidationService.isValidUserName(userNameOrEmail) ? userNameOrEmail : ""
+      "email": userNameOrEmail,
+      "username": userNameOrEmail
     };
 
     return RequestService.post("/tokens/login", user);
