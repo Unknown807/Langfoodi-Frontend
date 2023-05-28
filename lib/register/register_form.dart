@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:recipe_social_media/forms/input_event.dart';
-import 'package:recipe_social_media/forms/widgets/FormInput.dart';
-import 'package:recipe_social_media/register/register_bloc.dart';
-import '../forms/input_state.dart';
-import '../forms/widgets/FormButton.dart';
+part of 'register_bloc.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});
@@ -50,8 +43,7 @@ class _FormErrorLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
-      buildWhen: (previous, current) =>
-          previous.errorMessage != current.errorMessage,
+      buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
         return Text(state.errorMessage ?? "",
             style: const TextStyle(
@@ -66,7 +58,7 @@ class _UserNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
-      buildWhen: (previous, current) => previous.userName != current.userName,
+      buildWhen: (p, c) => p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
             errTxt: state.userName.displayError != null
@@ -85,7 +77,7 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
-      buildWhen: (previous, current) => previous.email != current.email,
+      buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
             errTxt: state.email.displayError != null ? "Invalid email" : null,
@@ -102,7 +94,7 @@ class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
-      buildWhen: (previous, current) => previous.password != current.password,
+      buildWhen: (p, c) => p.password != c.password,
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
@@ -123,9 +115,9 @@ class _ConfirmPasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
-      buildWhen: (previous, current) =>
-          previous.password != current.password ||
-          previous.confirmedPassword != current.confirmedPassword,
+      buildWhen: (p, c) =>
+          p.password != c.password ||
+          p.confirmedPassword != c.confirmedPassword,
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
@@ -162,7 +154,7 @@ class _RegisterButton extends StatelessWidget {
           eventFunc: allFieldsValid
               ? () => context.read<RegisterBloc>().add(const FormSubmitted())
               : null,
-          btnText: "Sign Up",
+          text: "Sign Up",
         );
       },
     );

@@ -1,11 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:recipe_social_media/forms/models/email.dart';
-import 'input_event.dart';
-import 'input_state.dart';
-import 'models/confirmed_password.dart';
-import 'models/password.dart';
-import 'models/username.dart';
+part of 'base_form.dart';
 
 class FormBloc extends Bloc<InputEvent, InputState> {
   FormBloc() : super(const InputState()) {

@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+part of 'form_widgets.dart';
 
 class FormButton extends StatelessWidget {
   const FormButton({
     super.key,
     required this.eventFunc,
-    required this.btnText,
+    required this.text,
     this.bgColor = const Color.fromRGBO(148, 152, 251, 1),
     this.fgColor = Colors.white
   });
 
-  final String btnText;
+  final String text;
   final Color bgColor;
   final Color fgColor;
   final VoidCallback? eventFunc;
@@ -25,7 +25,7 @@ class FormButton extends StatelessWidget {
         foregroundColor: fgColor
       ),
       onPressed: eventFunc,
-      child: Text(btnText),
+      child: Text(text),
     );
   }
 }

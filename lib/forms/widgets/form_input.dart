@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+part of 'form_widgets.dart';
 
 class FormInput extends StatelessWidget {
   FormInput({
     super.key,
-    required this.errTxt,
+    this.errTxt,
     required this.hintTxt,
     required this.eventFunc,
     this.useBorderStyle = true,

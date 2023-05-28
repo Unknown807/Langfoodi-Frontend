@@ -4,12 +4,12 @@ import 'package:formz/formz.dart';
 import '../forms/bloc/base_form.dart';
 import '../forms/widgets/form_widgets.dart';
 
-part 'register_form.dart';
+part 'login_form.dart';
 
-class RegisterBloc extends FormBloc {
+class LoginBloc extends FormBloc {
   @override
   Future<void> formSubmitted(FormSubmitted event, Emitter<InputState> emit) async {
-    print("Register form submitted");
+    print("Login form submitted");
     emit(
       state.copyWith(
         errorMessage: "Specific Failure Message Here",

@@ -1,9 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
-import 'package:recipe_social_media/forms/models/username.dart';
-import 'models/confirmed_password.dart';
-import 'models/email.dart';
-import 'models/password.dart';
+part of 'base_form.dart';
 
 final class InputState extends Equatable {
   const InputState({

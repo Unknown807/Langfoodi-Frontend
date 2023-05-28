@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/custom_bottom_navbar.dart';
-import 'package:recipe_social_media/custom_navbar.dart';
+import 'package:recipe_social_media/widgets/custom_widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -27,17 +26,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the second page!')],
+          children: <Widget>[Text('This is the second page!')],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the third page!')],
+          children: <Widget>[Text('This is the third page!')],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the fourth page!')],
+          children: <Widget>[Text('This is the fourth page!')],
         ),
       ];
 
@@ -58,11 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomNavBar(
+      appBar: NavBar(
         title: Text(widget.title),
         appBar: AppBar(),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: BottomNavBar(
           appBar: AppBar(),
           selectedIndex: _selectedIndex,
           onTap: onBottomNavSelect),

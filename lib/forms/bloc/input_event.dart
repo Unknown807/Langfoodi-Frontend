@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'base_form.dart';
 
 sealed class InputEvent extends Equatable {
   const InputEvent();

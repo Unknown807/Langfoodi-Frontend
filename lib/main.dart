@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/pages/login_page.dart';
+import 'package:recipe_social_media/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
