@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'login_bloc.dart';
+import 'package:recipe_social_media/pages/register/register_bloc.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +39,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   Padding(
                       padding: const EdgeInsets.all(30.0),
-                      child: BlocProvider<LoginBloc>(
-                        create: (_) => LoginBloc(),
-                        child: const LoginForm(),
-                      ))
+                      child: BlocProvider<RegisterBloc>(
+                          create: (_) => RegisterBloc(),
+                          child: const RegisterForm()))
                 ]))));
   }
 }

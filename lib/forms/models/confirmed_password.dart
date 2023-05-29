@@ -1,6 +1,6 @@
 part of 'models.dart';
 
-enum ConfirmedPasswordValidationError { invalid }
+enum ConfirmedPasswordValidationError { noMatch }
 
 class ConfirmedPassword extends FormzInput<String, ConfirmedPasswordValidationError> {
   const ConfirmedPassword.pure({this.password = ''}) : super.pure('');
@@ -11,6 +11,6 @@ class ConfirmedPassword extends FormzInput<String, ConfirmedPasswordValidationEr
 
   @override
   ConfirmedPasswordValidationError? validator(String? value) {
-    return password == value ? null : ConfirmedPasswordValidationError.invalid;
+    return password == value ? null : ConfirmedPasswordValidationError.noMatch;
   }
 }

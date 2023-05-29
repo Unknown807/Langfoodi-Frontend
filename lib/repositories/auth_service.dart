@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:recipe_social_media/services/request_service.dart';
+import 'package:recipe_social_media/repositories/request_service.dart';
 
 class AuthService {
   static const _storage = FlutterSecureStorage();
