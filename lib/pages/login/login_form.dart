@@ -7,7 +7,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, InputState>(
         listener: (context, state) {
-          if (state.status.isSuccess) {
+          if (state.formStatus.isSuccess) {
             print("Form Success");
             Navigator.of(context).pop();
           }
@@ -75,7 +75,7 @@ class _UserNameEmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email || p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
-            hintTxt: "Username or Email",
+            hint: "Username or Email",
             eventFunc: (value) {
               context.read<LoginBloc>().add(EmailChanged(value));
               context.read<LoginBloc>().add(UserNameChanged(value));
@@ -94,7 +94,7 @@ class _PasswordInput extends StatelessWidget {
         return FormInput(
           useBorderStyle: false,
           isConfidential: true,
-          hintTxt: "Password",
+          hint: "Password",
           eventFunc: (password) {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
@@ -109,7 +109,7 @@ class _LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
       builder: (context, state) {
-        if (state.status.isInProgress) {
+        if (state.formStatus.isInProgress) {
           return const CircularProgressIndicator();
         }
 

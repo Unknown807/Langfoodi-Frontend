@@ -7,7 +7,7 @@ class RegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, InputState>(
       listener: (context, state) {
-        if (state.status.isSuccess) {
+        if (state.formStatus.isSuccess) {
           print("Form Success");
           Navigator.of(context).pop();
         }
@@ -61,10 +61,10 @@ class _UserNameInput extends StatelessWidget {
       buildWhen: (p, c) => p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
-            errTxt: state.userName.displayError != null
+            errorText: state.userName.displayError != null
                 ? "Needs 3+ length & only letters/numbers"
                 : null,
-            hintTxt: "Username",
+            hint: "Username",
             eventFunc: (userName) {
               context.read<RegisterBloc>().add(UserNameChanged(userName));
             });
@@ -80,8 +80,8 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
-            errTxt: state.email.displayError != null ? "Invalid email" : null,
-            hintTxt: "Email",
+            errorText: state.email.displayError != null ? "Invalid email" : null,
+            hint: "Email",
             eventFunc: (email) {
               context.read<RegisterBloc>().add(EmailChanged(email));
             });
@@ -98,10 +98,10 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
-          errTxt: state.password.displayError != null
+          errorText: state.password.displayError != null
               ? "Needs 8+ length & one of each character - upper case, lower case, number & special"
               : null,
-          hintTxt: "Password",
+          hint: "Password",
           eventFunc: (password) {
             context.read<RegisterBloc>().add(PasswordChanged(password));
           },
@@ -122,10 +122,10 @@ class _ConfirmPasswordInput extends StatelessWidget {
         return FormInput(
           isConfidential: true,
           useBorderStyle: false,
-          errTxt: state.confirmedPassword.displayError != null
-              ? "passwords must match"
+          errorText: state.confirmedPassword.displayError != null
+              ? "Passwords must match"
               : null,
-          hintTxt: "Confirm Password",
+          hint: "Confirm Password",
           eventFunc: (confirmedPassword) {
             context
                 .read<RegisterBloc>()
@@ -142,11 +142,12 @@ class _RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
       builder: (context, state) {
-        if (state.status.isInProgress) {
+        if (state.formStatus.isInProgress) {
           return const CircularProgressIndicator();
         }
 
-        bool allFieldsValid = state.userNameValid &&
+        bool allFieldsValid =
+            state.userNameValid &&
             state.emailValid &&
             state.passwordValid &&
             state.confirmedPasswordValid;

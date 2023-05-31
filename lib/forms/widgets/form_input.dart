@@ -1,37 +1,35 @@
 part of 'form_widgets.dart';
 
 class FormInput extends StatelessWidget {
-  FormInput({
-    super.key,
-    this.errTxt,
-    required this.hintTxt,
-    required this.eventFunc,
-    this.useBorderStyle = true,
-    this.isConfidential = false
-  });
+  FormInput(
+      {super.key,
+      this.errorText,
+      required this.hint,
+      required this.eventFunc,
+      this.useBorderStyle = true,
+      this.isConfidential = false});
 
-  String? errTxt;
+  String? errorText;
   bool isConfidential;
   bool useBorderStyle;
-  final String hintTxt;
+  final String hint;
   final Function eventFunc;
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(8.0),
-        decoration: !useBorderStyle
-            ? null
-            : BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: Colors.grey.shade100))),
+        decoration: useBorderStyle
+            ? BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey.shade100)))
+            : null,
         child: TextField(
           obscureText: isConfidential,
           onChanged: (value) => eventFunc(value),
           decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: hintTxt,
-              errorText: errTxt,
+              hintText: hint,
+              errorText: errorText,
               hintStyle: TextStyle(color: Colors.grey.shade400)),
         ));
   }

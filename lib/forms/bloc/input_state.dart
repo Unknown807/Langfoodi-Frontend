@@ -6,7 +6,7 @@ final class InputState extends Equatable {
     this.email = const Email.pure(),
     this.password = const Password.pure(),
     this.confirmedPassword = const ConfirmedPassword.pure(),
-    this.status = FormzSubmissionStatus.initial,
+    this.formStatus = FormzSubmissionStatus.initial,
     this.userNameValid = false,
     this.emailValid = false,
     this.passwordValid = false,
@@ -18,7 +18,7 @@ final class InputState extends Equatable {
   final Email email;
   final Password password;
   final ConfirmedPassword confirmedPassword;
-  final FormzSubmissionStatus status;
+  final FormzSubmissionStatus formStatus;
   final bool userNameValid;
   final bool emailValid;
   final bool passwordValid;
@@ -31,7 +31,7 @@ final class InputState extends Equatable {
     email,
     password,
     confirmedPassword,
-    status,
+    formStatus,
     userNameValid,
     emailValid,
     passwordValid,
@@ -44,7 +44,7 @@ final class InputState extends Equatable {
     Email? email,
     Password? password,
     ConfirmedPassword? confirmedPassword,
-    FormzSubmissionStatus? status,
+    FormzSubmissionStatus? formStatus,
     bool? userNameValid,
     bool? emailValid,
     bool? passwordValid,
@@ -56,7 +56,7 @@ final class InputState extends Equatable {
       email: email ?? this.email,
       password: password ?? this.password,
       confirmedPassword: confirmedPassword ?? this.confirmedPassword,
-      status: status ?? this.status,
+      formStatus: formStatus ?? this.formStatus,
       userNameValid: userNameValid ?? this.userNameValid,
       emailValid: emailValid ?? this.emailValid,
       passwordValid: passwordValid ?? this.passwordValid,

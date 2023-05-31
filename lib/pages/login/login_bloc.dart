@@ -13,7 +13,7 @@ class LoginBloc extends FormBloc {
     emit(
       state.copyWith(
         errorMessage: "Specific Failure Message Here",
-        status: FormzSubmissionStatus.failure,
+        formStatus: FormzSubmissionStatus.failure,
       ),
     );
   }
