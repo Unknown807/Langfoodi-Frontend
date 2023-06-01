@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/app/bloc/app.dart';
-import 'package:recipe_social_media/pages/splash_page.dart';
+import 'package:recipe_social_media/pages/splash/splash_page.dart';
 
 List<Page<dynamic>> onGenerateAppViewPages(
     AppStatus state,
