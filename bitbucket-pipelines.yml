@@ -1,0 +1,12 @@
+image: atlassian/default-image:3
+
+pipelines:
+  default:
+    - step:
+        clone:
+          enabled: false
+        name: 'Mirror repository to GitLab'
+        script:
+          - git clone --mirror ${BITBUCKET_GIT_SSH_ORIGIN}
+          - cd ${BITBUCKET_REPO_SLUG}.git
+          - git push --mirror https://git.cs.kent.ac.uk/ac2042/recipesocialmedia
