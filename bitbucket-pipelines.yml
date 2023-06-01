@@ -9,4 +9,4 @@ pipelines:
         script:
           - git clone --mirror ${BITBUCKET_GIT_SSH_ORIGIN}
           - cd ${BITBUCKET_REPO_SLUG}.git
-          - git push --mirror https://git.cs.kent.ac.uk/ac2042/recipesocialmedia
+          - git push --mirror git@git.cs.kent.ac.uk:ac2042/recipesocialmedia.git
