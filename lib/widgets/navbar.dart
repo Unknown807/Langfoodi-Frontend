@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+part of 'custom_widgets.dart';
 
-class CustomNavBar extends StatelessWidget implements PreferredSizeWidget {
+class NavBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor = Colors.green;
   final Text title;
   final AppBar appBar;
 
-  const CustomNavBar({Key? key, required this.title, required this.appBar})
+  const NavBar({Key? key, required this.title, required this.appBar})
       : super(key: key);
 
   @override

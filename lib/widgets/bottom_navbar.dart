@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
+part of 'custom_widgets.dart';
 
-class CustomBottomNavBar extends StatelessWidget implements PreferredSizeWidget {
+class BottomNavBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor = Colors.green;
   final AppBar appBar;
 
   final int selectedIndex;
   final ValueChanged<int>? onTap;
 
-  const CustomBottomNavBar({Key? key, required this.appBar, required this.selectedIndex, this.onTap})
+  const BottomNavBar({Key? key, required this.appBar, required this.selectedIndex, this.onTap})
       : super(key: key);
 
   @override

@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/pages/login_page.dart';
+import 'package:recipe_social_media/app/app_view.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Recipe Social Media',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const LoginPage(),
-    );
-  }
+  final authRepo = AuthenticationRepository();
+  // The below is used for testing purposes:
+  
+  //FlutterSecureStorage fl = FlutterSecureStorage();
+  //await fl.delete(key: "authToken");
+  //authRepo.localStore.setKey("authToken", "Something");
+  runApp(App(authRepo: authRepo));
 }

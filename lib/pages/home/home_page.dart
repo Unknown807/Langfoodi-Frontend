@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/custom_bottom_navbar.dart';
-import 'package:recipe_social_media/custom_navbar.dart';
+import 'package:recipe_social_media/widgets/custom_widgets.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  final String title;
+  static Page<void> page() => const MaterialPage<void>(child: HomePage());
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   int _counter = 0;
+  String title = "Welcome";
 
   List<Widget> getPages() => [
         Column(
@@ -27,17 +27,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the second page!')],
+          children: <Widget>[Text('This is the second page!')],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the third page!')],
+          children: <Widget>[Text('This is the third page!')],
         ),
-        Column(
+        const Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[Text('This is the fourth page!')],
+          children: <Widget>[Text('This is the fourth page!')],
         ),
       ];
 
@@ -58,11 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomNavBar(
-        title: Text(widget.title),
+      appBar: NavBar(
+        title: Text(title),
         appBar: AppBar(),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: BottomNavBar(
           appBar: AppBar(),
           selectedIndex: _selectedIndex,
           onTap: onBottomNavSelect),
