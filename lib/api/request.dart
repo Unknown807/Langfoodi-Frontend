@@ -1,4 +1,4 @@
-part of 'http.dart';
+part of 'api.dart';
 
 class Request {
   final String baseUrl = "https://localhost:7120";

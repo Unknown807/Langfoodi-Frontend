@@ -1,14 +1,17 @@
+import 'package:http/http.dart' as http;
+import 'package:recipe_social_media/api/response_error.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'models/user.dart';
 
 class AuthenticationRepository {
-  AuthenticationRepository({LocalStore? localStore, Request? requestService, JsonWrapper? jsonWrapper})
+  AuthenticationRepository({LocalStore? localStore, Request? request, JsonWrapper? jsonWrapper})
       : localStore = localStore ?? LocalStore(),
-        requestService = requestService ?? Request(),
-        jsonWrapper = jsonWrapper ?? JsonWrapper();
+        jsonWrapper = jsonWrapper ?? JsonWrapper(),
+        request = request ?? Request();
 
   final LocalStore localStore;
-  final Request requestService;
+  final Request request;
   final JsonWrapper jsonWrapper;
 
   Future<User> get currentUser async {
@@ -20,12 +23,12 @@ class AuthenticationRepository {
     String userStr = await localStore.getKey("loggedInUser");
     if (userStr.isNotEmpty) {
       User loggedInUser = User.deserialize(userStr, jsonWrapper);
-      Map<String, String> headers = {
+      var headers = {
         "usernameOrEmail": loggedInUser.email!,
         "password": loggedInUser.password!
       };
 
-      var response = await requestService.postWithoutBody("/auth/authenticate", headers: headers);
+      var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
       print(response.body);
       print(response.statusCode);
 
@@ -35,16 +38,26 @@ class AuthenticationRepository {
     }
   }
 
-  Future<void> register(String userName, String email, String password) async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    // TODO: If status code error, then use code to throw custom Exception
-    // TODO: derived from code
+  Future<String?> register(String userName, String email, String password) async {
+    var data = {
+      "Id": null,
+      "UserName": userName,
+      "Email": email,
+      "Password": password
+    };
+
+    var response = await request.post("/user/create", data, jsonWrapper);
+    return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
   }
 
-  Future<void> loginWithUserNameOrEmail(String userNameOrEmail, String password) async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    // TODO: If status code error, then use code to throw custom Exception
-    // TODO: derived from code
+  Future<String?> loginWithUserNameOrEmail(String userNameOrEmail, String password) async {
+    var headers = {
+      "usernameOrEmail": userNameOrEmail,
+      "password": password
+    };
+
+    var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
+    return ResponseError.getErrorMessageFromCode("Issue Signing In", response);
   }
 
   Future<void> logOut() async {

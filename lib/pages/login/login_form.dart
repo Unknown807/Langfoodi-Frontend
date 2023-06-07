@@ -46,7 +46,15 @@ class LoginForm extends StatelessWidget {
                   style: TextStyle(
                     color: Color.fromRGBO(143, 148, 251, 1),
                   )),
-              FormTextButton(eventFunc: () {}, text: "Sign Up", fontSize: 16),
+              FormTextButton(
+                  eventFunc: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()));
+                  },
+                  text: "Sign Up",
+                  fontSize: 16),
             ],
           ),
         ]));
