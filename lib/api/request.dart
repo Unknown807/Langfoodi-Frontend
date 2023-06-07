@@ -1,4 +1,4 @@
-part of 'utilities.dart';
+part of 'http.dart';
 
 class Request {
   final String baseUrl = "https://localhost:7120";
@@ -15,9 +15,9 @@ class Request {
     return allHeaders;
   }
 
-  Future<http.Response> post<K, V>(String path, Map<K, V> data, {Map<String, String>? headers}) async {
+  Future<http.Response> post<K, V>(String path, Map<K, V> data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
     var url = Uri.parse(baseUrl + path);
-    var jsonData = jsonEncode(data);
+    var jsonData = jsonWrapper.encodeData(data);
     return http.post(url, body: jsonData, headers: _formatHeaders(headers));
   }
 
