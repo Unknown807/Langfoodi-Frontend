@@ -13,29 +13,27 @@ class AuthenticationRepository {
   final LocalStore localStore;
   final Request request;
   final JsonWrapper jsonWrapper;
+  final userKey = "loggedInUser";
 
   Future<User> get currentUser async {
-    String userStr = await localStore.getKey("loggedInUser");
+    String userStr = await localStore.getKey(userKey);
     return User.deserialize(userStr, jsonWrapper);
   }
 
   Future<bool> isAuthenticated() async {
-    String userStr = await localStore.getKey("loggedInUser");
+    String userStr = await localStore.getKey(userKey);
     if (userStr.isNotEmpty) {
       User loggedInUser = User.deserialize(userStr, jsonWrapper);
       var headers = {
-        "usernameOrEmail": loggedInUser.email!,
+        "usernameOrEmail": loggedInUser.email ?? loggedInUser.userName!,
         "password": loggedInUser.password!
       };
 
       var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
-      print(response.body);
-      print(response.statusCode);
-
-      return true;
-    } else {
-      return false;
+      return response.statusCode == 200;
     }
+
+    return false;
   }
 
   Future<String?> register(String userName, String email, String password) async {
@@ -47,6 +45,11 @@ class AuthenticationRepository {
     };
 
     var response = await request.post("/user/create", data, jsonWrapper);
+    if (response.statusCode == 200) {
+      User user = User(userName: userName, email: email, password: password);
+      localStore.setKey(userKey, User.serialize(user, jsonWrapper));
+    }
+
     return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
   }
 
@@ -57,11 +60,20 @@ class AuthenticationRepository {
     };
 
     var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
+    if (response.statusCode == 200) {
+      bool isEmail = userNameOrEmail.contains("@");
+      User user = User(
+        userName: isEmail ? "" : userNameOrEmail,
+        email: isEmail ? userNameOrEmail : "",
+        password: password
+      );
+      localStore.setKey(userKey, User.serialize(user, jsonWrapper));
+    }
+
     return ResponseError.getErrorMessageFromCode("Issue Signing In", response);
   }
 
   Future<void> logOut() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    //TODO: If error logging out (i.e removing local token) -> throw error
+    localStore.deleteKey(userKey);
   }
 }
