@@ -11,6 +11,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: title,
       backgroundColor: backgroundColor,
       actions: <Widget>[

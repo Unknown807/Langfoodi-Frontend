@@ -13,7 +13,7 @@ class User extends Equatable {
   bool get isEmpty => this == User.empty;
   bool get isNotEmpty => this != User.empty;
 
-  factory User.fromJson(Map<String, String?> jsonData) {
+  factory User.fromJson(Map<String, dynamic> jsonData) {
     return User(
       userName: jsonData["userName"],
       email: jsonData["email"],

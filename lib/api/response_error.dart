@@ -8,13 +8,16 @@ class ResponseError {
         errorMessage = defaultErrorMessage;
         break;
       case 400:
-        errorMessage = response.body;
+        errorMessage = response.body.replaceAll('"', '');
         break;
       default:
         errorMessage = null;
         break;
     }
 
+    errorMessage = response.body == "false" ? defaultErrorMessage : errorMessage;
     return errorMessage;
   }
+
+
 }

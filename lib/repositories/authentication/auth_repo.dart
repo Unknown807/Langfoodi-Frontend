@@ -30,7 +30,7 @@ class AuthenticationRepository {
       };
 
       var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
-      return response.statusCode == 200;
+      return response.statusCode == 200 && response.body.toLowerCase() == "true";
     }
 
     return false;
@@ -60,7 +60,7 @@ class AuthenticationRepository {
     };
 
     var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.body.toLowerCase() == "true") {
       bool isEmail = userNameOrEmail.contains("@");
       User user = User(
         userName: isEmail ? "" : userNameOrEmail,
