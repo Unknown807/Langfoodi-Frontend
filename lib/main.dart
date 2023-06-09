@@ -9,10 +9,6 @@ Future<void> main() async {
   final authRepo = AuthenticationRepository();
   // The below is used for testing purposes:
 
-  //FlutterSecureStorage fl = FlutterSecureStorage();
-  //await fl.delete(key: "authToken");
-  //authRepo.localStore.setKey("authToken", "Something");
-
   // LocalStore store = LocalStore();
   // store.deleteKey("loggedInUser");
 

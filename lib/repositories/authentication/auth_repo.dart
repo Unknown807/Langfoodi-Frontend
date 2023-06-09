@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as http;
 import 'package:recipe_social_media/api/response_error.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
