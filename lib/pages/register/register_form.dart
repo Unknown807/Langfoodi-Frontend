@@ -8,8 +8,10 @@ class RegisterForm extends StatelessWidget {
     return BlocListener<RegisterBloc, InputState>(
       listener: (context, state) {
         if (state.formStatus.isSuccess) {
-          print("Form Success");
-          Navigator.of(context).pop();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage())
+          );
         }
       },
       child: Column(children: <Widget>[

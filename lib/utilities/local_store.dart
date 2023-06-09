@@ -14,4 +14,8 @@ class LocalStore {
   void setKey(String key, String value) async {
     await _storage.write(key: key, value: value);
   }
+
+  void deleteKey(String key) async {
+    await _storage.delete(key: key);
+  }
 }

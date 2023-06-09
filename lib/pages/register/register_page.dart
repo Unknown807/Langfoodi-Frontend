@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -40,7 +41,7 @@ class RegisterPage extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: BlocProvider<RegisterBloc>(
-                          create: (_) => RegisterBloc(),
+                          create: (_) => RegisterBloc(authRepo: context.read<AuthenticationRepository>()),
                           child: const RegisterForm()))
                 ]))));
   }
