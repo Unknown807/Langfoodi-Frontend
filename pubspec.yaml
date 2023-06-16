@@ -41,7 +41,6 @@ dependencies:
   formz: ^0.6.0
   bloc: ^8.1.2
   equatable: ^2.0.5
-  flow_builder: ^0.0.9
 
 dev_dependencies:
   flutter_test:
