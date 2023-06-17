@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 part 'route_types.dart';
 
 class NavigationRepository {
-  void goTo(BuildContext context, String routeName, {RouteType routeType = RouteType.normal}) {
+  void goTo(BuildContext context, String routeName, [RouteType routeType = RouteType.normal]) {
     switch (routeType) {
       case RouteType.normal:
         _push(context, routeName);
