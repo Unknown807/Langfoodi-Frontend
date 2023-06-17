@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
+import 'package:recipe_social_media/pages/register/register_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navig_repo.dart';
@@ -22,14 +23,14 @@ class App extends StatelessWidget {
         ],
         child: BlocProvider(
           create: (_) => AppBloc(authRepo: authRepo),
-          child: const AppView()
+          child: const _AppView()
         )
     );
   }
 }
 
-class AppView extends StatelessWidget {
-  const AppView({super.key});
+class _AppView extends StatelessWidget {
+  const _AppView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,12 @@ class AppView extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
+      routes: {
+        "/splash": (context) => const SplashPage(),
+        "/home": (context) => const HomePage(),
+        "/login": (context) => const LoginPage(),
+        "/register": (context) => const RegisterPage()
+      },
       home: BlocBuilder<AppBloc, AppState>(
         buildWhen: (p, c) => p.status != c.status,
         builder: (context, state) {
