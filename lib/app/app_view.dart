@@ -4,22 +4,26 @@ import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/navig_repo.dart';
 import 'bloc/app.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required AuthenticationRepository authRepo})
-      : _authRepo = authRepo;
+  const App({super.key, required this.authRepo, required this.navigRepo});
 
-  final AuthenticationRepository _authRepo;
+  final AuthenticationRepository authRepo;
+  final NavigationRepository navigRepo;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authRepo,
-      child: BlocProvider(
-        create: (_) => AppBloc(authRepo: _authRepo),
-        child: const AppView(),
-      ),
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (_) => authRepo),
+          RepositoryProvider(create: (_) => navigRepo),
+        ],
+        child: BlocProvider(
+          create: (_) => AppBloc(authRepo: authRepo),
+          child: const AppView()
+        )
     );
   }
 }
