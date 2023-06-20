@@ -1,4 +1,4 @@
-part of 'navig_repo.dart';
+part of 'navigation_repo.dart';
 
 enum RouteType {
   normal,
