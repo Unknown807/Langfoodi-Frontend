@@ -4,8 +4,6 @@ import 'package:recipe_social_media/widgets/custom_widgets.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  static Page<void> page() => const MaterialPage<void>(child: HomePage());
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
