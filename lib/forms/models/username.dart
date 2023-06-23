@@ -1,8 +1,6 @@
 part of 'models.dart';
 
-enum UsernameValidationError { invalid }
-
-class Username extends FormzInput<String, UsernameValidationError> {
+class Username extends FormzInput<String, FormValidationError> {
   const Username.pure() : super.pure('');
   const Username.dirty([super.value = '']) : super.dirty();
 
@@ -10,9 +8,9 @@ class Username extends FormzInput<String, UsernameValidationError> {
   RegExp(r"^[a-zA-Z0-9]{3,}$");
 
   @override
-  UsernameValidationError? validator(String? value) {
+  FormValidationError? validator(String? value) {
     return _userNameRegExp.hasMatch(value ?? '')
         ? null
-        : UsernameValidationError.invalid;
+        : FormValidationError.registerUserNameInvalid;
   }
 }

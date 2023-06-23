@@ -1,8 +1,6 @@
 part of 'models.dart';
 
-enum EmailValidationError { invalid }
-
-class Email extends FormzInput<String, EmailValidationError> {
+class Email extends FormzInput<String, FormValidationError> {
   const Email.pure() : super.pure('');
   const Email.dirty([super.value = '']) : super.dirty();
 
@@ -11,9 +9,9 @@ class Email extends FormzInput<String, EmailValidationError> {
   );
 
   @override
-  EmailValidationError? validator(String? value) {
+  FormValidationError? validator(String? value) {
     return _emailRegExp.hasMatch(value ?? '')
         ? null
-        : EmailValidationError.invalid;
+        : FormValidationError.registerEmailInvalid;
   }
 }

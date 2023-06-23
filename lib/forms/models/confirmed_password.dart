@@ -1,8 +1,6 @@
 part of 'models.dart';
 
-enum ConfirmedPasswordValidationError { noMatch }
-
-class ConfirmedPassword extends FormzInput<String, ConfirmedPasswordValidationError> {
+class ConfirmedPassword extends FormzInput<String, FormValidationError> {
   const ConfirmedPassword.pure({this.password = ''}) : super.pure('');
   const ConfirmedPassword.dirty({required this.password, String value = ''})
       : super.dirty(value);
@@ -10,7 +8,7 @@ class ConfirmedPassword extends FormzInput<String, ConfirmedPasswordValidationEr
   final String password;
 
   @override
-  ConfirmedPasswordValidationError? validator(String? value) {
-    return password == value ? null : ConfirmedPasswordValidationError.noMatch;
+  FormValidationError? validator(String? value) {
+    return password == value ? null : FormValidationError.registerConfirmedPasswordNoMatch;
   }
 }
