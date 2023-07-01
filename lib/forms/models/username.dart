@@ -11,6 +11,6 @@ class Username extends FormzInput<String, FormValidationError> {
   FormValidationError? validator(String? value) {
     return _userNameRegExp.hasMatch(value ?? '')
         ? null
-        : FormValidationError.registerUserNameInvalid;
+        : FormValidationError.userNameInvalid;
   }
 }
