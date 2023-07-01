@@ -9,6 +9,6 @@ class ConfirmedPassword extends FormzInput<String, FormValidationError> {
 
   @override
   FormValidationError? validator(String? value) {
-    return password == value ? null : FormValidationError.registerConfirmedPasswordNoMatch;
+    return password == value ? null : FormValidationError.confirmedPasswordNoMatch;
   }
 }
