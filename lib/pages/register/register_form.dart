@@ -60,9 +60,7 @@ class _UserNameInput extends StatelessWidget {
       buildWhen: (p, c) => p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
-            errorText: state.userName.displayError != null
-                ? "Needs 3+ length & only letters/numbers"
-                : null,
+            errorText: FormValidationError.getErrorMessage(state.userName.displayError),
             hint: "Username",
             eventFunc: (userName) {
               context.read<RegisterBloc>().add(UserNameChanged(userName));
@@ -79,7 +77,7 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
-            errorText: state.email.displayError != null ? "Invalid email" : null,
+            errorText: FormValidationError.getErrorMessage(state.email.displayError),
             hint: "Email",
             eventFunc: (email) {
               context.read<RegisterBloc>().add(EmailChanged(email));
@@ -97,9 +95,7 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
-          errorText: state.password.displayError != null
-              ? "Needs 8+ length & one of each character - upper case, lower case, number & special"
-              : null,
+          errorText: FormValidationError.getErrorMessage(state.password.displayError),
           hint: "Password",
           eventFunc: (password) {
             context.read<RegisterBloc>().add(PasswordChanged(password));
@@ -121,9 +117,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
         return FormInput(
           isConfidential: true,
           useBorderStyle: false,
-          errorText: state.confirmedPassword.displayError != null
-              ? "Passwords must match"
-              : null,
+          errorText: FormValidationError.getErrorMessage(state.confirmedPassword.displayError),
           hint: "Confirm Password",
           eventFunc: (confirmedPassword) {
             context

@@ -1,19 +1,17 @@
 part of 'models.dart';
 
-enum EmailValidationError { invalid }
-
-class Email extends FormzInput<String, EmailValidationError> {
+class Email extends FormzInput<String, FormValidationError> {
   const Email.pure() : super.pure('');
   const Email.dirty([super.value = '']) : super.dirty();
 
-  static final RegExp _emailRegExp = RegExp(
+  static final RegExp _emailExp = RegExp(
     r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)+$",
   );
 
   @override
-  EmailValidationError? validator(String? value) {
-    return _emailRegExp.hasMatch(value ?? '')
+  FormValidationError? validator(String? value) {
+    return _emailExp.hasMatch(value ?? '')
         ? null
-        : EmailValidationError.invalid;
+        : FormValidationError.emailInvalid;
   }
 }

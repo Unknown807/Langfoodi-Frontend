@@ -1,19 +1,17 @@
 part of 'models.dart';
 
-enum PasswordValidationError { invalid }
-
-class Password extends FormzInput<String, PasswordValidationError> {
+class Password extends FormzInput<String, FormValidationError> {
   const Password.pure() : super.pure('');
 
   const Password.dirty([super.value = '']) : super.dirty();
 
-  static final _passwordRegExp =
+  static final _passwordExp =
       RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$");
 
   @override
-  PasswordValidationError? validator(String? value) {
-    return _passwordRegExp.hasMatch(value ?? '')
+  FormValidationError? validator(String? value) {
+    return _passwordExp.hasMatch(value ?? '')
         ? null
-        : PasswordValidationError.invalid;
+        : FormValidationError.passwordInvalid;
   }
 }
