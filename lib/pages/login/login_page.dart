@@ -6,8 +6,6 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  static Page<void> page() => const MaterialPage<void>(child: LoginPage());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

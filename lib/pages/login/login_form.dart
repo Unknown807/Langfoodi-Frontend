@@ -8,10 +8,7 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginBloc, InputState>(
         listener: (context, state) {
           if (state.formStatus.isSuccess) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage())
-            );
+            context.read<NavigationRepository>().goTo(context, "/home", RouteType.onlyThis);
           }
         },
         child: Column(children: <Widget>[
@@ -49,12 +46,7 @@ class LoginForm extends StatelessWidget {
                     color: Color.fromRGBO(143, 148, 251, 1),
                   )),
               FormTextButton(
-                  eventFunc: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()));
-                  },
+                  eventFunc: () { context.read<NavigationRepository>().goTo(context, "/register"); },
                   text: "Sign Up",
                   fontSize: 16),
             ],
