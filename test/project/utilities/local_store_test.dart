@@ -24,8 +24,6 @@ void main() {
     });
 
     test("keyExists returns false", () async {
-      // Arrange
-
       // Act
       final result = await sut.keyExists("test-key");
 
@@ -47,8 +45,6 @@ void main() {
     });
 
     test("key doesn't exist", () async {
-      // Arrange
-
       // Act
       final result = await sut.getKey("test-key");
 
@@ -59,8 +55,6 @@ void main() {
 
   group("setKey method tests", () {
     test("key exists after setting", () async {
-      // Arrange
-
       // Act
       sut.setKey("test-key", "test-value");
       final result = await secureStorageFake.read(key: "test-key");
