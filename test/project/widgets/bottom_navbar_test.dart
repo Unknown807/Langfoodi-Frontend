@@ -11,8 +11,8 @@ void main() {
     );
   }
 
-  testWidgets("All buttons exist on bottom navigation bar", (widgetTester) async {
-    // Act
+  testWidgets("All properties for BottomNavBar are defined", (widgetTester) async {
+    // Arrange
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
     // Assert
