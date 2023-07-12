@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/response_error.dart';
-import '../../mocks/http_response_mock.dart';
+import '../../mocks/generic_mocks.dart';
 
 void main() {
   late ResponseMock responseMock;

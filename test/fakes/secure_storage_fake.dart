@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mocktail/mocktail.dart';
 
-class SecureStorageFake extends FlutterSecureStorage {
+class SecureStorageFake extends Fake implements FlutterSecureStorage {
   final Map _data = {};
 
   @override
