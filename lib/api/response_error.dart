@@ -18,6 +18,4 @@ class ResponseError {
     errorMessage = response.body == "false" ? defaultErrorMessage : errorMessage;
     return errorMessage;
   }
-
-
 }
