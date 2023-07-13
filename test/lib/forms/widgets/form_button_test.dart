@@ -16,8 +16,8 @@ void main() {
       home: FormButton(
         eventFunc: eventFunc,
         text: text,
-        bgColor: bgColor != null ? bgColor! : const Color.fromRGBO(148, 152, 251, 1),
-        fgColor: fgColor != null ? fgColor! : Colors.white,
+        bgColor: bgColor ?? const Color.fromRGBO(148, 152, 251, 1),
+        fgColor: fgColor ?? Colors.white,
       ),
     );
   }
@@ -42,7 +42,7 @@ void main() {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest(
         "new-button-text",
-          funcMock,
+        funcMock,
         Colors.deepOrange,
         Colors.indigo
       ));
