@@ -4,7 +4,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
-class FunctionMock extends Mock { void call(); }
+class FunctionMock extends Mock { void call([dynamic parameter]); }
 
 class ResponseMock extends Mock implements Response {}
 

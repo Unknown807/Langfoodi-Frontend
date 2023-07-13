@@ -11,14 +11,16 @@ void main() {
     funcMock = FunctionMock();
   });
 
-  Widget createWidgetUnderTest(String text, [VoidCallback? eventFunc, double? fontSize, Color? overlayColor, Color? textColor]) {
+  Widget createWidgetUnderTest(String text, VoidCallback eventFunc,
+      {double fontSize = 14, Color overlayColor = const Color.fromRGBO(143, 148, 251, .5),
+      Color textColor = const Color.fromRGBO(105, 110, 253, 1)}) {
     return MaterialApp(
       home: FormTextButton(
         eventFunc: eventFunc,
         text: text,
-        fontSize: fontSize ?? 14,
-        overlayColor: overlayColor ?? const Color.fromRGBO(143, 148, 251, .5),
-        textColor: textColor ?? const Color.fromRGBO(105, 110, 253, 1)
+        fontSize: fontSize,
+        overlayColor: overlayColor,
+        textColor: textColor
       )
     );
   }
@@ -45,9 +47,9 @@ void main() {
       await widgetTester.pumpWidget(createWidgetUnderTest(
         "new-button-text-here",
         funcMock,
-        16,
-        Colors.deepOrange,
-        Colors.indigo
+        fontSize: 16,
+        overlayColor: Colors.deepOrange,
+        textColor: Colors.indigo
       ));
 
       // Act

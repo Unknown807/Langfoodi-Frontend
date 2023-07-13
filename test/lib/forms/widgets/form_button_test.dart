@@ -11,13 +11,14 @@ void main() {
     funcMock = FunctionMock();
   });
 
-  Widget createWidgetUnderTest(String text, [VoidCallback? eventFunc, Color? bgColor, Color? fgColor]) {
+  Widget createWidgetUnderTest(String text, VoidCallback eventFunc,
+      {Color bgColor = const Color.fromRGBO(148, 152, 251, 1), Color fgColor = Colors.white}) {
     return MaterialApp(
       home: FormButton(
         eventFunc: eventFunc,
         text: text,
-        bgColor: bgColor ?? const Color.fromRGBO(148, 152, 251, 1),
-        fgColor: fgColor ?? Colors.white,
+        bgColor: bgColor,
+        fgColor: fgColor
       ),
     );
   }
@@ -43,8 +44,8 @@ void main() {
       await widgetTester.pumpWidget(createWidgetUnderTest(
         "new-button-text",
         funcMock,
-        Colors.deepOrange,
-        Colors.indigo
+        bgColor: Colors.deepOrange,
+        fgColor: Colors.indigo
       ));
 
       // Act
