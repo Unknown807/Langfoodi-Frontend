@@ -11,7 +11,7 @@ void main() {
     authRepoMock = AuthenticationRepositoryMock();
   });
 
-  group("_initializeMethodState method tests", () {
+  group("_initializeState method tests", () {
     blocTest("isAuthenticated is true",
       build: () {
         when(() => authRepoMock.isAuthenticated()).thenAnswer((invocation) => Future.value(true));

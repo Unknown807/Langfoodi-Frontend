@@ -11,18 +11,20 @@ void main() {
     );
   }
 
-  testWidgets("All properties for BottomNavBar are defined", (widgetTester) async {
-    // Arrange
-    await widgetTester.pumpWidget(createWidgetUnderTest());
+  group("bottom nav bar tests", () {
+    testWidgets("All properties for BottomNavBar are defined", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
 
-    // Assert
-    expect(find.byIcon(Icons.newspaper), findsOneWidget);
-    expect(find.text("Home"), findsOneWidget);
-    expect(find.byIcon(Icons.fastfood), findsOneWidget);
-    expect(find.text("My creations"), findsOneWidget);
-    expect(find.byIcon(Icons.notifications), findsOneWidget);
-    expect(find.text("Notifications"), findsOneWidget);
-    expect(find.byIcon(Icons.chat), findsOneWidget);
-    expect(find.text("Chats"), findsOneWidget);
+      // Assert
+      expect(find.byIcon(Icons.newspaper), findsOneWidget);
+      expect(find.text("Home"), findsOneWidget);
+      expect(find.byIcon(Icons.fastfood), findsOneWidget);
+      expect(find.text("My creations"), findsOneWidget);
+      expect(find.byIcon(Icons.notifications), findsOneWidget);
+      expect(find.text("Notifications"), findsOneWidget);
+      expect(find.byIcon(Icons.chat), findsOneWidget);
+      expect(find.text("Chats"), findsOneWidget);
+    });
   });
 }

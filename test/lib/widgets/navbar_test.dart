@@ -11,12 +11,14 @@ void main() {
     );
   }
 
-  testWidgets("All properties for AppBar are defined", (widgetTester) async {
-    // Arrange
-    await widgetTester.pumpWidget(createWidgetUnderTest());
+  group("nav bar tests", () {
+    testWidgets("All properties for NavBar are defined", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
 
-    // Assert
-    expect(find.byIcon(Icons.search), findsOneWidget);
-    expect(find.byIcon(Icons.person), findsOneWidget);
+      // Assert
+      expect(find.byIcon(Icons.search), findsOneWidget);
+      expect(find.byIcon(Icons.person), findsOneWidget);
+    });
   });
 }
