@@ -32,6 +32,12 @@ void main() {
         final resultArr = [
           userName.validator(null),
           userName.validator(""),
+          userName.validator(" "),
+          userName.validator("     "),
+          userName.validator(" 12"),
+          userName.validator("  2"),
+          userName.validator("2  "),
+          userName.validator("12 "),
           userName.validator("u"),
           userName.validator("us"),
           userName.validator("U"),
