@@ -25,7 +25,7 @@ void main() {
   });
 
   group("decodeData method tests", () {
-    test("map data is decoded into Map object", () async {
+    test("json string is decoded into map object", () async {
       // Arrange
       const data = '{"key1":"value1","key2":"value2"}';
 
