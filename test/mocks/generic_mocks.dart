@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -15,3 +16,5 @@ class JsonWrapperMock extends Mock implements JsonWrapper {}
 class AuthenticationRepositoryMock extends Mock implements AuthenticationRepository {}
 
 class NavigationRepositoryMock extends Mock implements NavigationRepository {}
+
+class NavigatorObserverMock extends Mock implements NavigatorObserver {}
