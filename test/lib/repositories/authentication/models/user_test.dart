@@ -4,6 +4,7 @@ import 'package:recipe_social_media/repositories/authentication/models/user.dart
 import '../../../../mocks/generic_mocks.dart';
 
 void main() {
+  const String userData = "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
 
   group("User model tests", () {
     group("fromJson method tests", () {
@@ -58,20 +59,20 @@ void main() {
         );
         JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
         when(() => jsonWrapperMock.encodeData(any()))
-          .thenReturn("'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'");
+          .thenReturn(userData);
 
         // Act
         final result = User.serialize(user, jsonWrapperMock);
 
         // Assert
-        expect(result, "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'");
+        expect(result, userData);
       });
     });
 
     group("deserialize method tests", () {
       test("json string is decoded into map object", () {
         // Arrange
-        const data = "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
+        const data = userData;
         JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
         when(() => jsonWrapperMock.decodeData(any()))
           .thenReturn({
