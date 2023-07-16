@@ -81,7 +81,7 @@ void main() {
   });
 
   group("LoginButton tests", () {
-    testWidgets("form in progress", (widgetTester) async {
+    testWidgets("form submission in progress", (widgetTester) async {
       // Arrange
       when(() => inputStateMock.formStatus).thenReturn(FormzSubmissionStatus.inProgress);
       final widget = MaterialApp(
