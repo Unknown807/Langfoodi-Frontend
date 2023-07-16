@@ -18,6 +18,7 @@ class RegisterPage extends StatelessWidget {
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Column(children: <Widget>[
                   Container(
+                    key: const Key("registerPageBgImg"),
                     height: 350,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
