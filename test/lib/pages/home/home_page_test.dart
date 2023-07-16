@@ -67,6 +67,8 @@ void main() {
       expect(find.text("This is the fourth page!"), findsOneWidget);
     });
 
+    // TODO: move this test to integration_tests eventually, it involves multiple
+    // buttons/behaviours on the home page
     testWidgets("from 'My creations' page to 'Home' page", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
