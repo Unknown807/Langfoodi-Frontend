@@ -11,7 +11,7 @@ void main() {
     );
   }
 
-  group("nav bar tests", () {
+  group("NavBar tests", () {
     testWidgets("All properties for NavBar are defined", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());

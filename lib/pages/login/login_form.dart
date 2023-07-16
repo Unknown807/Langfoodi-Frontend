@@ -12,7 +12,7 @@ class LoginForm extends StatelessWidget {
           }
         },
         child: Column(children: <Widget>[
-          _FormErrorLabel(),
+          const FormErrorLabel(),
           const SizedBox(height: 5),
           Container(
               padding: const EdgeInsets.all(5),
@@ -25,9 +25,9 @@ class LoginForm extends StatelessWidget {
                         blurRadius: 20.0,
                         offset: Offset(0, 10))
                   ]),
-              child: Column(children: <Widget>[
-                _UserNameEmailInput(),
-                _PasswordInput(),
+              child: const Column(children: <Widget>[
+                UserNameEmailInput(),
+                PasswordInput(),
               ])),
           const SizedBox(height: 5),
           Row(
@@ -36,7 +36,7 @@ class LoginForm extends StatelessWidget {
               FormTextButton(eventFunc: () {}, text: "Forgot Password?"),
             ],
           ),
-          _LoginButton(),
+          const LoginButton(),
           const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +55,9 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class _FormErrorLabel extends StatelessWidget {
+class FormErrorLabel extends StatelessWidget {
+  const FormErrorLabel({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
@@ -70,7 +72,9 @@ class _FormErrorLabel extends StatelessWidget {
   }
 }
 
-class _UserNameEmailInput extends StatelessWidget {
+class UserNameEmailInput extends StatelessWidget {
+  const UserNameEmailInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
@@ -87,7 +91,9 @@ class _UserNameEmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class PasswordInput extends StatelessWidget {
+  const PasswordInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
@@ -106,7 +112,9 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _LoginButton extends StatelessWidget {
+class LoginButton extends StatelessWidget {
+  const LoginButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(

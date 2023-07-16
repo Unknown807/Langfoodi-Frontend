@@ -11,7 +11,7 @@ void main() {
     );
   }
 
-  group("bottom nav bar tests", () {
+  group("BottomNavBar tests", () {
     testWidgets("All properties for BottomNavBar are defined", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
