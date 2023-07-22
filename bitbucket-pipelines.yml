@@ -1,4 +1,4 @@
-image: cirrusci/flutter:3.10.0
+image: cirruslabs/flutter:3.10.0
 
 pipelines:
   branches:
