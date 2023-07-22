@@ -7,7 +7,7 @@ pipelines:
             name: Run Unit/Widget/Bloc Tests
             script:
               - flutter pub get
-              - flutter test --test-path=tests/
+              - flutter test ./test
               - |
                 if [ $? -ne 0 ]; then
                 echo "Unit tests failed. Rejecting push."
