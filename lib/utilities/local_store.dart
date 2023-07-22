@@ -1,7 +1,9 @@
 part of 'utilities.dart';
 
 class LocalStore {
-  final _storage = const FlutterSecureStorage();
+  LocalStore(this._storage);
+
+  final FlutterSecureStorage _storage;
 
   Future<bool> keyExists(String key) async {
     return await _storage.containsKey(key: key);

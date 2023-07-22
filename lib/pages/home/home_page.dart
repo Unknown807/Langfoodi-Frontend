@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
+  int _selectedIndex = 0;
   String title = "Welcome";
 
   List<Widget> getPages() => [
@@ -44,8 +45,6 @@ class _HomePageState extends State<HomePage> {
       _counter++;
     });
   }
-
-  int _selectedIndex = 0;
 
   void onBottomNavSelect(int index) {
     setState(() {

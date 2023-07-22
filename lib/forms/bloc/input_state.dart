@@ -1,6 +1,6 @@
 part of 'base_form.dart';
 
-final class InputState extends Equatable {
+class InputState extends Equatable {
   const InputState({
     this.userName = const Username.pure(),
     this.email = const Email.pure(),

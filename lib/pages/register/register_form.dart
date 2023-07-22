@@ -12,7 +12,7 @@ class RegisterForm extends StatelessWidget {
         }
       },
       child: Column(children: <Widget>[
-        _FormErrorLabel(),
+        const FormErrorLabel(),
         const SizedBox(height: 5),
         Container(
             padding: const EdgeInsets.all(5),
@@ -25,20 +25,22 @@ class RegisterForm extends StatelessWidget {
                       blurRadius: 20.0,
                       offset: Offset(0, 10))
                 ]),
-            child: Column(children: <Widget>[
-              _UserNameInput(),
-              _EmailInput(),
-              _PasswordInput(),
-              _ConfirmPasswordInput(),
+            child: const Column(children: <Widget>[
+              UserNameInput(),
+              EmailInput(),
+              PasswordInput(),
+              ConfirmPasswordInput(),
             ])),
         const SizedBox(height: 20),
-        _RegisterButton()
+        const RegisterButton()
       ]),
     );
   }
 }
 
-class _FormErrorLabel extends StatelessWidget {
+class FormErrorLabel extends StatelessWidget {
+  const FormErrorLabel({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
@@ -53,7 +55,9 @@ class _FormErrorLabel extends StatelessWidget {
   }
 }
 
-class _UserNameInput extends StatelessWidget {
+class UserNameInput extends StatelessWidget {
+  const UserNameInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
@@ -70,7 +74,9 @@ class _UserNameInput extends StatelessWidget {
   }
 }
 
-class _EmailInput extends StatelessWidget {
+class EmailInput extends StatelessWidget {
+  const EmailInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
@@ -87,7 +93,9 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class PasswordInput extends StatelessWidget {
+  const PasswordInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
@@ -106,7 +114,9 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _ConfirmPasswordInput extends StatelessWidget {
+class ConfirmPasswordInput extends StatelessWidget {
+  const ConfirmPasswordInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(
@@ -130,7 +140,9 @@ class _ConfirmPasswordInput extends StatelessWidget {
   }
 }
 
-class _RegisterButton extends StatelessWidget {
+class RegisterButton extends StatelessWidget {
+  const RegisterButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, InputState>(

@@ -18,6 +18,7 @@ class LoginPage extends StatelessWidget {
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Column(children: <Widget>[
                   Container(
+                    key: const Key("loginPageBgImg"),
                     height: 350,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
