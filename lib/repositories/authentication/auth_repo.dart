@@ -4,10 +4,7 @@ import 'package:recipe_social_media/api/api.dart';
 import 'models/user.dart';
 
 class AuthenticationRepository {
-  AuthenticationRepository({LocalStore? localStore, Request? request, JsonWrapper? jsonWrapper})
-      : localStore = localStore ?? LocalStore(),
-        jsonWrapper = jsonWrapper ?? JsonWrapper(),
-        request = request ?? Request();
+  AuthenticationRepository(this.localStore, this.request, this.jsonWrapper);
 
   final LocalStore localStore;
   final Request request;
