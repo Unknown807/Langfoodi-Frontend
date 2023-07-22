@@ -38,7 +38,7 @@ void main() {
       const headers = { "authorization": "auth-token-here" };
 
       // Act
-      final result =  sut.formatHeaders(headers);
+      final result =  sut.formatHeaders(null);
 
       // Assert
       expect(result, {

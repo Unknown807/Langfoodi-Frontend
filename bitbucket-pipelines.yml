@@ -8,8 +8,3 @@ pipelines:
             script:
               - flutter pub get
               - flutter test ./test
-              - |
-                if [ $? -ne 0 ]; then
-                echo "Unit tests failed. Rejecting push."
-                exit 1
-                fi
