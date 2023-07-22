@@ -1,4 +1,4 @@
-image: flutter/flutter:latest
+image: cirrusci/flutter:latest
 
 pipelines:
   branches:
