@@ -1,0 +1,15 @@
+image: flutter/flutter:latest
+
+pipelines:
+  branches:
+    '{master,develop,feature/*}':
+        - step:
+            name: Run Unit/Widget/Bloc Tests
+            script:
+              - flutter pub get
+              - flutter test --test-path=tests/
+              - |
+                if [ $? -ne 0 ]; then
+                echo "Unit tests failed. Rejecting push."
+                exit 1
+                fi
