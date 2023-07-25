@@ -2,7 +2,7 @@ image: mobiledevops/flutter-sdk-image:3.10.0
 
 pipelines:
   pull-requests:
-    '{master,develop}':
+    '**':
       - step:
           name: Run Unit/Widget/Bloc Tests
           script:
