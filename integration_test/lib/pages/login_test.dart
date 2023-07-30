@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -89,6 +90,21 @@ void main() {
 
       // Assert
       expect(find.text("server error"), findsOneWidget);
+      verifyNever(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis));
+    });
+
+    testWidgets("Sign up button goes to register page", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createSystemUnderTest());
+
+      // Act
+      final signUpText = find.text("Sign Up");
+      final signUpBtn = find.ancestor(of: signUpText, matching: find.byType(FormTextButton));
+      await widgetTester.tap(signUpBtn);
+      await widgetTester.pumpAndSettle();
+
+      // Assert
+      verify(() => navigRepoMock.goTo(any(), "/register", RouteType.normal)).called(1);
     });
   });
 }
