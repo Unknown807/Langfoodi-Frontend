@@ -34,8 +34,8 @@ void main() {
     );
   }
 
-  group("login tests", () {
-    testWidgets("Valid login submission", (widgetTester) async {
+  group("login integration tests", () {
+    testWidgets("valid login submission", (widgetTester) async {
       // Arrange
       when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(null));
       await widgetTester.pumpWidget(createSystemUnderTest());
@@ -60,11 +60,17 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
+      final Text formErrorLabel = widgetTester.widget(find.descendant(
+        of: find.byType(FormErrorLabel),
+        matching: find.byType(Text)
+      ));
+
+      expect(formErrorLabel.data, "");
       expect(find.text("server error"), findsNothing);
       verify(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis)).called(1);
     });
 
-    testWidgets("Invalid login submission", (widgetTester) async {
+    testWidgets("invalid login submission", (widgetTester) async {
       // Arrange
       when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value("server error"));
       await widgetTester.pumpWidget(createSystemUnderTest());
