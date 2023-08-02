@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:recipe_social_media/app/app_view.dart';
+import 'package:recipe_social_media/app/app.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';

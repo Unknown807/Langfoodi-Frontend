@@ -1,19 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/pages/home/home_page.dart';
-import 'package:recipe_social_media/pages/login/login_page.dart';
-import 'package:recipe_social_media/pages/register/register_page.dart';
-import 'package:recipe_social_media/pages/splash/splash_page.dart';
-import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
-import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
-import 'bloc/app.dart';
+part of 'app.dart';
 
 class App extends StatelessWidget {
   const App({super.key, required this.authRepo, required this.navigationRepo});
 
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
-
+  
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
