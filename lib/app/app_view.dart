@@ -6,6 +6,7 @@ import 'package:recipe_social_media/pages/register/register_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import '../pages/profile_settings/profile_settings_page.dart';
 import 'bloc/app.dart';
 
 class App extends StatelessWidget {
@@ -44,7 +45,9 @@ class _AppView extends StatelessWidget {
         "/splash": (context) => const SplashPage(),
         "/home": (context) => const HomePage(),
         "/login": (context) => const LoginPage(),
-        "/register": (context) => const RegisterPage()
+        "/register": (context) => const RegisterPage(),
+        "/profile_settings": (context) => const ProfileSettings()
+
       },
       home: BlocBuilder<AppBloc, AppState>(
         buildWhen: (p, c) => p.status != c.status,
