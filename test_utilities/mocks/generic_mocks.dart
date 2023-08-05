@@ -23,3 +23,4 @@ class NavigatorObserverMock extends Mock implements NavigatorObserver {}
 class ResponseMock extends Mock implements http.Response {}
 class RequestMock extends Mock implements Request {}
 class RegisterBlocMock extends MockBloc<InputEvent, InputState> implements RegisterBloc {}
+class ReferenceWrapperMock<T> extends Mock implements ReferenceWrapper<T> {}
