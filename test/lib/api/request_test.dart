@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/api.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
@@ -18,7 +19,8 @@ void main() {
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
 
-    sut = Request(clientMock);
+    ReferenceWrapper<ClientMock> refWrapper = ReferenceWrapper(clientMock);
+    sut = Request(refWrapper);
   });
 
   group("formatHeaders method tests", () {
