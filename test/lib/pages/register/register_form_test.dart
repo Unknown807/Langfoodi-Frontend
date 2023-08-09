@@ -7,7 +7,7 @@ import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/forms/models/models.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
-import '../../../mocks/generic_mocks.dart';
+import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late RegisterBlocMock registerBlocMock;

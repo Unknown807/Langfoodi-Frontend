@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/repositories/authentication/models/user.dart';
-import '../../../../mocks/generic_mocks.dart';
+import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   const String userData = "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'";

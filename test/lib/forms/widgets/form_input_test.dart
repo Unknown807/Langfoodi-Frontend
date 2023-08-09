@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
-import '../../../mocks/generic_mocks.dart';
+import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late FunctionMock funcMock;

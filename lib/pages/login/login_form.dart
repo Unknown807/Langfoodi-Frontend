@@ -125,6 +125,7 @@ class LoginButton extends StatelessWidget {
 
         bool allFieldsValid =
             (state.userNameValid || state.emailValid) && state.passwordValid;
+
         return FormButton(
           eventFunc: allFieldsValid
               ? () => context.read<LoginBloc>().add(const FormSubmitted())
