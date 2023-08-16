@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of 'form_models.dart';
 
 enum FormValidationError {
   emailInvalid,

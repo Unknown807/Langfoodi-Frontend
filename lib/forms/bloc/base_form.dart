@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/forms/models/models.dart';
+import 'package:recipe_social_media/forms/models/form_models.dart';
 
 export 'base_form.dart';
 

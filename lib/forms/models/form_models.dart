@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-export 'models.dart';
+export 'form_models.dart';
 
 part 'username.dart';
 part 'email.dart';

@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of 'form_models.dart';
 
 class ConfirmedPassword extends FormzInput<String, FormValidationError> {
   const ConfirmedPassword.pure({this.password = ''}) : super.pure('');
