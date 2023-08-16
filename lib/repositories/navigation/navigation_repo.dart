@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+export 'navigation_repo.dart';
 part 'route_types.dart';
 
 class NavigationRepository {

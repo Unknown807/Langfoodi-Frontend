@@ -1,7 +1,9 @@
-import 'package:recipe_social_media/api/response_error.dart';
+import 'package:equatable/equatable.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
-import 'models/user.dart';
+
+export 'auth_repo.dart';
+part 'models/user.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository(this.localStore, this.request, this.jsonWrapper);

@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/utilities/utilities.dart';
+part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 class User extends Equatable {
   const User({this.id, this.userName, this.email, this.password});
