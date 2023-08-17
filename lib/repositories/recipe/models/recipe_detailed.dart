@@ -1,4 +1,4 @@
-part of 'recipe_models.dart';
+part of 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 class RecipeDetailed extends Equatable {
   const RecipeDetailed(

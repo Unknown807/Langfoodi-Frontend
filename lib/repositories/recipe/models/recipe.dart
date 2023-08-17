@@ -1,8 +1,7 @@
-part of 'recipe_models.dart';
+part of 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 class Recipe extends Equatable {
-  const Recipe(this.id, this.title, this.description, this.chefUsername,
-      this.creationDate);
+  const Recipe(this.id, this.title, this.description, this.chefUsername, this.creationDate);
 
   final String id;
   final String title;
