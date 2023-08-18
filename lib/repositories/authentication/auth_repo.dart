@@ -4,6 +4,9 @@ import 'package:recipe_social_media/api/api.dart';
 
 export 'auth_repo.dart';
 part 'models/user.dart';
+part 'contracts/auth_attempt_contract.dart';
+part 'contracts/new_user_contract.dart';
+part 'contracts/update_user_contract.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository(this.localStore, this.request, this.jsonWrapper);
@@ -22,47 +25,39 @@ class AuthenticationRepository {
     String userStr = await localStore.getKey(userKey);
     if (userStr.isNotEmpty) {
       User loggedInUser = User.deserialize(userStr, jsonWrapper);
-      var headers = {
-        "usernameOrEmail": loggedInUser.email ?? loggedInUser.userName!,
-        "password": loggedInUser.password!
-      };
 
-      var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
+      var data = AuthenticationAttemptContract(
+          usernameOrEmail: loggedInUser.email ?? loggedInUser.userName!,
+          password: loggedInUser.password!).toMap();
+
+      var response = await request.post("/auth/authenticate", data, jsonWrapper);
       return response.statusCode == 200 && response.body.toLowerCase() == "true";
     }
 
     return false;
   }
 
-  Future<String?> register(String userName, String email, String password) async {
-    var data = {
-      "Id": null,
-      "UserName": userName,
-      "Email": email,
-      "Password": password
-    };
+  Future<String?> register(String username, String email, String password) async {
+    var data = NewUserContract(username: username, email: email, password: password).toMap();
 
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.statusCode == 200) {
-      User user = User(userName: userName, email: email, password: password);
+      User user = User(userName: username, email: email, password: password);
       localStore.setKey(userKey, User.serialize(user, jsonWrapper));
     }
 
     return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
   }
 
-  Future<String?> loginWithUserNameOrEmail(String userNameOrEmail, String password) async {
-    var headers = {
-      "usernameOrEmail": userNameOrEmail,
-      "password": password
-    };
+  Future<String?> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
+    var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password).toMap();
 
-    var response = await request.postWithoutBody("/auth/authenticate", headers: headers);
+    var response = await request.post("/auth/authenticate", data, jsonWrapper);
     if (response.statusCode == 200 && response.body.toLowerCase() == "true") {
-      bool isEmail = userNameOrEmail.contains("@");
+      bool isEmail = usernameOrEmail.contains("@");
       User user = User(
-        userName: isEmail ? "" : userNameOrEmail,
-        email: isEmail ? userNameOrEmail : "",
+        userName: isEmail ? "" : usernameOrEmail,
+        email: isEmail ? usernameOrEmail : "",
         password: password
       );
       localStore.setKey(userKey, User.serialize(user, jsonWrapper));

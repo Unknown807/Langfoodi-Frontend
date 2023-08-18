@@ -1,3 +1,4 @@
+part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 class UpdateUserContract {
   UpdateUserContract({

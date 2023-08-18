@@ -1,3 +1,4 @@
+part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 class AuthenticationAttemptContract {
   AuthenticationAttemptContract({
@@ -10,7 +11,7 @@ class AuthenticationAttemptContract {
 
   Map<String, String> toMap() {
     return {
-      "username": usernameOrEmail,
+      "usernameOrEmail": usernameOrEmail,
       "password": password
     };
   }
