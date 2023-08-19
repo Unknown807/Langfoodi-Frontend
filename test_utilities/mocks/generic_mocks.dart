@@ -13,10 +13,10 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 class AuthenticationRepositoryMock extends Mock implements AuthenticationRepository {}
 class BuildContextMock extends Mock implements BuildContext {}
 class ClientMock extends Mock implements http.Client {}
-class ContractMock extends Mock implements Contract {}
 class FunctionMock extends Mock { void call([dynamic parameter]); }
 class InputStateMock extends Mock implements InputState {}
 class JsonWrapperMock extends Mock implements JsonWrapper {}
+class JsonConvertibleMock extends Mock implements JsonConvertible {}
 class LocalStoreMock extends Mock implements LocalStore {}
 class LoginBlocMock extends MockBloc<InputEvent, InputState> implements LoginBloc {}
 class NavigationRepositoryMock extends Mock implements NavigationRepository {}

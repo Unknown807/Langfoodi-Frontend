@@ -19,7 +19,7 @@ class Request {
     return allHeaders;
   }
 
-  Future<http.Response> post(String path, Contract data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
+  Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
     var url = Uri.parse(baseUrl + path);
     var jsonData = jsonWrapper.encodeData(data);
     return client.getInstance().post(url, body: jsonData, headers: formatHeaders(headers));

@@ -8,14 +8,14 @@ void main() {
   late String path;
   late Uri fullPath;
   late ClientMock clientMock;
-  late ContractMock contractMock;
+  late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
   setUp(() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
-    contractMock = ContractMock();
+    jsonConvertibleMock = JsonConvertibleMock();
     clientMock = ClientMock();
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
@@ -61,7 +61,7 @@ void main() {
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, contractMock, jsonWrapper, headers: headers);
+      await sut.post(path, jsonConvertibleMock, jsonWrapper, headers: headers);
 
       // Assert
       verify(() => clientMock.post(fullPath,
@@ -79,7 +79,7 @@ void main() {
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, contractMock, jsonWrapper);
+      await sut.post(path, jsonConvertibleMock, jsonWrapper);
 
       // Assert
       verify(() => clientMock.post(fullPath,

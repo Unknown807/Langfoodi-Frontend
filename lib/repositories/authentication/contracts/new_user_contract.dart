@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class NewUserContract implements Contract {
+class NewUserContract implements JsonConvertible {
   NewUserContract({
     required this.username,
     required this.email,
