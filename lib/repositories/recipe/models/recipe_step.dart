@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
-class RecipeStep extends Equatable implements JsonConvertible {
+class RecipeStep extends Equatable with JsonConvertible {
   const RecipeStep(this.text, this.imageUrl);
 
   final String text;

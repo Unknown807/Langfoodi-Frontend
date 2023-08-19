@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class AuthenticationAttemptContract implements JsonConvertible {
+class AuthenticationAttemptContract with JsonConvertible {
   AuthenticationAttemptContract({
     required this.usernameOrEmail,
     required this.password,

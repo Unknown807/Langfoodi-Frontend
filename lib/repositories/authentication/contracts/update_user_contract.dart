@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class UpdateUserContract implements JsonConvertible {
+class UpdateUserContract with JsonConvertible {
   UpdateUserContract({
     required this.id,
     required this.username,

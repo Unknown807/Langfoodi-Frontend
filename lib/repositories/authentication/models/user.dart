@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class User extends Equatable implements JsonConvertible {
+class User extends Equatable with JsonConvertible {
   const User({this.id, this.userName, this.email, this.password});
 
   final String? id;

@@ -1,5 +1,6 @@
 part of 'utilities.dart';
 
-abstract class JsonConvertible {
+mixin JsonConvertible {
   Map toJson();
+  dynamic fromJson() { return Object(); }
 }
