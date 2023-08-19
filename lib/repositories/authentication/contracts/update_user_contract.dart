@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class UpdateUserContract {
+class UpdateUserContract implements Contract {
   UpdateUserContract({
     required this.id,
     required this.username,
@@ -13,7 +13,8 @@ class UpdateUserContract {
   final String email;
   final String password;
 
-  Map<String, String> toMap() {
+  @override
+  Map toJson() {
     return {
       "id": id,
       "username": username,

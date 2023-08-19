@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class AuthenticationAttemptContract {
+class AuthenticationAttemptContract implements Contract {
   AuthenticationAttemptContract({
     required this.usernameOrEmail,
     required this.password,
@@ -9,7 +9,8 @@ class AuthenticationAttemptContract {
   final String usernameOrEmail;
   final String password;
 
-  Map<String, String> toMap() {
+  @override
+  Map toJson() {
     return {
       "usernameOrEmail": usernameOrEmail,
       "password": password

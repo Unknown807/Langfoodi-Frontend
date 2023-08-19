@@ -28,7 +28,7 @@ class AuthenticationRepository {
 
       var data = AuthenticationAttemptContract(
           usernameOrEmail: loggedInUser.email ?? loggedInUser.userName!,
-          password: loggedInUser.password!).toMap();
+          password: loggedInUser.password!);
 
       var response = await request.post("/auth/authenticate", data, jsonWrapper);
       return response.statusCode == 200 && response.body.toLowerCase() == "true";
@@ -38,7 +38,7 @@ class AuthenticationRepository {
   }
 
   Future<String?> register(String username, String email, String password) async {
-    var data = NewUserContract(username: username, email: email, password: password).toMap();
+    var data = NewUserContract(username: username, email: email, password: password);
 
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.statusCode == 200) {
@@ -50,7 +50,7 @@ class AuthenticationRepository {
   }
 
   Future<String?> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
-    var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password).toMap();
+    var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password);
 
     var response = await request.post("/auth/authenticate", data, jsonWrapper);
     if (response.statusCode == 200 && response.body.toLowerCase() == "true") {
