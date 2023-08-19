@@ -1,6 +1,6 @@
 part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
-class User extends Equatable {
+class User extends Equatable implements JsonConvertible {
   const User({this.id, this.userName, this.email, this.password});
 
   final String? id;
@@ -22,17 +22,18 @@ class User extends Equatable {
     );
   }
 
-  static Map<String, String?> toMap(User user) {
-    return <String, String?> {
-      "id": user.id,
-      "userName": user.userName,
-      "email": user.email,
-      "password": user.password
+  @override
+  Map toJson() {
+    return {
+      "id": id,
+      "userName": userName,
+      "email": email,
+      "password": password
     };
   }
 
   static String serialize(User user, JsonWrapper jsonWrapper) {
-    return jsonWrapper.encodeData(User.toMap(user));
+    return jsonWrapper.encodeData(user);
   }
 
   static User deserialize(String jsonStr, JsonWrapper jsonWrapper) {
