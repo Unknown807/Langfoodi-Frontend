@@ -18,8 +18,8 @@ class RecipeDetailed extends Equatable {
   final String description;
   final User chef;
   final List<String> labels;
-  final List<String> ingredients;
-  final List<String> recipeSteps;
+  final List<Ingredient> ingredients;
+  final List<RecipeStep> recipeSteps;
   final DateTime creationDate;
   final DateTime lastUpdatedDate;
 

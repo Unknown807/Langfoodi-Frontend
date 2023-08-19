@@ -38,7 +38,7 @@ void main() {
         );
 
         // Act
-        final result = User.toMap(user);
+        final result = user.toJson();
 
         // Assert
         expect(result, {

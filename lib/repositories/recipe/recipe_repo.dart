@@ -6,6 +6,7 @@ export 'recipe_repo.dart';
 part 'models/ingredient.dart';
 part 'models/recipe.dart';
 part 'models/recipe_detailed.dart';
+part 'models/recipe_step.dart';
 
 class RecipeRepository {
   RecipeRepository();
@@ -17,8 +18,8 @@ class RecipeRepository {
         "desc",
         User.empty,
         const ["labels"],
-        const ["ingredients"],
-        const ["recipe steps"],
+        const [Ingredient("eggs", 12.0, "whole")],
+        const [RecipeStep("step 1", "www.example.com/image")],
         DateTime.parse("18-08-2023"),
         DateTime.parse("18-08-2023")));
   }
@@ -50,8 +51,8 @@ class RecipeRepository {
         "desc",
         User.empty,
         const ["labels"],
-        const ["ingredients"],
-        const ["recipe steps"],
+        const [Ingredient("eggs", 12.0, "whole")],
+        const [RecipeStep("step 1", "www.example.com/image")],
         DateTime.parse("18-08-2023"),
         DateTime.parse("18-08-2023")));
   }
@@ -63,8 +64,8 @@ class RecipeRepository {
         "desc",
         User.empty,
         const ["labels"],
-        const ["ingredients"],
-        const ["recipe steps"],
+        const [Ingredient("eggs", 12.0, "whole")],
+        const [RecipeStep("step 1", "www.example.com/image")],
         DateTime.parse("18-08-2023"),
         DateTime.parse("18-08-2023")));
   }
