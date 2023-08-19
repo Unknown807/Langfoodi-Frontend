@@ -3,7 +3,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 void main() {
   group("UpdateUserContract tests", () {
-    group("toMap method tests", () {
+    group("toJson method tests", () {
       test("map returned", () {
         // Arrange
         var contract = UpdateUserContract(
@@ -14,7 +14,7 @@ void main() {
         );
 
         // Act
-        var result = contract.toMap();
+        var result = contract.toJson();
 
         // Assert
         expect(result, {

@@ -8,12 +8,14 @@ void main() {
   late String path;
   late Uri fullPath;
   late ClientMock clientMock;
+  late ContractMock contractMock;
   late Request sut;
 
   setUp(() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
+    contractMock = ContractMock();
     clientMock = ClientMock();
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
@@ -55,12 +57,11 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
-      const data = { "username": "username1" };
       final jsonWrapper = JsonWrapperMock();
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, data, jsonWrapper, headers: headers);
+      await sut.post(path, contractMock, jsonWrapper, headers: headers);
 
       // Assert
       verify(() => clientMock.post(fullPath,
@@ -74,12 +75,11 @@ void main() {
 
     test("without headers", () async {
       // Arrange
-      const data = { "username": "username1" };
       final jsonWrapper = JsonWrapperMock();
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, data, jsonWrapper);
+      await sut.post(path, contractMock, jsonWrapper);
 
       // Assert
       verify(() => clientMock.post(fullPath,
