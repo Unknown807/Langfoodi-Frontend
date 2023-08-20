@@ -5,19 +5,23 @@ import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   const String userData = "'{'id':null,'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
+  late JsonWrapperMock jsonWrapperMock;
+
+  setUp(() {
+    jsonWrapperMock = JsonWrapperMock();
+    when(() => jsonWrapperMock.encodeData(any())).thenReturn(userData);
+    when(() => jsonWrapperMock.decodeData(any())).thenReturn({
+      "userName": "username1",
+      "email": "mail@example.com",
+      "password": "Password123!"
+    });
+  });
 
   group("User model tests", () {
     group("fromJson method tests", () {
       test("create new user object", () {
-        // Arrange
-        const data = {
-          "userName": "username1",
-          "email": "mail@example.com",
-          "password": "Password123!"
-        };
-
         // Act
-        User user = User.fromJson(data);
+        User user = User.fromJson(userData, jsonWrapperMock);
 
         // Assert
         expect(user, const User(
@@ -58,12 +62,9 @@ void main() {
           email: "mail@example.com",
           password: "Password123!"
         );
-        JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
-        when(() => jsonWrapperMock.encodeData(any()))
-          .thenReturn(userData);
 
         // Act
-        final result = User.serialize(user, jsonWrapperMock);
+        final result = user.serialize(jsonWrapperMock);
 
         // Assert
         expect(result, userData);
@@ -72,18 +73,8 @@ void main() {
 
     group("deserialize method tests", () {
       test("json string is decoded into map object", () {
-        // Arrange
-        const data = userData;
-        JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
-        when(() => jsonWrapperMock.decodeData(any()))
-          .thenReturn({
-          "userName": "username1",
-          "email": "mail@example.com",
-          "password": "Password123!"
-        });
-
         // Act
-        final result = User.deserialize(data, jsonWrapperMock);
+        final result = User.fromJson(userData, jsonWrapperMock);
 
         // Assert
         expect(result, const User(
