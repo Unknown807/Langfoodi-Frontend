@@ -18,4 +18,9 @@ class Ingredient extends Equatable with JsonConvertible {
       "unitOfMeasurement": unitOfMeasurement
     };
   }
+
+  static Ingredient fromJson(String jsonStr, JsonWrapper jsonWrapper) {
+    Map jsonData = jsonWrapper.decodeData(jsonStr);
+    return Ingredient(jsonData["name"], jsonData["quantity"], jsonData["unitOfMeasurement"]);
+  }
 }
