@@ -13,15 +13,6 @@ class User extends Equatable with JsonConvertible {
   bool get isEmpty => this == User.empty;
   bool get isNotEmpty => this != User.empty;
 
-  factory User.fromJson(Map<String, dynamic> jsonData) {
-    return User(
-      id: jsonData["id"],
-      userName: jsonData["userName"],
-      email: jsonData["email"],
-      password: jsonData["password"]
-    );
-  }
-
   @override
   Map toJson() {
     return {
@@ -32,12 +23,14 @@ class User extends Equatable with JsonConvertible {
     };
   }
 
-  static String serialize(User user, JsonWrapper jsonWrapper) {
-    return jsonWrapper.encodeData(user);
-  }
-
-  static User deserialize(String jsonStr, JsonWrapper jsonWrapper) {
-    return User.fromJson(jsonWrapper.decodeData(jsonStr));
+  static User fromJson(String jsonStr, JsonWrapper jsonWrapper) {
+    Map jsonData = jsonWrapper.decodeData(jsonStr);
+    return User(
+      id: jsonData["id"],
+      userName: jsonData["userName"],
+      email: jsonData["email"],
+      password: jsonData["password"]
+    );
   }
 
   @override

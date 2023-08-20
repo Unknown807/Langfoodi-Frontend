@@ -18,13 +18,13 @@ class AuthenticationRepository {
 
   Future<User> get currentUser async {
     String userStr = await localStore.getKey(userKey);
-    return User.deserialize(userStr, jsonWrapper);
+    return User.fromJson(userStr, jsonWrapper);
   }
 
   Future<bool> isAuthenticated() async {
     String userStr = await localStore.getKey(userKey);
     if (userStr.isNotEmpty) {
-      User loggedInUser = User.deserialize(userStr, jsonWrapper);
+      User loggedInUser = User.fromJson(userStr, jsonWrapper);
 
       var data = AuthenticationAttemptContract(
           usernameOrEmail: loggedInUser.email ?? loggedInUser.userName!,
@@ -43,7 +43,7 @@ class AuthenticationRepository {
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.statusCode == 200) {
       User user = User(userName: username, email: email, password: password);
-      localStore.setKey(userKey, User.serialize(user, jsonWrapper));
+      localStore.setKey(userKey, user.serialize(jsonWrapper));
     }
 
     return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
@@ -60,7 +60,7 @@ class AuthenticationRepository {
         email: isEmail ? usernameOrEmail : "",
         password: password
       );
-      localStore.setKey(userKey, User.serialize(user, jsonWrapper));
+      localStore.setKey(userKey, user.serialize(jsonWrapper));
     }
 
     return ResponseError.getErrorMessageFromCode("Issue Signing In", response);
