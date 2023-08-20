@@ -7,6 +7,8 @@ part 'models/ingredient.dart';
 part 'models/recipe.dart';
 part 'models/recipe_detailed.dart';
 part 'models/recipe_step.dart';
+part 'contracts/new_recipe_contract.dart';
+part 'contracts/update_recipe_contract.dart';
 
 class RecipeRepository {
   RecipeRepository();
