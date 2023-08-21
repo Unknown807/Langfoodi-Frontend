@@ -9,14 +9,13 @@ class Recipe extends Equatable with JsonConvertible {
   final String chefUsername;
   final DateTime creationDate;
 
-  static Recipe fromJson(String jsonStr, JsonWrapper jsonWrapper) {
-    Map jsonData = jsonWrapper.decodeData(jsonStr);
+  static Recipe fromJson(Map jsonData, JsonWrapper jsonWrapper) {
     return Recipe(
       jsonData["id"],
       jsonData["title"],
       jsonData["description"],
       jsonData["chefUsername"],
-      jsonData["creationDate"]
+      DateTime.parse(jsonData["creationDate"])
     );
   }
 
