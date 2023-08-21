@@ -23,16 +23,19 @@ class RecipeDetailed extends Equatable with JsonConvertible {
   final DateTime creationDate;
   final DateTime lastUpdatedDate;
 
-  static RecipeDetailed fromJson(String jsonStr, JsonWrapper jsonWrapper) {
-    Map jsonData = jsonWrapper.decodeData(jsonStr);
+  static RecipeDetailed fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return RecipeDetailed.fromJson(jsonWrapper.decodeData(jsonStr), jsonWrapper);
+  }
+
+  static RecipeDetailed fromJson(Map jsonData, JsonWrapper jsonWrapper) {
     return RecipeDetailed(
         jsonData["id"],
         jsonData["title"],
         jsonData["description"],
         User.fromJson(jsonData["chef"], jsonWrapper),
         jsonData["labels"],
-        jsonData["ingredients"].map((i) => Ingredient.fromJson(i, jsonWrapper)).toList(),
-        jsonData["recipeSteps"].map((r) => RecipeStep.fromJson(r, jsonWrapper)).toList(),
+        jsonData["ingredients"].map<Ingredient>((i) => Ingredient.fromJson(i, jsonWrapper)).toList(),
+        jsonData["recipeSteps"].map<RecipeStep>((r) => RecipeStep.fromJson(r, jsonWrapper)).toList(),
         DateTime.parse(jsonData["creationDate"]),
         DateTime.parse(jsonData["lastUpdatedDate"])
     );

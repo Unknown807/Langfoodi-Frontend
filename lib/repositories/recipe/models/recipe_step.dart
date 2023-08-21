@@ -16,9 +16,8 @@ class RecipeStep extends Equatable with JsonConvertible {
       "imageUrl": imageUrl
     };
   }
-
-  static RecipeStep fromJson(String jsonStr, JsonWrapper jsonWrapper) {
-    Map jsonData = jsonWrapper.decodeData(jsonStr);
+  
+  static RecipeStep fromJson(Map jsonData, JsonWrapper jsonWrapper) {
     return RecipeStep(jsonData["text"], jsonData["imageUrl"]);
   }
 }

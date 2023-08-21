@@ -18,13 +18,13 @@ class AuthenticationRepository {
 
   Future<User> get currentUser async {
     String userStr = await localStore.getKey(userKey);
-    return User.fromJson(userStr, jsonWrapper);
+    return User.fromJsonStr(userStr, jsonWrapper);
   }
 
   Future<bool> isAuthenticated() async {
     String userStr = await localStore.getKey(userKey);
     if (userStr.isNotEmpty) {
-      User loggedInUser = User.fromJson(userStr, jsonWrapper);
+      User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
 
       var data = AuthenticationAttemptContract(
           usernameOrEmail: loggedInUser.email ?? loggedInUser.userName!,
