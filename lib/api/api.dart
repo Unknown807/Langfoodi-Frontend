@@ -6,3 +6,4 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 export 'api.dart';
 
 part 'request.dart';
+part 'response_error.dart';

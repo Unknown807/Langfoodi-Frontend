@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of 'form_models.dart';
 
 class Username extends FormzInput<String, FormValidationError> {
   const Username.pure() : super.pure('');

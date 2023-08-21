@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:recipe_social_media/api/response_error.dart';
+import 'package:recipe_social_media/api/api.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {

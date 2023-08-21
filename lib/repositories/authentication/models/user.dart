@@ -1,9 +1,9 @@
-import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/utilities/utilities.dart';
+part of 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 class User extends Equatable {
-  const User({this.userName, this.email, this.password});
+  const User({this.id, this.userName, this.email, this.password});
 
+  final String? id;
   final String? userName;
   final String? email;
   final String? password;
@@ -15,6 +15,7 @@ class User extends Equatable {
 
   factory User.fromJson(Map<String, dynamic> jsonData) {
     return User(
+      id: jsonData["id"],
       userName: jsonData["userName"],
       email: jsonData["email"],
       password: jsonData["password"]
@@ -23,6 +24,7 @@ class User extends Equatable {
 
   static Map<String, String?> toMap(User user) {
     return <String, String?> {
+      "id": user.id,
       "userName": user.userName,
       "email": user.email,
       "password": user.password
@@ -38,5 +40,5 @@ class User extends Equatable {
   }
 
   @override
-  List<Object?> get props => [userName, email, password];
+  List<Object?> get props => [id, userName, email, password];
 }

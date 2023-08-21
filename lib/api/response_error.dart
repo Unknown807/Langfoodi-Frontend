@@ -1,7 +1,7 @@
-import 'package:http/http.dart';
+part of 'api.dart';
 
 class ResponseError {
-  static String? getErrorMessageFromCode(String defaultErrorMessage, Response response) {
+  static String? getErrorMessageFromCode(String defaultErrorMessage, http.Response response) {
     String? errorMessage;
     switch(response.statusCode) {
       case 500:

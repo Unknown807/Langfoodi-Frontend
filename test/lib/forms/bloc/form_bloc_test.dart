@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
-import 'package:recipe_social_media/forms/models/models.dart';
+import 'package:recipe_social_media/forms/models/form_models.dart';
 
 void main() {
   group("_onUserNameChanged method tests", () {
