@@ -1,11 +1,11 @@
 part of 'custom_widgets.dart';
 
-class NavBar extends StatelessWidget implements PreferredSizeWidget {
+class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor = Colors.green;
   final Text title;
   final AppBar appBar;
 
-  const NavBar({Key? key, required this.title, required this.appBar})
+  const TopAppBar({Key? key, required this.title, required this.appBar})
       : super(key: key);
 
   @override
