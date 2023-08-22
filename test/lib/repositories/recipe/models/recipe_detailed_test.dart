@@ -28,6 +28,7 @@ void main() {
             const ["lbl1", "lbl2"],
             const [Ingredient("eggs", 12.0, "whole")],
             const [RecipeStep("step1", "www.example.com/imgpath")],
+            null, null, null,
             DateTime.parse("2023-08-18"),
             DateTime.parse("2023-08-18")));
       });
@@ -50,6 +51,7 @@ void main() {
             const ["lbl1", "lbl2"],
             const [Ingredient("eggs", 12.0, "whole")],
             const [RecipeStep("step1", "www.example.com/imgpath")],
+            null, null, null,
             DateTime.parse("2023-08-18"),
             DateTime.parse("2023-08-18")));
       });

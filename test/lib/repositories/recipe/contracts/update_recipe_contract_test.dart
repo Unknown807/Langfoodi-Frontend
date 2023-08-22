@@ -24,7 +24,10 @@ void main() {
         "description": "desc",
         "labels": ["lbl1", "lbl2"],
         "ingredients": [{"name": "eggs", "quantity": 12.0, "unitOfMeasurement": "whole"}],
-        "recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/image"}]
+        "recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/image"}],
+        "cookingTime": null,
+        "calories": null,
+        "numberOfServings": null
       });
     });
   });

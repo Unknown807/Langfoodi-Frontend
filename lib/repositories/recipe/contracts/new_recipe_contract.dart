@@ -32,9 +32,9 @@ class NewRecipeContract with JsonConvertible {
       "labels": labels,
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
-      "cookingTime": cookingTime?.inSeconds ?? 0,
-      "calories": calories ?? -1,
-      "numberOfServings": numberOfServings ?? -1
+      "cookingTime": cookingTime?.inSeconds,
+      "calories": calories,
+      "numberOfServings": numberOfServings
     };
   }
 }
