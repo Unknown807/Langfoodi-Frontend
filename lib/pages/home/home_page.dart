@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/pages/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'home_page.dart';
 part 'widgets/nav_bar_view.dart';

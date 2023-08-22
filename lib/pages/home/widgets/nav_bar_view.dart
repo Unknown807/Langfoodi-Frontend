@@ -10,24 +10,20 @@ class NavBarView extends StatefulWidget {
 class NavBarViewState extends State<NavBarView> {
   int _selectedIndex = 0;
   final List<Widget> _widgetPages = <Widget>[
-    const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text('This is the home page')],
-    ),
-    const Column(
-      children: <Widget>[RecipeViewPage()],
-    ),
-    const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text('This is the third page!')],
-    ),
-    const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Text('This is the fourth page!')],
-    ),
+    const PlaceholderPage(),
+    const RecipeViewPage(),
+    const PlaceholderPage(),
+    const PlaceholderPage()
   ];
 
+  @override
+  void initState() {
+    _onItemTapped(_selectedIndex);
+    super.initState();
+  }
+
   void _onItemTapped(int index) {
+    (_widgetPages[index] as PageLander).onLanding();
     setState(() {
       _selectedIndex = index;
     });
