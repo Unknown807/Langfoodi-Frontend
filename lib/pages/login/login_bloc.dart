@@ -6,6 +6,7 @@ import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 
+export 'login_bloc.dart';
 part 'login_form.dart';
 
 class LoginBloc extends FormBloc {

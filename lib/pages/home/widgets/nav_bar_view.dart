@@ -1,4 +1,4 @@
-part of 'custom_widgets.dart';
+part of 'package:recipe_social_media/pages/home/home_page.dart';
 
 class NavBarView extends StatefulWidget {
   const NavBarView({super.key});
