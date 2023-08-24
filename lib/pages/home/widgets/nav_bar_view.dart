@@ -55,12 +55,12 @@ class NavBarViewState extends State<NavBarView> {
             label: 'My Recipes',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notifications',
           )
         ],
         currentIndex: _selectedIndex,

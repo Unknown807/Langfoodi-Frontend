@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeViewPage extends StatelessWidget implements PageLander {
   const RecipeViewPage({super.key});
@@ -11,7 +12,14 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("recipe page here");
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: <Widget>[
+          CustomSearchBar()
+        ],
+      ),
+    );
   }
 }
 
