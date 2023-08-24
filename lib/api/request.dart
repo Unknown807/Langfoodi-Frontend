@@ -19,13 +19,13 @@ class Request {
     return allHeaders;
   }
 
-  Future<http.Response> post<K, V>(String path, Map<K, V> data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
+  Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
     var url = Uri.parse(baseUrl + path);
     var jsonData = jsonWrapper.encodeData(data);
     return client.getInstance().post(url, body: jsonData, headers: formatHeaders(headers));
   }
 
-  Future<http.Response> postWithoutBody<K, V>(String path, {Map<String, String>? headers}) async {
+  Future<http.Response> postWithoutBody(String path, {Map<String, String>? headers}) async {
     var url = Uri.parse(baseUrl + path);
     return client.getInstance().post(url, headers: formatHeaders(headers));
   }

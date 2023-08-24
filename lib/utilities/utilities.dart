@@ -5,4 +5,5 @@ export 'utilities.dart';
 
 part 'local_store.dart';
 part 'json_wrapper.dart';
+part 'json_convertible.dart';
 part 'reference_wrapper.dart';

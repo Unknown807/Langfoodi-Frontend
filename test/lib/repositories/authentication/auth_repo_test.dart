@@ -10,6 +10,7 @@ void main() {
     "password": "Password123!"
   };
   const String userData = "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
+  late JsonConvertibleMock jsonConvertibleMock;
   late RequestMock requestMock;
   late ResponseMock responseMock;
   late LocalStoreMock localStoreMock;
@@ -17,13 +18,15 @@ void main() {
   late AuthenticationRepository authRepo;
 
   setUp(() {
+    jsonConvertibleMock = JsonConvertibleMock();
     localStoreMock = LocalStoreMock();
     jsonWrapperMock = JsonWrapperMock();
     responseMock = ResponseMock();
     requestMock = RequestMock();
 
+    registerFallbackValue(jsonConvertibleMock);
     when(() => requestMock.postWithoutBody(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
-    when(() => requestMock.post<String, String?>(any(), any(), jsonWrapperMock)).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => requestMock.post(any(), any(), jsonWrapperMock)).thenAnswer((invocation) => Future.value(responseMock));
 
     authRepo = AuthenticationRepository(localStoreMock, requestMock, jsonWrapperMock);
   });
