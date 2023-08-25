@@ -1,7 +1,7 @@
-part of 'form_widgets.dart';
+part of 'shared_widgets.dart';
 
-class FormTextButton extends StatelessWidget {
-  const FormTextButton({
+class CustomTextButton extends StatelessWidget {
+  const CustomTextButton({
     super.key,
     required this.eventFunc,
     required this.text,

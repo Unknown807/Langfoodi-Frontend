@@ -1,7 +1,20 @@
 part of 'shared_widgets.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+  const CustomSearchBar({
+    super.key,
+    required this.onChangedFunc,
+    required this.suggestionsBuilder,
+    required this.hintText,
+    this.textColor = Colors.black,
+    this.hintColor = Colors.grey
+  });
+
+  final Color textColor;
+  final Color hintColor;
+  final String hintText;
+  final Function(String?) onChangedFunc;
+  final SuggestionsBuilder suggestionsBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -12,30 +25,19 @@ class CustomSearchBar extends StatelessWidget {
         return SearchBar(
           padding: const MaterialStatePropertyAll<EdgeInsets>(
               EdgeInsets.symmetric(horizontal: 16.0)),
-          textStyle: const MaterialStatePropertyAll(
-              TextStyle(color: Colors.black, fontWeight: FontWeight.normal)),
-          hintStyle: const MaterialStatePropertyAll(
-              TextStyle(color: Colors.grey, fontWeight: FontWeight.normal)),
-          hintText: "Search Your Recipes",
+          textStyle: MaterialStatePropertyAll(
+              TextStyle(color: textColor, fontWeight: FontWeight.normal)),
+          hintStyle: MaterialStatePropertyAll(
+              TextStyle(color: hintColor, fontWeight: FontWeight.normal)),
+          hintText: hintText,
           controller: controller,
-          onTap: () { controller.openView(); },
-          onChanged: (_) {
+          onChanged: (changedTxt) {
+            onChangedFunc(changedTxt);
             controller.openView();
           },
           leading: const Icon(Icons.search),
         );
-      }, suggestionsBuilder:
-              (BuildContext context, SearchController controller) {
-        return List<ListTile>.generate(5, (int index) {
-          final String item = 'item $index';
-          return ListTile(
-            title: Text(item),
-            onTap: () {
-              print("thing tapped ???");
-            },
-          );
-        });
-      }),
-    );
+      }, suggestionsBuilder: suggestionsBuilder,
+    ));
   }
 }
