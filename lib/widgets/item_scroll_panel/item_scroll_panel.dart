@@ -28,19 +28,20 @@ class ItemScrollPanel extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.all(8),
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => buildScrollItem(items[index]),
+          itemBuilder: (context, index) => buildScrollItem(context, items[index]),
           separatorBuilder: (context, _) => const SizedBox(width: 12),
           itemCount: 4),
     ));
   }
 
-  Widget buildScrollItem(ScrollItem item) {
+  Widget buildScrollItem(BuildContext context, ScrollItem item) {
     return Container(
       width: 200,
+      padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: <Widget>[
           AspectRatio(
-              aspectRatio: 2.5 / 4,
+              aspectRatio: (MediaQuery.of(context).size.width / MediaQuery.of(context).size.height) + 0.02,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                  child: Image.network(item.urlImage, fit: BoxFit.cover))),
