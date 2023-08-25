@@ -12,14 +12,29 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Column(
+      body: SingleChildScrollView(
+        child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CustomSearchBar()
+          const CustomSearchBar(),
+          const Padding(
+            padding: EdgeInsets.only(left: 10.0),
+            child: Text("All Recipes",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.normal)),
+          ),
+          ItemScrollPanel()
         ],
       ),
-    );
+    )));
   }
 }
 

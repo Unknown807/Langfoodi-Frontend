@@ -39,7 +39,6 @@ class NavBarViewState extends State<NavBarView> {
       body: Center(
         child: IndexedStack(
           index: _selectedIndex,
-          alignment: Alignment.center,
           children: _widgetPages,
         ),
       ),
