@@ -8,6 +8,7 @@ import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
@@ -105,7 +106,7 @@ void main() {
 
       // Act
       final signUpText = find.text("Sign Up");
-      final signUpBtn = find.ancestor(of: signUpText, matching: find.byType(FormTextButton));
+      final signUpBtn = find.ancestor(of: signUpText, matching: find.byType(CustomTextButton));
       await widgetTester.tap(signUpBtn);
       await widgetTester.pumpAndSettle();
 
