@@ -39,7 +39,11 @@ class ItemScrollPanel extends StatelessWidget {
               aspectRatio: imageAspectRatio,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(imageBorderRadius),
-                  child: Image.network(item.urlImage, fit: BoxFit.cover))),
+                  child: Image.network(item.urlImage, fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                        return const Icon(Icons.close, color: Colors.red);
+                      },
+                  ))),
           const SizedBox(height: 4),
           Text(item.title,
               style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),

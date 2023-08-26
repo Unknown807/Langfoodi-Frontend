@@ -18,7 +18,7 @@ void main() {
   }
 
   group("NavBarView tests", () {
-    testWidgets("All properties for NavBarView are defined", (widgetTester) async {
+    testWidgets("All tabs for NavBarView are defined", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
