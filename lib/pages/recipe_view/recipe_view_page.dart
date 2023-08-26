@@ -8,16 +8,16 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
   List<ScrollItem> displayRecipes = [
     const ScrollItem(
         "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg",
-        "cake", subtitle: "existing subtitle"),
+        "recipe1", subtitle: "subtitle1"),
     const ScrollItem(
         "https://anitalianinmykitchen.com/wp-content/uploads/2018/04/vertical-cake-sq-1-of-1.jpg",
-        "really long recipe name wow!!!!", subtitle: "wow subtitle"),
+        "recipe2", subtitle: "subtitle2"),
     const ScrollItem(
         "https://embed.widencdn.net/img/beef/pygmsl7od0/1120x560px/rancher-recipe-balsamic-steak-pasta-horizontal.tif?keep=c&u=7fueml",
-        "Epic name here", show: false),
+        "recipe3", show: false),
     const ScrollItem(
         "https://sallysbakingaddiction.com/wp-content/uploads/2019/07/vertical-layer-cake.jpg",
-        "Is this the one with steak or nah? or am I trippin?"),
+        "recipe4"),
   ];
 
   @override
