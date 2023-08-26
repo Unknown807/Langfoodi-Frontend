@@ -32,9 +32,9 @@ class NavBarViewState extends State<NavBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopAppBar(
-        title: const Text("Welcome"),
-        appBar: AppBar(),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: TopAppBar(title: "Welcome")
       ),
       body: Center(
         child: IndexedStack(
