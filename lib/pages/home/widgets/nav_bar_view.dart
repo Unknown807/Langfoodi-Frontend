@@ -11,7 +11,7 @@ class NavBarViewState extends State<NavBarView> {
   int _selectedIndex = 0;
   final List<Widget> _widgetPages = <Widget>[
     const PlaceholderPage(),
-    const RecipeViewPage(),
+    RecipeViewPage(),
     const PlaceholderPage(),
     const PlaceholderPage()
   ];
