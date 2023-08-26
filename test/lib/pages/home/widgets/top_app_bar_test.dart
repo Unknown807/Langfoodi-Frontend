@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_social_media/widgets/custom_widgets.dart';
+import 'package:recipe_social_media/pages/home/home_page.dart';
 
 void main() {
   Widget createWidgetUnderTest() {
     return MaterialApp(
         home: Scaffold(
-          appBar: NavBar(title: const Text("title here"), appBar: AppBar()),
+          appBar: TopAppBar(title: const Text("title here"), appBar: AppBar()),
         )
     );
   }
 
-  group("NavBar tests", () {
-    testWidgets("All properties for NavBar are defined", (widgetTester) async {
+  group("TopAppBar tests", () {
+    testWidgets("All properties for TopAppBar are defined", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
