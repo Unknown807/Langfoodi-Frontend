@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
-import '../../../../test_utilities/mocks/generic_mocks.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
+import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late FunctionMock funcMock;
@@ -15,7 +15,7 @@ void main() {
       {double fontSize = 14, Color overlayColor = const Color.fromRGBO(143, 148, 251, .5),
       Color textColor = const Color.fromRGBO(105, 110, 253, 1)}) {
     return MaterialApp(
-      home: FormTextButton(
+      home: CustomTextButton(
         eventFunc: eventFunc,
         text: text,
         fontSize: fontSize,

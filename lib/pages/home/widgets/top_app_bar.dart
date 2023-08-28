@@ -1,18 +1,19 @@
-part of 'custom_widgets.dart';
+part of 'package:recipe_social_media/pages/home/home_page.dart';
 
-class NavBar extends StatelessWidget implements PreferredSizeWidget {
+class TopAppBar extends StatelessWidget {
+  const TopAppBar({
+    super.key,
+    required this.title
+  });
+
   final Color backgroundColor = Colors.green;
-  final Text title;
-  final AppBar appBar;
-
-  const NavBar({Key? key, required this.title, required this.appBar})
-      : super(key: key);
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: title,
+      title: Text(title),
       backgroundColor: backgroundColor,
       actions: <Widget>[
         Padding(
@@ -23,22 +24,14 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 Icons.search,
                 size: 26.0,
               ),
-            )
-        ),
+            )),
         Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () {},
-              child: const Icon(
-                  Icons.person
-              ),
-            )
-        ),
+              child: const Icon(Icons.person),
+            )),
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
 }
-
