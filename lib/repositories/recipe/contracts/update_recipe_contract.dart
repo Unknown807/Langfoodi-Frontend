@@ -9,7 +9,7 @@ class UpdateRecipeContract with JsonConvertible {
     required this.ingredients,
     required this.recipeSteps,
     this.cookingTime,
-    this.calories,
+    this.kiloCalories,
     this.numberOfServings
   });
 
@@ -20,7 +20,7 @@ class UpdateRecipeContract with JsonConvertible {
   final List<Ingredient> ingredients;
   final List<RecipeStep> recipeSteps;
   final Duration? cookingTime;
-  final int? calories;
+  final int? kiloCalories;
   final int? numberOfServings;
 
   @override
@@ -33,7 +33,7 @@ class UpdateRecipeContract with JsonConvertible {
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
-      "calories": calories,
+      "calories": kiloCalories,
       "numberOfServings": numberOfServings
     };
   }

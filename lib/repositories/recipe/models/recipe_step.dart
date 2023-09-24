@@ -4,7 +4,7 @@ class RecipeStep extends Equatable with JsonConvertible {
   const RecipeStep(this.text, this.imageUrl);
 
   final String text;
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   List<Object?> get props => [text, imageUrl];
