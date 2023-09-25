@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_bloc.dart';
 import 'package:recipe_social_media/pages/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'home_page.dart';
@@ -11,11 +15,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavBarView(widgetPages: [
-      const PlaceholderPage(),
-      RecipeViewPage(),
-      const PlaceholderPage(),
-      const PlaceholderPage()
-    ]);
+    return BlocProvider<RecipeViewPageBloc>(
+        create: (_) => RecipeViewPageBloc(
+            context.read<AuthenticationRepository>(),
+            context.read<RecipeRepository>()),
+        child: const NavBarView());
   }
 }

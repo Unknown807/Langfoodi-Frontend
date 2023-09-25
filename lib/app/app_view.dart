@@ -1,10 +1,16 @@
 part of 'app.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.authRepo, required this.navigationRepo});
+  const App({
+    super.key,
+    required this.authRepo,
+    required this.navigationRepo,
+    required this.recipeRepo
+  });
 
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
+  final RecipeRepository recipeRepo;
   
   @override
   Widget build(BuildContext context) {
@@ -12,6 +18,7 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (_) => authRepo),
           RepositoryProvider(create: (_) => navigationRepo),
+          RepositoryProvider(create: (_) => recipeRepo)
         ],
         child: BlocProvider(
           create: (_) => AppBloc(authRepo: authRepo),
