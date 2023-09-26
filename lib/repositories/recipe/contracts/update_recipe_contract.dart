@@ -33,7 +33,7 @@ class UpdateRecipeContract with JsonConvertible {
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
-      "calories": kiloCalories,
+      "kiloCalories": kiloCalories,
       "numberOfServings": numberOfServings
     };
   }

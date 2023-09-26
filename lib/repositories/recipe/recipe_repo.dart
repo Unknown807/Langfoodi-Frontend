@@ -25,8 +25,12 @@ class RecipeRepository {
     return _instance;
   }
 
-  Future<RecipeDetailed> getRecipeById(String id) async {
-    throw UnimplementedError();
+  Future<RecipeDetailed?> getRecipeById(String id) async {
+    var response = await request.postWithoutBody("/recipe/get/id?id=$id");
+    if (response.statusCode != 200) return null;
+
+    var recipe = jsonWrapper.decodeData(response.body);
+    return RecipeDetailed.fromJson(recipe, jsonWrapper);
   }
 
   Future<List<Recipe>> _getRecipesFromUser(String path) async {
@@ -46,16 +50,21 @@ class RecipeRepository {
     return _getRecipesFromUser("/recipe/get/username?username=$username");
   }
 
-  Future<RecipeDetailed> addNewRecipe(Object recipe) {
-    throw UnimplementedError();
+  Future<RecipeDetailed?> addNewRecipe(NewRecipeContract contract) async {
+    var response = await request.post("/recipe/create", contract, jsonWrapper);
+    if (response.statusCode != 200) return null;
+
+    var recipe = jsonWrapper.decodeData(response.body);
+    return RecipeDetailed.fromJson(recipe, jsonWrapper);
   }
 
-  Future<bool> updateRecipe(Object recipe) {
-    throw UnimplementedError();
+  Future<bool> updateRecipe(UpdateRecipeContract contract) async {
+    var response = await request.post("/recipe/update", contract, jsonWrapper);
+    return response.statusCode == 200;
   }
 
   Future<bool> removeRecipe(String id) async {
-    throw UnimplementedError();
+    var response = await request.delete("/recipe/remove?id=$id");
+    return response.statusCode == 200;
   }
-
 }
