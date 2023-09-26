@@ -5,7 +5,7 @@ class JsonWrapper {
     return json.encode(data);
   }
 
-  Map<String, dynamic> decodeData(String jsonStr) {
+  dynamic decodeData(String jsonStr) {
     return json.decode(jsonStr);
   }
 }

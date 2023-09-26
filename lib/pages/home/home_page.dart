@@ -15,10 +15,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RecipeViewPageBloc>(
-        create: (_) => RecipeViewPageBloc(
-            context.read<AuthenticationRepository>(),
-            context.read<RecipeRepository>()),
-        child: const NavBarView());
+    return RepositoryProvider(
+        create: (_) => RecipeRepository(),
+        child: BlocProvider<RecipeViewPageBloc>(
+            create: (recipeRepoContext) => RecipeViewPageBloc(
+                context.read<AuthenticationRepository>(),
+                recipeRepoContext.read<RecipeRepository>()),
+            child: const NavBarView()));
   }
 }

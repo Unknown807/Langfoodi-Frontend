@@ -12,10 +12,18 @@ part 'contracts/new_recipe_contract.dart';
 part 'contracts/update_recipe_contract.dart';
 
 class RecipeRepository {
-  RecipeRepository(this.request, this.jsonWrapper);
+  static final RecipeRepository _instance = RecipeRepository._internal();
 
-  final Request request;
-  final JsonWrapper jsonWrapper;
+  late Request request;
+  late JsonWrapper jsonWrapper;
+
+  RecipeRepository._internal();
+
+  factory RecipeRepository([Request? request, JsonWrapper? jsonWrapper]) {
+    _instance.request = request ?? _instance.request;
+    _instance.jsonWrapper = jsonWrapper ?? _instance.jsonWrapper;
+    return _instance;
+  }
 
   Future<RecipeDetailed> getRecipeById(String id) async {
     throw UnimplementedError();
@@ -23,10 +31,11 @@ class RecipeRepository {
 
   Future<List<Recipe>> getRecipesFromUserId(String id) async {
     var response = await request.postWithoutBody("/recipe/get/userid?id=$id");
-    var jsonRecipes = jsonWrapper.decodeData(response.body);
-    //List<Recipe> recipes = jsonRecipes
+    if (response.statusCode != 200) return [];
 
-    return [];
+    List<dynamic> jsonRecipes = jsonWrapper.decodeData(response.body);
+    List<Recipe> retrievedRecipes = jsonRecipes.map((jsonRecipe) => Recipe.fromJson(jsonRecipe, jsonWrapper)).toList();
+    return retrievedRecipes;
   }
 
   Future<List<Recipe>> getRecipesFromUser(String username) async {

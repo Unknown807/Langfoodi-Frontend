@@ -20,15 +20,17 @@ Future<void> main() async {
   // The below line is used for manual testing purposes:
   // localStore.deleteKey("loggedInUser");
 
+  // Top-level Repositories
   final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
   final navigationRepo = NavigationRepository();
-  final recipeRepo = RecipeRepository(request, jsonWrapper);
+
+  // Singleton Repositories
+  RecipeRepository(request, jsonWrapper);
 
   WidgetsFlutterBinding.ensureInitialized();
   runApp(App(
       authRepo: authRepo,
       navigationRepo: navigationRepo,
-      recipeRepo: recipeRepo,
   ));
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
