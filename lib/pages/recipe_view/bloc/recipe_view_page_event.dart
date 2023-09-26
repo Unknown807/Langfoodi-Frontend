@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+part of 'recipe_view_page_bloc.dart';
 
 @immutable
 sealed class RecipeViewPageEvent extends Equatable {

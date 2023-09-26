@@ -1,9 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_event.dart';
-import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_state.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
+
+export 'recipe_view_page_bloc.dart';
+part 'recipe_view_page_event.dart';
+part 'recipe_view_page_state.dart';
 
 class RecipeViewPageBloc extends Bloc<RecipeViewPageEvent, RecipeViewPageState> {
   RecipeViewPageBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewPageState(recipesToDisplay: [])) {

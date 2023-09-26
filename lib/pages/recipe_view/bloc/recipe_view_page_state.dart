@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
+part of 'recipe_view_page_bloc.dart';
 
 class RecipeViewPageState extends Equatable {
   const RecipeViewPageState({
