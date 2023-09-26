@@ -29,8 +29,8 @@ class RecipeRepository {
     throw UnimplementedError();
   }
 
-  Future<List<Recipe>> getRecipesFromUserId(String id) async {
-    var response = await request.postWithoutBody("/recipe/get/userid?id=$id");
+  Future<List<Recipe>> _getRecipesFromUser(String path) async {
+    var response = await request.postWithoutBody(path);
     if (response.statusCode != 200) return [];
 
     List<dynamic> jsonRecipes = jsonWrapper.decodeData(response.body);
@@ -38,8 +38,12 @@ class RecipeRepository {
     return retrievedRecipes;
   }
 
-  Future<List<Recipe>> getRecipesFromUser(String username) async {
-    throw UnimplementedError();
+  Future<List<Recipe>> getRecipesFromUserId(String id) async {
+    return _getRecipesFromUser("/recipe/get/userid?id=$id");
+  }
+
+  Future<List<Recipe>> getRecipesFromUsername(String username) async {
+    return _getRecipesFromUser("/recipe/get/username?username=$username");
   }
 
   Future<RecipeDetailed> addNewRecipe(Object recipe) {

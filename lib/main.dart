@@ -20,14 +20,18 @@ Future<void> main() async {
   // The below line is used for manual testing purposes:
   // localStore.deleteKey("loggedInUser");
 
+  // Singleton Repositories
+  RecipeRepository(request, jsonWrapper);
+
   // Top-level Repositories
   final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
   final navigationRepo = NavigationRepository();
 
-  // Singleton Repositories
-  RecipeRepository(request, jsonWrapper);
-
   WidgetsFlutterBinding.ensureInitialized();
+
+  User testUser = const User(id: "64d3ec96b6247bad8eef9f88", userName: "test4", email: "test4@mail.com", password: "Password123!");
+  localStore.setKey("loggedInUser", jsonWrapper.encodeData(testUser.toJson()));
+
   runApp(App(
       authRepo: authRepo,
       navigationRepo: navigationRepo,

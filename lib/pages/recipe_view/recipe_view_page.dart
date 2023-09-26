@@ -7,26 +7,12 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeViewPage extends StatelessWidget implements PageLander {
-  RecipeViewPage({super.key});
-
-  // List<ScrollItem> displayRecipes = [
-  //   const ScrollItem(
-  //       "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg",
-  //       "recipe1", subtitle: "subtitle1"),
-  //   const ScrollItem(
-  //       "https://anitalianinmykitchen.com/wp-content/uploads/2018/04/vertical-cake-sq-1-of-1.jpg",
-  //       "recipe2", subtitle: "subtitle2"),
-  //   const ScrollItem(
-  //       "https://embed.widencdn.net/img/beef/pygmsl7od0/1120x560px/rancher-recipe-balsamic-steak-pasta-horizontal.tif?keep=c&u=7fueml",
-  //       "recipe3", show: false),
-  //   const ScrollItem(
-  //       "https://sallysbakingaddiction.com/wp-content/uploads/2019/07/vertical-layer-cake.jpg",
-  //       "recipe4"),
-  // ];
+  const RecipeViewPage({super.key});
 
   @override
   void onLanding(BuildContext context) {
-    BlocProvider.of<RecipeViewPageBloc>(context).add(const ChangeRecipesToDisplay());
+    BlocProvider.of<RecipeViewPageBloc>(context)
+        .add(const ChangeRecipesToDisplay());
   }
 
   SuggestionsBuilder searchBarSuggestionsBuilder() {
@@ -76,14 +62,23 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                   ]),
                   BlocBuilder<RecipeViewPageBloc, RecipeViewPageState>(
                       builder: (context, state) {
-                    return ItemScrollPanel(
-                        items: state.recipesToDisplay
-                            .where((r) => r.show)
-                            .toList(),
-                        scrollDirection: Axis.horizontal,
-                        imageAspectRatio: (MediaQuery.of(context).size.width /
-                                MediaQuery.of(context).size.height) +
-                            0.02);
+                    return state.recipesToDisplay.isEmpty
+                        ? Container(
+                            height: MediaQuery.of(context).size.height - 200,
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text("No Recipes Yet", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            ),
+                          )
+                        : ItemScrollPanel(
+                            items: state.recipesToDisplay
+                                .where((r) => r.show)
+                                .toList(),
+                            scrollDirection: Axis.horizontal,
+                            imageAspectRatio:
+                                (MediaQuery.of(context).size.width /
+                                        MediaQuery.of(context).size.height) +
+                                    0.02);
                   })
                 ],
               ),
