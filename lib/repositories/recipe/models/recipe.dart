@@ -17,7 +17,7 @@ class Recipe extends Equatable with JsonConvertible {
   final String title;
   final String description;
   final String chefUsername;
-  final List<String>? labels;
+  final List<String> labels;
   final Duration? cookingTime;
   final int? kiloCalories;
   final int? numberOfServings;

@@ -1,7 +1,12 @@
 part of 'package:recipe_social_media/pages/home/home_page.dart';
 
 class NavBarView extends StatefulWidget {
-  const NavBarView({super.key});
+  const NavBarView({
+    super.key,
+    required this.widgetPages
+  });
+
+  final List<Widget> widgetPages;
 
   @override
   State<StatefulWidget> createState() => NavBarViewState();
@@ -10,12 +15,7 @@ class NavBarView extends StatefulWidget {
 class NavBarViewState extends State<NavBarView> {
   int _selectedIndex = 0;
 
-  List<Widget> get _widgetPages => [
-    const PlaceholderPage(),
-    RecipeViewPage(),
-    const PlaceholderPage(),
-    const PlaceholderPage()
-  ];
+  List<Widget> get _widgetPages => widget.widgetPages;
 
   @override
   void initState() {

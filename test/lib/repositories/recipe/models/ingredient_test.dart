@@ -27,7 +27,7 @@ void main() {
         JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
         const data = {
           "name": "eggs",
-          "quantity": "12.0",
+          "quantity": 12,
           "unitOfMeasurement": "whole"
         };
 
