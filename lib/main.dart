@@ -33,8 +33,8 @@ Future<void> main() async {
   localStore.setKey("loggedInUser", jsonWrapper.encodeData(testUser.toJson()));
 
   runApp(App(
-      authRepo: authRepo,
-      navigationRepo: navigationRepo,
+    authRepo: authRepo,
+    navigationRepo: navigationRepo,
   ));
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);

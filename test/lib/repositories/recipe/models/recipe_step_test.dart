@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
-import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   group("recipe step model tests", () {
@@ -23,11 +22,10 @@ void main() {
     group("fromJson method tests", () {
       test("json map to recipe step model", () {
         // Arrange
-        JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
         const data = {"text": "step1", "imageUrl": "www.example.com/imgpath"};
 
         // Act
-        final result = RecipeStep.fromJson(data, jsonWrapperMock);
+        final result = RecipeStep.fromJson(data);
 
         // Assert
         expect(result, const RecipeStep("step1", "www.example.com/imgpath"));

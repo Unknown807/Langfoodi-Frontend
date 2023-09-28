@@ -30,7 +30,7 @@ class RecipeRepository {
     if (response.statusCode != 200) return null;
 
     var recipe = jsonWrapper.decodeData(response.body);
-    return RecipeDetailed.fromJson(recipe, jsonWrapper);
+    return RecipeDetailed.fromJson(recipe);
   }
 
   Future<List<Recipe>> _getRecipesFromUser(String path) async {
@@ -38,7 +38,7 @@ class RecipeRepository {
     if (response.statusCode != 200) return [];
 
     List<dynamic> jsonRecipes = jsonWrapper.decodeData(response.body);
-    List<Recipe> retrievedRecipes = jsonRecipes.map((jsonRecipe) => Recipe.fromJson(jsonRecipe, jsonWrapper)).toList();
+    List<Recipe> retrievedRecipes = jsonRecipes.map((jsonRecipe) => Recipe.fromJson(jsonRecipe)).toList();
     return retrievedRecipes;
   }
 
@@ -55,7 +55,7 @@ class RecipeRepository {
     if (response.statusCode != 200) return null;
 
     var recipe = jsonWrapper.decodeData(response.body);
-    return RecipeDetailed.fromJson(recipe, jsonWrapper);
+    return RecipeDetailed.fromJson(recipe);
   }
 
   Future<bool> updateRecipe(UpdateRecipeContract contract) async {

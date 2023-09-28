@@ -17,7 +17,7 @@ class RecipeStep extends Equatable with JsonConvertible {
     };
   }
   
-  static RecipeStep fromJson(Map jsonData, JsonWrapper jsonWrapper) {
+  static RecipeStep fromJson(Map jsonData) {
     return RecipeStep(jsonData["text"], jsonData["imageUrl"]);
   }
 }

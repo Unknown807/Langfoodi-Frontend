@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
-import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   group("ingredient model tests", () {
@@ -24,7 +23,6 @@ void main() {
     group("fromJson method tests", () {
       test("convert json map to model", () {
         // Arrange
-        JsonWrapperMock jsonWrapperMock = JsonWrapperMock();
         const data = {
           "name": "eggs",
           "quantity": 12,
@@ -32,7 +30,7 @@ void main() {
         };
 
         // Act
-        final result = Ingredient.fromJson(data, jsonWrapperMock);
+        final result = Ingredient.fromJson(data);
 
         // Assert
         expect(result, const Ingredient("eggs", 12, "whole"));

@@ -24,7 +24,7 @@ class Recipe extends Equatable with JsonConvertible {
   final DateTime creationDate;
   final DateTime lastUpdatedDate;
 
-  static Recipe fromJson(Map jsonData, JsonWrapper jsonWrapper) {
+  static Recipe fromJson(Map jsonData) {
     return Recipe(
       jsonData["id"],
       jsonData["title"],

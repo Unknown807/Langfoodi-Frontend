@@ -27,7 +27,7 @@ void main() {
   group("fromJson method tests", () {
     test("method called, nothing happens", () {
       // Act
-      final result = JsonConvertible.fromJson({}, jsonWrapperMock);
+      final result = JsonConvertible.fromJson({}, jsonWrapper: jsonWrapperMock);
 
       // Assert
       expect(result, isNull);
