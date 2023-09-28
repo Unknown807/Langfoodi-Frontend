@@ -5,9 +5,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/pages/login/login_bloc.dart';
+import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 class AuthenticationRepositoryMock extends Mock implements AuthenticationRepository {}
@@ -25,3 +27,6 @@ class ResponseMock extends Mock implements http.Response {}
 class RequestMock extends Mock implements Request {}
 class RegisterBlocMock extends MockBloc<InputEvent, InputState> implements RegisterBloc {}
 class ReferenceWrapperMock<T> extends Mock implements ReferenceWrapper<T> {}
+class RecipeRepositoryMock extends Mock implements RecipeRepository {}
+class RecipeViewPageBlocMock extends MockBloc<RecipeViewPageEvent, RecipeViewPageState> implements RecipeViewPageBloc {}
+class RecipeViewPageStateMock extends Mock implements RecipeViewPageState {}
