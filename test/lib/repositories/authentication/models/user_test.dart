@@ -36,7 +36,7 @@ void main() {
     group("fromJson method tests", () {
       test("create new user object", () {
         // Act
-        User user = User.fromJson(userMap, jsonWrapperMock);
+        User user = User.fromJson(userMap);
 
         // Assert
         expect(user, const User(

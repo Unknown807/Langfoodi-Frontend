@@ -24,10 +24,10 @@ class User extends Equatable with JsonConvertible {
   }
 
   static User fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
-    return User.fromJson(jsonWrapper.decodeData(jsonStr), jsonWrapper);
+    return User.fromJson(jsonWrapper.decodeData(jsonStr));
   }
   
-  static User fromJson(Map jsonData, JsonWrapper jsonWrapper) {
+  static User fromJson(Map jsonData) {
     return User(
       id: jsonData["id"],
       userName: jsonData["userName"],

@@ -26,7 +26,7 @@ void main() {
         "ingredients": [{"name": "eggs", "quantity": 12.0, "unitOfMeasurement": "whole"}],
         "recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/image"}],
         "cookingTime": null,
-        "calories": null,
+        "kiloCalories": null,
         "numberOfServings": null
       });
     });

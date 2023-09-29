@@ -8,7 +8,7 @@ class PageLanderFake extends StatelessWidget with Fake implements PageLander {
   final String pageText;
 
   @override
-  void onLanding() {}
+  void onLanding(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {

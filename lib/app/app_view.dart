@@ -1,7 +1,11 @@
 part of 'app.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.authRepo, required this.navigationRepo});
+  const App({
+    super.key,
+    required this.authRepo,
+    required this.navigationRepo,
+  });
 
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
@@ -37,7 +41,7 @@ class _AppView extends StatelessWidget {
         "/home": (context) => const HomePage(),
         "/login": (context) => const LoginPage(),
         "/register": (context) => const RegisterPage(),
-        "/recipe_view": (context) => RecipeViewPage()
+        "/recipe_view": (context) => const RecipeViewPage()
       },
       home: BlocBuilder<AppBloc, AppState>(
         buildWhen: (p, c) => p.status != c.status,

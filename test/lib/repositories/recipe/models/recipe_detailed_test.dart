@@ -5,19 +5,13 @@ import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  const jsonMap = {"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": "12", "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"};
-  late JsonWrapperMock jsonWrapperMock;
-
-  setUp(() {
-    jsonWrapperMock = JsonWrapperMock();
-    when(() => jsonWrapperMock.decodeData(any())).thenReturn(jsonMap);
-  });
+  const jsonMap = {"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"};
 
   group("Recipe detailed model tests", () {
     group("fromJson method tests", () {
       test("json map is converted into model", () {
         // Act
-        final recipeDetailed = RecipeDetailed.fromJson(jsonMap, jsonWrapperMock);
+        final recipeDetailed = RecipeDetailed.fromJson(jsonMap);
 
         // Assert
         expect(recipeDetailed, RecipeDetailed(
@@ -37,7 +31,9 @@ void main() {
     group("fromJsonStr method tests", () {
       test("json string is converted into model", () {
         // Arrange
-        const jsonStr = '"{"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": "12", "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"}"';
+        const jsonStr = '"{"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"}"';
+        final jsonWrapperMock = JsonWrapperMock();
+        when(() => jsonWrapperMock.decodeData(any())).thenReturn(jsonMap);
 
         // Act
         final recipeDetailed = RecipeDetailed.fromJsonStr(jsonStr, jsonWrapperMock);

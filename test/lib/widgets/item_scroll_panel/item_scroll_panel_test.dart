@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
@@ -6,9 +5,11 @@ import 'package:recipe_social_media/widgets/shared_widgets.dart';
 void main() {
   final List<ScrollItem> items = [
     const ScrollItem(
+        "id1",
         "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg",
         "recipe1", subtitle: "subtitle1"),
     const ScrollItem(
+        "id2",
         "https://anitalianinmykitchen.com/wp-content/uploads/2018/04/vertical-cake-sq-1-of-1.jpg",
         "recipe2", subtitle: "subtitle2"),
   ];
