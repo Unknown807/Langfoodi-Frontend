@@ -7,3 +7,4 @@ export 'api.dart';
 
 part 'request.dart';
 part 'response_error.dart';
+part 'response_extension.dart';
