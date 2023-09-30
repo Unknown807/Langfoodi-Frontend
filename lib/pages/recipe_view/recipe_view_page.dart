@@ -44,13 +44,10 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                       hintText: "Search Your Recipes",
                       suggestionsBuilder: searchBarSuggestionsBuilder()),
                   Row(children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Text("Your Recipes",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.normal)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: CustomTextButton(
+                          eventFunc: () {}, text: "Create", fontSize: 20)
                     ),
                     const Spacer(),
                     Padding(
