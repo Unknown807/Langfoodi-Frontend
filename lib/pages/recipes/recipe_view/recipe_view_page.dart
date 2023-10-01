@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_page_bloc.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
@@ -47,7 +48,8 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: CustomTextButton(
-                          eventFunc: () {}, text: "Create", fontSize: 20)
+                          eventFunc: () => context.read<NavigationRepository>().goTo(context, "/recipe_creation"),
+                          text: "Create", fontSize: 20)
                     ),
                     const Spacer(),
                     Padding(

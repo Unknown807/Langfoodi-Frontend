@@ -41,7 +41,8 @@ class _AppView extends StatelessWidget {
         "/home": (context) => const HomePage(),
         "/login": (context) => const LoginPage(),
         "/register": (context) => const RegisterPage(),
-        "/recipe_view": (context) => const RecipeViewPage()
+        "/recipe_view": (context) => const RecipeViewPage(),
+        "/recipe_creation": (context) => const RecipeCreationPage()
       },
       home: BlocBuilder<AppBloc, AppState>(
         buildWhen: (p, c) => p.status != c.status,

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_bloc.dart';
-import 'package:recipe_social_media/pages/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_page_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
-import '../../../../test_utilities/mocks/generic_mocks.dart';
+
+import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late RecipeViewPageStateMock recipeViewPageStateMock;
