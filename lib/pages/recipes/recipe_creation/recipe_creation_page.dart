@@ -7,48 +7,54 @@ class RecipeCreationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(
-                  Icons.arrow_circle_left_outlined,
-                  color: Colors.indigoAccent,
-                  size: 30,
-                ),
-                onPressed: () {},
-              ),
-              const Spacer(),
-              IconButton(
-                padding: const EdgeInsets.only(top: 5.0, right: 10.0),
-                icon: const Icon(
-                  Icons.check_circle_outline,
-                  color: Colors.lightGreenAccent,
-                  size: 30,
-                ),
-                onPressed: () {},
-              )
-            ],
+        appBar: AppBar(
+          title: FormInput(
+              hint: "Recipe Name Here",
+              textAlign: TextAlign.center,
+              fontSize: 20,
+              eventFunc: (val) {}),
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_circle_left_outlined,
+              color: Colors.indigoAccent,
+              size: 30,
+            ),
+            onPressed: () {},
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                FormInput(
-                  hint: "Recipe Name Here",
-                  useBorderStyle: true,
-                  width: MediaQuery.of(context).size.width / 1.25,
-                  textAlign: TextAlign.center,
-                  fontSize: 20,
-                  eventFunc: (val) {})
-              ],
+          actions: <Widget>[
+            IconButton(
+              padding: const EdgeInsets.only(right: 20),
+              icon: const Icon(
+                Icons.check_circle_outline,
+                color: Colors.lightGreenAccent,
+                size: 30,
+              ),
+              onPressed: () {},
             )
-          )
-        ],
-      ),
-    );
+          ],
+        ),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+            reverse: true,
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Column(
+                  children: <Widget>[
+                    Image.network(
+                        "https://bakingmischief.com/wp-content/uploads/2020/08/small-banana-cake-image-square-4-200x200.jpg"),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: FormInput(
+                            hint: "Recipe Description Here",
+                            boxDecorationType:
+                                FormInputBoxDecorationType.fullBorder,
+                            fontSize: 14,
+                            maxLines: 6,
+                            eventFunc: (val) {})),
+                  ],
+                ))));
   }
 }

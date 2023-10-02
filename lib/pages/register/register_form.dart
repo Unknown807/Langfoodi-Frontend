@@ -64,6 +64,7 @@ class UserNameInput extends StatelessWidget {
       buildWhen: (p, c) => p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
+            boxDecorationType: FormInputBoxDecorationType.underlined,
             errorText: FormValidationError.getErrorMessage(state.userName.displayError),
             hint: "Username",
             eventFunc: (userName) {
@@ -83,6 +84,7 @@ class EmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
+            boxDecorationType: FormInputBoxDecorationType.underlined,
             errorText: FormValidationError.getErrorMessage(state.email.displayError),
             hint: "Email",
             eventFunc: (email) {
@@ -102,6 +104,7 @@ class PasswordInput extends StatelessWidget {
       buildWhen: (p, c) => p.password != c.password,
       builder: (context, state) {
         return FormInput(
+          boxDecorationType: FormInputBoxDecorationType.underlined,
           isConfidential: true,
           errorText: FormValidationError.getErrorMessage(state.password.displayError),
           hint: "Password",
@@ -126,7 +129,6 @@ class ConfirmPasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
-          useBorderStyle: false,
           errorText: FormValidationError.getErrorMessage(state.confirmedPassword.displayError),
           hint: "Confirm Password",
           eventFunc: (confirmedPassword) {
