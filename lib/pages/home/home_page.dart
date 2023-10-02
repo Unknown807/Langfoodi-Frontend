@@ -1,79 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/widgets/custom_widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/pages/recipe_view/bloc/recipe_view_page_bloc.dart';
+import 'package:recipe_social_media/pages/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
-class HomePage extends StatefulWidget {
+export 'home_page.dart';
+part 'widgets/nav_bar_view.dart';
+part 'widgets/top_app_bar.dart';
+
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-  int _selectedIndex = 0;
-  String title = "Welcome";
-
-  List<Widget> getPages() => [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-        const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('This is the second page!')],
-        ),
-        const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('This is the third page!')],
-        ),
-        const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('This is the fourth page!')],
-        ),
-      ];
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void onBottomNavSelect(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NavBar(
-        title: Text(title),
-        appBar: AppBar(),
-      ),
-      bottomNavigationBar: BottomNavBar(
-          appBar: AppBar(),
-          selectedIndex: _selectedIndex,
-          onTap: onBottomNavSelect),
-      body: Center(
-          child: IndexedStack(
-        index: _selectedIndex,
-        alignment: Alignment.center,
-        children: getPages(),
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    return RepositoryProvider(
+        create: (_) => RecipeRepository(),
+        child: BlocProvider<RecipeViewPageBloc>(
+            create: (recipeRepoContext) => RecipeViewPageBloc(
+                context.read<AuthenticationRepository>(),
+                recipeRepoContext.read<RecipeRepository>()),
+            child: const NavBarView(widgetPages: [
+              PlaceholderPage(),
+              RecipeViewPage(),
+              PlaceholderPage(),
+              PlaceholderPage()
+            ])));
   }
 }

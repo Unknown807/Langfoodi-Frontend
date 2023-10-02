@@ -1,4 +1,4 @@
-part of 'models.dart';
+part of 'form_models.dart';
 
 class Email extends FormzInput<String, FormValidationError> {
   const Email.pure() : super.pure('');

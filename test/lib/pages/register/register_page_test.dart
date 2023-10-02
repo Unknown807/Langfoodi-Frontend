@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
-import '../../../mocks/generic_mocks.dart';
+import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late AuthenticationRepositoryMock authRepoMock;

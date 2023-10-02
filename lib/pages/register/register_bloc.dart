@@ -4,9 +4,10 @@ import 'package:formz/formz.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
-import 'package:recipe_social_media/forms/models/models.dart';
+import 'package:recipe_social_media/forms/models/form_models.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 
+export 'register_bloc.dart';
 part 'register_form.dart';
 
 class RegisterBloc extends FormBloc {

@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:recipe_social_media/app/bloc/app.dart';
-import '../../../mocks/generic_mocks.dart';
+import 'package:recipe_social_media/app/app.dart';
+import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late AuthenticationRepositoryMock authRepoMock;

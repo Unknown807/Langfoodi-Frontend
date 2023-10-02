@@ -33,7 +33,7 @@ class LoginForm extends StatelessWidget {
           Row(
             children: <Widget>[
               const Spacer(),
-              FormTextButton(eventFunc: () {}, text: "Forgot Password?"),
+              CustomTextButton(eventFunc: () {}, text: "Forgot Password?"),
             ],
           ),
           const LoginButton(),
@@ -45,7 +45,7 @@ class LoginForm extends StatelessWidget {
                   style: TextStyle(
                     color: Color.fromRGBO(143, 148, 251, 1),
                   )),
-              FormTextButton(
+              CustomTextButton(
                   eventFunc: () { context.read<NavigationRepository>().goTo(context, "/register"); },
                   text: "Sign Up",
                   fontSize: 16),
@@ -125,6 +125,7 @@ class LoginButton extends StatelessWidget {
 
         bool allFieldsValid =
             (state.userNameValid || state.emailValid) && state.passwordValid;
+
         return FormButton(
           eventFunc: allFieldsValid
               ? () => context.read<LoginBloc>().add(const FormSubmitted())

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
-import '../../../fakes/generic_fakes.dart';
-import '../../../mocks/generic_mocks.dart';
+import '../../../../test_utilities/mocks/generic_mocks.dart';
+import '../../../../test_utilities/fakes/generic_fakes.dart';
 
 void main() {
   late NavigationRepository navigRepo;

@@ -1,4 +1,4 @@
-part of 'app.dart';
+part of '../app.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({required AuthenticationRepository authRepo}): super(const AppState.loading()) {

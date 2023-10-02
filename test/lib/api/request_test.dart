@@ -1,24 +1,28 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/api.dart';
-import '../../mocks/generic_mocks.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
+import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late String path;
   late Uri fullPath;
   late ClientMock clientMock;
+  late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
   setUp(() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
+    jsonConvertibleMock = JsonConvertibleMock();
     clientMock = ClientMock();
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
 
-    sut = Request(clientMock);
+    ReferenceWrapper<ClientMock> refWrapper = ReferenceWrapper(clientMock);
+    sut = Request(refWrapper);
   });
 
   group("formatHeaders method tests", () {
@@ -53,12 +57,11 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
-      const data = { "username": "username1" };
       final jsonWrapper = JsonWrapperMock();
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, data, jsonWrapper, headers: headers);
+      await sut.post(path, jsonConvertibleMock, jsonWrapper, headers: headers);
 
       // Assert
       verify(() => clientMock.post(fullPath,
@@ -72,12 +75,11 @@ void main() {
 
     test("without headers", () async {
       // Arrange
-      const data = { "username": "username1" };
       final jsonWrapper = JsonWrapperMock();
       when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, data, jsonWrapper);
+      await sut.post(path, jsonConvertibleMock, jsonWrapper);
 
       // Assert
       verify(() => clientMock.post(fullPath,
