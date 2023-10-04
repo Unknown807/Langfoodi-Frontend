@@ -5,9 +5,9 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
-export 'recipe_view_page_bloc.dart';
-part 'recipe_view_page_event.dart';
-part 'recipe_view_page_state.dart';
+export 'recipe_view_bloc.dart';
+part 'recipe_view_event.dart';
+part 'recipe_view_state.dart';
 
 class RecipeViewPageBloc extends Bloc<RecipeViewPageEvent, RecipeViewPageState> {
   RecipeViewPageBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewPageState(recipesToDisplay: [])) {

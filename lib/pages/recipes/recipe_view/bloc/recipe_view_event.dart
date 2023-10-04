@@ -1,4 +1,4 @@
-part of 'recipe_view_page_bloc.dart';
+part of 'recipe_view_bloc.dart';
 
 @immutable
 sealed class RecipeViewPageEvent extends Equatable {

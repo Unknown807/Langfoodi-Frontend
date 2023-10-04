@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_creation/recipe_creation_page.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_creation/recipe_interaction_page.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 

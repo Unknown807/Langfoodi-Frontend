@@ -10,6 +10,7 @@ class FormInput extends StatelessWidget {
       {super.key,
       this.errorText,
       this.width,
+      this.height,
       this.textColor,
       this.fontWeight,
       this.fontSize,
@@ -18,16 +19,21 @@ class FormInput extends StatelessWidget {
       required this.eventFunc,
       this.isConfidential = false,
       this.textAlign = TextAlign.left,
-      this.maxLines = 1});
+      this.maxLines = 1,
+      this.innerPadding = const EdgeInsets.all(8.0),
+      this.outerPadding = const EdgeInsets.all(0.0)});
 
   String? errorText;
   double? width;
+  double? height;
   Color? textColor;
   FontWeight? fontWeight;
   double? fontSize;
   FormInputBoxDecorationType? boxDecorationType;
   bool isConfidential;
   int maxLines;
+  EdgeInsets innerPadding;
+  EdgeInsets outerPadding;
   TextAlign textAlign;
   final String hint;
   final Function eventFunc;
@@ -53,9 +59,12 @@ class FormInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+        padding: outerPadding,
+        child: Container(
+        height: height,
         width: width,
-        padding: const EdgeInsets.all(8.0),
+        padding: innerPadding,
         decoration: getBoxDecoration(boxDecorationType),
         child: TextField(
           maxLines: maxLines,
@@ -72,6 +81,6 @@ class FormInput extends StatelessWidget {
               hintText: hint,
               errorText: errorText,
               hintStyle: TextStyle(color: Colors.grey.shade400)),
-        ));
+        )));
   }
 }

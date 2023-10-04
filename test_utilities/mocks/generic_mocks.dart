@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/pages/login/login_bloc.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_page_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
