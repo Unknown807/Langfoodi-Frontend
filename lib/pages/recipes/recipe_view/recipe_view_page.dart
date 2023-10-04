@@ -10,7 +10,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
 
   @override
   void onLanding(BuildContext context) {
-    BlocProvider.of<RecipeViewPageBloc>(context)
+    BlocProvider.of<RecipeViewBloc>(context)
         .add(const ChangeRecipesToDisplay());
   }
 
@@ -57,7 +57,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                         child: CustomTextButton(
                             eventFunc: () {}, text: "+ Filter", fontSize: 20))
                   ]),
-                  BlocBuilder<RecipeViewPageBloc, RecipeViewPageState>(
+                  BlocBuilder<RecipeViewBloc, RecipeViewState>(
                       builder: (context, state) {
                     return state.recipesToDisplay.isEmpty
                         ? Container(

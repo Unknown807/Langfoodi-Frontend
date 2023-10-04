@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
         create: (_) => RecipeRepository(),
-        child: BlocProvider<RecipeViewPageBloc>(
-            create: (recipeRepoContext) => RecipeViewPageBloc(
+        child: BlocProvider<RecipeViewBloc>(
+            create: (recipeRepoContext) => RecipeViewBloc(
                 context.read<AuthenticationRepository>(),
                 recipeRepoContext.read<RecipeRepository>()),
             child: const NavBarView(

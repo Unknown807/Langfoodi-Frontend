@@ -9,15 +9,15 @@ export 'recipe_view_bloc.dart';
 part 'recipe_view_event.dart';
 part 'recipe_view_state.dart';
 
-class RecipeViewPageBloc extends Bloc<RecipeViewPageEvent, RecipeViewPageState> {
-  RecipeViewPageBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewPageState(recipesToDisplay: [])) {
+class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
+  RecipeViewBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewPageState> emit) async {
+  Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
     String? userId = (await _authRepo.currentUser).id;
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
     List<ScrollItem> scrollableRecipes =  newRecipes.map((recipe) => ScrollItem(recipe.id, "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", recipe.title)).toList();

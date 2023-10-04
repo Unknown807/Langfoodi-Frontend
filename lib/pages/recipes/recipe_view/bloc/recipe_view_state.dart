@@ -1,7 +1,7 @@
 part of 'recipe_view_bloc.dart';
 
-class RecipeViewPageState extends Equatable {
-  const RecipeViewPageState({
+class RecipeViewState extends Equatable {
+  const RecipeViewState({
     this.recipesToDisplay = const []
   });
 
@@ -10,10 +10,10 @@ class RecipeViewPageState extends Equatable {
   @override
   List<Object?> get props => [recipesToDisplay,];
 
-  RecipeViewPageState copyWith({
+  RecipeViewState copyWith({
     List<ScrollItem>? recipesToDisplay
   }) {
-    return RecipeViewPageState(
+    return RecipeViewState(
         recipesToDisplay: recipesToDisplay ?? this.recipesToDisplay
     );
   }

@@ -15,6 +15,7 @@ class FormInput extends StatelessWidget {
       this.fontWeight,
       this.fontSize,
       this.boxDecorationType,
+      this.onSubmittedEventFunc,
       required this.hint,
       required this.eventFunc,
       this.isConfidential = false,
@@ -30,6 +31,7 @@ class FormInput extends StatelessWidget {
   FontWeight? fontWeight;
   double? fontSize;
   FormInputBoxDecorationType? boxDecorationType;
+  Function? onSubmittedEventFunc;
   bool isConfidential;
   int maxLines;
   EdgeInsets innerPadding;
@@ -67,6 +69,7 @@ class FormInput extends StatelessWidget {
         padding: innerPadding,
         decoration: getBoxDecoration(boxDecorationType),
         child: TextField(
+          onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
           maxLines: maxLines,
           textAlign: textAlign,
           obscureText: isConfidential,
