@@ -2,7 +2,7 @@ part of 'form_widgets.dart';
 
 enum FormInputBoxDecorationType {
   underlined,
-  fullBorder
+  textArea
 }
 
 class FormInput extends StatelessWidget {
@@ -37,7 +37,7 @@ class FormInput extends StatelessWidget {
       case FormInputBoxDecorationType.underlined:
         return BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.grey.shade100)));
-      case FormInputBoxDecorationType.fullBorder:
+      case FormInputBoxDecorationType.textArea:
         return BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border(

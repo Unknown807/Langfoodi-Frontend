@@ -2,7 +2,7 @@ part of 'recipe_view_page_bloc.dart';
 
 class RecipeViewPageState extends Equatable {
   const RecipeViewPageState({
-    required this.recipesToDisplay
+    this.recipesToDisplay = const []
   });
 
   final List<ScrollItem> recipesToDisplay;

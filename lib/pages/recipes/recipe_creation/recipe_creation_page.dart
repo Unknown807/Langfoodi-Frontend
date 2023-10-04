@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
 class RecipeCreationPage extends StatelessWidget {
   const RecipeCreationPage({super.key});
@@ -21,7 +24,7 @@ class RecipeCreationPage extends StatelessWidget {
               color: Colors.indigoAccent,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () => context.read<NavigationRepository>().goTo(context, "home", RouteType.backLink),
           ),
           actions: <Widget>[
             IconButton(
@@ -46,14 +49,35 @@ class RecipeCreationPage extends StatelessWidget {
                     Image.network(
                         "https://bakingmischief.com/wp-content/uploads/2020/08/small-banana-cake-image-square-4-200x200.jpg"),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: FormInput(
                             hint: "Recipe Description Here",
                             boxDecorationType:
-                                FormInputBoxDecorationType.fullBorder,
+                                FormInputBoxDecorationType.textArea,
                             fontSize: 14,
                             maxLines: 6,
                             eventFunc: (val) {})),
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: FormInput(
+                            hint: "Type Tags Here",
+                            boxDecorationType:
+                            FormInputBoxDecorationType.underlined,
+                            fontSize: 14,
+                            maxLines: 1,
+                            eventFunc: (val) {})),
+                    CustomExpansionTile(
+                      title: const Text('Ingredients', style: TextStyle(color: Colors.black),),
+                      children: [Text("child here")],
+                    ),
+                    CustomExpansionTile(
+                      title: const Text('Recipe Steps', style: TextStyle(color: Colors.black),),
+                      children: [Text("child here")],
+                    ),
+                    CustomExpansionTile(
+                      title: const Text('Nutrition', style: TextStyle(color: Colors.black),),
+                      children: [Text("child here")],
+                    ),
                   ],
                 ))));
   }
