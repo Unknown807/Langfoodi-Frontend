@@ -9,6 +9,33 @@ sealed class RecipeInteractionEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class IngredientNameChanged extends RecipeInteractionEvent {
+  const IngredientNameChanged(this.name);
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
+}
+
+final class IngredientQuantityChanged extends RecipeInteractionEvent {
+  const IngredientQuantityChanged(this.quantity);
+
+  final String quantity;
+
+  @override
+  List<Object> get props => [quantity];
+}
+
+final class IngredientMeasurementChanged extends RecipeInteractionEvent {
+  const IngredientMeasurementChanged(this.measurement);
+
+  final String measurement;
+
+  @override
+  List<Object> get props => [measurement];
+}
+
 final class AddNewIngredientFromName extends RecipeInteractionEvent {
   const AddNewIngredientFromName(this.name);
 

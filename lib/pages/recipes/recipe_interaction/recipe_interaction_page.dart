@@ -92,7 +92,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                                       outerPadding:
                                                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                                       hint: "Flour",
-                                                      boxDecorationType: FormInputBoxDecorationType.textArea,
+                                                      boxDecorationType: state.ingredientNameValid
+                                                          ? FormInputBoxDecorationType.textArea
+                                                          : FormInputBoxDecorationType.error,
                                                       fontSize: 14,
                                                       maxLines: 1,
                                                       onSubmittedEventFunc: (value) {
@@ -100,28 +102,63 @@ class RecipeInteractionPage extends StatelessWidget {
                                                             .read<RecipeInteractionBloc>()
                                                             .add(AddNewIngredientFromName(value));
                                                       },
-                                                      eventFunc: (value) {});
+                                                      eventFunc: (value) {
+                                                        context
+                                                            .read<RecipeInteractionBloc>()
+                                                            .add(IngredientNameChanged(value));
+                                                      });
                                                 })),
                                         Flexible(
                                             flex: 1,
-                                            child: FormInput(
-                                                innerPadding: const EdgeInsets.only(left: 5),
-                                                outerPadding: const EdgeInsets.symmetric(vertical: 5),
-                                                hint: "1",
-                                                boxDecorationType: FormInputBoxDecorationType.textArea,
-                                                fontSize: 14,
-                                                maxLines: 1,
-                                                eventFunc: (value) {})),
+                                            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                                buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity,
+                                                builder: (context, state) {
+                                                  return FormInput(
+                                                      innerPadding: const EdgeInsets.only(left: 5),
+                                                      outerPadding: const EdgeInsets.symmetric(vertical: 5),
+                                                      hint: "1",
+                                                      boxDecorationType: state.ingredientQuantityValid
+                                                          ? FormInputBoxDecorationType.textArea
+                                                          : FormInputBoxDecorationType.error,
+                                                      fontSize: 14,
+                                                      maxLines: 1,
+                                                      onSubmittedEventFunc: (value) {
+                                                        context
+                                                            .read<RecipeInteractionBloc>()
+                                                            .add(AddNewIngredientFromQuantity(value));
+                                                      },
+                                                      eventFunc: (value) {
+                                                        context
+                                                            .read<RecipeInteractionBloc>()
+                                                            .add(IngredientQuantityChanged(value));
+                                                      });
+                                                })),
                                         Flexible(
                                             flex: 2,
-                                            child: FormInput(
-                                                innerPadding: const EdgeInsets.only(left: 5),
-                                                outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                hint: "kg",
-                                                boxDecorationType: FormInputBoxDecorationType.textArea,
-                                                fontSize: 14,
-                                                maxLines: 1,
-                                                eventFunc: (value) {}))
+                                            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                                buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement,
+                                                builder: (context, state) {
+                                                  return FormInput(
+                                                      innerPadding: const EdgeInsets.only(left: 5),
+                                                      outerPadding:
+                                                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                      hint: "kg",
+                                                      boxDecorationType: state.ingredientMeasurementValid
+                                                          ? FormInputBoxDecorationType.textArea
+                                                          : FormInputBoxDecorationType.error,
+                                                      fontSize: 14,
+                                                      maxLines: 1,
+                                                      onSubmittedEventFunc: (value) {
+                                                        context
+                                                            .read<RecipeInteractionBloc>()
+                                                            .add(AddNewIngredientFromMeasurement(value));
+                                                      },
+                                                      eventFunc: (value) {
+                                                        context
+                                                            .read<RecipeInteractionBloc>()
+                                                            .add(IngredientMeasurementChanged(value));
+                                                      });
+                                                }))
                                       ],
                                     )),
                                 // ListView.builder(

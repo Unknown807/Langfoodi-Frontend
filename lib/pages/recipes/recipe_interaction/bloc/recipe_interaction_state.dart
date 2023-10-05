@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_measurement.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_name.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_quantity.dart';
@@ -12,9 +13,11 @@ class RecipeInteractionState extends Equatable {
     this.ingredientMeasurement = const IngredientMeasurement.pure(),
     this.ingredientNameValid = false,
     this.ingredientQuantityValid = false,
-    this.ingredientMeasurementValid = false
+    this.ingredientMeasurementValid = false,
+    this.formStatus = FormzSubmissionStatus.initial
   });
 
+  final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
@@ -23,15 +26,16 @@ class RecipeInteractionState extends Equatable {
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
 
-
   @override
   List<Object?> get props => [
     ingredientList, ingredientName, ingredientQuantity,
     ingredientMeasurement, ingredientNameValid,
-    ingredientQuantityValid, ingredientMeasurementValid
+    ingredientQuantityValid, ingredientMeasurementValid,
+    formStatus
   ];
 
   RecipeInteractionState copyWith({
+    FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
@@ -41,6 +45,7 @@ class RecipeInteractionState extends Equatable {
     bool? ingredientMeasurementValid
   }) {
     return RecipeInteractionState(
+      formStatus: formStatus ?? this.formStatus,
       ingredientList: ingredientList ?? this.ingredientList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
