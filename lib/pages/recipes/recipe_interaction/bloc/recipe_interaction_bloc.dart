@@ -1,15 +1,21 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_event.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_state.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_measurement.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_name.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_quantity.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
+export 'recipe_interaction_bloc.dart';
+part 'recipe_interaction_event.dart';
+part 'recipe_interaction_state.dart';
+
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._authRepo, this._recipeRepo) : super(const RecipeInteractionState()) {
+  RecipeInteractionBloc(this._authRepo, this._recipeRepo) : super(RecipeInteractionState(
+    ingredientNameTextController: TextEditingController(),
+    ingredientQuantityTextController: TextEditingController(),
+    ingredientMeasurementTextController: TextEditingController(),
+  )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
     on<AddNewIngredientFromMeasurement>(_addNewIngredientFromMeasurement);
@@ -48,7 +54,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ));
   }
 
-  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) {
+  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) async {
     _addNewIngredient(
         event.name,
         state.ingredientQuantity.value,
@@ -84,11 +90,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
         ingredientName: const IngredientName.pure(),
         ingredientQuantity: const IngredientQuantity.pure(),
         ingredientMeasurement: const IngredientMeasurement.pure(),
-        ingredientNameValid: true,
-        ingredientQuantityValid: true,
-        ingredientMeasurementValid: true,
         ingredientList: ingredientsList
       ));
+
+      state.ingredientNameTextController.clear();
+      state.ingredientQuantityTextController.clear();
+      state.ingredientMeasurementTextController.clear();
     } else {
       emit(state.copyWith(
           ingredientName: name,

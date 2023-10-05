@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_measurement.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_name.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/ingredient_quantity.dart';
-import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+part of 'recipe_interaction_bloc.dart';
 
 class RecipeInteractionState extends Equatable {
   const RecipeInteractionState({
+    required this.ingredientNameTextController,
+    required this.ingredientQuantityTextController,
+    required this.ingredientMeasurementTextController,
     this.ingredientList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
@@ -17,6 +15,9 @@ class RecipeInteractionState extends Equatable {
     this.formStatus = FormzSubmissionStatus.initial
   });
 
+  final TextEditingController ingredientNameTextController;
+  final TextEditingController ingredientQuantityTextController;
+  final TextEditingController ingredientMeasurementTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final IngredientName ingredientName;
@@ -35,6 +36,9 @@ class RecipeInteractionState extends Equatable {
   ];
 
   RecipeInteractionState copyWith({
+    TextEditingController? ingredientNameTextController,
+    TextEditingController? ingredientQuantityTextController,
+    TextEditingController? ingredientMeasurementTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     IngredientName? ingredientName,
@@ -45,6 +49,9 @@ class RecipeInteractionState extends Equatable {
     bool? ingredientMeasurementValid
   }) {
     return RecipeInteractionState(
+      ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
+      ingredientQuantityTextController: ingredientQuantityTextController ?? this.ingredientQuantityTextController,
+      ingredientMeasurementTextController: ingredientMeasurementTextController ?? this.ingredientMeasurementTextController,
       formStatus: formStatus ?? this.formStatus,
       ingredientList: ingredientList ?? this.ingredientList,
       ingredientName: ingredientName ?? this.ingredientName,

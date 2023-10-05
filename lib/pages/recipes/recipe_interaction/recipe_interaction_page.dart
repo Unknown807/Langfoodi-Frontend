@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_event.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
-import 'bloc/recipe_interaction_state.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
-  const RecipeInteractionPage({super.key});
+  RecipeInteractionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +86,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 buildWhen: (p, c) => p.ingredientName != c.ingredientName,
                                                 builder: (context, state) {
                                                   return FormInput(
+                                                      textController: state.ingredientNameTextController,
                                                       innerPadding: const EdgeInsets.only(left: 5),
                                                       outerPadding:
                                                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -114,6 +113,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity,
                                                 builder: (context, state) {
                                                   return FormInput(
+                                                      textController: state.ingredientQuantityTextController,
                                                       innerPadding: const EdgeInsets.only(left: 5),
                                                       outerPadding: const EdgeInsets.symmetric(vertical: 5),
                                                       hint: "1",
@@ -139,6 +139,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement,
                                                 builder: (context, state) {
                                                   return FormInput(
+                                                      textController: state.ingredientMeasurementTextController,
                                                       innerPadding: const EdgeInsets.only(left: 5),
                                                       outerPadding:
                                                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
