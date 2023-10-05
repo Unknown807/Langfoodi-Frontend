@@ -1,9 +1,6 @@
 part of 'form_widgets.dart';
 
-enum FormInputBoxDecorationType {
-  underlined,
-  textArea
-}
+enum FormInputBoxDecorationType { underlined, textArea }
 
 class FormInput extends StatelessWidget {
   FormInput(
@@ -43,17 +40,15 @@ class FormInput extends StatelessWidget {
   Decoration? getBoxDecoration(FormInputBoxDecorationType? type) {
     switch (type) {
       case FormInputBoxDecorationType.underlined:
-        return BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey.shade100)));
+        return BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade100)));
       case FormInputBoxDecorationType.textArea:
         return BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border(
-              top: BorderSide(color: Colors.grey.shade200),
-              bottom: BorderSide(color: Colors.grey.shade200),
-              right: BorderSide(color: Colors.grey.shade200),
-              left: BorderSide(color: Colors.grey.shade200)
-            ));
+                top: BorderSide(color: Colors.grey.shade200),
+                bottom: BorderSide(color: Colors.grey.shade200),
+                right: BorderSide(color: Colors.grey.shade200),
+                left: BorderSide(color: Colors.grey.shade200)));
       default:
         return null;
     }
@@ -64,26 +59,23 @@ class FormInput extends StatelessWidget {
     return Padding(
         padding: outerPadding,
         child: Container(
-        height: height,
-        width: width,
-        padding: innerPadding,
-        decoration: getBoxDecoration(boxDecorationType),
-        child: TextField(
-          onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
-          maxLines: maxLines,
-          textAlign: textAlign,
-          obscureText: isConfidential,
-          onChanged: (value) => eventFunc(value),
-          style: TextStyle(
-              color: textColor,
-              fontWeight: fontWeight,
-              fontSize: fontSize
-          ),
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hint,
-              errorText: errorText,
-              hintStyle: TextStyle(color: Colors.grey.shade400)),
-        )));
+            height: height,
+            width: width,
+            padding: innerPadding,
+            decoration: getBoxDecoration(boxDecorationType),
+            child: TextField(
+              onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
+              textInputAction: TextInputAction.done,
+              maxLines: maxLines,
+              textAlign: textAlign,
+              obscureText: isConfidential,
+              onChanged: (value) => eventFunc(value),
+              style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hint,
+                  errorText: errorText,
+                  hintStyle: TextStyle(color: Colors.grey.shade400)),
+            )));
   }
 }

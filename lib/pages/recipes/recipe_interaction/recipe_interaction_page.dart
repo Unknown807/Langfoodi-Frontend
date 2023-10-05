@@ -50,7 +50,7 @@ class RecipeInteractionPage extends StatelessWidget {
                 body: SingleChildScrollView(
                     reverse: true,
                     child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                         child: Column(
                           children: <Widget>[
                             Image.network(
