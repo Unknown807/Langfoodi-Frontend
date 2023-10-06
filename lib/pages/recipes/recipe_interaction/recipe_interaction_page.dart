@@ -189,7 +189,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                   builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
                                                     value: BlocProvider.of<RecipeInteractionBloc>(context),
                                                     child: CustomAlertDialog(
-                                                      title: Text("Remove Ingredient"),
+                                                      title: const Text("Remove Ingredient"),
                                                       content: Text("Are you sure you want to remove ${ing.name}"),
                                                       rightButtonText: "Remove",
                                                       rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),

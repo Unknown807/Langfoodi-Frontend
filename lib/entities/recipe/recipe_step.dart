@@ -1,4 +1,4 @@
-part of 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+part of 'recipe_entities.dart';
 
 class RecipeStep extends Equatable with JsonConvertible {
   const RecipeStep(this.text, this.imageUrl);

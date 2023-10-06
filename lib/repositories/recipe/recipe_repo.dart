@@ -1,13 +1,8 @@
-import 'package:equatable/equatable.dart';
 import 'package:recipe_social_media/api/api.dart';
-import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'recipe_repo.dart';
-part 'models/ingredient.dart';
-part 'models/recipe.dart';
-part 'models/recipe_detailed.dart';
-part 'models/recipe_step.dart';
 part 'contracts/new_recipe_contract.dart';
 part 'contracts/update_recipe_contract.dart';
 

@@ -1,4 +1,4 @@
-part of 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+part of 'recipe_entities.dart';
 
 class Ingredient extends Equatable with JsonConvertible {
   const Ingredient(this.name, this.quantity, this.unitOfMeasurement);
