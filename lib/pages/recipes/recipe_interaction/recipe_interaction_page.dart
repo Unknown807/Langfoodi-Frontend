@@ -5,6 +5,7 @@ import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
@@ -183,27 +184,18 @@ class RecipeInteractionPage extends StatelessWidget {
                                             )),
                                             IconButton(
                                               splashRadius: 20,
-                                              onPressed: () {
-                                                // Widget okButton = TextButton(
-                                                //     child: Text("OK"),
-                                                //     onPressed: () {
-                                                //     },
-                                                //   );  // set up the AlertDialog
-                                                //   AlertDialog alert = AlertDialog(
-                                                //     title: Text("My title"),
-                                                //     content: Text("This is my message."),
-                                                //     actions: [
-                                                //       okButton,
-                                                //     ],
-                                                //   );  // show the dialog
-                                                //   showDialog(
-                                                //     context: context,
-                                                //     builder: (BuildContext context) {
-                                                //       return alert;
-                                                //     },
-                                                //   );
-                                              },
-                                              //onPressed: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                              onPressed: () => showDialog(
+                                                  context: context,
+                                                  builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                                                    value: BlocProvider.of<RecipeInteractionBloc>(context),
+                                                    child: CustomAlertDialog(
+                                                      title: Text("Remove Ingredient"),
+                                                      content: Text("Are you sure you want to remove ${ing.name}"),
+                                                      rightButtonText: "Remove",
+                                                      rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                                    )
+                                                  )
+                                              ),
                                               icon: const Icon(Icons.delete, color: Colors.redAccent)
                                             )
                                           ],
