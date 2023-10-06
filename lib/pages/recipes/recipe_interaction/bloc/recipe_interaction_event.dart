@@ -61,3 +61,12 @@ final class AddNewIngredientFromMeasurement extends RecipeInteractionEvent {
   @override
   List<Object> get props => [measurement];
 }
+
+final class RemoveIngredient extends RecipeInteractionEvent {
+  const RemoveIngredient(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+}

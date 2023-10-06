@@ -22,10 +22,21 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientNameChanged>(_ingredientNameChanged);
     on<IngredientQuantityChanged>(_ingredientQuantityChanged);
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
+    on<RemoveIngredient>(_removeIngredient);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _removeIngredient(RemoveIngredient event, Emitter<RecipeInteractionState> emit) {
+    if (event.index >= 0 && event.index <= state.ingredientList.length) {
+      List<Ingredient> ingredientsList = List.from(state.ingredientList);
+      ingredientsList.removeAt(event.index);
+      emit(state.copyWith(
+        ingredientList: ingredientsList
+      ));
+    }
+  }
 
   void _ingredientNameChanged(IngredientNameChanged event, Emitter<RecipeInteractionState> emit) {
     final name = IngredientName.dirty(event.name);

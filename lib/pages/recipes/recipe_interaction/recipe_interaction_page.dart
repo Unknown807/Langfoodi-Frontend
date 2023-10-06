@@ -162,9 +162,56 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 }))
                                       ],
                                     )),
-                                // ListView.builder(
-                                //   itemCount: ,
-                                // )
+                                BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
+                                  builder: (context, state) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: state.ingredientList.length,
+                                      itemBuilder: (context, index) {
+                                        final ing = state.ingredientList[index];
+                                        return Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Row(
+                                          children: [
+                                            Expanded(child: Text(
+                                              "${ing.name}, ${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400
+                                              ),
+                                            )),
+                                            IconButton(
+                                              splashRadius: 20,
+                                              onPressed: () {
+                                                // Widget okButton = TextButton(
+                                                //     child: Text("OK"),
+                                                //     onPressed: () {
+                                                //     },
+                                                //   );  // set up the AlertDialog
+                                                //   AlertDialog alert = AlertDialog(
+                                                //     title: Text("My title"),
+                                                //     content: Text("This is my message."),
+                                                //     actions: [
+                                                //       okButton,
+                                                //     ],
+                                                //   );  // show the dialog
+                                                //   showDialog(
+                                                //     context: context,
+                                                //     builder: (BuildContext context) {
+                                                //       return alert;
+                                                //     },
+                                                //   );
+                                              },
+                                              //onPressed: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                              icon: const Icon(Icons.delete, color: Colors.redAccent)
+                                            )
+                                          ],
+                                        ));
+                                      },
+                                    );
+                                  },
+                                )
                               ],
                             ),
                             CustomExpansionTile(
