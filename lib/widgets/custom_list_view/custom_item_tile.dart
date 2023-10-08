@@ -1,11 +1,11 @@
 part of '../shared_widgets.dart';
 
-class CustomMenuItem extends StatelessWidget {
-  const CustomMenuItem({
+class CustomItemTile extends StatelessWidget {
+  const CustomItemTile({
     super.key,
     // required this.eventFunc,
     required this.titleText,
-    required this.subtitleText
+    required this.subtitleText,
   });
 
   final String titleText;
