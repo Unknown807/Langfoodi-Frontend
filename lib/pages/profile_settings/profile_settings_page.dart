@@ -15,8 +15,8 @@ class ProfileSettingsPage extends StatelessWidget {
         Expanded(child:ListView(
           children:  const [
             CustomItemTile(titleText:"Username",subtitleText:"Cool guy"),
-            CustomItemTile(titleText:"Email",subtitleText:"me@cooldude.com"),
             CustomItemTile(titleText:"Bio",subtitleText:"I like cooking"),
+            CustomItemTile(titleText:"Email",subtitleText:"me@cooldude.com"),
             CustomItemTile(titleText:"Password",subtitleText:null)
           ]
       ))]),
