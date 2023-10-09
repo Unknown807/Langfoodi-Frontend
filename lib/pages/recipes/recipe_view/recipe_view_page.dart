@@ -48,7 +48,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: CustomTextButton(
-                          eventFunc: () => context.read<NavigationRepository>().goTo(context, "/recipe_creation"),
+                          eventFunc: () => context.read<NavigationRepository>().goTo(context, "/recipe-interaction"),
                           text: "Create", fontSize: 20)
                     ),
                     const Spacer(),
