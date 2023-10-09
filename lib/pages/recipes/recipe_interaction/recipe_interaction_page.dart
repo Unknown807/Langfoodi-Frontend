@@ -22,7 +22,12 @@ class RecipeInteractionPage extends StatelessWidget {
             child: Scaffold(
                 appBar: AppBar(
                   title: FormInput(
-                      hint: "Recipe Name Here", textAlign: TextAlign.center, fontSize: 20, eventFunc: (val) {}),
+                      hint: "Recipe Name Here",
+                      innerPadding: EdgeInsets.zero,
+                      outerPadding: const EdgeInsets.only(bottom: 5),
+                      textAlign: TextAlign.center,
+                      fontSize: 20,
+                      eventFunc: (val) {}),
                   backgroundColor: Colors.white,
                   elevation: 0.5,
                   leading: IconButton(
@@ -252,7 +257,7 @@ class RecipeInteractionPage extends StatelessWidget {
                             ),
                             CustomExpansionTile(
                               title: const Text(
-                                'Nutrition',
+                                'Extra Information',
                                 style: TextStyle(color: Colors.black),
                               ),
                               children: [
@@ -306,7 +311,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                               innerPadding: const EdgeInsets.only(left: 5),
                                               outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-                                              hint: 'Kilo Calories',
+                                              hint: 'Kilocalories',
                                               boxDecorationType: FormInputBoxDecorationType.textArea,
                                               fontSize: 14,
                                               eventFunc: (value) {},
