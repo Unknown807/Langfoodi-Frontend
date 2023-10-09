@@ -11,15 +11,14 @@ void main() {
     funcMock = FunctionMock();
   });
 
-  Widget createWidgetUnderTest(String? errorText, String hint, VoidCallback eventFunc,
-      {bool useBorderStyle = true, bool isConfidential = false}) {
+  Widget createWidgetUnderTest(String? errorText, String hint, VoidCallback eventFunc, FormInputBoxDecorationType? boxDeco, {bool isConfidential = false}) {
     return MaterialApp(
       home: Scaffold(
         body: FormInput(
           errorText: errorText,
           hint: hint,
           eventFunc: eventFunc,
-          useBorderStyle: useBorderStyle,
+          boxDecorationType: boxDeco,
           isConfidential: isConfidential,
         ),
       )
@@ -29,14 +28,14 @@ void main() {
   group("form input tests", () {
     testWidgets("form input default options", (widgetTester) async {
       // Arrange
-      await widgetTester.pumpWidget(createWidgetUnderTest("err-text", "hint-here", funcMock));
+      await widgetTester.pumpWidget(createWidgetUnderTest("err-text", "hint-here", funcMock, null));
 
       // Act
       await widgetTester.enterText(find.byType(TextField), "text-input-here");
 
       // Assert
       final Container container = widgetTester.widget(find.byType(Container).first);
-      expect(container.decoration, isNotNull);
+      expect(container.decoration, isNull);
       final TextField txtField = widgetTester.widget(find.byType(TextField));
       expect(txtField.obscureText, false);
       expect(txtField.decoration!.hintText, "hint-here");
@@ -50,7 +49,7 @@ void main() {
         "err-text",
         "hint-here",
         funcMock,
-        useBorderStyle: false,
+        FormInputBoxDecorationType.textArea,
         isConfidential: true
       ));
 
@@ -59,7 +58,7 @@ void main() {
 
       // Assert
       final Container container = widgetTester.widget(find.byType(Container).first);
-      expect(container.decoration, isNull);
+      expect(container.decoration, isNotNull);
       final TextField txtField = widgetTester.widget(find.byType(TextField));
       expect(txtField.obscureText, true);
       expect(txtField.decoration!.hintText, "hint-here");

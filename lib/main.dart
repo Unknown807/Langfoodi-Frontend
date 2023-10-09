@@ -7,6 +7,7 @@ import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'api/api.dart';
 import 'app/app.dart';
+import 'entities/user/user.dart';
 
 Future<void> main() async {
   ReferenceWrapper<http.Client> clientWrapper = ReferenceWrapper(http.Client());
