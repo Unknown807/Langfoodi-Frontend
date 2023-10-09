@@ -77,7 +77,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 style: TextStyle(color: Colors.black),
                               ),
                               children: [
-                                Container(
+                                SizedBox(
                                     height: 65,
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,7 +214,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 style: TextStyle(color: Colors.black),
                               ),
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 100,
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +256,65 @@ class RecipeInteractionPage extends StatelessWidget {
                                 style: TextStyle(color: Colors.black),
                               ),
                               children: [
-
+                                SizedBox(
+                                  height: 65,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        child: FormInput(
+                                          keyboardType: TextInputType.number,
+                                          innerPadding: const EdgeInsets.only(left: 5),
+                                          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                          hint: 'Number Of Servings',
+                                          boxDecorationType: FormInputBoxDecorationType.textArea,
+                                          fontSize: 14,
+                                          eventFunc: (value) {},
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: FormInput(
+                                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                          innerPadding: const EdgeInsets.only(left: 5),
+                                          outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                                          hint: 'Serving Size',
+                                          boxDecorationType: FormInputBoxDecorationType.textArea,
+                                          fontSize: 14,
+                                          eventFunc: (value) {},
+                                        ),
+                                      ),
+                                    ]
+                                  )
+                                ),
+                                SizedBox(
+                                    height: 65,
+                                    child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            child: FormInput(
+                                              innerPadding: const EdgeInsets.only(left: 5),
+                                              outerPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                              hint: 'Time (hh:mm:ss)',
+                                              boxDecorationType: FormInputBoxDecorationType.textArea,
+                                              fontSize: 14,
+                                              eventFunc: (value) {},
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: FormInput(
+                                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                              innerPadding: const EdgeInsets.only(left: 5),
+                                              outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
+                                              hint: 'Kilo Calories',
+                                              boxDecorationType: FormInputBoxDecorationType.textArea,
+                                              fontSize: 14,
+                                              eventFunc: (value) {},
+                                            ),
+                                          ),
+                                        ]
+                                    )
+                                ),
                               ],
                             ),
                           ],
