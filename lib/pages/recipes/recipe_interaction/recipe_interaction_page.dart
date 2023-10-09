@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
@@ -9,7 +10,7 @@ import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
-  RecipeInteractionPage({super.key});
+  const RecipeInteractionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +115,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity,
                                                 builder: (context, state) {
                                                   return FormInput(
+                                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                       textController: state.ingredientQuantityTextController,
                                                       innerPadding: const EdgeInsets.only(left: 5),
                                                       outerPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -211,14 +213,51 @@ class RecipeInteractionPage extends StatelessWidget {
                                 'Recipe Steps',
                                 style: TextStyle(color: Colors.black),
                               ),
-                              children: [Text("child here")],
+                              children: [
+                                Container(
+                                  height: 100,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        flex: 2,
+                                        child: FormInput(
+                                          innerPadding: const EdgeInsets.only(left: 5),
+                                          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                          hint: 'Enter Your Step Here',
+                                          boxDecorationType: FormInputBoxDecorationType.textArea,
+                                          fontSize: 14,
+                                          maxLines: 6,
+                                          eventFunc: (value) {},
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 0,
+                                        child: GestureDetector(
+                                          onTap: () {} ,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 5, right: 5),
+                                            child: DottedBorder(
+                                              color: Colors.blue,
+                                              borderType: BorderType.RRect,
+                                              radius: const Radius.circular(10),
+                                              padding: const EdgeInsets.all(25),
+                                              child: const Icon(Icons.image, size: 40, color: Colors.blue,),
+                                          )))
+                                      )
+                                    ]
+                                  )
+                                )
+                              ],
                             ),
                             CustomExpansionTile(
                               title: const Text(
                                 'Nutrition',
                                 style: TextStyle(color: Colors.black),
                               ),
-                              children: [Text("child here")],
+                              children: [
+
+                              ],
                             ),
                           ],
                         ))))));

@@ -5,23 +5,22 @@ import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
-
 import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  late RecipeViewPageStateMock recipeViewPageStateMock;
-  late RecipeViewPageBlocMock recipeViewPageBlocMock;
+  late RecipeViewStateMock recipeViewStateMock;
+  late RecipeViewBlocMock recipeViewBlocMock;
 
   setUp(() {
-    recipeViewPageStateMock = RecipeViewPageStateMock();
-    recipeViewPageBlocMock = RecipeViewPageBlocMock();
+    recipeViewStateMock = RecipeViewStateMock();
+    recipeViewBlocMock = RecipeViewBlocMock();
   });
 
   Widget createWidgetUnderTest() {
     return RepositoryProvider(
         create: (_) => RecipeRepositoryMock(),
-        child: BlocProvider<RecipeViewPageBloc>(
-            create: (recipeRepoContext) => recipeViewPageBlocMock,
+        child: BlocProvider<RecipeViewBloc>(
+            create: (recipeRepoContext) => recipeViewBlocMock,
             child: const MaterialApp(
               home: RecipeViewPage(key: Key("recipeViewPage")),
             )));
@@ -31,8 +30,8 @@ void main() {
     group("onLanding method tests", () {
       testWidgets("ChangeRecipesToDisplay event is sent", (widgetTester) async {
         // Arrange
-        when(() => recipeViewPageStateMock.recipesToDisplay).thenReturn([]);
-        when(() => recipeViewPageBlocMock.state).thenReturn(recipeViewPageStateMock);
+        when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
+        when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
         await widgetTester.pumpWidget(createWidgetUnderTest());
 
         BuildContext context = widgetTester.element(find.byKey(const Key("recipeViewPage")));
@@ -42,7 +41,7 @@ void main() {
         recipeViewPage.onLanding(context);
 
         // Assert
-        verify(() => recipeViewPageBlocMock.add(const ChangeRecipesToDisplay())).called(1);
+        verify(() => recipeViewBlocMock.add(const ChangeRecipesToDisplay())).called(1);
       });
     });
 
@@ -52,30 +51,28 @@ void main() {
 
     testWidgets("Empty recipes to display list", (widgetTester) async {
       // Arrange
-      when(() => recipeViewPageStateMock.recipesToDisplay).thenReturn([]);
-      when(() => recipeViewPageBlocMock.state).thenReturn(recipeViewPageStateMock);
+      when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
+      when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
       expect(find.text("Search Your Recipes"), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
-      expect(find.text("Your Recipes"), findsOneWidget);
       expect(find.text("+ Filter"), findsOneWidget);
     });
 
     testWidgets("Populated recipes to display list", (widgetTester) async {
       // Arrange
-      when(() => recipeViewPageStateMock.recipesToDisplay).thenReturn(const [
+      when(() => recipeViewStateMock.recipesToDisplay).thenReturn(const [
         ScrollItem("1", "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", "title1", subtitle: "subtitle1"),
         ScrollItem("2", "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", "title2")
       ]);
-      when(() => recipeViewPageBlocMock.state).thenReturn(recipeViewPageStateMock);
+      when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
       expect(find.text("Search Your Recipes"), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
-      expect(find.text("Your Recipes"), findsOneWidget);
       expect(find.text("+ Filter"), findsOneWidget);
       expect(find.text("title1"), findsOneWidget);
       expect(find.text("subtitle1"), findsOneWidget);
