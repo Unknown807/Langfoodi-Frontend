@@ -11,10 +11,11 @@ class ProfileSettingsPage extends StatelessWidget {
           preferredSize: Size.fromHeight(56),
           child: TopAppBar(title: "Edit profile")),
       body: Column(children:<Widget>[
-        const CustomAvatar(),
+        const Padding(padding:EdgeInsets.all(16.0),
+            child:CustomAvatar(size:70)),
         Expanded(child:ListView(
           children:  const [
-            CustomItemTile(titleText:"Username",subtitleText:"Cool guy"),
+            CustomItemTile(titleText:"Username",subtitleText:"Cool Guy"),
             CustomItemTile(titleText:"Bio",subtitleText:"I like cooking"),
             CustomItemTile(titleText:"Email",subtitleText:"me@cooldude.com"),
             CustomItemTile(titleText:"Password",subtitleText:null),
