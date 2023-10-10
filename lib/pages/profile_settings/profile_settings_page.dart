@@ -18,7 +18,7 @@ class ProfileSettingsPage extends StatelessWidget {
             CustomItemTile(titleText:"Bio",subtitleText:"I like cooking"),
             CustomItemTile(titleText:"Email",subtitleText:"me@cooldude.com"),
             CustomItemTile(titleText:"Password",subtitleText:null),
-            CustomItemTile(titleText:"Handler",subtitleText:null)
+            CustomItemTile(titleText:"Handle",subtitleText:"@realcoolguy")
           ]
       ))]),
     );
