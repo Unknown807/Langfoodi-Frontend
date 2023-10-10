@@ -3,7 +3,7 @@ part of 'shared_widgets.dart';
 class CustomAvatar extends StatelessWidget {
   const CustomAvatar({
     super.key,
-    required this.size
+    this.size = 20
 });
 
   final double? size;
