@@ -67,7 +67,7 @@ void main() {
 
       expect(formErrorLabel.data, "");
       expect(find.text("server error"), findsNothing);
-      verify(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis)).called(1);
+      verify(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis)).called(1);
     });
 
     testWidgets("invalid login submission", (widgetTester) async {
@@ -96,7 +96,7 @@ void main() {
 
       // Assert
       expect(find.text("server error"), findsOneWidget);
-      verifyNever(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis));
+      verifyNever(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis));
     });
 
     testWidgets("Sign up button goes to register page", (widgetTester) async {
@@ -110,7 +110,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
-      verify(() => navigRepoMock.goTo(any(), "/register", RouteType.normal)).called(1);
+      verify(() => navigRepoMock.goTo(any(), "/register", routeType: RouteType.normal)).called(1);
     });
   });
 }

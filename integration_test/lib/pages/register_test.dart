@@ -77,7 +77,7 @@ void main() {
       expect(find.text("Invalid email"), findsNothing);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsNothing);
       expect(find.text("Passwords must match"), findsNothing);
-      verify(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis)).called(1);
+      verify(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis)).called(1);
     });
 
     testWidgets("invalid registration form", (widgetTester) async {
@@ -123,7 +123,7 @@ void main() {
       expect(find.text("Invalid email"), findsOneWidget);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsOneWidget);
       expect(find.text("Passwords must match"), findsOneWidget);
-      verifyNever(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis));
+      verifyNever(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis));
     });
 
     testWidgets("invalid registration", (widgetTester) async {
@@ -163,7 +163,7 @@ void main() {
       expect(find.text("Invalid email"), findsNothing);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsNothing);
       expect(find.text("Passwords must match"), findsNothing);
-      verifyNever(() => navigRepoMock.goTo(any(), "/home", RouteType.onlyThis));
+      verifyNever(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis));
     });
   });
 }
