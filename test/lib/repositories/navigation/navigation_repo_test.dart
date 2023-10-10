@@ -70,5 +70,35 @@ void main() {
       verifyNever(() => navigObserverMock.didPop(any(), any()));
       verifyNever(() => navigObserverMock.didReplace());
     });
+
+    testWidgets("normal route type, with arguments", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
+      final BuildContext context = widgetTester.element(find.byType(Container).first);
+
+      // Act
+      navigRepo.goTo(context, "/home", routeType: RouteType.normal, arguments: {"arg1": "arg1value"});
+
+      // Assert
+      verify(() => navigObserverMock.didPush(any(), any()));
+      verifyNever(() => navigObserverMock.didPop(any(), any()));
+      verifyNever(() => navigObserverMock.didRemove(any(), any()));
+      verifyNever(() => navigObserverMock.didReplace());
+    });
+
+    testWidgets("dismissDialog calls pop", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
+      final BuildContext context = widgetTester.element(find.byType(Container).first);
+
+      // Act
+      navigRepo.dismissDialog(context);
+
+      // Assert
+      verify(() => navigObserverMock.didPop(any(), any()));
+      verify(() => navigObserverMock.didPush(any(), any()));
+      verifyNever(() => navigObserverMock.didRemove(any(), any()));
+      verifyNever(() => navigObserverMock.didReplace());
+    });
   });
 }
