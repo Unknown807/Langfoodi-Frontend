@@ -1,0 +1,10 @@
+image: mobiledevops/flutter-sdk-image:3.10.0
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Run Unit/Widget/Bloc Tests
+          script:
+            - flutter pub get
+            - flutter test ./test
