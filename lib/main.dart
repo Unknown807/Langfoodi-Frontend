@@ -1,7 +1,10 @@
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -17,12 +20,15 @@ Future<void> main() async {
   final localStore = LocalStore(secureStorage);
   final request = Request(clientWrapper);
   final jsonWrapper = JsonWrapper();
+  final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d");
+  CloudinaryContext.cloudinary = cloudinaryConfig;
 
   // The below line is used for manual testing purposes:
   // localStore.deleteKey("loggedInUser");
 
   // Singleton Repositories
   RecipeRepository(request, jsonWrapper);
+  ImageRepository(request, jsonWrapper, cloudinaryConfig);
 
   // Top-level Repositories
   final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
