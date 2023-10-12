@@ -1,12 +1,12 @@
 import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:recipe_social_media/api/api.dart';
-import 'package:recipe_social_media/repositories/image/contracts/signed_upload_contract.dart';
-import 'package:recipe_social_media/repositories/image/models/hosted_image.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-
-import 'models/signature.dart';
+import 'package:equatable/equatable.dart';
 
 export 'image_repo.dart';
+part 'contracts/signed_upload_contract.dart';
+part 'models/hosted_image.dart';
+part 'models/signature.dart';
 
 class ImageRepository {
   static final ImageRepository _instance = ImageRepository._internal();

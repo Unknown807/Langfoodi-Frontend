@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/utilities/utilities.dart';
+part of 'package:recipe_social_media/repositories/image/image_repo.dart';
 
 class HostedImage extends Equatable with JsonConvertible {
   const HostedImage(

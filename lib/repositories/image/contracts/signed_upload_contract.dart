@@ -1,4 +1,4 @@
-import 'package:recipe_social_media/utilities/utilities.dart';
+part of 'package:recipe_social_media/repositories/image/image_repo.dart';
 
 class SignedUploadContract with JsonConvertible {
   SignedUploadContract(this.signature, this.apiKey, this.timeStamp);
