@@ -20,7 +20,7 @@ Future<void> main() async {
   final localStore = LocalStore(secureStorage);
   final request = Request(clientWrapper);
   final jsonWrapper = JsonWrapper();
-  final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d");
+  final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 
   // The below line is used for manual testing purposes:

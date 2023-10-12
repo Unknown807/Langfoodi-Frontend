@@ -20,23 +20,33 @@ class Request {
   }
 
   Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + path);
-    var jsonData = jsonWrapper.encodeData(data);
+    final url = Uri.parse(baseUrl + path);
+    final jsonData = jsonWrapper.encodeData(data);
     return client.getInstance().post(url, body: jsonData, headers: formatHeaders(headers));
   }
 
   Future<http.Response> postWithoutBody(String path, {Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + path);
+    final url = Uri.parse(baseUrl + path);
     return client.getInstance().post(url, headers: formatHeaders(headers));
   }
 
   Future<http.Response> get(String path, {Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + path);
+    final url = Uri.parse(baseUrl + path);
     return client.getInstance().get(url, headers: formatHeaders(headers));
   }
 
   Future<http.Response> delete(String path, {Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + path);
+    final url = Uri.parse(baseUrl + path);
     return client.getInstance().delete(url, headers: formatHeaders(headers));
+  }
+
+  Future<http.StreamedResponse> fileUpload(String path, File file, Map<String, String> fields) async {
+    final url = Uri.parse(path);
+    final request = http.MultipartRequest("POST", url);
+
+    request.fields.addAll(fields);
+    request.files.add(await http.MultipartFile.fromPath("file", file.path));
+
+    return client.getInstance().send(request);
   }
 }
