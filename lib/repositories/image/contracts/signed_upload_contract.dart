@@ -8,7 +8,7 @@ class SignedUploadContract with JsonConvertible {
   final String timeStamp;
 
   @override
-  Map toJson() {
+  Map<String, String> toJson() {
     return {
       "api_key": apiKey,
       "signature": signature,

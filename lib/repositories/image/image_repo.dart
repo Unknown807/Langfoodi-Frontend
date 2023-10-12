@@ -1,8 +1,7 @@
 import 'package:cloudinary_url_gen/cloudinary.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/repositories/image/contracts/signed_upload_contract.dart';
+import 'package:recipe_social_media/repositories/image/models/hosted_image.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 import 'models/signature.dart';
@@ -43,9 +42,12 @@ class ImageRepository {
       cloudinaryConfig.config.cloudConfig.apiKey!,
       signature.timeStamp);
 
-    http.StreamedResponse response = await request.fileUpload(
+    final response = await request.fileUpload(
       "https://api.cloudinary.com/v1_1/dqy0zu53d/image/upload",
-      filePath,
-      contract.toJson() as Map<String, String>);
+      filePath, contract.toJson());
+
+    final responseData = await response.stream.toBytes();
+    final jsonHostedImage = jsonWrapper.decodeData(String.fromCharCodes(responseData));
+    return HostedImage.fromJson(jsonHostedImage);
   }
 }
