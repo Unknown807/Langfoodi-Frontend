@@ -81,6 +81,7 @@ class UserNameEmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email || p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
+            boxDecorationType: FormInputBoxDecorationType.underlined,
             hint: "Username or Email",
             eventFunc: (value) {
               context.read<LoginBloc>().add(EmailChanged(value));
@@ -100,7 +101,6 @@ class PasswordInput extends StatelessWidget {
       buildWhen: (p, c) => p.password != c.password,
       builder: (context, state) {
         return FormInput(
-          useBorderStyle: false,
           isConfidential: true,
           hint: "Password",
           eventFunc: (password) {

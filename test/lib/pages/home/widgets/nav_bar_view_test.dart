@@ -12,7 +12,8 @@ void main() {
             PageLanderFake(pageText: "recipes page"),
             PageLanderFake(pageText: "chats page"),
             PageLanderFake(pageText: "notifications page"),
-          ]),
+          ],
+          pageTitles: ["Welcome", "My Recipes", "Chats", "Notifications"],),
         )
     );
   }

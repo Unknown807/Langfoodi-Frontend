@@ -18,6 +18,10 @@ class NavigationRepository {
     }
   }
 
+  void dismissDialog(BuildContext context) {
+    _pop(context);
+  }
+
   void _push(BuildContext context, String routeName) {
     Navigator.pushNamed(context, routeName);
   }

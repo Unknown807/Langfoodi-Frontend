@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
+import 'package:recipe_social_media/entities/user/user.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
 
 export 'auth_repo.dart';
-part 'models/user.dart';
 part 'contracts/auth_attempt_contract.dart';
 part 'contracts/new_user_contract.dart';
 part 'contracts/update_user_contract.dart';

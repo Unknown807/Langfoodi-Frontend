@@ -3,10 +3,12 @@ part of 'package:recipe_social_media/pages/home/home_page.dart';
 class NavBarView extends StatefulWidget {
   const NavBarView({
     super.key,
-    required this.widgetPages
+    required this.widgetPages,
+    required this.pageTitles
   });
 
   final List<Widget> widgetPages;
+  final List<String> pageTitles;
 
   @override
   State<StatefulWidget> createState() => NavBarViewState();
@@ -14,8 +16,10 @@ class NavBarView extends StatefulWidget {
 
 class NavBarViewState extends State<NavBarView> {
   int _selectedIndex = 0;
+  String _selectedTitle = "";
 
   List<Widget> get _widgetPages => widget.widgetPages;
+  List<String> get _pageTitles => widget.pageTitles;
 
   @override
   void initState() {
@@ -27,15 +31,16 @@ class NavBarViewState extends State<NavBarView> {
     (_widgetPages[index] as PageLander).onLanding(context);
     setState(() {
       _selectedIndex = index;
+      _selectedTitle = _pageTitles[_selectedIndex];
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: const PreferredSize(
-              preferredSize: Size.fromHeight(56),
-              child: TopAppBar(title: "Welcome")),
+          appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(56),
+              child: TopAppBar(title: _selectedTitle)),
           body: Center(
             child: IndexedStack(
               index: _selectedIndex,
