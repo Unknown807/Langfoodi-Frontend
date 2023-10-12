@@ -40,12 +40,12 @@ class Request {
     return client.getInstance().delete(url, headers: formatHeaders(headers));
   }
 
-  Future<http.StreamedResponse> fileUpload(String path, File file, Map<String, String> fields) async {
+  Future<http.StreamedResponse> fileUpload(String path, String filePath, Map<String, String> fields) async {
     final url = Uri.parse(path);
     final request = http.MultipartRequest("POST", url);
 
     request.fields.addAll(fields);
-    request.files.add(await http.MultipartFile.fromPath("file", file.path));
+    request.files.add(await http.MultipartFile.fromPath("file", filePath));
 
     return client.getInstance().send(request);
   }
