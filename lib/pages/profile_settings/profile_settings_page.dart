@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
-part 'widgets/top_app_bar.dart';
 
 class ProfileSettingsPage extends StatelessWidget {
   const ProfileSettingsPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
+      appBar: PreferredSize(
           preferredSize: Size.fromHeight(56),
-          child: TopAppBar(title: "Edit profile")),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text("Edit profile"),
+            backgroundColor: Colors.green,
+            leading: GestureDetector(
+              onTap: () {Navigator.pop(context);},
+              child: const Icon(
+                Icons.arrow_back,
+              ),
+            )
+            ,
+          )),
       body: Column(children:<Widget>[
         const Padding(padding:EdgeInsets.all(16.0),
             child:CustomAvatar(size:70)),
