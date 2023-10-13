@@ -19,29 +19,29 @@ class Request {
     return allHeaders;
   }
 
-  Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers}) async {
-    final url = Uri.parse(baseUrl + path);
+  Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     final jsonData = jsonWrapper.encodeData(data);
     return client.getInstance().post(url, body: jsonData, headers: formatHeaders(headers));
   }
 
-  Future<http.Response> postWithoutBody(String path, {Map<String, String>? headers}) async {
-    final url = Uri.parse(baseUrl + path);
+  Future<http.Response> postWithoutBody(String path, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     return client.getInstance().post(url, headers: formatHeaders(headers));
   }
 
-  Future<http.Response> get(String path, {Map<String, String>? headers}) async {
-    final url = Uri.parse(baseUrl + path);
+  Future<http.Response> get(String path, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     return client.getInstance().get(url, headers: formatHeaders(headers));
   }
 
-  Future<http.Response> delete(String path, {Map<String, String>? headers}) async {
-    final url = Uri.parse(baseUrl + path);
+  Future<http.Response> delete(String path, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     return client.getInstance().delete(url, headers: formatHeaders(headers));
   }
 
-  Future<http.StreamedResponse> fileUpload(String path, String filePath, Map<String, String> fields) async {
-    final url = Uri.parse(path);
+  Future<http.StreamedResponse> fileUpload(String path, String filePath, Map<String, String> fields, {String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     final request = http.MultipartRequest("POST", url);
 
     request.fields.addAll(fields);

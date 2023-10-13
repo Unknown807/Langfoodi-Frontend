@@ -2,6 +2,7 @@ import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http/http.dart' as http;
 
 export 'image_repo.dart';
 part 'contracts/signed_upload_contract.dart';
@@ -10,6 +11,7 @@ part 'models/signature.dart';
 
 class ImageRepository {
   static final ImageRepository _instance = ImageRepository._internal();
+  final String baseUrl = "https://api.cloudinary.com";
 
   late Request request;
   late Cloudinary cloudinaryConfig;
@@ -25,15 +27,15 @@ class ImageRepository {
     return _instance;
   }
 
-  Future<Signature?> _getSignature() async {
-    final response = await request.postWithoutBody("/auth/get/cloudinary-signature");
+  Future<Signature?> _getSignature({String? publicId}) async {
+    final response = await request.postWithoutBody("/auth/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
     if (!response.isOk) return null;
 
     final jsonSignature = jsonWrapper.decodeData(response.body);
     return Signature.fromJson(jsonSignature);
   }
 
-  Future<Object?> uploadImage(String filePath) async {
+  Future<HostedImage?> uploadImage(String filePath) async {
     final signature = await _getSignature();
     if (signature == null) return null;
 
@@ -43,11 +45,25 @@ class ImageRepository {
       signature.timeStamp);
 
     final response = await request.fileUpload(
-      "https://api.cloudinary.com/v1_1/dqy0zu53d/image/upload",
-      filePath, contract.toJson());
+      "/v1_1/${cloudinaryConfig.config.cloudConfig.cloudName}/image/upload",
+      filePath, contract.toJson(),
+      baseUrl: baseUrl);
 
     final responseData = await response.stream.toBytes();
     final jsonHostedImage = jsonWrapper.decodeData(String.fromCharCodes(responseData));
     return HostedImage.fromJson(jsonHostedImage);
+  }
+
+  Future<bool> removeImage(String publicId) async {
+    final signature = await _getSignature(publicId: publicId);
+    if (signature == null) return false;
+
+    final cloudName = cloudinaryConfig.config.cloudConfig.cloudName;
+    final apiKey = cloudinaryConfig.config.cloudConfig.apiKey;
+    final response = await request.postWithoutBody(
+        "/v1_1/$cloudName/image/destroy?public_id=$publicId&api_key=$apiKey&signature=${signature.signature}&timestamp=${signature.timeStamp}",
+        baseUrl: baseUrl);
+
+    return response.isOk;
   }
 }
