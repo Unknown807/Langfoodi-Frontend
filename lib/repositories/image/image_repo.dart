@@ -1,4 +1,5 @@
 import 'package:cloudinary_url_gen/cloudinary.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
@@ -26,7 +27,8 @@ class ImageRepository {
     return _instance;
   }
 
-  Future<Signature?> _getSignature({String? publicId}) async {
+  @visibleForTesting
+  Future<Signature?> getSignature({String? publicId}) async {
     final response = await request.postWithoutBody("/auth/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
     if (!response.isOk) return null;
 
@@ -35,7 +37,7 @@ class ImageRepository {
   }
 
   Future<HostedImage?> uploadImage(String filePath) async {
-    final signature = await _getSignature();
+    final signature = await getSignature();
     if (signature == null) return null;
 
     final contract = SignedUploadContract(
@@ -48,13 +50,15 @@ class ImageRepository {
       filePath, contract.toJson(),
       baseUrl: baseUrl);
 
+    if (!response.isOk) return null;
+
     final responseData = await response.stream.toBytes();
     final jsonHostedImage = jsonWrapper.decodeData(String.fromCharCodes(responseData));
     return HostedImage.fromJson(jsonHostedImage);
   }
 
   Future<bool> removeImage(String publicId) async {
-    final signature = await _getSignature(publicId: publicId);
+    final signature = await getSignature(publicId: publicId);
     if (signature == null) return false;
 
     final cloudName = cloudinaryConfig.config.cloudConfig.cloudName;
