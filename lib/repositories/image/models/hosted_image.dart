@@ -20,7 +20,10 @@ class HostedImage extends Equatable with JsonConvertible {
   final int height;
 
   @override
-  List<Object?> get props => [publicId];
+  List<Object?> get props => [
+    publicId, version, secureUrl,
+    format, createdAt, width, height
+  ];
 
   static HostedImage fromJson(Map jsonData) {
     return HostedImage(

@@ -2,7 +2,6 @@ import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart' as http;
 
 export 'image_repo.dart';
 part 'contracts/signed_upload_contract.dart';
