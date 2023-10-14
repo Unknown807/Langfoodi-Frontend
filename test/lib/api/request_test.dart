@@ -1,12 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
+import '../../../test_utilities/fakes/generic_fakes.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late String path;
   late Uri fullPath;
+  late MultipartFileProviderMock multipartFileProviderMock;
   late ClientMock clientMock;
   late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
@@ -16,13 +19,16 @@ void main() {
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
     jsonConvertibleMock = JsonConvertibleMock();
+    multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
 
+    registerFallbackValue(BaseRequestFake());
+
     ReferenceWrapper<ClientMock> refWrapper = ReferenceWrapper(clientMock);
-    sut = Request(refWrapper);
+    sut = Request(refWrapper, multipartFileProviderMock);
   });
 
   group("formatHeaders method tests", () {
@@ -178,6 +184,36 @@ void main() {
             "accept": "application/json",
             "content-type": "application/json"}
       )).called(1);
+    });
+  });
+
+  group("fileUpload method tests", () {
+    test("with baseUrl", () async {
+      // Arrange
+      when(() => clientMock.send(any())).thenAnswer((invocation) => Future.value(StreamedResponseMock()));
+      when(() => multipartFileProviderMock.fromPath(any(), any())).thenAnswer((invocation) => Future.value(MultipartFileMock()));
+
+      // Act
+      final result = await sut.fileUpload("/path", "/filePath",
+          {"field1":"val1", "field2":"val2"}, baseUrl: "www.example.com");
+
+      // Assert
+      expect(result, isA<http.StreamedResponse>());
+      verify(() => clientMock.send(any())).called(1);
+    });
+
+    test("without baseUrl", () async {
+      // Arrange
+      when(() => clientMock.send(any())).thenAnswer((invocation) => Future.value(StreamedResponseMock()));
+      when(() => multipartFileProviderMock.fromPath(any(), any())).thenAnswer((invocation) => Future.value(MultipartFileMock()));
+
+      // Act
+      final result = await sut.fileUpload("/path", "/filePath",
+          {"field1":"val1", "field2":"val2"});
+
+      // Assert
+      expect(result, isA<http.StreamedResponse>());
+      verify(() => clientMock.send(any())).called(1);
     });
   });
 }

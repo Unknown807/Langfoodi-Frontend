@@ -1,9 +1,10 @@
 part of 'api.dart';
 
 class Request {
-  Request(this.client);
+  Request(this.client, this.multipartFileProvider);
 
   final ReferenceWrapper<http.Client> client;
+  final MultipartFileProvider multipartFileProvider;
   final String baseUrl = "https://localhost:7120";
   final Map<String, String> baseHeaders = {
     HttpHeaders.acceptHeader: "application/json",
@@ -45,7 +46,7 @@ class Request {
     final request = http.MultipartRequest("POST", url);
 
     request.fields.addAll(fields);
-    request.files.add(await http.MultipartFile.fromPath("file", filePath));
+    request.files.add(await multipartFileProvider.fromPath("file", filePath));
 
     return client.getInstance().send(request);
   }

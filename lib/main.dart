@@ -14,11 +14,12 @@ import 'entities/user/user.dart';
 
 Future<void> main() async {
   ReferenceWrapper<http.Client> clientWrapper = ReferenceWrapper(http.Client());
+  final multipartFileProvider = MultipartFileProvider();
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
   const secureStorage = FlutterSecureStorage();
 
   final localStore = LocalStore(secureStorage);
-  final request = Request(clientWrapper);
+  final request = Request(clientWrapper, multipartFileProvider);
   final jsonWrapper = JsonWrapper();
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
