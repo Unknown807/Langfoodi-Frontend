@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
@@ -164,6 +163,62 @@ void main() {
   });
 
   group("removeImage method tests", () {
+    test("signature is null so return false", () async {
+      // Arrange
+      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => responseMock.statusCode).thenReturn(401);
 
+      // Act
+      final result = await sut.removeImage("public id");
+
+      // Assert
+      expect(result, false);
+    });
+
+    test("valid signature, unsuccessful response so return false", () async {
+      // Arrange
+      when(() => requestMock.postWithoutBody(any()))
+          .thenAnswer((invocation) => Future.value(responseMock));
+      when(() => responseMock.statusCode).thenReturn(200);
+      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
+      when(() => jsonWrapperMock.decodeData(any()))
+          .thenReturn({"signature": "sig", "timeStamp": 12345 });
+
+      final removeImageResponseMock = ResponseMock();
+      when(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345", baseUrl: any(named: "baseUrl")))
+        .thenAnswer((invocation) => Future.value(removeImageResponseMock));
+      when(() => removeImageResponseMock.statusCode).thenReturn(401);
+
+      // Act
+      final result = await sut.removeImage("publicidwow");
+
+      // Assert
+      expect(result, false);
+      verify(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345",
+          baseUrl: any(named: "baseUrl"))).called(1);
+    });
+
+    test("valid signature, successful response so return true", () async {
+      // Arrange
+      when(() => requestMock.postWithoutBody(any()))
+          .thenAnswer((invocation) => Future.value(responseMock));
+      when(() => responseMock.statusCode).thenReturn(200);
+      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
+      when(() => jsonWrapperMock.decodeData(any()))
+          .thenReturn({"signature": "sig", "timeStamp": 12345 });
+
+      final removeImageResponseMock = ResponseMock();
+      when(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345", baseUrl: any(named: "baseUrl")))
+          .thenAnswer((invocation) => Future.value(removeImageResponseMock));
+      when(() => removeImageResponseMock.statusCode).thenReturn(200);
+
+      // Act
+      final result = await sut.removeImage("publicidwow");
+
+      // Assert
+      expect(result, true);
+      verify(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345",
+          baseUrl: any(named: "baseUrl"))).called(1);
+    });
   });
 }
