@@ -45,7 +45,7 @@ void main() {
 
       // Assert
       expect(result, const Signature("sig", "12345"));
-      verify(() => requestMock.postWithoutBody("/auth/get/cloudinary-signature")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
     });
 
     test("no public id, unsuccessful call returns null", () async {
@@ -58,7 +58,7 @@ void main() {
 
       // Assert
       expect(result, isNull);
-      verify(() => requestMock.postWithoutBody("/auth/get/cloudinary-signature")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
     });
 
     test("with public id, returns successful signature model", () async {
@@ -74,7 +74,7 @@ void main() {
 
       // Assert
       expect(result, const Signature("sig", "12345"));
-      verify(() => requestMock.postWithoutBody("/auth/get/cloudinary-signature?publicId=publicidhere")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature?publicId=publicidhere")).called(1);
     });
 
     test("with public id, unsuccessful call returns null", () async {
@@ -87,7 +87,7 @@ void main() {
 
       // Assert
       expect(result, isNull);
-      verify(() => requestMock.postWithoutBody("/auth/get/cloudinary-signature?publicId=publicidhere")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature?publicId=publicidhere")).called(1);
     });
   });
 

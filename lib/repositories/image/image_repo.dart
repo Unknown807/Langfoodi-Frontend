@@ -29,7 +29,7 @@ class ImageRepository {
 
   @visibleForTesting
   Future<Signature?> getSignature({String? publicId}) async {
-    final response = await request.postWithoutBody("/auth/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
+    final response = await request.postWithoutBody("/image/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
     if (!response.isOk) return null;
 
     final jsonSignature = jsonWrapper.decodeData(response.body);
