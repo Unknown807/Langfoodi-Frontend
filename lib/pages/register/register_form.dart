@@ -8,7 +8,7 @@ class RegisterForm extends StatelessWidget {
     return BlocListener<RegisterBloc, InputState>(
       listener: (context, state) {
         if (state.formStatus.isSuccess) {
-          context.read<NavigationRepository>().goTo(context, "/home", RouteType.onlyThis);
+          context.read<NavigationRepository>().goTo(context, "/home", routeType: RouteType.onlyThis);
         }
       },
       child: Column(children: <Widget>[
