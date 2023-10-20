@@ -13,6 +13,8 @@ import 'package:recipe_social_media/pages/splash/splash_page.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
+import '../pages/profile_settings/profile_settings_page.dart';
+
 export 'app.dart';
 
 part 'app_view.dart';
