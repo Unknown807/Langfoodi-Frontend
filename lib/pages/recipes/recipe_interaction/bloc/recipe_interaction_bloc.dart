@@ -24,10 +24,19 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientQuantityChanged>(_ingredientQuantityChanged);
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
     on<RemoveIngredient>(_removeIngredient);
+    on<MainRecipeImagePicked>(_mainRecipeImagePicked);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _mainRecipeImagePicked(MainRecipeImagePicked event, Emitter<RecipeInteractionState> emit) {
+    emit(
+      state.copyWith(
+        mainRecipeImagePath: event.imagePath
+      )
+    );
+  }
 
   void _removeIngredient(RemoveIngredient event, Emitter<RecipeInteractionState> emit) {
     if (event.index >= 0 && event.index <= state.ingredientList.length) {

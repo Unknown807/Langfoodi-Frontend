@@ -70,3 +70,12 @@ final class RemoveIngredient extends RecipeInteractionEvent {
   @override
   List<Object> get props => [index];
 }
+
+final class MainRecipeImagePicked extends RecipeInteractionEvent {
+  const MainRecipeImagePicked(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  List<Object> get props => [imagePath];
+}

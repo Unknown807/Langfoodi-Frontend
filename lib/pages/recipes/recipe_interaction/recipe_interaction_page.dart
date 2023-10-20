@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -68,20 +69,30 @@ class RecipeInteractionPage extends StatelessWidget {
                           children: <Widget>[
                             Row(children: <Widget>[
                                 Expanded(child:
-                                  GestureDetector(
-                                    onTap: () {} ,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(top: 5, right: 5),
-                                        child: DottedBorder(
-                                          strokeWidth: 1.5,
-                                          color: Colors.blue,
-                                          borderType: BorderType.RRect,
-                                          radius: const Radius.circular(10),
-                                          padding: const EdgeInsets.all(25),
-                                          child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)),
-                                        ))
-                                  )
-                                )
+                                  BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  builder: (context, state) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                        if (selectedImage != null && context.mounted) {
+                                          context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(MainRecipeImagePicked(selectedImage.path));
+                                        }
+                                      } ,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(top: 5, right: 5),
+                                          child: DottedBorder(
+                                            strokeWidth: 1.5,
+                                            color: Colors.blue,
+                                            borderType: BorderType.RRect,
+                                            radius: const Radius.circular(10),
+                                            padding: const EdgeInsets.all(25),
+                                            child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)),
+                                          ))
+                                    );
+                                  }
+                                ))
                             ]),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
