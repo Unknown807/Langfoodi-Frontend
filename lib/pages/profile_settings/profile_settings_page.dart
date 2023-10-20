@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
+
+import '../../repositories/navigation/navigation_repo.dart';
 
 class ProfileSettingsPage extends StatelessWidget {
   const ProfileSettingsPage({super.key});
@@ -10,10 +13,10 @@ class ProfileSettingsPage extends StatelessWidget {
           preferredSize: Size.fromHeight(56),
           child: AppBar(
             automaticallyImplyLeading: false,
-            title: Text("Edit profile"),
+            title: const Text("Edit profile"),
             backgroundColor: Colors.green,
             leading: GestureDetector(
-              onTap: () {Navigator.pop(context);},
+              onTap: () => context.read<NavigationRepository>().goTo(context, "/home", RouteType.backLink),
               child: const Icon(
                 Icons.arrow_back,
               ),
