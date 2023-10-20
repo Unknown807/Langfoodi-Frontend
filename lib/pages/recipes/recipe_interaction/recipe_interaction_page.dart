@@ -66,8 +66,23 @@ class RecipeInteractionPage extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                         child: Column(
                           children: <Widget>[
-                            Image.network(
-                                "https://bakingmischief.com/wp-content/uploads/2020/08/small-banana-cake-image-square-4-200x200.jpg"),
+                            Row(children: <Widget>[
+                                Expanded(child:
+                                  GestureDetector(
+                                    onTap: () {} ,
+                                    child: Padding(
+                                        padding: const EdgeInsets.only(top: 5, right: 5),
+                                        child: DottedBorder(
+                                          strokeWidth: 1.5,
+                                          color: Colors.blue,
+                                          borderType: BorderType.RRect,
+                                          radius: const Radius.circular(10),
+                                          padding: const EdgeInsets.all(25),
+                                          child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)),
+                                        ))
+                                  )
+                                )
+                            ]),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: FormInput(
@@ -251,6 +266,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 child: Padding(
                                                     padding: const EdgeInsets.only(top: 5, right: 5),
                                                     child: DottedBorder(
+                                                      strokeWidth: 1.5,
                                                       color: Colors.blue,
                                                       borderType: BorderType.RRect,
                                                       radius: const Radius.circular(10),
