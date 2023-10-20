@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,6 +71,7 @@ class RecipeInteractionPage extends StatelessWidget {
                             Row(children: <Widget>[
                                 Expanded(child:
                                   BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  buildWhen: (p, c) => p.mainRecipeImagePath != c.mainRecipeImagePath,
                                   builder: (context, state) {
                                     return GestureDetector(
                                       onTap: () async {
@@ -82,14 +84,20 @@ class RecipeInteractionPage extends StatelessWidget {
                                       } ,
                                       child: Padding(
                                           padding: const EdgeInsets.only(top: 5, right: 5),
-                                          child: DottedBorder(
-                                            strokeWidth: 1.5,
-                                            color: Colors.blue,
-                                            borderType: BorderType.RRect,
-                                            radius: const Radius.circular(10),
-                                            padding: const EdgeInsets.all(25),
-                                            child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)),
-                                          ))
+                                          child: state.mainRecipeImagePath.isEmpty
+                                              ? DottedBorder(
+                                                strokeWidth: 1.5,
+                                                color: Colors.blue,
+                                                borderType: BorderType.RRect,
+                                                radius: const Radius.circular(10),
+                                                padding: const EdgeInsets.all(25),
+                                                child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
+                                              : AspectRatio(
+                                                  aspectRatio: 4/3,
+                                                  child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  child: Image.file(File(state.mainRecipeImagePath), fit: BoxFit.cover,))
+                                              )),
                                     );
                                   }
                                 ))
