@@ -6,13 +6,13 @@ void main() {
     group("toJson method tests", () {
       test("map returned", () {
         // Arrange
-        var contract = AuthenticationAttemptContract(
+        final contract = AuthenticationAttemptContract(
             usernameOrEmail: "mail@example.com",
             password: "pass123"
         );
 
         // Act
-        var result = contract.toJson();
+        final result = contract.toJson();
 
         // Assert
         expect(result, {
