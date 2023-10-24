@@ -71,8 +71,8 @@ final class RemoveIngredient extends RecipeInteractionEvent {
   List<Object> get props => [index];
 }
 
-final class MainRecipeImagePicked extends RecipeInteractionEvent {
-  const MainRecipeImagePicked(this.imagePath);
+final class RecipeThumbnailPicked extends RecipeInteractionEvent {
+  const RecipeThumbnailPicked(this.imagePath);
 
   final String imagePath;
 

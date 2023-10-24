@@ -12,7 +12,7 @@ class RecipeInteractionState extends Equatable {
     this.ingredientNameValid = false,
     this.ingredientQuantityValid = false,
     this.ingredientMeasurementValid = false,
-    this.mainRecipeImagePath = "",
+    this.recipeThumbnailPath = "",
     this.formStatus = FormzSubmissionStatus.initial
   });
 
@@ -27,14 +27,14 @@ class RecipeInteractionState extends Equatable {
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
-  final String mainRecipeImagePath;
+  final String recipeThumbnailPath;
 
   @override
   List<Object?> get props => [
     ingredientList, ingredientName, ingredientQuantity,
     ingredientMeasurement, ingredientNameValid,
     ingredientQuantityValid, ingredientMeasurementValid,
-    formStatus, mainRecipeImagePath
+    formStatus, recipeThumbnailPath
   ];
 
   RecipeInteractionState copyWith({
@@ -49,7 +49,7 @@ class RecipeInteractionState extends Equatable {
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
-    String? mainRecipeImagePath
+    String? recipeThumbnailPath
   }) {
     return RecipeInteractionState(
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
@@ -63,7 +63,7 @@ class RecipeInteractionState extends Equatable {
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
-      mainRecipeImagePath: mainRecipeImagePath ?? this.mainRecipeImagePath
+      recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath
     );
   }
 }

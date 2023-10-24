@@ -71,7 +71,7 @@ class RecipeInteractionPage extends StatelessWidget {
                             Row(children: <Widget>[
                                 Expanded(child:
                                   BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                  buildWhen: (p, c) => p.mainRecipeImagePath != c.mainRecipeImagePath,
+                                  buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
                                   builder: (context, state) {
                                     return GestureDetector(
                                       onTap: () async {
@@ -79,12 +79,12 @@ class RecipeInteractionPage extends StatelessWidget {
                                         if (selectedImage != null && context.mounted) {
                                           context
                                               .read<RecipeInteractionBloc>()
-                                              .add(MainRecipeImagePicked(selectedImage.path));
+                                              .add(RecipeThumbnailPicked(selectedImage.path));
                                         }
                                       } ,
                                       child: Padding(
                                           padding: const EdgeInsets.only(top: 5, right: 5),
-                                          child: state.mainRecipeImagePath.isEmpty
+                                          child: state.recipeThumbnailPath.isEmpty
                                               ? DottedBorder(
                                                 strokeWidth: 1.5,
                                                 color: Colors.blue,
@@ -96,7 +96,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                   aspectRatio: 4/3,
                                                   child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(5),
-                                                  child: Image.file(File(state.mainRecipeImagePath), fit: BoxFit.cover,))
+                                                  child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
                                               )),
                                     );
                                   }
