@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -66,8 +68,40 @@ class RecipeInteractionPage extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                         child: Column(
                           children: <Widget>[
-                            Image.network(
-                                "https://bakingmischief.com/wp-content/uploads/2020/08/small-banana-cake-image-square-4-200x200.jpg"),
+                            Row(children: <Widget>[
+                                Expanded(child:
+                                  BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
+                                  builder: (context, state) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                        if (selectedImage != null && context.mounted) {
+                                          context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(RecipeThumbnailPicked(selectedImage.path));
+                                        }
+                                      } ,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(top: 5, right: 5),
+                                          child: state.recipeThumbnailPath.isEmpty
+                                              ? DottedBorder(
+                                                strokeWidth: 1.5,
+                                                color: Colors.blue,
+                                                borderType: BorderType.RRect,
+                                                radius: const Radius.circular(10),
+                                                padding: const EdgeInsets.all(25),
+                                                child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
+                                              : AspectRatio(
+                                                  aspectRatio: 4/3,
+                                                  child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
+                                              )),
+                                    );
+                                  }
+                                ))
+                            ]),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: FormInput(
@@ -251,6 +285,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 child: Padding(
                                                     padding: const EdgeInsets.only(top: 5, right: 5),
                                                     child: DottedBorder(
+                                                      strokeWidth: 1.5,
                                                       color: Colors.blue,
                                                       borderType: BorderType.RRect,
                                                       radius: const Radius.circular(10),

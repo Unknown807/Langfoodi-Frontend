@@ -43,6 +43,7 @@ dependencies:
   dotted_border: ^2.1.0
   cloudinary_url_gen: ^1.1.0
   cloudinary_flutter: ^1.0.0
+  image_picker: ^1.0.4
 
 dev_dependencies:
   integration_test:
