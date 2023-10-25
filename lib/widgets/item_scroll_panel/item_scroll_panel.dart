@@ -6,6 +6,7 @@ class ItemScrollPanel extends StatelessWidget {
       required this.items,
       required this.scrollDirection,
       required this.imageAspectRatio,
+      this.onTap,
       this.titleFontSize = 18,
       this.subtitleFontSize = 16,
       this.imageBorderRadius = 20});
@@ -16,6 +17,7 @@ class ItemScrollPanel extends StatelessWidget {
   final double imageAspectRatio;
   final List<ScrollItem> items;
   final Axis scrollDirection;
+  final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +25,15 @@ class ItemScrollPanel extends StatelessWidget {
         child: ListView.separated(
             padding: const EdgeInsets.all(8),
             scrollDirection: scrollDirection,
-            itemBuilder: (context, index) =>
-                buildScrollItem(context, items[index]),
+            itemBuilder: (context, index) => buildScrollItem(context, items[index]),
             separatorBuilder: (context, _) => const SizedBox(width: 12),
             itemCount: items.length));
   }
 
   Widget buildScrollItem(BuildContext context, ScrollItem item) {
-    return Container(
+    return GestureDetector(
+      onTap: () => onTap?.call(item),
+      child: Container(
       width: 200,
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
@@ -39,18 +42,18 @@ class ItemScrollPanel extends StatelessWidget {
               aspectRatio: imageAspectRatio,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(imageBorderRadius),
-                  child: Image.network(item.urlImage, fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                        return const Icon(Icons.close, color: Colors.red);
-                      },
+                  child: Image.network(
+                    item.urlImage,
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      return const Icon(Icons.close, color: Colors.red);
+                    },
                   ))),
           const SizedBox(height: 4),
-          Text(item.title,
-              style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
-          Text(item.subtitle ?? "",
-              style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
+          Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
+          Text(item.subtitle ?? "", style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
         ],
       ),
-    );
+    ));
   }
 }

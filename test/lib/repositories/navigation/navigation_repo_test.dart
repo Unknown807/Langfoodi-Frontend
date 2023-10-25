@@ -32,7 +32,7 @@ void main() {
       final BuildContext context = widgetTester.element(find.byType(Container).first);
 
       // Act
-      navigRepo.goTo(context, "/home", RouteType.normal);
+      navigRepo.goTo(context, "/home", routeType: RouteType.normal);
 
       // Assert
       verify(() => navigObserverMock.didPush(any(), any()));
@@ -47,7 +47,7 @@ void main() {
       final BuildContext context = widgetTester.element(find.byType(Container).first);
 
       // Act
-      navigRepo.goTo(context, "/home", RouteType.backLink);
+      navigRepo.goTo(context, "/home", routeType: RouteType.backLink);
 
       // Assert
       verify(() => navigObserverMock.didPop(any(), any()));
@@ -62,12 +62,42 @@ void main() {
       final BuildContext context = widgetTester.element(find.byType(Container).first);
 
       // Act
-      navigRepo.goTo(context, "/home", RouteType.onlyThis);
+      navigRepo.goTo(context, "/home", routeType: RouteType.onlyThis);
 
       // Assert
       verify(() => navigObserverMock.didPush(any(), any()));
       verify(() => navigObserverMock.didRemove(any(), any()));
       verifyNever(() => navigObserverMock.didPop(any(), any()));
+      verifyNever(() => navigObserverMock.didReplace());
+    });
+
+    testWidgets("normal route type, with arguments", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
+      final BuildContext context = widgetTester.element(find.byType(Container).first);
+
+      // Act
+      navigRepo.goTo(context, "/home", routeType: RouteType.normal, arguments: {"arg1": "arg1value"});
+
+      // Assert
+      verify(() => navigObserverMock.didPush(any(), any()));
+      verifyNever(() => navigObserverMock.didPop(any(), any()));
+      verifyNever(() => navigObserverMock.didRemove(any(), any()));
+      verifyNever(() => navigObserverMock.didReplace());
+    });
+
+    testWidgets("dismissDialog calls pop", (widgetTester) async {
+      // Arrange
+      await widgetTester.pumpWidget(createWidgetUnderTest());
+      final BuildContext context = widgetTester.element(find.byType(Container).first);
+
+      // Act
+      navigRepo.dismissDialog(context);
+
+      // Assert
+      verify(() => navigObserverMock.didPop(any(), any()));
+      verify(() => navigObserverMock.didPush(any(), any()));
+      verifyNever(() => navigObserverMock.didRemove(any(), any()));
       verifyNever(() => navigObserverMock.didReplace());
     });
   });

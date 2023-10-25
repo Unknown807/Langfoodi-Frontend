@@ -21,15 +21,15 @@ class RecipeRepository {
   }
 
   Future<RecipeDetailed?> getRecipeById(String id) async {
-    var response = await request.postWithoutBody("/recipe/get/id?id=$id");
+    final response = await request.postWithoutBody("/recipe/get/id?id=$id");
     if (!response.isOk) return null;
 
-    var jsonRecipe = jsonWrapper.decodeData(response.body);
+    final jsonRecipe = jsonWrapper.decodeData(response.body);
     return RecipeDetailed.fromJson(jsonRecipe);
   }
 
   Future<List<Recipe>> _getRecipesFromUser(String path) async {
-    var response = await request.postWithoutBody(path);
+    final response = await request.postWithoutBody(path);
     if (!response.isOk) return [];
 
     List<dynamic> jsonRecipes = jsonWrapper.decodeData(response.body);
@@ -46,20 +46,20 @@ class RecipeRepository {
   }
 
   Future<RecipeDetailed?> addNewRecipe(NewRecipeContract contract) async {
-    var response = await request.post("/recipe/create", contract, jsonWrapper);
+    final response = await request.post("/recipe/create", contract, jsonWrapper);
     if (!response.isOk) return null;
 
-    var jsonRecipe = jsonWrapper.decodeData(response.body);
+    final jsonRecipe = jsonWrapper.decodeData(response.body);
     return RecipeDetailed.fromJson(jsonRecipe);
   }
 
   Future<bool> updateRecipe(UpdateRecipeContract contract) async {
-    var response = await request.post("/recipe/update", contract, jsonWrapper);
+    final response = await request.post("/recipe/update", contract, jsonWrapper);
     return response.isOk;
   }
 
   Future<bool> removeRecipe(String id) async {
-    var response = await request.delete("/recipe/remove?id=$id");
+    final response = await request.delete("/recipe/remove?id=$id");
     return response.isOk;
   }
 }
