@@ -5,6 +5,8 @@ class RecipeInteractionState extends Equatable {
     required this.ingredientNameTextController,
     required this.ingredientQuantityTextController,
     required this.ingredientMeasurementTextController,
+    required this.cookingTimeTextController,
+    required this.cookingTimeHiddenTextController,
     this.ingredientList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
@@ -27,6 +29,8 @@ class RecipeInteractionState extends Equatable {
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
   final TextEditingController ingredientMeasurementTextController;
+  final TextEditingController cookingTimeTextController;
+  final TextEditingController cookingTimeHiddenTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final IngredientName ingredientName;
@@ -53,13 +57,17 @@ class RecipeInteractionState extends Equatable {
     formStatus, recipeThumbnailPath, servingNumber,
     servingNumberValid, servingSize, servingSizeValid,
     kilocalories, kilocaloriesValid, cookingTime,
-    cookingTimeValid
+    cookingTimeValid, ingredientMeasurementTextController,
+    ingredientNameTextController, ingredientQuantityTextController,
+    cookingTimeTextController, cookingTimeHiddenTextController
   ];
 
   RecipeInteractionState copyWith({
     TextEditingController? ingredientNameTextController,
     TextEditingController? ingredientQuantityTextController,
     TextEditingController? ingredientMeasurementTextController,
+    TextEditingController? cookingTimeTextController,
+    TextEditingController? cookingTimeHiddenTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     IngredientName? ingredientName,
@@ -82,6 +90,8 @@ class RecipeInteractionState extends Equatable {
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
       ingredientQuantityTextController: ingredientQuantityTextController ?? this.ingredientQuantityTextController,
       ingredientMeasurementTextController: ingredientMeasurementTextController ?? this.ingredientMeasurementTextController,
+      cookingTimeTextController: cookingTimeTextController ?? this.cookingTimeTextController,
+      cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
       formStatus: formStatus ?? this.formStatus,
       ingredientList: ingredientList ?? this.ingredientList,
       ingredientName: ingredientName ?? this.ingredientName,

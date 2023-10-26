@@ -16,6 +16,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
+    cookingTimeTextController: TextEditingController(),
+    cookingTimeHiddenTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -35,12 +37,32 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   final RecipeRepository _recipeRepo;
 
   void _cookingTimeChanged(CookingTimeChanged event, Emitter<RecipeInteractionState> emit) {
-    final cookingTime = CookingTime.dirty(event.cookingTime);
+    if (state.cookingTime.value.length > event.cookingTime.length) {
+      state.cookingTimeTextController.text = state.cookingTime.value;
+      return;
+    }
 
+    String currentHiddenText = state.cookingTimeHiddenTextController.value.text;
+    if (currentHiddenText.length > 5) {
+      currentHiddenText = currentHiddenText.substring(1, 6);
+    }
+
+    state.cookingTimeHiddenTextController.text =
+        currentHiddenText+event.cookingTime.substring(event.cookingTime.length - 1);
+    final String newHiddenText = state.cookingTimeHiddenTextController.value.text;
+
+    String formattedCookingTime = event.cookingTime;
+    final List<String> chs = newHiddenText.split("");
+    chs.insertAll(0, List.filled(6-chs.length, "0"));
+    if (chs.length > 6) chs.sublist(0, 6);
+    formattedCookingTime = "${chs[0]}${chs[1]}:${chs[2]}${chs[3]}:${chs[4]}${chs[5]}";
+
+    final cookingTime = CookingTime.dirty(formattedCookingTime);
     emit(state.copyWith(
       cookingTime: cookingTime,
       cookingTimeValid: Formz.validate([cookingTime])
     ));
+    state.cookingTimeTextController.text = formattedCookingTime;
   }
 
   void _kilocaloriesChanged(KilocaloriesChanged event, Emitter<RecipeInteractionState> emit) {

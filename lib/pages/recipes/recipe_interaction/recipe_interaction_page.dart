@@ -366,6 +366,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                             buildWhen: (p, c) => p.cookingTime != c.cookingTime,
                                             builder: (context, state) {
                                               return FormInput(
+                                                textController: state.cookingTimeTextController,
                                                 innerPadding: const EdgeInsets.only(left: 5),
                                                 outerPadding: const EdgeInsets.symmetric(horizontal: 10),
                                                 hint: 'Cooking Time',
