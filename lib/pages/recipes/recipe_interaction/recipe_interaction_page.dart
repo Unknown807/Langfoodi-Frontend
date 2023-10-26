@@ -314,6 +314,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               buildWhen: (p, c) => p.servingNumber != c.servingNumber,
                                               builder: (context, state) {
                                                 return FormInput(
+                                                  textController: state.servingNumberTextController,
                                                   keyboardType: TextInputType.number,
                                                   innerPadding: const EdgeInsets.only(left: 5),
                                                   outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -336,6 +337,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                             buildWhen: (p, c) => p.servingSize != c.servingSize,
                                             builder: (context, state) {
                                               return FormInput(
+                                                textController: state.servingSizeTextController,
                                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                 innerPadding: const EdgeInsets.only(left: 5),
                                                 outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
@@ -388,6 +390,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                             buildWhen: (p, c) => p.kilocalories != c.kilocalories,
                                             builder: (context, state) {
                                               return FormInput(
+                                                textController: state.kilocaloriesTextController,
                                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                                 innerPadding: const EdgeInsets.only(left: 5),
                                                 outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),

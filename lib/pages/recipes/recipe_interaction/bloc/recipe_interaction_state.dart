@@ -5,6 +5,9 @@ class RecipeInteractionState extends Equatable {
     required this.ingredientNameTextController,
     required this.ingredientQuantityTextController,
     required this.ingredientMeasurementTextController,
+    required this.servingNumberTextController,
+    required this.servingSizeTextController,
+    required this.kilocaloriesTextController,
     required this.cookingTimeTextController,
     required this.cookingTimeHiddenTextController,
     this.ingredientList = const [],
@@ -29,6 +32,9 @@ class RecipeInteractionState extends Equatable {
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
   final TextEditingController ingredientMeasurementTextController;
+  final TextEditingController servingNumberTextController;
+  final TextEditingController servingSizeTextController;
+  final TextEditingController kilocaloriesTextController;
   final TextEditingController cookingTimeTextController;
   final TextEditingController cookingTimeHiddenTextController;
   final FormzSubmissionStatus formStatus;
@@ -59,13 +65,18 @@ class RecipeInteractionState extends Equatable {
     kilocalories, kilocaloriesValid, cookingTime,
     cookingTimeValid, ingredientMeasurementTextController,
     ingredientNameTextController, ingredientQuantityTextController,
-    cookingTimeTextController, cookingTimeHiddenTextController
+    cookingTimeTextController, cookingTimeHiddenTextController,
+    servingNumberTextController, servingSizeTextController,
+    kilocaloriesTextController
   ];
 
   RecipeInteractionState copyWith({
     TextEditingController? ingredientNameTextController,
     TextEditingController? ingredientQuantityTextController,
     TextEditingController? ingredientMeasurementTextController,
+    TextEditingController? servingNumberTextController,
+    TextEditingController? servingSizeTextController,
+    TextEditingController? kilocaloriesTextController,
     TextEditingController? cookingTimeTextController,
     TextEditingController? cookingTimeHiddenTextController,
     FormzSubmissionStatus? formStatus,
@@ -90,6 +101,9 @@ class RecipeInteractionState extends Equatable {
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
       ingredientQuantityTextController: ingredientQuantityTextController ?? this.ingredientQuantityTextController,
       ingredientMeasurementTextController: ingredientMeasurementTextController ?? this.ingredientMeasurementTextController,
+      servingNumberTextController: servingNumberTextController ?? this.servingNumberTextController,
+      servingSizeTextController: servingSizeTextController ?? this.servingSizeTextController,
+      kilocaloriesTextController: kilocaloriesTextController ?? this.kilocaloriesTextController,
       cookingTimeTextController: cookingTimeTextController ?? this.cookingTimeTextController,
       cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
       formStatus: formStatus ?? this.formStatus,

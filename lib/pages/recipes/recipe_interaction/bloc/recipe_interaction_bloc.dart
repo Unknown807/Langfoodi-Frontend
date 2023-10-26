@@ -16,6 +16,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
+    servingNumberTextController: TextEditingController(),
+    servingSizeTextController: TextEditingController(),
+    kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController()
   )) {
