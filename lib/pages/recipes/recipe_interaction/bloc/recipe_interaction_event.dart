@@ -106,3 +106,12 @@ final class KilocaloriesChanged extends RecipeInteractionEvent {
   @override
   List<Object> get props => [kilocalories];
 }
+
+final class CookingTimeChanged extends RecipeInteractionEvent {
+  const CookingTimeChanged(this.cookingTime);
+
+  final String cookingTime;
+
+  @override
+  List<Object> get props => [cookingTime];
+}

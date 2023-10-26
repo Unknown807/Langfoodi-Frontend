@@ -362,14 +362,25 @@ class RecipeInteractionPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
-                                          child: FormInput(
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-                                            hint: 'Time (hh:mm:ss)',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.cookingTime != c.cookingTime,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                                hint: 'Cooking Time',
+                                                boxDecorationType: state.cookingTimeValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(CookingTimeChanged(value));
+                                                },
+                                              );
+                                            }
+                                          )
                                         ),
                                         Flexible(
                                           child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(

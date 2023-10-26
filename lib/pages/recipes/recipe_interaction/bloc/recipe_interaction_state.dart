@@ -12,12 +12,14 @@ class RecipeInteractionState extends Equatable {
     this.servingNumber = const ServingNumber.pure(),
     this.servingSize = const ServingSize.pure(),
     this.kilocalories = const Kilocalories.pure(),
+    this.cookingTime = const CookingTime.pure(),
     this.ingredientNameValid = false,
     this.ingredientQuantityValid = false,
     this.ingredientMeasurementValid = false,
     this.servingNumberValid = false,
     this.servingSizeValid = false,
     this.kilocaloriesValid = false,
+    this.cookingTimeValid = false,
     this.recipeThumbnailPath = "",
     this.formStatus = FormzSubmissionStatus.initial
   });
@@ -33,12 +35,14 @@ class RecipeInteractionState extends Equatable {
   final ServingNumber servingNumber;
   final ServingSize servingSize;
   final Kilocalories kilocalories;
+  final CookingTime cookingTime;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
   final bool servingNumberValid;
   final bool servingSizeValid;
   final bool kilocaloriesValid;
+  final bool cookingTimeValid;
   final String recipeThumbnailPath;
 
   @override
@@ -48,7 +52,8 @@ class RecipeInteractionState extends Equatable {
     ingredientQuantityValid, ingredientMeasurementValid,
     formStatus, recipeThumbnailPath, servingNumber,
     servingNumberValid, servingSize, servingSizeValid,
-    kilocalories, kilocaloriesValid
+    kilocalories, kilocaloriesValid, cookingTime,
+    cookingTimeValid
   ];
 
   RecipeInteractionState copyWith({
@@ -63,12 +68,14 @@ class RecipeInteractionState extends Equatable {
     ServingNumber? servingNumber,
     ServingSize? servingSize,
     Kilocalories? kilocalories,
+    CookingTime? cookingTime,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
     bool? servingNumberValid,
     bool? servingSizeValid,
     bool? kilocaloriesValid,
+    bool? cookingTimeValid,
     String? recipeThumbnailPath
   }) {
     return RecipeInteractionState(
@@ -83,12 +90,14 @@ class RecipeInteractionState extends Equatable {
       servingNumber: servingNumber ?? this.servingNumber,
       servingSize: servingSize ?? this.servingSize,
       kilocalories: kilocalories ?? this.kilocalories,
+      cookingTime: cookingTime ?? this.cookingTime,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
       servingNumberValid: servingNumberValid ?? this.servingNumberValid,
       servingSizeValid: servingSizeValid ?? this.servingSizeValid,
       kilocaloriesValid: kilocaloriesValid ?? this.kilocaloriesValid,
+      cookingTimeValid: cookingTimeValid ?? this.cookingTimeValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath
     );
   }
