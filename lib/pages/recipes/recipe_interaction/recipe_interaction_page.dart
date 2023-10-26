@@ -310,15 +310,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
-                                          child: FormInput(
-                                            keyboardType: TextInputType.number,
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                            hint: 'Number Of Servings',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                              buildWhen: (p, c) => p.servingNumber != c.servingNumber,
+                                              builder: (context, state) {
+                                                return FormInput(
+                                                  keyboardType: TextInputType.number,
+                                                  innerPadding: const EdgeInsets.only(left: 5),
+                                                  outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  hint: 'Number Of Servings',
+                                                  boxDecorationType: state.servingNumberValid
+                                                      ? FormInputBoxDecorationType.textArea
+                                                      : FormInputBoxDecorationType.error,
+                                                  fontSize: 14,
+                                                  eventFunc: (value) {
+                                                    context
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(ServingNumberChanged(value));
+                                                  },
+                                                );
+                                              },
+                                          )
                                         ),
                                         Flexible(
                                           child: FormInput(

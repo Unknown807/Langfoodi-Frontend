@@ -25,10 +25,20 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
     on<RemoveIngredient>(_removeIngredient);
     on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
+    on<ServingNumberChanged>(_servingNumberChanged);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _servingNumberChanged(ServingNumberChanged event, Emitter<RecipeInteractionState> emit) {
+    final servingNumber = ServingNumber.dirty(event.servingNumber);
+
+    emit(state.copyWith(
+      servingNumber: servingNumber,
+      servingNumberValid: Formz.validate([servingNumber])
+    ));
+  }
 
   void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
     emit(

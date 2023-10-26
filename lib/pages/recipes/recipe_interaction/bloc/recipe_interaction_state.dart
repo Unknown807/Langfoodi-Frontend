@@ -9,9 +9,11 @@ class RecipeInteractionState extends Equatable {
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
     this.ingredientMeasurement = const IngredientMeasurement.pure(),
+    this.servingNumber = const ServingNumber.pure(),
     this.ingredientNameValid = false,
     this.ingredientQuantityValid = false,
     this.ingredientMeasurementValid = false,
+    this.servingNumberValid = false,
     this.recipeThumbnailPath = "",
     this.formStatus = FormzSubmissionStatus.initial
   });
@@ -24,9 +26,11 @@ class RecipeInteractionState extends Equatable {
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
   final IngredientMeasurement ingredientMeasurement;
+  final ServingNumber servingNumber;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
+  final bool servingNumberValid;
   final String recipeThumbnailPath;
 
   @override
@@ -34,7 +38,8 @@ class RecipeInteractionState extends Equatable {
     ingredientList, ingredientName, ingredientQuantity,
     ingredientMeasurement, ingredientNameValid,
     ingredientQuantityValid, ingredientMeasurementValid,
-    formStatus, recipeThumbnailPath
+    formStatus, recipeThumbnailPath, servingNumber,
+    servingNumberValid
   ];
 
   RecipeInteractionState copyWith({
@@ -46,9 +51,11 @@ class RecipeInteractionState extends Equatable {
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
+    ServingNumber? servingNumber,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
+    bool? servingNumberValid,
     String? recipeThumbnailPath
   }) {
     return RecipeInteractionState(
@@ -60,9 +67,11 @@ class RecipeInteractionState extends Equatable {
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
       ingredientMeasurement: ingredientMeasurement ?? this.ingredientMeasurement,
+      servingNumber: servingNumber ?? this.servingNumber,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
+      servingNumberValid: servingNumberValid ?? this.servingNumberValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath
     );
   }
