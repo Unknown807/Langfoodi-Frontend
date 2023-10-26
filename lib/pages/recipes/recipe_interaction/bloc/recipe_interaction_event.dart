@@ -88,3 +88,12 @@ final class ServingNumberChanged extends RecipeInteractionEvent {
   @override
   List<Object> get props => [servingNumber];
 }
+
+final class ServingSizeChanged extends RecipeInteractionEvent {
+  const ServingSizeChanged(this.servingSize);
+
+  final String servingSize;
+
+  @override
+  List<Object> get props => [servingSize];
+}

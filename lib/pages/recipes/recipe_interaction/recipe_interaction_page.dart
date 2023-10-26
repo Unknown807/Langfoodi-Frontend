@@ -332,15 +332,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                           )
                                         ),
                                         Flexible(
-                                          child: FormInput(
-                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-                                            hint: 'Serving Size',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.servingSize != c.servingSize,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                                                hint: 'Serving Size',
+                                                boxDecorationType: state.servingSizeValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(ServingSizeChanged(value));
+                                                },
+                                              );
+                                            }
+                                          )
                                         ),
                                       ]
                                   )
