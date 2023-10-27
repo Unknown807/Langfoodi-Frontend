@@ -79,3 +79,39 @@ final class RecipeThumbnailPicked extends RecipeInteractionEvent {
   @override
   List<Object> get props => [imagePath];
 }
+
+final class ServingNumberChanged extends RecipeInteractionEvent {
+  const ServingNumberChanged(this.servingNumber);
+
+  final String servingNumber;
+
+  @override
+  List<Object> get props => [servingNumber];
+}
+
+final class ServingSizeChanged extends RecipeInteractionEvent {
+  const ServingSizeChanged(this.servingSize);
+
+  final String servingSize;
+
+  @override
+  List<Object> get props => [servingSize];
+}
+
+final class KilocaloriesChanged extends RecipeInteractionEvent {
+  const KilocaloriesChanged(this.kilocalories);
+
+  final String kilocalories;
+
+  @override
+  List<Object> get props => [kilocalories];
+}
+
+final class CookingTimeChanged extends RecipeInteractionEvent {
+  const CookingTimeChanged(this.cookingTime);
+
+  final String cookingTime;
+
+  @override
+  List<Object> get props => [cookingTime];
+}
