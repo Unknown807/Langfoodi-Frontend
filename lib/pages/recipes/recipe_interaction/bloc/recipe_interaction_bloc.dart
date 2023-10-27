@@ -40,7 +40,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   final RecipeRepository _recipeRepo;
 
   void _cookingTimeChanged(CookingTimeChanged event, Emitter<RecipeInteractionState> emit) {
-    if (state.cookingTime.value.length > event.cookingTime.length) {
+    bool backspaceUsed = state.cookingTime.value.length > event.cookingTime.length;
+    if (backspaceUsed) {
       state.cookingTimeTextController.text = state.cookingTime.value;
       return;
     }
