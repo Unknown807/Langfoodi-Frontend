@@ -30,6 +30,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientQuantityChanged>(_ingredientQuantityChanged);
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
     on<RemoveIngredient>(_removeIngredient);
+    on<RemoveRecipeStep>(_removeRecipeStep);
     on<ServingNumberChanged>(_servingNumberChanged);
     on<ServingSizeChanged>(_servingSizeChanged);
     on<KilocaloriesChanged>(_kilocaloriesChanged);
@@ -158,6 +159,16 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       ingredientsList.removeAt(event.index);
       emit(state.copyWith(
         ingredientList: ingredientsList
+      ));
+    }
+  }
+
+  void _removeRecipeStep(RemoveRecipeStep event, Emitter<RecipeInteractionState> emit) {
+    if (event.index >= 0 && event.index <= state.recipeStepList.length) {
+      List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
+      recipeStepsList.removeAt(event.index);
+      emit(state.copyWith(
+        recipeStepList: recipeStepsList
       ));
     }
   }

@@ -386,7 +386,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                                   title: const Text("Remove Step"),
                                                                   content: Text("Are you sure you want to remove step ${index+1}?"),
                                                                   rightButtonText: "Remove",
-                                                                  //rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                                                  rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveRecipeStep(index)),
                                                                 )
                                                             )
                                                         ),
