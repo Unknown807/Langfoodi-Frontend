@@ -10,6 +10,7 @@ class RecipeInteractionState extends Equatable {
     required this.kilocaloriesTextController,
     required this.cookingTimeTextController,
     required this.cookingTimeHiddenTextController,
+    required this.recipeStepDescriptionTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
     this.ingredientName = const IngredientName.pure(),
@@ -19,6 +20,7 @@ class RecipeInteractionState extends Equatable {
     this.servingSize = const ServingSize.pure(),
     this.kilocalories = const Kilocalories.pure(),
     this.cookingTime = const CookingTime.pure(),
+    this.recipeStepDescription = const RecipeStepDescription.pure(),
     this.ingredientNameValid = false,
     this.ingredientQuantityValid = false,
     this.ingredientMeasurementValid = false,
@@ -26,6 +28,7 @@ class RecipeInteractionState extends Equatable {
     this.servingSizeValid = false,
     this.kilocaloriesValid = false,
     this.cookingTimeValid = false,
+    this.recipeStepDescriptionValid = false,
     this.recipeThumbnailPath = "",
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial
@@ -39,6 +42,7 @@ class RecipeInteractionState extends Equatable {
   final TextEditingController kilocaloriesTextController;
   final TextEditingController cookingTimeTextController;
   final TextEditingController cookingTimeHiddenTextController;
+  final TextEditingController recipeStepDescriptionTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
@@ -49,6 +53,7 @@ class RecipeInteractionState extends Equatable {
   final ServingSize servingSize;
   final Kilocalories kilocalories;
   final CookingTime cookingTime;
+  final RecipeStepDescription recipeStepDescription;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
@@ -56,6 +61,7 @@ class RecipeInteractionState extends Equatable {
   final bool servingSizeValid;
   final bool kilocaloriesValid;
   final bool cookingTimeValid;
+  final bool recipeStepDescriptionValid;
   final String recipeThumbnailPath;
   final String recipeStepImagePath;
 
@@ -71,7 +77,9 @@ class RecipeInteractionState extends Equatable {
     ingredientNameTextController, ingredientQuantityTextController,
     cookingTimeTextController, cookingTimeHiddenTextController,
     servingNumberTextController, servingSizeTextController,
-    kilocaloriesTextController, recipeStepImagePath, recipeStepList
+    kilocaloriesTextController, recipeStepImagePath, recipeStepList,
+    recipeStepDescription, recipeStepDescriptionValid,
+    recipeStepDescriptionTextController
   ];
 
   RecipeInteractionState copyWith({
@@ -83,6 +91,7 @@ class RecipeInteractionState extends Equatable {
     TextEditingController? kilocaloriesTextController,
     TextEditingController? cookingTimeTextController,
     TextEditingController? cookingTimeHiddenTextController,
+    TextEditingController? recipeStepDescriptionTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
@@ -93,6 +102,7 @@ class RecipeInteractionState extends Equatable {
     ServingSize? servingSize,
     Kilocalories? kilocalories,
     CookingTime? cookingTime,
+    RecipeStepDescription? recipeStepDescription,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
@@ -100,6 +110,7 @@ class RecipeInteractionState extends Equatable {
     bool? servingSizeValid,
     bool? kilocaloriesValid,
     bool? cookingTimeValid,
+    bool? recipeStepDescriptionValid,
     String? recipeThumbnailPath,
     String? recipeStepImagePath
   }) {
@@ -112,6 +123,7 @@ class RecipeInteractionState extends Equatable {
       kilocaloriesTextController: kilocaloriesTextController ?? this.kilocaloriesTextController,
       cookingTimeTextController: cookingTimeTextController ?? this.cookingTimeTextController,
       cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
+      recipeStepDescriptionTextController: recipeStepDescriptionTextController ?? this.recipeStepDescriptionTextController,
       formStatus: formStatus ?? this.formStatus,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
@@ -122,6 +134,7 @@ class RecipeInteractionState extends Equatable {
       servingSize: servingSize ?? this.servingSize,
       kilocalories: kilocalories ?? this.kilocalories,
       cookingTime: cookingTime ?? this.cookingTime,
+      recipeStepDescription: recipeStepDescription ?? this.recipeStepDescription,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
@@ -129,6 +142,7 @@ class RecipeInteractionState extends Equatable {
       servingSizeValid: servingSizeValid ?? this.servingSizeValid,
       kilocaloriesValid: kilocaloriesValid ?? this.kilocaloriesValid,
       cookingTimeValid: cookingTimeValid ?? this.cookingTimeValid,
+      recipeStepDescriptionValid: recipeStepDescriptionValid ?? this.recipeStepDescriptionValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath
     );

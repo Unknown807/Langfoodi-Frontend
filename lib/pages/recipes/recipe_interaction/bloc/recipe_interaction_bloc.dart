@@ -20,7 +20,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     servingSizeTextController: TextEditingController(),
     kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
-    cookingTimeHiddenTextController: TextEditingController()
+    cookingTimeHiddenTextController: TextEditingController(),
+    recipeStepDescriptionTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -35,10 +36,22 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<CookingTimeChanged>(_cookingTimeChanged);
     on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
     on<RecipeStepImagePicked>(_recipeStepImagePicked);
+    on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+
+
+  void _recipeStepDescriptionChanged(RecipeStepDescriptionChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeStepDescription = RecipeStepDescription.dirty(event.description);
+
+    emit(state.copyWith(
+        recipeStepDescription: recipeStepDescription,
+        recipeStepDescriptionValid: Formz.validate([recipeStepDescription])
+    ));
+  }
 
   void _recipeStepImagePicked(RecipeStepImagePicked event, Emitter<RecipeInteractionState> emit) {
     emit(

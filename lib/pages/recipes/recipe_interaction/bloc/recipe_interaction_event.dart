@@ -124,3 +124,21 @@ final class CookingTimeChanged extends RecipeInteractionEvent {
   @override
   List<Object> get props => [cookingTime];
 }
+
+final class RecipeStepDescriptionChanged extends RecipeInteractionEvent {
+  const RecipeStepDescriptionChanged(this.description);
+
+  final String description;
+
+  @override
+  List<Object> get props => [description];
+}
+
+final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
+  const AddNewRecipeStepFromDescription(this.description);
+
+  final String description;
+
+  @override
+  List<Object> get props => [description];
+}

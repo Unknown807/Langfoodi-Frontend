@@ -268,14 +268,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           flex: 2,
-                                          child: FormInput(
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                            hint: 'Enter Your Step Here',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            maxLines: 6,
-                                            eventFunc: (value) {},
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.recipeStepDescription != c.recipeStepDescription,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                textController: state.recipeStepDescriptionTextController,
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                hint: "Write step here and press ENTER to submit",
+                                                boxDecorationType: state.recipeStepDescriptionValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                maxLines: 6,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(RecipeStepDescriptionChanged(value));
+                                                },
+                                              );
+                                            }
                                           ),
                                         ),
                                         Flexible(
