@@ -147,13 +147,13 @@ class RecipeInteractionPage extends StatelessWidget {
                                                     maxLines: 1,
                                                     onSubmittedEventFunc: (value) {
                                                       context
-                                                          .read<RecipeInteractionBloc>()
-                                                          .add(AddNewIngredientFromName(value));
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(AddNewIngredientFromName(value));
                                                     },
                                                     eventFunc: (value) {
                                                       context
-                                                          .read<RecipeInteractionBloc>()
-                                                          .add(IngredientNameChanged(value));
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(IngredientNameChanged(value));
                                                     });
                                               })),
                                       Flexible(
@@ -281,6 +281,11 @@ class RecipeInteractionPage extends StatelessWidget {
                                                     : FormInputBoxDecorationType.error,
                                                 fontSize: 14,
                                                 maxLines: 6,
+                                                onSubmittedEventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(AddNewRecipeStepFromDescription(value));
+                                                },
                                                 eventFunc: (value) {
                                                   context
                                                     .read<RecipeInteractionBloc>()

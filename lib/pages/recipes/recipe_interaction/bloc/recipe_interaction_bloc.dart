@@ -37,12 +37,38 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
     on<RecipeStepImagePicked>(_recipeStepImagePicked);
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
+    on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
+  void _addNewRecipeStepFromDescription(AddNewRecipeStepFromDescription event, Emitter<RecipeInteractionState> emit) {
+    final recipeStepDescription = RecipeStepDescription.dirty(event.description);
+    final recipeStepDescriptionValid = Formz.validate([recipeStepDescription]);
 
+    if (recipeStepDescriptionValid && state.recipeStepImagePath.isNotEmpty) {
+      List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
+      recipeStepsList.add(RecipeStep(recipeStepDescription.value, state.recipeStepImagePath));
+
+      emit(
+        state.copyWith(
+          recipeStepImagePath: "",
+          recipeStepDescription: const RecipeStepDescription.pure(),
+          recipeStepList: recipeStepsList
+        )
+      );
+
+      state.recipeStepDescriptionTextController.clear();
+    } else {
+      emit(
+        state.copyWith(
+          recipeStepDescription: recipeStepDescription,
+          recipeStepDescriptionValid: recipeStepDescriptionValid
+        )
+      );
+    }
+  }
 
   void _recipeStepDescriptionChanged(RecipeStepDescriptionChanged event, Emitter<RecipeInteractionState> emit) {
     final recipeStepDescription = RecipeStepDescription.dirty(event.description);
@@ -195,6 +221,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     if (nameValid && quantityValid && measurementValid) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);
       ingredientsList.add(Ingredient(name.value, double.tryParse(quantity.value)!, measurement.value));
+
       emit(state.copyWith(
         ingredientName: const IngredientName.pure(),
         ingredientQuantity: const IngredientQuantity.pure(),
