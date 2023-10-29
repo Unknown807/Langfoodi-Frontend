@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
@@ -276,7 +277,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 textController: state.recipeStepDescriptionTextController,
                                                 innerPadding: const EdgeInsets.only(left: 5),
                                                 outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                hint: "Write step here and press ENTER to submit",
+                                                hint: "Write step here and enter to submit",
                                                 boxDecorationType: state.recipeStepDescriptionValid
                                                     ? FormInputBoxDecorationType.textArea
                                                     : FormInputBoxDecorationType.error,
@@ -338,6 +339,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 builder: (context, state) {
                                   return ReorderableListView.builder(
                                     shrinkWrap: true,
+                                    buildDefaultDragHandles: false,
                                     itemCount: state.recipeStepList.length,
                                     onReorder: (int oldIndex, int newIndex) {
                                       if (oldIndex < newIndex) newIndex--;
@@ -346,38 +348,66 @@ class RecipeInteractionPage extends StatelessWidget {
                                     },
                                     itemBuilder: (context, index) {
                                       final step = state.recipeStepList[index];
-                                      return Padding(
+                                      return ReorderableDragStartListener(
+                                          index: index,
                                           key: ValueKey(step),
-                                          padding: const EdgeInsets.only(left: 10),
-                                          child: Row(
-                                            children: [
-                                              const Text("Recipe Step description here"),
-                                              // Expanded(child: Text(
-                                              //   "${ing.name}, ${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
-                                              //   style: const TextStyle(
-                                              //       fontSize: 16,
-                                              //       fontWeight: FontWeight.w400
-                                              //   ),
-                                              // )),
-                                              IconButton(
-                                                  splashRadius: 20,
-                                                  onPressed: () => showDialog(
-                                                      context: context,
-                                                      builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
-                                                          value: BlocProvider.of<RecipeInteractionBloc>(context),
-                                                          child: CustomAlertDialog(
-                                                            title: const Text("Remove Step"),
-                                                            content: Text("Are you sure you want to remove step ${index+1}?"),
-                                                            rightButtonText: "Remove",
-                                                            //rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
-                                                          )
+                                          child: Padding(
+                                          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+                                          child: Column(
+                                            children: <Widget>[
+                                                AspectRatio(
+                                                aspectRatio: 3/1,
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,))),
+                                                Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Expanded(
+                                                      child: Padding(padding: const EdgeInsets.only(top:5, bottom: 5),
+                                                        child: Text(
+                                                          "${index+1}. ${step.text}",
+                                                          style: const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.w400
+                                                          ),
+                                                        )
                                                       )
                                                   ),
-                                                  icon: const Icon(Icons.delete, color: Colors.redAccent)
+                                                  Column(
+                                                    children: <Widget>[
+                                                      IconButton(
+                                                        splashRadius: 20,
+                                                        onPressed: () => showDialog(
+                                                            context: context,
+                                                            builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                                                                value: BlocProvider.of<RecipeInteractionBloc>(context),
+                                                                child: CustomAlertDialog(
+                                                                  title: const Text("Remove Step"),
+                                                                  content: Text("Are you sure you want to remove step ${index+1}?"),
+                                                                  rightButtonText: "Remove",
+                                                                  //rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                                                )
+                                                            )
+                                                        ),
+                                                        icon: const Icon(Icons.delete, color: Colors.redAccent)
+                                                      ),
+                                                      IconButton(
+                                                        splashRadius: 20,
+                                                        onPressed: () => Clipboard.setData(ClipboardData(text: step.text)).then((_) {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text("Step ${index+1} copied to clipboard"),
+                                                                backgroundColor: Colors.lightGreen,
+                                                              ));
+                                                        }),
+                                                        icon: const Icon(Icons.copy, color: Colors.black54)
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
                                               )
-                                            ],
-                                          )
-                                      );
+                                      ])));
                                     },
                                   );
                                 },
