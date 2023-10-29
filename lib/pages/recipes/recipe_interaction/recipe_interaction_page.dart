@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -331,6 +332,55 @@ class RecipeInteractionPage extends StatelessWidget {
                                         )
                                       ]
                                   )
+                              ),
+                              BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                buildWhen: (p, c) => p.recipeStepList.length != c.recipeStepList.length,
+                                builder: (context, state) {
+                                  return ReorderableListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.recipeStepList.length,
+                                    onReorder: (int oldIndex, int newIndex) {
+                                      if (oldIndex < newIndex) newIndex--;
+                                      final RecipeStep step = state.recipeStepList.removeAt(oldIndex);
+                                      state.recipeStepList.insert(newIndex, step);
+                                    },
+                                    itemBuilder: (context, index) {
+                                      final step = state.recipeStepList[index];
+                                      return Padding(
+                                          key: ValueKey(step),
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Row(
+                                            children: [
+                                              const Text("Recipe Step description here"),
+                                              // Expanded(child: Text(
+                                              //   "${ing.name}, ${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
+                                              //   style: const TextStyle(
+                                              //       fontSize: 16,
+                                              //       fontWeight: FontWeight.w400
+                                              //   ),
+                                              // )),
+                                              IconButton(
+                                                  splashRadius: 20,
+                                                  onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                                                          value: BlocProvider.of<RecipeInteractionBloc>(context),
+                                                          child: CustomAlertDialog(
+                                                            title: const Text("Remove Step"),
+                                                            content: Text("Are you sure you want to remove step ${index+1}?"),
+                                                            rightButtonText: "Remove",
+                                                            //rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                                          )
+                                                      )
+                                                  ),
+                                                  icon: const Icon(Icons.delete, color: Colors.redAccent)
+                                              )
+                                            ],
+                                          )
+                                      );
+                                    },
+                                  );
+                                },
                               )
                             ],
                           ),
