@@ -8,4 +8,4 @@ part 'recipe_form_validation_error.dart';
 part 'serving_number.dart';
 part 'serving_size.dart';
 part 'kilocalories.dart';
-part 'cookingTime.dart';
+part 'cooking_time.dart';

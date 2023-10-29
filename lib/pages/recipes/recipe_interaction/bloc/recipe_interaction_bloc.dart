@@ -29,15 +29,32 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientQuantityChanged>(_ingredientQuantityChanged);
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
     on<RemoveIngredient>(_removeIngredient);
-    on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
     on<ServingNumberChanged>(_servingNumberChanged);
     on<ServingSizeChanged>(_servingSizeChanged);
     on<KilocaloriesChanged>(_kilocaloriesChanged);
     on<CookingTimeChanged>(_cookingTimeChanged);
+    on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
+    on<RecipeStepImagePicked>(_recipeStepImagePicked);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _recipeStepImagePicked(RecipeStepImagePicked event, Emitter<RecipeInteractionState> emit) {
+    emit(
+      state.copyWith(
+        recipeStepImagePath: event.imagePath
+      )
+    );
+  }
+
+  void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
+    emit(
+        state.copyWith(
+            recipeThumbnailPath: event.imagePath
+        )
+    );
+  }
 
   void _cookingTimeChanged(CookingTimeChanged event, Emitter<RecipeInteractionState> emit) {
     bool backspaceUsed = state.cookingTime.value.length > event.cookingTime.length;
@@ -94,14 +111,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       servingNumber: servingNumber,
       servingNumberValid: Formz.validate([servingNumber])
     ));
-  }
-
-  void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
-    emit(
-      state.copyWith(
-        recipeThumbnailPath: event.imagePath
-      )
-    );
   }
 
   void _removeIngredient(RemoveIngredient event, Emitter<RecipeInteractionState> emit) {

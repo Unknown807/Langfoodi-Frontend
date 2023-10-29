@@ -80,6 +80,15 @@ final class RecipeThumbnailPicked extends RecipeInteractionEvent {
   List<Object> get props => [imagePath];
 }
 
+final class RecipeStepImagePicked extends RecipeInteractionEvent {
+  const RecipeStepImagePicked(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  List<Object> get props => [imagePath];
+}
+
 final class ServingNumberChanged extends RecipeInteractionEvent {
   const ServingNumberChanged(this.servingNumber);
 

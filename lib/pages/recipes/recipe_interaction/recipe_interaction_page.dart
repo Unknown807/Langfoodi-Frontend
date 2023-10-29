@@ -86,17 +86,17 @@ class RecipeInteractionPage extends StatelessWidget {
                                           padding: const EdgeInsets.only(top: 5, right: 5),
                                           child: state.recipeThumbnailPath.isEmpty
                                               ? DottedBorder(
-                                                strokeWidth: 1.5,
-                                                color: Colors.blue,
-                                                borderType: BorderType.RRect,
-                                                radius: const Radius.circular(10),
-                                                padding: const EdgeInsets.all(25),
-                                                child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
+                                                  strokeWidth: 1.5,
+                                                  color: Colors.blue,
+                                                  borderType: BorderType.RRect,
+                                                  radius: const Radius.circular(10),
+                                                  padding: const EdgeInsets.all(25),
+                                                  child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
                                               : AspectRatio(
                                                   aspectRatio: 4/3,
                                                   child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
                                               )),
                                     );
                                   }
@@ -280,18 +280,37 @@ class RecipeInteractionPage extends StatelessWidget {
                                         ),
                                         Flexible(
                                             flex: 0,
-                                            child: GestureDetector(
-                                                onTap: () {} ,
-                                                child: Padding(
-                                                    padding: const EdgeInsets.only(top: 5, right: 5),
-                                                    child: DottedBorder(
-                                                      strokeWidth: 1.5,
-                                                      color: Colors.blue,
-                                                      borderType: BorderType.RRect,
-                                                      radius: const Radius.circular(10),
-                                                      padding: const EdgeInsets.all(25),
-                                                      child: const Icon(Icons.image, size: 40, color: Colors.blue,),
-                                                    )))
+                                            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                              buildWhen: (p, c) => p.recipeStepImagePath != c.recipeStepImagePath,
+                                              builder: (context, state) {
+                                                return GestureDetector(
+                                                    onTap: () async {
+                                                      final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                                      if (selectedImage != null && context.mounted) {
+                                                        context
+                                                          .read<RecipeInteractionBloc>()
+                                                          .add(RecipeStepImagePicked(selectedImage.path));
+                                                      }
+                                                    },
+                                                    child: Padding(
+                                                        padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
+                                                        child: state.recipeStepImagePath.isEmpty
+                                                            ? DottedBorder(
+                                                                strokeWidth: 1.5,
+                                                                color: Colors.blue,
+                                                                borderType: BorderType.RRect,
+                                                                radius: const Radius.circular(10),
+                                                                padding: const EdgeInsets.all(25),
+                                                                child: const Center(child: Icon(Icons.image, size: 40, color: Colors.blue,)))
+                                                            : AspectRatio(
+                                                                aspectRatio: 1/1,
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                  child: Image.file(File(state.recipeStepImagePath), fit: BoxFit.cover,))
+                                                        ))
+                                                );
+                                              }
+                                            )
                                         )
                                       ]
                                   )
