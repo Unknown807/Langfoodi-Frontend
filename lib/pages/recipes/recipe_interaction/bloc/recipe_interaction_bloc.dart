@@ -39,10 +39,27 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepImagePicked>(_recipeStepImagePicked);
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
+    on<ReorderRecipeStepList>(_reorderRecipeStepList);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emitter) {
+    final oldIndex = event.oldIndex;
+    var newIndex = event.newIndex;
+    if (oldIndex < newIndex) newIndex--;
+
+    List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
+    final RecipeStep stepToReorder = recipeStepsList.removeAt(oldIndex);
+    recipeStepsList.insert(newIndex, stepToReorder);
+
+    emit(
+      state.copyWith(
+        recipeStepList: recipeStepsList
+      )
+    );
+  }
 
   void _addNewRecipeStepFromDescription(AddNewRecipeStepFromDescription event, Emitter<RecipeInteractionState> emit) {
     final recipeStepDescription = RecipeStepDescription.dirty(event.description);

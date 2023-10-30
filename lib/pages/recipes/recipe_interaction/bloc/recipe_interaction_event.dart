@@ -151,3 +151,13 @@ final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
   @override
   List<Object> get props => [description];
 }
+
+final class ReorderRecipeStepList extends RecipeInteractionEvent {
+  const ReorderRecipeStepList(this.oldIndex, this.newIndex);
+
+  final int oldIndex;
+  final int newIndex;
+
+  @override
+  List<Object> get props => [oldIndex, newIndex];
+}
