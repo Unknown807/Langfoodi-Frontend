@@ -20,7 +20,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     servingSizeTextController: TextEditingController(),
     kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
-    cookingTimeHiddenTextController: TextEditingController()
+    cookingTimeHiddenTextController: TextEditingController(),
+    recipeStepDescriptionTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -29,15 +30,71 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<IngredientQuantityChanged>(_ingredientQuantityChanged);
     on<IngredientMeasurementChanged>(_ingredientMeasurementChanged);
     on<RemoveIngredient>(_removeIngredient);
-    on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
+    on<RemoveRecipeStep>(_removeRecipeStep);
     on<ServingNumberChanged>(_servingNumberChanged);
     on<ServingSizeChanged>(_servingSizeChanged);
     on<KilocaloriesChanged>(_kilocaloriesChanged);
     on<CookingTimeChanged>(_cookingTimeChanged);
+    on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
+    on<RecipeStepImagePicked>(_recipeStepImagePicked);
+    on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
+    on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _addNewRecipeStepFromDescription(AddNewRecipeStepFromDescription event, Emitter<RecipeInteractionState> emit) {
+    final recipeStepDescription = RecipeStepDescription.dirty(event.description);
+    final recipeStepDescriptionValid = Formz.validate([recipeStepDescription]);
+
+    if (recipeStepDescriptionValid && state.recipeStepImagePath.isNotEmpty) {
+      List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
+      recipeStepsList.add(RecipeStep(recipeStepDescription.value, state.recipeStepImagePath));
+
+      emit(
+        state.copyWith(
+          recipeStepImagePath: "",
+          recipeStepDescription: const RecipeStepDescription.pure(),
+          recipeStepList: recipeStepsList
+        )
+      );
+
+      state.recipeStepDescriptionTextController.clear();
+    } else {
+      emit(
+        state.copyWith(
+          recipeStepDescription: recipeStepDescription,
+          recipeStepDescriptionValid: recipeStepDescriptionValid
+        )
+      );
+    }
+  }
+
+  void _recipeStepDescriptionChanged(RecipeStepDescriptionChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeStepDescription = RecipeStepDescription.dirty(event.description);
+
+    emit(state.copyWith(
+        recipeStepDescription: recipeStepDescription,
+        recipeStepDescriptionValid: Formz.validate([recipeStepDescription])
+    ));
+  }
+
+  void _recipeStepImagePicked(RecipeStepImagePicked event, Emitter<RecipeInteractionState> emit) {
+    emit(
+      state.copyWith(
+        recipeStepImagePath: event.imagePath
+      )
+    );
+  }
+
+  void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
+    emit(
+        state.copyWith(
+            recipeThumbnailPath: event.imagePath
+        )
+    );
+  }
 
   void _cookingTimeChanged(CookingTimeChanged event, Emitter<RecipeInteractionState> emit) {
     bool backspaceUsed = state.cookingTime.value.length > event.cookingTime.length;
@@ -96,20 +153,22 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ));
   }
 
-  void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
-    emit(
-      state.copyWith(
-        recipeThumbnailPath: event.imagePath
-      )
-    );
-  }
-
   void _removeIngredient(RemoveIngredient event, Emitter<RecipeInteractionState> emit) {
     if (event.index >= 0 && event.index <= state.ingredientList.length) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);
       ingredientsList.removeAt(event.index);
       emit(state.copyWith(
         ingredientList: ingredientsList
+      ));
+    }
+  }
+
+  void _removeRecipeStep(RemoveRecipeStep event, Emitter<RecipeInteractionState> emit) {
+    if (event.index >= 0 && event.index <= state.recipeStepList.length) {
+      List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
+      recipeStepsList.removeAt(event.index);
+      emit(state.copyWith(
+        recipeStepList: recipeStepsList
       ));
     }
   }
@@ -173,6 +232,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     if (nameValid && quantityValid && measurementValid) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);
       ingredientsList.add(Ingredient(name.value, double.tryParse(quantity.value)!, measurement.value));
+
       emit(state.copyWith(
         ingredientName: const IngredientName.pure(),
         ingredientQuantity: const IngredientQuantity.pure(),

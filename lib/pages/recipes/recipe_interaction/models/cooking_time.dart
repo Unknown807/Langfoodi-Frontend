@@ -10,7 +10,7 @@ class CookingTime extends FormzInput<String, RecipeFormValidationError> {
 
   @override
   RecipeFormValidationError? validator(String value) {
-    return _cookingTimeExp.hasMatch(value)
+    return _cookingTimeExp.hasMatch(value) && (value != "00:00:00")
         ? null
         : RecipeFormValidationError.cookingTimeInvalid;
   }
