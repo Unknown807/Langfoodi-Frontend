@@ -21,7 +21,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
-    recipeStepDescriptionTextController: TextEditingController()
+    recipeStepDescriptionTextController: TextEditingController(),
+    labelFieldTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -40,17 +41,44 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
-    on<AddNewLabel>(_addNewLabel);
+    on<AddNewLabelFromField>(_addNewLabelFromField);
+    on<AddNewLabelFromButton>(_addNewLabelFromButton);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  void _addNewLabel(AddNewLabel event, Emitter<RecipeInteractionState> emitter) {
-
+  void _addNewLabelFromButton(AddNewLabelFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewLabel(state.labelFieldTextController.value.text);
   }
 
-  void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emitter) {
+  void _addNewLabelFromField(AddNewLabelFromField event, Emitter<RecipeInteractionState> emit) {
+    _addNewLabel(event.label);
+  }
+
+  void _addNewLabel(String label) {
+    if (!state.labelList.contains(label)) {
+      List<String> labelsList = List.from(state.labelList);
+      labelsList.add(label);
+
+      emit(
+          state.copyWith(
+              labelList: labelsList,
+              labelFieldValid: true
+          )
+      );
+
+      state.labelFieldTextController.clear();
+    } else {
+      emit(
+          state.copyWith(
+              labelFieldValid: false
+          )
+      );
+    }
+  }
+
+  void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emit) {
     final oldIndex = event.oldIndex;
     var newIndex = event.newIndex;
     if (oldIndex < newIndex) newIndex--;
@@ -222,7 +250,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ));
   }
 
-  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) async {
+  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
         event.name,
         state.ingredientQuantity.value,

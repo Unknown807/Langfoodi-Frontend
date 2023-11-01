@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -114,27 +113,43 @@ class RecipeInteractionPage extends StatelessWidget {
                                   eventFunc: (val) {})),
                           Padding(
                               padding: const EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                  children: <Widget>[
-                                    Flexible(
-                                      flex: 6,
-                                      child: FormInput(
-                                        hint: "Type Tags Here",
-                                        boxDecorationType: FormInputBoxDecorationType.underlined,
-                                        fontSize: 14,
-                                        maxLines: 1,
-                                        eventFunc: (val) {})
-                                    ),
-                                    Flexible(
-                                      flex: 1,
-                                      child: IconButton(
-                                        padding: const EdgeInsets.only(right: 1),
-                                        splashRadius: 20,
-                                        icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
-                                        onPressed: () {},
+                              child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                builder: (context, state) {
+                                  return Row(
+                                    children: <Widget>[
+                                      Flexible(
+                                        flex: 6,
+                                        child: FormInput(
+                                          hint: "Type Tags Here",
+                                          boxDecorationType: state.labelFieldValid
+                                              ? FormInputBoxDecorationType.underlined
+                                              : FormInputBoxDecorationType.underlinedError,
+                                          fontSize: 14,
+                                          maxLines: 1,
+                                          eventFunc: (value) {},
+                                          onSubmittedEventFunc: (value) {
+                                            context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(AddNewLabelFromField(value));
+                                          },
+                                        )
                                       ),
-                                    ),
-                                  ]
+                                      Flexible(
+                                        flex: 1,
+                                        child: IconButton(
+                                          padding: const EdgeInsets.only(right: 1),
+                                          splashRadius: 20,
+                                          icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
+                                          onPressed: () {
+                                            context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(const AddNewLabelFromButton());
+                                          },
+                                        ),
+                                      ),
+                                    ]
+                                  );
+                                }
                               )
                           ),
                           //Chip(label: Text("ting"), deleteIcon: Icon(Icons.close, size: 15,), onDeleted: () {},),

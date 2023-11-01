@@ -152,13 +152,17 @@ final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
   List<Object> get props => [description];
 }
 
-final class AddNewLabel extends RecipeInteractionEvent {
-  const AddNewLabel(this.label);
+final class AddNewLabelFromField extends RecipeInteractionEvent {
+  const AddNewLabelFromField(this.label);
 
   final String label;
 
   @override
   List<Object> get props => [label];
+}
+
+final class AddNewLabelFromButton extends RecipeInteractionEvent {
+  const AddNewLabelFromButton();
 }
 
 final class ReorderRecipeStepList extends RecipeInteractionEvent {
