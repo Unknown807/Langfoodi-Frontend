@@ -172,7 +172,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                       Flexible(
                                           flex: 2,
                                           child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                              buildWhen: (p, c) => p.ingredientName != c.ingredientName,
                                               builder: (context, state) {
                                                 return FormInput(
                                                     textController: state.ingredientNameTextController,

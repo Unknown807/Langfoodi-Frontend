@@ -291,11 +291,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final name = IngredientName.dirty(ingredientName);
     final quantity = IngredientQuantity.dirty(ingredientQuantity);
     final measurement = IngredientMeasurement.dirty(ingredientMeasurement);
-    final nameValid = Formz.validate([name]);
     final quantityValid = Formz.validate([quantity]);
     final measurementValid = Formz.validate([measurement]);
-
-    //TODO: prevent same ingredient from being added
+    final nameValid = Formz.validate([name])
+        && state.ingredientList
+            .where((ing) => ing.name.toLowerCase() == name.value.toLowerCase())
+            .isEmpty;
 
     if (nameValid && quantityValid && measurementValid) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);
