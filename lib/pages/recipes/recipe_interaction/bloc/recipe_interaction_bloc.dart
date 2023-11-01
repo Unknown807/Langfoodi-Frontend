@@ -40,10 +40,15 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
+    on<AddNewLabel>(_addNewLabel);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _addNewLabel(AddNewLabel event, Emitter<RecipeInteractionState> emitter) {
+
+  }
 
   void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emitter) {
     final oldIndex = event.oldIndex;

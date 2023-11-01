@@ -13,6 +13,7 @@ class RecipeInteractionState extends Equatable {
     required this.recipeStepDescriptionTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
+    this.labelList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
     this.ingredientMeasurement = const IngredientMeasurement.pure(),
@@ -46,6 +47,7 @@ class RecipeInteractionState extends Equatable {
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
+  final List<String> labelList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
   final IngredientMeasurement ingredientMeasurement;
@@ -79,7 +81,7 @@ class RecipeInteractionState extends Equatable {
     servingNumberTextController, servingSizeTextController,
     kilocaloriesTextController, recipeStepImagePath, recipeStepList,
     recipeStepDescription, recipeStepDescriptionValid,
-    recipeStepDescriptionTextController
+    recipeStepDescriptionTextController, labelList
   ];
 
   RecipeInteractionState copyWith({
@@ -95,6 +97,7 @@ class RecipeInteractionState extends Equatable {
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
+    List<String>? labelList,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
@@ -127,6 +130,7 @@ class RecipeInteractionState extends Equatable {
       formStatus: formStatus ?? this.formStatus,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
+      labelList: labelList ?? this.labelList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
       ingredientMeasurement: ingredientMeasurement ?? this.ingredientMeasurement,

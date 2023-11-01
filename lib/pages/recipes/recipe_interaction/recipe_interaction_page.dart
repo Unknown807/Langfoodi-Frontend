@@ -114,12 +114,30 @@ class RecipeInteractionPage extends StatelessWidget {
                                   eventFunc: (val) {})),
                           Padding(
                               padding: const EdgeInsets.only(bottom: 10),
-                              child: FormInput(
-                                  hint: "Type Tags Here",
-                                  boxDecorationType: FormInputBoxDecorationType.underlined,
-                                  fontSize: 14,
-                                  maxLines: 1,
-                                  eventFunc: (val) {})),
+                              child: Row(
+                                  children: <Widget>[
+                                    Flexible(
+                                      flex: 6,
+                                      child: FormInput(
+                                        hint: "Type Tags Here",
+                                        boxDecorationType: FormInputBoxDecorationType.underlined,
+                                        fontSize: 14,
+                                        maxLines: 1,
+                                        eventFunc: (val) {})
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: IconButton(
+                                        padding: const EdgeInsets.only(right: 1),
+                                        splashRadius: 20,
+                                        icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  ]
+                              )
+                          ),
+                          //Chip(label: Text("ting"), deleteIcon: Icon(Icons.close, size: 15,), onDeleted: () {},),
                           CustomExpansionTile(
                             title: const Text(
                               'Ingredients',
