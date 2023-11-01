@@ -17,7 +17,7 @@ void main() {
         final result = FormValidationError.getErrorMessage(FormValidationError.userNameInvalid);
 
         // Assert
-        expect(result, "Needs 3+ length & only letters/numbers");
+        expect(result, "Needs 3+ length & only letters/numbers/spaces and underscore");
       });
 
       test("passwordInvalid error", () {

@@ -335,16 +335,15 @@ class RecipeInteractionPage extends StatelessWidget {
                                   )
                               ),
                               BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                buildWhen: (p, c) => p.recipeStepList.length != c.recipeStepList.length,
                                 builder: (context, state) {
                                   return ReorderableListView.builder(
                                     shrinkWrap: true,
                                     buildDefaultDragHandles: false,
                                     itemCount: state.recipeStepList.length,
                                     onReorder: (int oldIndex, int newIndex) {
-                                      if (oldIndex < newIndex) newIndex--;
-                                      final RecipeStep step = state.recipeStepList.removeAt(oldIndex);
-                                      state.recipeStepList.insert(newIndex, step);
+                                      context
+                                        .read<RecipeInteractionBloc>()
+                                        .add(ReorderRecipeStepList(oldIndex, newIndex));
                                     },
                                     itemBuilder: (context, index) {
                                       final step = state.recipeStepList[index];
