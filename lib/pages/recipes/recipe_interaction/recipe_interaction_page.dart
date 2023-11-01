@@ -115,6 +115,7 @@ class RecipeInteractionPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget> [
                                 BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
                                   builder: (context, state) {
@@ -160,7 +161,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                   }
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
                                     buildWhen: (p, c) => p.recipeLabelList.length != c.recipeLabelList.length,
                                     builder: (context, state) {
@@ -174,13 +175,17 @@ class RecipeInteractionPage extends StatelessWidget {
                                               final label = state.recipeLabelList[index];
                                               return Chip(
                                                 label: Text(label, 
-                                                  style: const TextStyle(color: Color.fromRGBO(48, 72, 148, 0.8))),
-                                                backgroundColor: const Color.fromRGBO(163, 208, 251, 0.6),
+                                                  style: const TextStyle(color: Color.fromRGBO(98, 151, 246, 1))),
+                                                backgroundColor: const Color.fromRGBO(229, 239, 255, 1),
                                                 deleteButtonTooltipMessage: "",
                                                 deleteIcon: const Icon(Icons.close_rounded,
-                                                    color: Color.fromRGBO(48, 72, 148, 0.8),
-                                                    size:15,),
-                                                onDeleted: () {},
+                                                    color: Color.fromRGBO(98, 151, 246, 1),
+                                                    size: 17),
+                                                onDeleted: () {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(RemoveRecipeLabel(index));
+                                                },
                                               );
                                             }
                                           )

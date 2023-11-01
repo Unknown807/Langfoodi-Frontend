@@ -174,6 +174,15 @@ final class AddNewRecipeLabelFromButton extends RecipeInteractionEvent {
   const AddNewRecipeLabelFromButton();
 }
 
+final class RemoveRecipeLabel extends RecipeInteractionEvent {
+  const RemoveRecipeLabel(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+}
+
 final class ReorderRecipeStepList extends RecipeInteractionEvent {
   const ReorderRecipeStepList(this.oldIndex, this.newIndex);
 
