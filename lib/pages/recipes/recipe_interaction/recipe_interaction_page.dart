@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
@@ -112,50 +113,83 @@ class RecipeInteractionPage extends StatelessWidget {
                                   maxLines: 6,
                                   eventFunc: (val) {})),
                           Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                builder: (context, state) {
-                                  return Row(
-                                    children: <Widget>[
-                                      Flexible(
-                                        flex: 6,
-                                        child: FormInput(
-                                          textController: state.recipeLabelTextController,
-                                          hint: "Type Tags Here",
-                                          boxDecorationType: state.recipeLabelValid
-                                              ? FormInputBoxDecorationType.underlined
-                                              : FormInputBoxDecorationType.underlinedError,
-                                          fontSize: 14,
-                                          maxLines: 1,
-                                          eventFunc: (value) {
-                                            context
-                                              .read<RecipeInteractionBloc>()
-                                              .add(RecipeLabelChanged(value));
-                                          },
-                                          onSubmittedEventFunc: (value) {
-                                            context
-                                              .read<RecipeInteractionBloc>()
-                                              .add(AddNewRecipeLabelFromField(value));
-                                          },
-                                        )
-                                      ),
-                                      Flexible(
-                                        flex: 1,
-                                        child: IconButton(
-                                          padding: const EdgeInsets.only(right: 1),
-                                          splashRadius: 20,
-                                          icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
-                                          onPressed: () {
-                                            context
-                                              .read<RecipeInteractionBloc>()
-                                              .add(const AddNewRecipeLabelFromButton());
-                                          },
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Column(
+                              children: <Widget> [
+                                BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  builder: (context, state) {
+                                    return Row(
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 6,
+                                          child: FormInput(
+                                            textController: state.recipeLabelTextController,
+                                            hint: "Type Tags Here",
+                                            boxDecorationType: state.recipeLabelValid
+                                                ? FormInputBoxDecorationType.underlined
+                                                : FormInputBoxDecorationType.underlinedError,
+                                            fontSize: 14,
+                                            maxLines: 1,
+                                            eventFunc: (value) {
+                                              context
+                                                .read<RecipeInteractionBloc>()
+                                                .add(RecipeLabelChanged(value));
+                                            },
+                                            onSubmittedEventFunc: (value) {
+                                              context
+                                                .read<RecipeInteractionBloc>()
+                                                .add(AddNewRecipeLabelFromField(value));
+                                            },
+                                          )
                                         ),
-                                      ),
-                                    ]
-                                  );
-                                }
-                              )
+                                        Flexible(
+                                          flex: 1,
+                                          child: IconButton(
+                                            padding: const EdgeInsets.only(right: 1),
+                                            splashRadius: 20,
+                                            icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
+                                            onPressed: () {
+                                              context
+                                                .read<RecipeInteractionBloc>()
+                                                .add(const AddNewRecipeLabelFromButton());
+                                            },
+                                          ),
+                                        ),
+                                      ]
+                                    );
+                                  }
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                    buildWhen: (p, c) => p.recipeLabelList.length != c.recipeLabelList.length,
+                                    builder: (context, state) {
+                                      return Wrap(
+                                        runSpacing: 5,
+                                        spacing: 10,
+                                        children:
+                                          List.generate(
+                                            state.recipeLabelList.length,
+                                            (index) {
+                                              final label = state.recipeLabelList[index];
+                                              return Chip(
+                                                label: Text(label, 
+                                                  style: const TextStyle(color: Color.fromRGBO(48, 72, 148, 0.8))),
+                                                backgroundColor: const Color.fromRGBO(163, 208, 251, 0.6),
+                                                deleteButtonTooltipMessage: "",
+                                                deleteIcon: const Icon(Icons.close_rounded,
+                                                    color: Color.fromRGBO(48, 72, 148, 0.8),
+                                                    size:15,),
+                                                onDeleted: () {},
+                                              );
+                                            }
+                                          )
+                                      );
+                                    }
+                                  )
+                                )
+                              ]
+                            )
                           ),
                           //Chip(label: Text("ting"), deleteIcon: Icon(Icons.close, size: 15,), onDeleted: () {},),
                           CustomExpansionTile(
