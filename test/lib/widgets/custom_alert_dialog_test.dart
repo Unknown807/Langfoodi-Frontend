@@ -8,13 +8,13 @@ import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late NavigationRepositoryMock navigationRepositoryMock;
-  late FunctionMock leftBtnFuncMock;
-  late FunctionMock rightBtnFuncMock;
+  late FunctionMock cancelBtnFuncMock;
+  late FunctionMock okBtnFuncMock;
 
   setUp(() {
     navigationRepositoryMock = NavigationRepositoryMock();
-    leftBtnFuncMock = FunctionMock();
-    rightBtnFuncMock = FunctionMock();
+    cancelBtnFuncMock = FunctionMock();
+    okBtnFuncMock = FunctionMock();
 
     registerFallbackValue(BuildContextMock());
   });
@@ -27,8 +27,8 @@ void main() {
           body: CustomAlertDialog(
             title: const Text("Dialog Title Here"),
             content: const Text("Dialog Content Here"),
-            leftButtonCallback: leftBtnFuncMock,
-            rightButtonCallback: rightBtnFuncMock,
+            leftButtonCallback: cancelBtnFuncMock,
+            rightButtonCallback: okBtnFuncMock,
           ),
         )
       )
@@ -46,9 +46,9 @@ void main() {
     expect(find.text("Ok"), findsOneWidget);
     await widgetTester.tap(find.text("Cancel"));
 
-    verify(leftBtnFuncMock).called(1);
+    verify(cancelBtnFuncMock).called(1);
     verify(() => navigationRepositoryMock.dismissDialog(any())).called(1);
-    verifyNever(rightBtnFuncMock);
+    verifyNever(okBtnFuncMock);
   });
 
   testWidgets("Right dialog button pressed", (widgetTester) async {
@@ -62,8 +62,8 @@ void main() {
     expect(find.text("Ok"), findsOneWidget);
     await widgetTester.tap(find.text("Ok"));
 
-    verify(rightBtnFuncMock).called(1);
+    verify(okBtnFuncMock).called(1);
     verify(() => navigationRepositoryMock.dismissDialog(any())).called(1);
-    verifyNever(leftBtnFuncMock);
+    verifyNever(cancelBtnFuncMock);
   });
 }
