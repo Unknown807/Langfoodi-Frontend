@@ -120,17 +120,22 @@ class RecipeInteractionPage extends StatelessWidget {
                                       Flexible(
                                         flex: 6,
                                         child: FormInput(
+                                          textController: state.recipeLabelTextController,
                                           hint: "Type Tags Here",
-                                          boxDecorationType: state.labelFieldValid
+                                          boxDecorationType: state.recipeLabelValid
                                               ? FormInputBoxDecorationType.underlined
                                               : FormInputBoxDecorationType.underlinedError,
                                           fontSize: 14,
                                           maxLines: 1,
-                                          eventFunc: (value) {},
+                                          eventFunc: (value) {
+                                            context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(RecipeLabelChanged(value));
+                                          },
                                           onSubmittedEventFunc: (value) {
                                             context
                                               .read<RecipeInteractionBloc>()
-                                              .add(AddNewLabelFromField(value));
+                                              .add(AddNewRecipeLabelFromField(value));
                                           },
                                         )
                                       ),
@@ -143,7 +148,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                           onPressed: () {
                                             context
                                               .read<RecipeInteractionBloc>()
-                                              .add(const AddNewLabelFromButton());
+                                              .add(const AddNewRecipeLabelFromButton());
                                           },
                                         ),
                                       ),

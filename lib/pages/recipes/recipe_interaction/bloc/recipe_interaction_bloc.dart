@@ -22,7 +22,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
     recipeStepDescriptionTextController: TextEditingController(),
-    labelFieldTextController: TextEditingController()
+    recipeLabelTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -41,38 +41,54 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
-    on<AddNewLabelFromField>(_addNewLabelFromField);
-    on<AddNewLabelFromButton>(_addNewLabelFromButton);
+    on<AddNewRecipeLabelFromField>(_addNewLabelFromField);
+    on<AddNewRecipeLabelFromButton>(_addNewLabelFromButton);
+    on<RecipeLabelChanged>(_recipeLabelChanged);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  void _addNewLabelFromButton(AddNewLabelFromButton event, Emitter<RecipeInteractionState> emit) {
-    _addNewLabel(state.labelFieldTextController.value.text);
+  void _recipeLabelChanged(RecipeLabelChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeLabel = RecipeLabel.dirty(event.label);
+
+    emit(
+      state.copyWith(
+        recipeLabel: recipeLabel,
+        recipeLabelValid: Formz.validate([recipeLabel])
+      )
+    );
   }
 
-  void _addNewLabelFromField(AddNewLabelFromField event, Emitter<RecipeInteractionState> emit) {
+  void _addNewLabelFromButton(AddNewRecipeLabelFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewLabel(state.recipeLabelTextController.value.text);
+  }
+
+  void _addNewLabelFromField(AddNewRecipeLabelFromField event, Emitter<RecipeInteractionState> emit) {
     _addNewLabel(event.label);
   }
 
   void _addNewLabel(String label) {
-    if (!state.labelList.contains(label)) {
-      List<String> labelsList = List.from(state.labelList);
+    final recipeLabel = RecipeLabel.dirty(label);
+
+    if (Formz.validate([recipeLabel]) && !state.recipeLabelList.contains(label)) {
+      List<String> labelsList = List.from(state.recipeLabelList);
       labelsList.add(label);
 
       emit(
           state.copyWith(
-              labelList: labelsList,
-              labelFieldValid: true
+            recipeLabel: const RecipeLabel.pure(),
+            recipeLabelList: labelsList,
+            recipeLabelValid: true
           )
       );
 
-      state.labelFieldTextController.clear();
+      state.recipeLabelTextController.clear();
     } else {
       emit(
           state.copyWith(
-              labelFieldValid: false
+            recipeLabel: recipeLabel,
+            recipeLabelValid: false
           )
       );
     }
@@ -278,6 +294,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final nameValid = Formz.validate([name]);
     final quantityValid = Formz.validate([quantity]);
     final measurementValid = Formz.validate([measurement]);
+
+    //TODO: prevent same ingredient from being added
 
     if (nameValid && quantityValid && measurementValid) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);
