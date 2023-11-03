@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
@@ -105,13 +104,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ))
                             ]),
                             Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: FormInput(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                buildWhen: (p, c) => p.recipeDescription != c.recipeDescription,
+                                builder: (context, state) {
+                                  return FormInput(
                                     hint: "Recipe Description Here",
-                                    boxDecorationType: FormInputBoxDecorationType.textArea,
-                                  fontSize: 14,
-                                  maxLines: 6,
-                                  eventFunc: (val) {})),
+                                    boxDecorationType: state.recipeDescriptionValid
+                                        ? FormInputBoxDecorationType.textArea
+                                        : FormInputBoxDecorationType.error,
+                                    fontSize: 14,
+                                    maxLines: 6,
+                                    eventFunc: (value) {
+                                      context
+                                        .read<RecipeInteractionBloc>()
+                                        .add(RecipeDescriptionChanged(value));
+                                    }
+                                  );
+                                 }
+                               ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Column(

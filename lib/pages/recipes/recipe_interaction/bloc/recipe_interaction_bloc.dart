@@ -45,10 +45,22 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<AddNewRecipeLabelFromButton>(_addNewLabelFromButton);
     on<RecipeLabelChanged>(_recipeLabelChanged);
     on<RemoveRecipeLabel>(_removeRecipeLabel);
+    on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _recipeDescriptionChanged(RecipeDescriptionChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeDescription = RecipeDescription.dirty(event.description);
+    
+    emit(
+      state.copyWith(
+        recipeDescription: recipeDescription,
+        recipeDescriptionValid: Formz.validate([recipeDescription])
+      )
+    );
+  }
 
   void _removeRecipeLabel(RemoveRecipeLabel event, Emitter<RecipeInteractionState> emit) {
     if (event.index >= 0 && event.index <= state.recipeLabelList.length) {

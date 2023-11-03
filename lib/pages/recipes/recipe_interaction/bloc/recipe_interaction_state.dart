@@ -24,6 +24,7 @@ class RecipeInteractionState extends Equatable {
     this.cookingTime = const CookingTime.pure(),
     this.recipeStepDescription = const RecipeStepDescription.pure(),
     this.recipeLabel = const RecipeLabel.pure(),
+    this.recipeDescription = const RecipeDescription.pure(),
     this.ingredientNameValid = true,
     this.ingredientQuantityValid = true,
     this.ingredientMeasurementValid = true,
@@ -33,6 +34,7 @@ class RecipeInteractionState extends Equatable {
     this.cookingTimeValid = true,
     this.recipeStepDescriptionValid = true,
     this.recipeLabelValid = true,
+    this.recipeDescriptionValid = true,
     this.recipeThumbnailPath = "",
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial
@@ -61,6 +63,7 @@ class RecipeInteractionState extends Equatable {
   final CookingTime cookingTime;
   final RecipeStepDescription recipeStepDescription;
   final RecipeLabel recipeLabel;
+  final RecipeDescription recipeDescription;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
@@ -70,6 +73,7 @@ class RecipeInteractionState extends Equatable {
   final bool cookingTimeValid;
   final bool recipeStepDescriptionValid;
   final bool recipeLabelValid;
+  final bool recipeDescriptionValid;
   final String recipeThumbnailPath;
   final String recipeStepImagePath;
 
@@ -88,7 +92,8 @@ class RecipeInteractionState extends Equatable {
     kilocaloriesTextController, recipeStepImagePath, recipeStepList,
     recipeStepDescription, recipeStepDescriptionValid,
     recipeStepDescriptionTextController, recipeLabelList,
-    recipeLabelValid, recipeLabelTextController, recipeLabel
+    recipeLabelValid, recipeLabelTextController, recipeLabel,
+    recipeDescription, recipeDescriptionValid
   ];
 
   RecipeInteractionState copyWith({
@@ -115,6 +120,7 @@ class RecipeInteractionState extends Equatable {
     CookingTime? cookingTime,
     RecipeStepDescription? recipeStepDescription,
     RecipeLabel? recipeLabel,
+    RecipeDescription? recipeDescription,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
@@ -124,6 +130,7 @@ class RecipeInteractionState extends Equatable {
     bool? cookingTimeValid,
     bool? recipeStepDescriptionValid,
     bool? recipeLabelValid,
+    bool? recipeDescriptionValid,
     String? recipeThumbnailPath,
     String? recipeStepImagePath
   }) {
@@ -150,6 +157,7 @@ class RecipeInteractionState extends Equatable {
       cookingTime: cookingTime ?? this.cookingTime,
       recipeStepDescription: recipeStepDescription ?? this.recipeStepDescription,
       recipeLabel: recipeLabel ?? this.recipeLabel,
+      recipeDescription: recipeDescription ?? this.recipeDescription,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
@@ -159,6 +167,7 @@ class RecipeInteractionState extends Equatable {
       cookingTimeValid: cookingTimeValid ?? this.cookingTimeValid,
       recipeStepDescriptionValid: recipeStepDescriptionValid ?? this.recipeStepDescriptionValid,
       recipeLabelValid: recipeLabelValid ?? this.recipeLabelValid,
+      recipeDescriptionValid: recipeDescriptionValid ?? this.recipeDescriptionValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,

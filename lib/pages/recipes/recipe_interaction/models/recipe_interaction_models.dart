@@ -11,3 +11,4 @@ part 'kilocalories.dart';
 part 'cooking_time.dart';
 part 'recipe_step_description.dart';
 part 'recipe_label.dart';
+part 'recipe_description.dart';

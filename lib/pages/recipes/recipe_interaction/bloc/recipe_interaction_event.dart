@@ -143,6 +143,15 @@ final class RecipeStepDescriptionChanged extends RecipeInteractionEvent {
   List<Object> get props => [description];
 }
 
+final class RecipeDescriptionChanged extends RecipeInteractionEvent {
+  const RecipeDescriptionChanged(this.description);
+
+  final String description;
+
+  @override
+  List<Object> get props => [description];
+}
+
 final class RecipeLabelChanged extends RecipeInteractionEvent {
   const RecipeLabelChanged(this.label);
 
