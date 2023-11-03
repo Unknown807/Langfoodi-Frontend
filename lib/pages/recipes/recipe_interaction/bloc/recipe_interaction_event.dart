@@ -201,3 +201,12 @@ final class ReorderRecipeStepList extends RecipeInteractionEvent {
   @override
   List<Object> get props => [oldIndex, newIndex];
 }
+
+final class RecipeTitleChanged extends RecipeInteractionEvent {
+  const RecipeTitleChanged(this.title);
+
+  final String title;
+
+  @override
+  List<Object> get props => [title];
+}

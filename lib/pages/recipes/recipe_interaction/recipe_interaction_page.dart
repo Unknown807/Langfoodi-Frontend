@@ -32,13 +32,25 @@ class RecipeInteractionPage extends StatelessWidget {
                 context.read<AuthenticationRepository>(), recipeRepoContext.read<RecipeRepository>()),
             child: Scaffold(
                 appBar: AppBar(
-                  title: FormInput(
-                      hint: "Recipe Name Here",
-                      innerPadding: EdgeInsets.zero,
-                      outerPadding: const EdgeInsets.only(bottom: 5),
-                      textAlign: TextAlign.center,
-                      fontSize: 20,
-                      eventFunc: (val) {}),
+                  title: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                    buildWhen: (p, c) => p.recipeTitle != c.recipeTitle,
+                    builder: (context, state) {
+                      return FormInput(
+                        hint: "Recipe Name Here",
+                        boxDecorationType: state.recipeTitleValid
+                            ? FormInputBoxDecorationType.minimal
+                            : FormInputBoxDecorationType.error,
+                        innerPadding: EdgeInsets.zero,
+                        outerPadding: const EdgeInsets.only(bottom: 5),
+                        textAlign: TextAlign.center,
+                        fontSize: 20,
+                        eventFunc: (value) {
+                          context
+                            .read<RecipeInteractionBloc>()
+                            .add(RecipeTitleChanged(value));
+                        }
+                      );
+                    }),
                   backgroundColor: Colors.white,
                   elevation: 0.5,
                   leading: IconButton(
