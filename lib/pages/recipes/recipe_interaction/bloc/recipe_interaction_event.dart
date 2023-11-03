@@ -210,3 +210,7 @@ final class RecipeTitleChanged extends RecipeInteractionEvent {
   @override
   List<Object> get props => [title];
 }
+
+final class RecipeFormSubmission extends RecipeInteractionEvent {
+  const RecipeFormSubmission();
+}

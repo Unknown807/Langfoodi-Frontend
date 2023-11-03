@@ -47,10 +47,15 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RemoveRecipeLabel>(_removeRecipeLabel);
     on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
     on<RecipeTitleChanged>(_recipeTitleChanged);
+    on<RecipeFormSubmission>(_recipeFormSubmission);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) {
+    print("Submitted");
+  }
 
   void _recipeTitleChanged(RecipeTitleChanged event, Emitter<RecipeInteractionState> emit) {
     final recipeTitle = RecipeTitle.dirty(event.title);
