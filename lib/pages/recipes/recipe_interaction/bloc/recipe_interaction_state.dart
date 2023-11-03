@@ -12,6 +12,8 @@ class RecipeInteractionState extends Equatable {
     required this.cookingTimeHiddenTextController,
     required this.recipeStepDescriptionTextController,
     required this.recipeLabelTextController,
+    required this.recipeDescriptionTextController,
+    required this.recipeTitleTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
     this.recipeLabelList = const [],
@@ -52,6 +54,8 @@ class RecipeInteractionState extends Equatable {
   final TextEditingController cookingTimeHiddenTextController;
   final TextEditingController recipeStepDescriptionTextController;
   final TextEditingController recipeLabelTextController;
+  final TextEditingController recipeDescriptionTextController;
+  final TextEditingController recipeTitleTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
@@ -98,7 +102,8 @@ class RecipeInteractionState extends Equatable {
     recipeStepDescriptionTextController, recipeLabelList,
     recipeLabelValid, recipeLabelTextController, recipeLabel,
     recipeDescription, recipeDescriptionValid, recipeTitle,
-    recipeTitleValid
+    recipeTitleValid, recipeDescriptionTextController,
+    recipeTitleTextController
   ];
 
   RecipeInteractionState copyWith({
@@ -112,6 +117,8 @@ class RecipeInteractionState extends Equatable {
     TextEditingController? cookingTimeHiddenTextController,
     TextEditingController? recipeStepDescriptionTextController,
     TextEditingController? recipeLabelTextController,
+    TextEditingController? recipeDescriptionTextController,
+    TextEditingController? recipeTitleTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
@@ -152,6 +159,8 @@ class RecipeInteractionState extends Equatable {
       cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
       recipeStepDescriptionTextController: recipeStepDescriptionTextController ?? this.recipeStepDescriptionTextController,
       recipeLabelTextController: recipeLabelTextController ?? this.recipeLabelTextController,
+      recipeDescriptionTextController: recipeDescriptionTextController ?? this.recipeDescriptionTextController,
+      recipeTitleTextController: recipeTitleTextController ?? this.recipeTitleTextController,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
       recipeLabelList: recipeLabelList ?? this.recipeLabelList,

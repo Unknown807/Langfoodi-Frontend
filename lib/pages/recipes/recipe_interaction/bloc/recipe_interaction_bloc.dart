@@ -22,7 +22,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
     recipeStepDescriptionTextController: TextEditingController(),
-    recipeLabelTextController: TextEditingController()
+    recipeLabelTextController: TextEditingController(),
+    recipeDescriptionTextController: TextEditingController(),
+    recipeTitleTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -53,8 +55,13 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) {
-    print("Submitted");
+  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+    print("In Progress");
+
+    await Future.delayed(const Duration(milliseconds: 2000), () {
+      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    });
   }
 
   void _recipeTitleChanged(RecipeTitleChanged event, Emitter<RecipeInteractionState> emit) {
