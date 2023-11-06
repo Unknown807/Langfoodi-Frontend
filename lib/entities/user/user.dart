@@ -1,5 +1,3 @@
-
-
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
 

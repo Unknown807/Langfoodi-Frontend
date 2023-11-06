@@ -5,9 +5,10 @@ class UpdateRecipeContract with JsonConvertible {
     required this.id,
     required this.title,
     required this.description,
-    required this.labels,
+    required this.tags,
     required this.ingredients,
     required this.recipeSteps,
+    this.thumbnailId,
     this.cookingTime,
     this.kiloCalories,
     this.numberOfServings
@@ -16,9 +17,10 @@ class UpdateRecipeContract with JsonConvertible {
   final String id;
   final String title;
   final String description;
-  final List<String> labels;
+  final List<String> tags;
   final List<Ingredient> ingredients;
   final List<RecipeStep> recipeSteps;
+  final String? thumbnailId;
   final Duration? cookingTime;
   final int? kiloCalories;
   final int? numberOfServings;
@@ -27,9 +29,10 @@ class UpdateRecipeContract with JsonConvertible {
   Map toJson() {
     return {
       "id": id,
+      "thumbnailId": thumbnailId,
       "title": title,
       "description": description,
-      "labels": labels,
+      "labels": tags,
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
