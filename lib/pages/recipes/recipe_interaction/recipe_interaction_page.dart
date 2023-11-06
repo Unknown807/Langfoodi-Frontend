@@ -124,9 +124,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                         Flexible(
                                           flex: 6,
                                           child: FormInput(
-                                            textController: state.recipeLabelTextController,
+                                            textController: state.recipeTagTextController,
                                             hint: "Type Tags Here",
-                                            boxDecorationType: state.recipeLabelValid
+                                            boxDecorationType: state.recipeTagValid
                                                 ? FormInputBoxDecorationType.underlined
                                                 : FormInputBoxDecorationType.underlinedError,
                                             fontSize: 14,
@@ -134,12 +134,12 @@ class RecipeInteractionPage extends StatelessWidget {
                                             eventFunc: (value) {
                                               context
                                                 .read<RecipeInteractionBloc>()
-                                                .add(RecipeLabelChanged(value));
+                                                .add(RecipeTagChanged(value));
                                             },
                                             onSubmittedEventFunc: (value) {
                                               context
                                                 .read<RecipeInteractionBloc>()
-                                                .add(AddNewRecipeLabelFromField(value));
+                                                .add(AddNewRecipeTagFromField(value));
                                             },
                                           )
                                         ),
@@ -152,7 +152,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                             onPressed: () {
                                               context
                                                 .read<RecipeInteractionBloc>()
-                                                .add(const AddNewRecipeLabelFromButton());
+                                                .add(const AddNewRecipeTagFromButton());
                                             },
                                           ),
                                         ),
@@ -163,18 +163,18 @@ class RecipeInteractionPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                    buildWhen: (p, c) => p.recipeLabelList.length != c.recipeLabelList.length,
+                                    buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length,
                                     builder: (context, state) {
                                       return Wrap(
                                         runSpacing: 5,
                                         spacing: 10,
                                         children:
                                           List.generate(
-                                            state.recipeLabelList.length,
+                                            state.recipeTagList.length,
                                             (index) {
-                                              final label = state.recipeLabelList[index];
+                                              final tag = state.recipeTagList[index];
                                               return Chip(
-                                                label: Text(label, 
+                                                label: Text(tag,
                                                   style: const TextStyle(color: Color.fromRGBO(98, 151, 246, 1))),
                                                 backgroundColor: const Color.fromRGBO(229, 239, 255, 1),
                                                 deleteButtonTooltipMessage: "",
@@ -184,7 +184,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 onDeleted: () {
                                                   context
                                                     .read<RecipeInteractionBloc>()
-                                                    .add(RemoveRecipeLabel(index));
+                                                    .add(RemoveRecipeTag(index));
                                                 },
                                               );
                                             }
@@ -196,7 +196,6 @@ class RecipeInteractionPage extends StatelessWidget {
                               ]
                             )
                           ),
-                          //Chip(label: Text("ting"), deleteIcon: Icon(Icons.close, size: 15,), onDeleted: () {},),
                           CustomExpansionTile(
                             title: const Text(
                               'Ingredients',
