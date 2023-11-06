@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
-import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 export 'recipe_interaction_bloc.dart';
@@ -12,7 +12,7 @@ part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._authRepo, this._recipeRepo) : super(RecipeInteractionState(
+  RecipeInteractionBloc(this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -52,12 +52,13 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeFormSubmission>(_recipeFormSubmission);
   }
 
-  final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+  final ImageRepository _imageRepo;
 
   void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
-    print("In Progress");
+
+    //NewRecipeContract newRecipeContract =
 
     await Future.delayed(const Duration(milliseconds: 2000), () {
       emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
@@ -161,9 +162,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final recipeStepDescription = RecipeStepDescription.dirty(event.description);
     final recipeStepDescriptionValid = Formz.validate([recipeStepDescription]);
 
-    if (recipeStepDescriptionValid && state.recipeStepImagePath.isNotEmpty) {
+    if (recipeStepDescriptionValid) {
       List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
-      recipeStepsList.add(RecipeStep(recipeStepDescription.value, state.recipeStepImagePath));
+      String? recipeStepImagePath = state.recipeStepImagePath.isNotEmpty
+        ? state.recipeStepImagePath : null;
+
+      recipeStepsList.add(RecipeStep(recipeStepDescription.value, recipeStepImagePath));
 
       emit(
         state.copyWith(

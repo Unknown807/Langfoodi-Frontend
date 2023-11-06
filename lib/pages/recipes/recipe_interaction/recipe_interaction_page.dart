@@ -7,7 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
-import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
@@ -26,11 +26,15 @@ class RecipeInteractionPage extends StatelessWidget {
       print(args.readonly);
     }
 
-    return RepositoryProvider(
-        create: (_) => RecipeRepository(),
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (_) => ImageRepository()),
+          RepositoryProvider(create: (_) => RecipeRepository()),
+        ],
         child: BlocProvider<RecipeInteractionBloc>(
-            create: (recipeRepoContext) => RecipeInteractionBloc(
-                context.read<AuthenticationRepository>(), recipeRepoContext.read<RecipeRepository>()),
+            create: (recipeInteractContext) => RecipeInteractionBloc(
+                recipeInteractContext.read<RecipeRepository>(),
+                recipeInteractContext.read<ImageRepository>()),
             child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
               buildWhen: (p, c) => p.formStatus != c.formStatus,
               builder: (context, state) {
@@ -477,11 +481,13 @@ class RecipeInteractionPage extends StatelessWidget {
                                                   padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
                                                   child: Column(
                                                     children: <Widget>[
-                                                        AspectRatio(
-                                                        aspectRatio: 3/1,
-                                                        child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,))),
+                                                        step.imageUrl != null
+                                                          ? AspectRatio(
+                                                            aspectRatio: 3/1,
+                                                            child: ClipRRect(
+                                                                borderRadius: BorderRadius.circular(5),
+                                                                child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,)))
+                                                          : const SizedBox(height: 0, width: 0,),
                                                         Row(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
