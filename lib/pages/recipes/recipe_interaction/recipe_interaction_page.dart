@@ -7,6 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
@@ -33,8 +34,9 @@ class RecipeInteractionPage extends StatelessWidget {
         ],
         child: BlocProvider<RecipeInteractionBloc>(
             create: (recipeInteractContext) => RecipeInteractionBloc(
-                recipeInteractContext.read<RecipeRepository>(),
-                recipeInteractContext.read<ImageRepository>()),
+              context.read<AuthenticationRepository>(),
+              recipeInteractContext.read<RecipeRepository>(),
+              recipeInteractContext.read<ImageRepository>()),
             child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
               buildWhen: (p, c) => p.formStatus != c.formStatus,
               builder: (context, state) {

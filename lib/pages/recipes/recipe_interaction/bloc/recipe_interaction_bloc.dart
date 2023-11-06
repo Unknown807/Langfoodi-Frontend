@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
@@ -12,7 +13,7 @@ part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
+  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -52,17 +53,122 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeFormSubmission>(_recipeFormSubmission);
   }
 
+  final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final ImageRepository _imageRepo;
 
   void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
-    //NewRecipeContract newRecipeContract =
+    // Required Fields
+    final recipeDescriptionValid = Formz.validate([state.recipeDescription]);
+    final recipeTitleValid = Formz.validate([state.recipeTitle]);
+    final recipeStepsValid = state.recipeStepList.isNotEmpty;
+    final recipeIngredientsValid = state.ingredientList.isNotEmpty;
 
-    await Future.delayed(const Duration(milliseconds: 2000), () {
+    // Optional Fields
+    final servingSizeNotEmpty = state.servingSize.value.isNotEmpty;
+    final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
+    final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
+    final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
+
+    final servingSizeValid = servingSizeNotEmpty ? Formz.validate([state.servingSize]) : true;
+    final servingNumberValid = servingNumberNotEmpty ? Formz.validate([state.servingNumber]) : true;
+    final kilocaloriesValid = kilocaloriesNotEmpty ? Formz.validate([state.kilocalories]) : true;
+    final cookingTimeValid = cookingTimeNotEmpty ? Formz.validate([state.cookingTime]) : true;
+
+    final allFieldsValid =
+        recipeDescriptionValid && recipeTitleValid
+        && recipeStepsValid && recipeIngredientsValid
+        && servingSizeValid && servingNumberValid
+        && kilocaloriesValid && cookingTimeValid;
+
+    if (!allFieldsValid) {
+      // TODO: is this gonna work?
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+    Signature? uploadSignature = await _imageRepo.getSignature();
+    if (uploadSignature == null) {
+      // TODO: maybe add error message to display?
       emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
-    });
+      return;
+    }
+
+    final contract = SignedUploadContract(
+        uploadSignature.signature,
+        uploadSignature.timeStamp);
+
+    Map<int, HostedImage?> hostedImages = {};
+    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      RecipeStep step = state.recipeStepList[i];
+      if (step.imageUrl != null) {
+        HostedImage? recipeStepHostedImage = await _imageRepo
+            .uploadImage(step.imageUrl!, contract);
+
+        hostedImages[i] = recipeStepHostedImage;
+      }
+    }
+
+    HostedImage? recipeThumbnailHosted;
+    bool thumbnailNotEmpty = state.recipeThumbnailPath.isNotEmpty;
+    if (thumbnailNotEmpty) {
+      recipeThumbnailHosted = await _imageRepo
+          .uploadImage(state.recipeThumbnailPath, contract);
+    }
+
+    bool anyNullHostedImages = hostedImages.values.any((img) => img == null);
+    if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
+      if (thumbnailNotEmpty) hostedImages[-1] = recipeThumbnailHosted;
+
+      // TODO: remove all non-null images from hosting
+
+      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return;
+    }
+
+    final List<RecipeStep> hostedRecipeSteps = [];
+    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      hostedRecipeSteps.add(RecipeStep(
+          state.recipeStepList[i].text,
+          hostedImages.containsKey(i) ? hostedImages[i]!.publicId : null)
+      );
+    }
+
+    final userId = (await _authRepo.currentUser).id!;
+
+    Duration? cookingTimeDuration;
+    if (cookingTimeNotEmpty) {
+      final cookingTimeParts = state.cookingTime.value.split(":");
+      cookingTimeDuration = Duration(
+          hours: int.parse(cookingTimeParts[0]),
+          minutes: int.parse(cookingTimeParts[1]),
+          seconds: int.parse(cookingTimeParts[2])
+      );
+    }
+
+    NewRecipeContract newRecipeContract = NewRecipeContract(
+      title: state.recipeTitle.value,
+      description: state.recipeDescription.value,
+      thumbnailId: recipeThumbnailHosted?.publicId,
+      chefId: userId,
+      tags: state.recipeLabelList,
+      ingredients: state.ingredientList,
+      recipeSteps: hostedRecipeSteps,
+      cookingTime: cookingTimeDuration,
+      kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
+      numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
+      servingSize: servingSizeNotEmpty ? int.parse(state.servingSize.value) : null
+    );
+
+    RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
+    if (recipeDetailed == null) {
+      // TODO: remove recipe step images and hosted image
+      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return;
+    }
+
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
   }
 
   void _recipeTitleChanged(RecipeTitleChanged event, Emitter<RecipeInteractionState> emit) {

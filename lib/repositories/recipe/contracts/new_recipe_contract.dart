@@ -8,9 +8,11 @@ class NewRecipeContract with JsonConvertible {
     required this.tags,
     required this.ingredients,
     required this.recipeSteps,
+    this.thumbnailId,
     this.cookingTime,
     this.kiloCalories,
-    this.numberOfServings
+    this.numberOfServings,
+    this.servingSize
   });
 
   final String title;
@@ -19,22 +21,26 @@ class NewRecipeContract with JsonConvertible {
   final List<String> tags;
   final List<Ingredient> ingredients;
   final List<RecipeStep> recipeSteps;
+  final String? thumbnailId;
   final Duration? cookingTime;
   final int? kiloCalories;
   final int? numberOfServings;
+  final int? servingSize;
 
   @override
   Map toJson() {
     return {
       "title": title,
       "description": description,
+      "thumbnailId": thumbnailId,
       "chefId": chefId,
       "tags": tags,
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
       "kiloCalories": kiloCalories,
-      "numberOfServings": numberOfServings
+      "numberOfServings": numberOfServings,
+      "servingSize": servingSize
     };
   }
 }
