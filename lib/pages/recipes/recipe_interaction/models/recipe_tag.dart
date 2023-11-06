@@ -12,6 +12,6 @@ class RecipeTag extends FormzInput<String, RecipeFormValidationError> {
   RecipeFormValidationError? validator(String value) {
     return _recipeLabelExp.hasMatch(value)
         ? null
-        : RecipeFormValidationError.recipeLabelInvalid;
+        : RecipeFormValidationError.recipeTagInvalid;
   }
 }
