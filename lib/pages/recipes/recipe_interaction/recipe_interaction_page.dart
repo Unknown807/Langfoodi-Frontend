@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -66,8 +70,40 @@ class RecipeInteractionPage extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                         child: Column(
                           children: <Widget>[
-                            Image.network(
-                                "https://bakingmischief.com/wp-content/uploads/2020/08/small-banana-cake-image-square-4-200x200.jpg"),
+                            Row(children: <Widget>[
+                                Expanded(child:
+                                  BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                  buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
+                                  builder: (context, state) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                        if (selectedImage != null && context.mounted) {
+                                          context
+                                              .read<RecipeInteractionBloc>()
+                                              .add(RecipeThumbnailPicked(selectedImage.path));
+                                        }
+                                      } ,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(top: 5, right: 5),
+                                          child: state.recipeThumbnailPath.isEmpty
+                                              ? DottedBorder(
+                                                  strokeWidth: 1.5,
+                                                  color: Colors.blue,
+                                                  borderType: BorderType.RRect,
+                                                  radius: const Radius.circular(10),
+                                                  padding: const EdgeInsets.all(25),
+                                                  child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
+                                              : AspectRatio(
+                                                  aspectRatio: 4/3,
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
+                                              )),
+                                    );
+                                  }
+                                ))
+                            ]),
                             Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: FormInput(
@@ -113,13 +149,13 @@ class RecipeInteractionPage extends StatelessWidget {
                                                     maxLines: 1,
                                                     onSubmittedEventFunc: (value) {
                                                       context
-                                                          .read<RecipeInteractionBloc>()
-                                                          .add(AddNewIngredientFromName(value));
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(AddNewIngredientFromName(value));
                                                     },
                                                     eventFunc: (value) {
                                                       context
-                                                          .read<RecipeInteractionBloc>()
-                                                          .add(IngredientNameChanged(value));
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(IngredientNameChanged(value));
                                                     });
                                               })),
                                       Flexible(
@@ -234,32 +270,146 @@ class RecipeInteractionPage extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           flex: 2,
-                                          child: FormInput(
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                            hint: 'Enter Your Step Here',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            maxLines: 6,
-                                            eventFunc: (value) {},
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.recipeStepDescription != c.recipeStepDescription,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                textController: state.recipeStepDescriptionTextController,
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                hint: "Write step here and enter to submit",
+                                                boxDecorationType: state.recipeStepDescriptionValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                maxLines: 6,
+                                                onSubmittedEventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(AddNewRecipeStepFromDescription(value));
+                                                },
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(RecipeStepDescriptionChanged(value));
+                                                },
+                                              );
+                                            }
                                           ),
                                         ),
                                         Flexible(
                                             flex: 0,
-                                            child: GestureDetector(
-                                                onTap: () {} ,
-                                                child: Padding(
-                                                    padding: const EdgeInsets.only(top: 5, right: 5),
-                                                    child: DottedBorder(
-                                                      color: Colors.blue,
-                                                      borderType: BorderType.RRect,
-                                                      radius: const Radius.circular(10),
-                                                      padding: const EdgeInsets.all(25),
-                                                      child: const Icon(Icons.image, size: 40, color: Colors.blue,),
-                                                    )))
+                                            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                              buildWhen: (p, c) => p.recipeStepImagePath != c.recipeStepImagePath,
+                                              builder: (context, state) {
+                                                return GestureDetector(
+                                                    onTap: () async {
+                                                      final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                                      if (selectedImage != null && context.mounted) {
+                                                        context
+                                                          .read<RecipeInteractionBloc>()
+                                                          .add(RecipeStepImagePicked(selectedImage.path));
+                                                      }
+                                                    },
+                                                    child: Padding(
+                                                        padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
+                                                        child: state.recipeStepImagePath.isEmpty
+                                                            ? DottedBorder(
+                                                                strokeWidth: 1.5,
+                                                                color: Colors.blue,
+                                                                borderType: BorderType.RRect,
+                                                                radius: const Radius.circular(10),
+                                                                padding: const EdgeInsets.all(25),
+                                                                child: const Center(child: Icon(Icons.image, size: 40, color: Colors.blue,)))
+                                                            : AspectRatio(
+                                                                aspectRatio: 1/1,
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                  child: Image.file(File(state.recipeStepImagePath), fit: BoxFit.cover,))
+                                                        ))
+                                                );
+                                              }
+                                            )
                                         )
                                       ]
                                   )
+                              ),
+                              BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                builder: (context, state) {
+                                  return ReorderableListView.builder(
+                                    shrinkWrap: true,
+                                    buildDefaultDragHandles: false,
+                                    itemCount: state.recipeStepList.length,
+                                    onReorder: (int oldIndex, int newIndex) {
+                                      context
+                                        .read<RecipeInteractionBloc>()
+                                        .add(ReorderRecipeStepList(oldIndex, newIndex));
+                                    },
+                                    itemBuilder: (context, index) {
+                                      final step = state.recipeStepList[index];
+                                      return ReorderableDragStartListener(
+                                          index: index,
+                                          key: ValueKey(step),
+                                          child: Padding(
+                                          padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+                                          child: Column(
+                                            children: <Widget>[
+                                                AspectRatio(
+                                                aspectRatio: 3/1,
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,))),
+                                                Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Expanded(
+                                                      child: Padding(padding: const EdgeInsets.only(top:5, bottom: 5),
+                                                        child: Text(
+                                                          "${index+1}. ${step.text}",
+                                                          style: const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.w400
+                                                          ),
+                                                        )
+                                                      )
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      IconButton(
+                                                        splashRadius: 20,
+                                                        onPressed: () => showDialog(
+                                                            context: context,
+                                                            builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                                                                value: BlocProvider.of<RecipeInteractionBloc>(context),
+                                                                child: CustomAlertDialog(
+                                                                  title: const Text("Remove Step"),
+                                                                  content: Text("Are you sure you want to remove step ${index+1}?"),
+                                                                  rightButtonText: "Remove",
+                                                                  rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveRecipeStep(index)),
+                                                                )
+                                                            )
+                                                        ),
+                                                        icon: const Icon(Icons.delete, color: Colors.redAccent)
+                                                      ),
+                                                      IconButton(
+                                                        splashRadius: 20,
+                                                        onPressed: () => Clipboard.setData(ClipboardData(text: step.text)).then((_) {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text("Step ${index+1} copied to clipboard"),
+                                                                backgroundColor: Colors.lightGreen,
+                                                              ));
+                                                        }),
+                                                        icon: const Icon(Icons.copy, color: Colors.black54)
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              )
+                                      ])));
+                                    },
+                                  );
+                                },
                               )
                             ],
                           ),
@@ -275,26 +425,50 @@ class RecipeInteractionPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
-                                          child: FormInput(
-                                            keyboardType: TextInputType.number,
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                            hint: 'Number Of Servings',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                              buildWhen: (p, c) => p.servingNumber != c.servingNumber,
+                                              builder: (context, state) {
+                                                return FormInput(
+                                                  textController: state.servingNumberTextController,
+                                                  keyboardType: TextInputType.number,
+                                                  innerPadding: const EdgeInsets.only(left: 5),
+                                                  outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                  hint: 'Number Of Servings',
+                                                  boxDecorationType: state.servingNumberValid
+                                                      ? FormInputBoxDecorationType.textArea
+                                                      : FormInputBoxDecorationType.error,
+                                                  fontSize: 14,
+                                                  eventFunc: (value) {
+                                                    context
+                                                        .read<RecipeInteractionBloc>()
+                                                        .add(ServingNumberChanged(value));
+                                                  },
+                                                );
+                                              },
+                                          )
                                         ),
                                         Flexible(
-                                          child: FormInput(
-                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-                                            hint: 'Serving Size',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.servingSize != c.servingSize,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                textController: state.servingSizeTextController,
+                                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                                                hint: 'Serving Size',
+                                                boxDecorationType: state.servingSizeValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(ServingSizeChanged(value));
+                                                },
+                                              );
+                                            }
+                                          )
                                         ),
                                       ]
                                   )
@@ -305,24 +479,48 @@ class RecipeInteractionPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
-                                          child: FormInput(
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-                                            hint: 'Time (hh:mm:ss)',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
-                                          ),
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.cookingTime != c.cookingTime,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                textController: state.cookingTimeTextController,
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                                hint: 'Cooking Time',
+                                                boxDecorationType: state.cookingTimeValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(CookingTimeChanged(value));
+                                                },
+                                              );
+                                            }
+                                          )
                                         ),
                                         Flexible(
-                                          child: FormInput(
-                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                            innerPadding: const EdgeInsets.only(left: 5),
-                                            outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-                                            hint: 'Kilocalories',
-                                            boxDecorationType: FormInputBoxDecorationType.textArea,
-                                            fontSize: 14,
-                                            eventFunc: (value) {},
+                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                            buildWhen: (p, c) => p.kilocalories != c.kilocalories,
+                                            builder: (context, state) {
+                                              return FormInput(
+                                                textController: state.kilocaloriesTextController,
+                                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                                innerPadding: const EdgeInsets.only(left: 5),
+                                                outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
+                                                hint: 'Kilocalories',
+                                                boxDecorationType: state.kilocaloriesValid
+                                                    ? FormInputBoxDecorationType.textArea
+                                                    : FormInputBoxDecorationType.error,
+                                                fontSize: 14,
+                                                eventFunc: (value) {
+                                                  context
+                                                    .read<RecipeInteractionBloc>()
+                                                    .add(KilocaloriesChanged(value));
+                                                },
+                                              );
+                                            }
                                           ),
                                         ),
                                       ]

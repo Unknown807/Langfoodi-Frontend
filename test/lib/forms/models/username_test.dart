@@ -21,6 +21,11 @@ void main() {
           userName.validator("USER123"),
           userName.validator("123USER"),
           userName.validator("USR"),
+          userName.validator("2  "),
+          userName.validator("12 "),
+          userName.validator("__ "),
+          userName.validator("2__  "),
+          userName.validator("_     _ "),
         ];
 
         // Assert
@@ -35,9 +40,10 @@ void main() {
           userName.validator(" "),
           userName.validator("     "),
           userName.validator(" 12"),
+          userName.validator(" __"),
+          userName.validator("_ "),
+          userName.validator(" _ "),
           userName.validator("  2"),
-          userName.validator("2  "),
-          userName.validator("12 "),
           userName.validator("u"),
           userName.validator("us"),
           userName.validator("U"),
