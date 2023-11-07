@@ -143,6 +143,15 @@ final class RecipeStepDescriptionChanged extends RecipeInteractionEvent {
   List<Object> get props => [description];
 }
 
+final class RecipeTagChanged extends RecipeInteractionEvent {
+  const RecipeTagChanged(this.tag);
+
+  final String tag;
+
+  @override
+  List<Object> get props => [tag];
+}
+
 final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
   const AddNewRecipeStepFromDescription(this.description);
 
@@ -150,6 +159,28 @@ final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
 
   @override
   List<Object> get props => [description];
+}
+
+final class AddNewRecipeTagFromField extends RecipeInteractionEvent {
+  const AddNewRecipeTagFromField(this.tag);
+
+  final String tag;
+
+  @override
+  List<Object> get props => [tag];
+}
+
+final class AddNewRecipeTagFromButton extends RecipeInteractionEvent {
+  const AddNewRecipeTagFromButton();
+}
+
+final class RemoveRecipeTag extends RecipeInteractionEvent {
+  const RemoveRecipeTag(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
 }
 
 final class ReorderRecipeStepList extends RecipeInteractionEvent {

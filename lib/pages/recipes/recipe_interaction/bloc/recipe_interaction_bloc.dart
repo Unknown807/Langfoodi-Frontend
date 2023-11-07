@@ -21,7 +21,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
-    recipeStepDescriptionTextController: TextEditingController()
+    recipeStepDescriptionTextController: TextEditingController(),
+    recipeTagTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -40,12 +41,75 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
+    on<AddNewRecipeTagFromField>(_addNewTagFromField);
+    on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
+    on<RecipeTagChanged>(_recipeTagChanged);
+    on<RemoveRecipeTag>(_removeRecipeTag);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emitter) {
+  void _removeRecipeTag(RemoveRecipeTag event, Emitter<RecipeInteractionState> emit) {
+    if (event.index >= 0 && event.index <= state.recipeTagList.length) {
+      List<String> recipeTagsList = List.from(state.recipeTagList);
+      recipeTagsList.removeAt(event.index);
+      emit(state.copyWith(
+          recipeTagList: recipeTagsList
+      ));
+    }
+  }
+
+  void _recipeTagChanged(RecipeTagChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeTag = RecipeTag.dirty(event.tag);
+
+    emit(
+      state.copyWith(
+        recipeTag: recipeTag,
+        recipeTagValid: Formz.validate([recipeTag])
+      )
+    );
+  }
+
+  void _addNewTagFromButton(AddNewRecipeTagFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewTag(state.recipeTagTextController.value.text);
+  }
+
+  void _addNewTagFromField(AddNewRecipeTagFromField event, Emitter<RecipeInteractionState> emit) {
+    _addNewTag(event.tag);
+  }
+
+  void _addNewTag(String tag) {
+    final recipeTag = RecipeTag.dirty(tag);
+    final tagNotInList = state
+        .recipeTagList
+        .where((tag) => tag.toLowerCase() == recipeTag.value.toLowerCase())
+        .isEmpty;
+
+    if (Formz.validate([recipeTag]) && tagNotInList) {
+      List<String> tagsList = List.from(state.recipeTagList);
+      tagsList.add(tag);
+
+      emit(
+          state.copyWith(
+            recipeTag: const RecipeTag.pure(),
+            recipeTagList: tagsList,
+            recipeTagValid: true
+          )
+      );
+
+      state.recipeTagTextController.clear();
+    } else {
+      emit(
+          state.copyWith(
+            recipeTag: recipeTag,
+            recipeTagValid: false
+          )
+      );
+    }
+  }
+
+  void _reorderRecipeStepList(ReorderRecipeStepList event, Emitter<RecipeInteractionState> emit) {
     final oldIndex = event.oldIndex;
     var newIndex = event.newIndex;
     if (oldIndex < newIndex) newIndex--;
@@ -217,7 +281,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ));
   }
 
-  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) async {
+  void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
         event.name,
         state.ingredientQuantity.value,
@@ -242,9 +306,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final name = IngredientName.dirty(ingredientName);
     final quantity = IngredientQuantity.dirty(ingredientQuantity);
     final measurement = IngredientMeasurement.dirty(ingredientMeasurement);
-    final nameValid = Formz.validate([name]);
     final quantityValid = Formz.validate([quantity]);
     final measurementValid = Formz.validate([measurement]);
+    final nameValid = Formz.validate([name])
+        && state.ingredientList
+            .where((ing) => ing.name.toLowerCase() == name.value.toLowerCase())
+            .isEmpty;
 
     if (nameValid && quantityValid && measurementValid) {
       List<Ingredient> ingredientsList = List.from(state.ingredientList);

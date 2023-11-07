@@ -11,8 +11,10 @@ class RecipeInteractionState extends Equatable {
     required this.cookingTimeTextController,
     required this.cookingTimeHiddenTextController,
     required this.recipeStepDescriptionTextController,
+    required this.recipeTagTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
+    this.recipeTagList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
     this.ingredientMeasurement = const IngredientMeasurement.pure(),
@@ -21,14 +23,16 @@ class RecipeInteractionState extends Equatable {
     this.kilocalories = const Kilocalories.pure(),
     this.cookingTime = const CookingTime.pure(),
     this.recipeStepDescription = const RecipeStepDescription.pure(),
-    this.ingredientNameValid = false,
-    this.ingredientQuantityValid = false,
-    this.ingredientMeasurementValid = false,
-    this.servingNumberValid = false,
-    this.servingSizeValid = false,
-    this.kilocaloriesValid = false,
-    this.cookingTimeValid = false,
-    this.recipeStepDescriptionValid = false,
+    this.recipeTag = const RecipeTag.pure(),
+    this.ingredientNameValid = true,
+    this.ingredientQuantityValid = true,
+    this.ingredientMeasurementValid = true,
+    this.servingNumberValid = true,
+    this.servingSizeValid = true,
+    this.kilocaloriesValid = true,
+    this.cookingTimeValid = true,
+    this.recipeStepDescriptionValid = true,
+    this.recipeTagValid = true,
     this.recipeThumbnailPath = "",
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial
@@ -43,9 +47,11 @@ class RecipeInteractionState extends Equatable {
   final TextEditingController cookingTimeTextController;
   final TextEditingController cookingTimeHiddenTextController;
   final TextEditingController recipeStepDescriptionTextController;
+  final TextEditingController recipeTagTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
+  final List<String> recipeTagList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
   final IngredientMeasurement ingredientMeasurement;
@@ -54,6 +60,7 @@ class RecipeInteractionState extends Equatable {
   final Kilocalories kilocalories;
   final CookingTime cookingTime;
   final RecipeStepDescription recipeStepDescription;
+  final RecipeTag recipeTag;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
@@ -62,6 +69,7 @@ class RecipeInteractionState extends Equatable {
   final bool kilocaloriesValid;
   final bool cookingTimeValid;
   final bool recipeStepDescriptionValid;
+  final bool recipeTagValid;
   final String recipeThumbnailPath;
   final String recipeStepImagePath;
 
@@ -79,7 +87,8 @@ class RecipeInteractionState extends Equatable {
     servingNumberTextController, servingSizeTextController,
     kilocaloriesTextController, recipeStepImagePath, recipeStepList,
     recipeStepDescription, recipeStepDescriptionValid,
-    recipeStepDescriptionTextController
+    recipeStepDescriptionTextController, recipeTagList,
+    recipeTagValid, recipeTagTextController, recipeTag
   ];
 
   RecipeInteractionState copyWith({
@@ -92,9 +101,11 @@ class RecipeInteractionState extends Equatable {
     TextEditingController? cookingTimeTextController,
     TextEditingController? cookingTimeHiddenTextController,
     TextEditingController? recipeStepDescriptionTextController,
+    TextEditingController? recipeTagTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
+    List<String>? recipeTagList,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
@@ -103,6 +114,7 @@ class RecipeInteractionState extends Equatable {
     Kilocalories? kilocalories,
     CookingTime? cookingTime,
     RecipeStepDescription? recipeStepDescription,
+    RecipeTag? recipeTag,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
@@ -111,6 +123,7 @@ class RecipeInteractionState extends Equatable {
     bool? kilocaloriesValid,
     bool? cookingTimeValid,
     bool? recipeStepDescriptionValid,
+    bool? recipeTagValid,
     String? recipeThumbnailPath,
     String? recipeStepImagePath
   }) {
@@ -124,9 +137,10 @@ class RecipeInteractionState extends Equatable {
       cookingTimeTextController: cookingTimeTextController ?? this.cookingTimeTextController,
       cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
       recipeStepDescriptionTextController: recipeStepDescriptionTextController ?? this.recipeStepDescriptionTextController,
-      formStatus: formStatus ?? this.formStatus,
+      recipeTagTextController: recipeTagTextController ?? this.recipeTagTextController,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
+      recipeTagList: recipeTagList ?? this.recipeTagList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
       ingredientMeasurement: ingredientMeasurement ?? this.ingredientMeasurement,
@@ -135,6 +149,7 @@ class RecipeInteractionState extends Equatable {
       kilocalories: kilocalories ?? this.kilocalories,
       cookingTime: cookingTime ?? this.cookingTime,
       recipeStepDescription: recipeStepDescription ?? this.recipeStepDescription,
+      recipeTag: recipeTag ?? this.recipeTag,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
@@ -143,8 +158,10 @@ class RecipeInteractionState extends Equatable {
       kilocaloriesValid: kilocaloriesValid ?? this.kilocaloriesValid,
       cookingTimeValid: cookingTimeValid ?? this.cookingTimeValid,
       recipeStepDescriptionValid: recipeStepDescriptionValid ?? this.recipeStepDescriptionValid,
+      recipeTagValid: recipeTagValid ?? this.recipeTagValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
-      recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath
+      recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
+      formStatus: formStatus ?? this.formStatus,
     );
   }
 }

@@ -8,5 +8,6 @@ enum RecipeFormValidationError {
   servingSizeInvalid,
   cookingTimeInvalid,
   kilocaloriesInvalid,
-  recipeStepDescriptionInvalid
+  recipeStepDescriptionInvalid,
+  recipeTagInvalid
 }
