@@ -23,9 +23,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
     recipeStepDescriptionTextController: TextEditingController(),
-    recipeLabelTextController: TextEditingController(),
     recipeDescriptionTextController: TextEditingController(),
-    recipeTitleTextController: TextEditingController()
+    recipeTitleTextController: TextEditingController(),
+    recipeTagTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -44,13 +44,13 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
-    on<AddNewRecipeLabelFromField>(_addNewLabelFromField);
-    on<AddNewRecipeLabelFromButton>(_addNewLabelFromButton);
-    on<RecipeLabelChanged>(_recipeLabelChanged);
-    on<RemoveRecipeLabel>(_removeRecipeLabel);
     on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
     on<RecipeTitleChanged>(_recipeTitleChanged);
     on<RecipeFormSubmission>(_recipeFormSubmission);
+    on<AddNewRecipeTagFromField>(_addNewTagFromField);
+    on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
+    on<RecipeTagChanged>(_recipeTagChanged);
+    on<RemoveRecipeTag>(_removeRecipeTag);
   }
 
   final AuthenticationRepository _authRepo;
@@ -77,7 +77,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final kilocaloriesValid = kilocaloriesNotEmpty ? Formz.validate([state.kilocalories]) : true;
     final cookingTimeValid = cookingTimeNotEmpty ? Formz.validate([state.cookingTime]) : true;
 
-    final allFieldsValid =
+    bool allFieldsValid =
         recipeDescriptionValid && recipeTitleValid
         && recipeStepsValid && recipeIngredientsValid
         && servingSizeValid && servingNumberValid
@@ -85,7 +85,15 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     if (!allFieldsValid) {
       // TODO: is this gonna work?
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        recipeTitleValid: recipeTitleValid,
+        recipeDescriptionValid: recipeDescriptionValid,
+        servingSizeValid: servingSizeValid,
+        servingNumberValid: servingNumberValid,
+        kilocaloriesValid: kilocaloriesValid,
+        cookingTimeValid: cookingTimeValid,
+        formStatus: FormzSubmissionStatus.failure
+      ));
     }
 
     Signature? uploadSignature = await _imageRepo.getSignature();
@@ -152,7 +160,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       description: state.recipeDescription.value,
       thumbnailId: recipeThumbnailHosted?.publicId,
       chefId: userId,
-      tags: state.recipeLabelList,
+      tags: state.recipeTagList,
       ingredients: state.ingredientList,
       recipeSteps: hostedRecipeSteps,
       cookingTime: cookingTimeDuration,
@@ -193,56 +201,60 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     );
   }
 
-  void _removeRecipeLabel(RemoveRecipeLabel event, Emitter<RecipeInteractionState> emit) {
-    if (event.index >= 0 && event.index <= state.recipeLabelList.length) {
-      List<String> recipeLabelsList = List.from(state.recipeLabelList);
-      recipeLabelsList.removeAt(event.index);
+  void _removeRecipeTag(RemoveRecipeTag event, Emitter<RecipeInteractionState> emit) {
+    if (event.index >= 0 && event.index <= state.recipeTagList.length) {
+      List<String> recipeTagsList = List.from(state.recipeTagList);
+      recipeTagsList.removeAt(event.index);
       emit(state.copyWith(
-          recipeLabelList: recipeLabelsList
+          recipeTagList: recipeTagsList
       ));
     }
   }
 
-  void _recipeLabelChanged(RecipeLabelChanged event, Emitter<RecipeInteractionState> emit) {
-    final recipeLabel = RecipeLabel.dirty(event.label);
+  void _recipeTagChanged(RecipeTagChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeTag = RecipeTag.dirty(event.tag);
 
     emit(
       state.copyWith(
-        recipeLabel: recipeLabel,
-        recipeLabelValid: Formz.validate([recipeLabel])
+        recipeTag: recipeTag,
+        recipeTagValid: Formz.validate([recipeTag])
       )
     );
   }
 
-  void _addNewLabelFromButton(AddNewRecipeLabelFromButton event, Emitter<RecipeInteractionState> emit) {
-    _addNewLabel(state.recipeLabelTextController.value.text);
+  void _addNewTagFromButton(AddNewRecipeTagFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewTag(state.recipeTagTextController.value.text);
   }
 
-  void _addNewLabelFromField(AddNewRecipeLabelFromField event, Emitter<RecipeInteractionState> emit) {
-    _addNewLabel(event.label);
+  void _addNewTagFromField(AddNewRecipeTagFromField event, Emitter<RecipeInteractionState> emit) {
+    _addNewTag(event.tag);
   }
 
-  void _addNewLabel(String label) {
-    final recipeLabel = RecipeLabel.dirty(label);
+  void _addNewTag(String tag) {
+    final recipeTag = RecipeTag.dirty(tag);
+    final tagNotInList = state
+        .recipeTagList
+        .where((tag) => tag.toLowerCase() == recipeTag.value.toLowerCase())
+        .isEmpty;
 
-    if (Formz.validate([recipeLabel]) && !state.recipeLabelList.contains(label)) {
-      List<String> labelsList = List.from(state.recipeLabelList);
-      labelsList.add(label);
+    if (Formz.validate([recipeTag]) && tagNotInList) {
+      List<String> tagsList = List.from(state.recipeTagList);
+      tagsList.add(tag);
 
       emit(
           state.copyWith(
-            recipeLabel: const RecipeLabel.pure(),
-            recipeLabelList: labelsList,
-            recipeLabelValid: true
+            recipeTag: const RecipeTag.pure(),
+            recipeTagList: tagsList,
+            recipeTagValid: true
           )
       );
 
-      state.recipeLabelTextController.clear();
+      state.recipeTagTextController.clear();
     } else {
       emit(
           state.copyWith(
-            recipeLabel: recipeLabel,
-            recipeLabelValid: false
+            recipeTag: recipeTag,
+            recipeTagValid: false
           )
       );
     }

@@ -10,6 +10,6 @@ part 'serving_size.dart';
 part 'kilocalories.dart';
 part 'cooking_time.dart';
 part 'recipe_step_description.dart';
-part 'recipe_label.dart';
 part 'recipe_description.dart';
 part 'recipe_title.dart';
+part 'recipe_tag.dart';

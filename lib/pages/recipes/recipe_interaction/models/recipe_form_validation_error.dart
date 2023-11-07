@@ -9,7 +9,7 @@ enum RecipeFormValidationError {
   cookingTimeInvalid,
   kilocaloriesInvalid,
   recipeStepDescriptionInvalid,
-  recipeLabelInvalid,
   recipeDescriptionInvalid,
-  recipeTitleInvalid
+  recipeTitleInvalid,
+  recipeTagInvalid
 }
