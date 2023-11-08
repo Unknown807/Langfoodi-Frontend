@@ -4,11 +4,14 @@ import 'package:recipe_social_media/entities/user/user.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  const String userData = "'{'id':null,'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
+  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"}';
   const userMap = {
-    "userName": "username1",
-    "email": "mail@example.com",
-    "password": "Password123!"
+    "id": "id1",
+    "handler": "testHandler",
+    "userName": "test1",
+    "email": "test1@mail.com",
+    "password": "Password123!",
+    "accountCreationDate": "2023-11-08"
   };
   late JsonWrapperMock jsonWrapperMock;
 
@@ -22,13 +25,13 @@ void main() {
     group("fromJsonStr method tests", () {
       test("create new user object", () {
         // Act
-        User user = User.fromJsonStr(userData, jsonWrapperMock);
+        final user = User.fromJsonStr(userData, jsonWrapperMock);
 
         // Assert
-        expect(user, const User(
-          userName: "username1",
-          email: "mail@example.com",
-          password: "Password123!"
+        expect(user, User(
+          "id1", "testHandler",
+          "test1", "test1@mail.com",
+          "Password123!", DateTime.parse("2023-11-08")
         ));
       });
     });
@@ -36,13 +39,13 @@ void main() {
     group("fromJson method tests", () {
       test("create new user object", () {
         // Act
-        User user = User.fromJson(userMap);
+        final user = User.fromJson(userMap);
 
         // Assert
-        expect(user, const User(
-            userName: "username1",
-            email: "mail@example.com",
-            password: "Password123!"
+        expect(user, User(
+            "id1", "testHandler",
+            "test1", "test1@mail.com",
+            "Password123!", DateTime.parse("2023-11-08")
         ));
       });
     });
@@ -50,21 +53,22 @@ void main() {
     group("toJson method tests", () {
       test("create map from user object", () {
         // Arrange
-        User user = const User(
-          userName: "username1",
-          email: "mail@example.com",
-          password: "Password123!"
-        );
+        final user = User(
+          "id1", "testHandler",
+          "test1", "test1@mail.com",
+          "Password123!", DateTime.parse("2023-11-08"));
 
         // Act
         final result = user.toJson();
 
         // Assert
         expect(result, {
-          "id": null,
-          "userName": "username1",
-          "email": "mail@example.com",
-          "password": "Password123!"
+          "id": "id1",
+          "handler": "testHandler",
+          "userName": "test1",
+          "email": "test1@mail.com",
+          "password": "Password123!",
+          "accountCreationDate": "2023-11-08 00:00:00.000"
         });
       });
     });
@@ -72,11 +76,10 @@ void main() {
     group("serialize method tests", () {
       test("map data is encoded into json string", () {
         // Arrange
-        User user = const User(
-          userName: "username1",
-          email: "mail@example.com",
-          password: "Password123!"
-        );
+        final user = User(
+            "id1", "testHandler",
+            "test1", "test1@mail.com",
+            "Password123!", DateTime.parse("2023-11-08"));
 
         // Act
         final result = user.serialize(jsonWrapperMock);
