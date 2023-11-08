@@ -43,9 +43,9 @@ void main() {
 
         // Assert
         expect(user, User(
-            "id1", "testHandler",
-            "test1", "test1@mail.com",
-            "Password123!", DateTime.parse("2023-11-08")
+          "id1", "testHandler",
+          "test1", "test1@mail.com",
+          "Password123!", DateTime.parse("2023-11-08")
         ));
       });
     });
@@ -77,9 +77,9 @@ void main() {
       test("map data is encoded into json string", () {
         // Arrange
         final user = User(
-            "id1", "testHandler",
-            "test1", "test1@mail.com",
-            "Password123!", DateTime.parse("2023-11-08"));
+          "id1", "testHandler",
+          "test1", "test1@mail.com",
+          "Password123!", DateTime.parse("2023-11-08"));
 
         // Act
         final result = user.serialize(jsonWrapperMock);

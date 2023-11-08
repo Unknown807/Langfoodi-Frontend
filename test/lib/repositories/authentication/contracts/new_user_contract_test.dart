@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
@@ -8,9 +7,10 @@ void main() {
       test("map returned", () {
         // Arrange
         var contract = NewUserContract(
-            username: "user1",
-            email: "mail@example.com",
-            password: "pass123"
+          handler: "testHandler",
+          username: "user1",
+          email: "mail@example.com",
+          password: "pass123"
         );
 
         // Act
@@ -18,6 +18,7 @@ void main() {
 
         // Assert
         expect(result, {
+          "handler": "testHandler",
           "username": "user1",
           "email": "mail@example.com",
           "password": "pass123"
