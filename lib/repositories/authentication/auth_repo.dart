@@ -36,7 +36,7 @@ class AuthenticationRepository {
     return false;
   }
 
-  Future<String?> register(String username, String email, String password) async {
+  Future<String> register(String username, String email, String password) async {
     // TODO: add handler field to register page
     var data = NewUserContract(
       handler: "",
@@ -48,21 +48,23 @@ class AuthenticationRepository {
     if (response.isOk) {
       User user = User.fromJsonStr(response.body, jsonWrapper);
       localStore.setKey(userKey, user.serialize(jsonWrapper));
+      return "";
     }
 
-    return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
+    return response.isBadRequest ? response.body : "Issue Signing Up";
   }
 
-  Future<String?> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
+  Future<String> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
     var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password);
     var response = await request.post("/auth/authenticate", data, jsonWrapper);
 
     if (response.isOk) {
       User user = User.fromJsonStr(response.body, jsonWrapper);
       localStore.setKey(userKey, user.serialize(jsonWrapper));
+      return "";
     }
 
-    return ResponseError.getErrorMessageFromCode("Issue Signing In", response);
+    return response.isBadRequest ? response.body : "Issue Logging in";
   }
 
   Future<void> logOut() async {
