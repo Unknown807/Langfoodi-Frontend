@@ -8,7 +8,7 @@ enum FormValidationError {
 
   static Map<FormValidationError,String> errorMap = {
     FormValidationError.emailInvalid: "Invalid email",
-    FormValidationError.userNameInvalid: "Needs 3+ length & only letters/numbers",
+    FormValidationError.userNameInvalid: "Needs 3+ length & only letters/numbers/spaces and underscore",
     FormValidationError.passwordInvalid: "Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special",
     FormValidationError.confirmedPasswordNoMatch: "Passwords must match"
   };

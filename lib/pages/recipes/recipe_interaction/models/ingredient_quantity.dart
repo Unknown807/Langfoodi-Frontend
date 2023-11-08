@@ -5,7 +5,7 @@ class IngredientQuantity extends FormzInput<String, RecipeFormValidationError> {
   const IngredientQuantity.dirty([super.value = ""]) : super.dirty();
 
   static final RegExp _ingredientQuantityExp = RegExp(
-      r"^\d+(\.\d+)?$"
+      r"^(?!0(\.0+)?$)\d+(\.\d+)?$"
   );
 
   @override

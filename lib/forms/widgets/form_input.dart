@@ -1,6 +1,6 @@
 part of 'form_widgets.dart';
 
-enum FormInputBoxDecorationType { underlined, textArea, error }
+enum FormInputBoxDecorationType { underlined, textArea, error, underlinedError }
 
 class FormInput extends StatelessWidget {
   FormInput(
@@ -45,6 +45,8 @@ class FormInput extends StatelessWidget {
     switch (type) {
       case FormInputBoxDecorationType.underlined:
         return BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade100)));
+      case FormInputBoxDecorationType.underlinedError:
+        return const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.redAccent)));
       case FormInputBoxDecorationType.textArea:
         return BoxDecoration(
             borderRadius: BorderRadius.circular(5),
