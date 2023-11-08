@@ -5,7 +5,7 @@ import 'package:recipe_social_media/entities/user/user.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  const jsonMap = {"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"};
+  const jsonMap = {"id": "01","title": "title1","description": "description here","chef": {"id":"01", "handler": "testHandler", "userName": "user1", "email": "mail@example.com", "password": "Pass123!", "accountCreationDate": "2023-11-08"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"};
 
   group("Recipe detailed model tests", () {
     group("fromJson method tests", () {
@@ -18,7 +18,7 @@ void main() {
             "01",
             "title1",
             "description here",
-            const User(id: "01", userName: "user1", email: "mail@example.com", password: "Pass123!"),
+            User("01", "testHandler", "user1", "mail@example.com", "Pass123!", DateTime.parse("2023-11-08")),
             const ["lbl1", "lbl2"],
             const [Ingredient("eggs", 12.0, "whole")],
             const [RecipeStep("step1", "www.example.com/imgpath")],
@@ -31,7 +31,7 @@ void main() {
     group("fromJsonStr method tests", () {
       test("json string is converted into model", () {
         // Arrange
-        const jsonStr = '"{"id": "01","title": "title1","description": "description here","chef": {"id":"01", "userName": "user1", "email": "mail@example.com", "password": "Pass123!"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"}"';
+        const jsonStr = '"{"id": "01","title": "title1","description": "description here","chef": {"id":"01", "handler": "testHandler", "userName": "user1", "email": "mail@example.com", "password": "Pass123!", "accountCreationDate": "2023-11-08"},"labels": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18"}"';
         final jsonWrapperMock = JsonWrapperMock();
         when(() => jsonWrapperMock.decodeData(any())).thenReturn(jsonMap);
 
@@ -43,7 +43,7 @@ void main() {
             "01",
             "title1",
             "description here",
-            const User(id: "01", userName: "user1", email: "mail@example.com", password: "Pass123!"),
+            User("01", "testHandler", "user1", "mail@example.com", "Pass123!", DateTime.parse("2023-11-08")),
             const ["lbl1", "lbl2"],
             const [Ingredient("eggs", 12.0, "whole")],
             const [RecipeStep("step1", "www.example.com/imgpath")],
