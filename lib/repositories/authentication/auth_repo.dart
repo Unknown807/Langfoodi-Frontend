@@ -64,7 +64,7 @@ class AuthenticationRepository {
       return "";
     }
 
-    return response.isBadRequest ? response.body : "Issue Logging in";
+    return response.isBadRequest ? response.body : "Issue Signing In";
   }
 
   Future<void> logOut() async {
