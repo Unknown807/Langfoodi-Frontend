@@ -25,6 +25,10 @@ class HostedImage extends Equatable with JsonConvertible {
     format, createdAt, width, height
   ];
 
+  static HostedImage fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return HostedImage.fromJson(jsonWrapper.decodeData(jsonStr));
+  }
+
   static HostedImage fromJson(Map jsonData) {
     return HostedImage(
       jsonData["public_id"],

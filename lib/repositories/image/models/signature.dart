@@ -9,6 +9,10 @@ class Signature extends Equatable with JsonConvertible {
   @override
   List<Object?> get props => [signature, timeStamp];
 
+  static Signature fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return Signature.fromJson(jsonWrapper.decodeData(jsonStr));
+  }
+
   static Signature fromJson(Map jsonData) {
     return Signature(
         jsonData["signature"],
