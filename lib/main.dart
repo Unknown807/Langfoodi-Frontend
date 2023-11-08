@@ -37,8 +37,8 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  User testUser = const User(id: "64d3ec96b6247bad8eef9f88", userName: "test4", email: "test4@mail.com", password: "Password123!");
-  localStore.setKey("loggedInUser", jsonWrapper.encodeData(testUser.toJson()));
+  // User testUser = const User(id: "64d3ec96b6247bad8eef9f88", userName: "test4", email: "test4@mail.com", password: "Password123!");
+  // localStore.setKey("loggedInUser", jsonWrapper.encodeData(testUser.toJson()));
 
   runApp(App(
     authRepo: authRepo,

@@ -23,10 +23,10 @@ class User extends Equatable with JsonConvertible {
     return {
       "id": id,
       "handler": handler,
-      "username": username,
+      "userName": username,
       "email": email,
       "password": password,
-      "accountCreationDate": creationDate
+      "accountCreationDate": creationDate.toString()
     };
   }
 
@@ -41,7 +41,7 @@ class User extends Equatable with JsonConvertible {
       jsonData["userName"],
       jsonData["email"],
       jsonData["password"],
-      jsonData["accountCreationDate"]
+      DateTime.parse(jsonData["accountCreationDate"])
     );
   }
 

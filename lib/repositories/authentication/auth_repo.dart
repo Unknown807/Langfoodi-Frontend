@@ -39,7 +39,7 @@ class AuthenticationRepository {
   Future<String> register(String username, String email, String password) async {
     // TODO: add handler field to register page
     var data = NewUserContract(
-      handler: "",
+      handler: "testHandler",
       username: username,
       email: email,
       password: password);
