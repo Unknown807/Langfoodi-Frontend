@@ -37,7 +37,7 @@ void main() {
   group("login integration tests", () {
     testWidgets("valid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(null));
+      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
       final userNameOrEmailInput = find.byType(UserNameEmailInput);
@@ -66,13 +66,13 @@ void main() {
       ));
 
       expect(formErrorLabel.data, "");
-      expect(find.text("server error"), findsNothing);
+      expect(find.text("Issue Signing In"), findsNothing);
       verify(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis)).called(1);
     });
 
     testWidgets("invalid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value("server error"));
+      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value("Issue Signing In"));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
       final userNameOrEmailInput = find.byType(UserNameEmailInput);
@@ -95,7 +95,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
-      expect(find.text("server error"), findsOneWidget);
+      expect(find.text("Issue Signing In"), findsOneWidget);
       verifyNever(() => navigRepoMock.goTo(any(), "/home", routeType: RouteType.onlyThis));
     });
 

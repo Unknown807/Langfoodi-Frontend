@@ -6,11 +6,14 @@ import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   const Map<String, String> userMapData = {
-    "userName": "username1",
-    "email": "mail@example.com",
-    "password": "Password123!"
+    "id": "id1",
+    "handler": "testHandler",
+    "userName": "test1",
+    "email": "test1@mail.com",
+    "password": "Password123!",
+    "accountCreationDate": "2023-11-08 00:00:00.000"
   };
-  const String userData = "'{'userName':'username1','email':'mail@example.com','password':'Password123!'}'";
+  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"}';
   late JsonConvertibleMock jsonConvertibleMock;
   late RequestMock requestMock;
   late ResponseMock responseMock;
@@ -42,10 +45,10 @@ void main() {
       final result = await authRepo.currentUser;
 
       // Assert
-      expect(result, const User(
-        userName: "username1",
-        email: "mail@example.com",
-        password: "Password123!"
+      expect(result, User(
+        "id1", "testHandler",
+        "test1", "test1@mail.com",
+        "Password123!", DateTime.parse("2023-11-08")
       ));
     });
   });
@@ -67,7 +70,6 @@ void main() {
       when(() => localStoreMock.getKey(any())).thenAnswer((invocation) => Future.value(userData));
       when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
       when(() => responseMock.statusCode).thenReturn(400);
-      when(() => responseMock.body).thenReturn("true");
 
       // Act
       final result = await authRepo.isAuthenticated();
@@ -76,12 +78,12 @@ void main() {
       expect(result, false);
     });
 
-    test("saved user, status code is 200, response body is true", () async {
+    test("saved user, status code is 200", () async {
       // Arrange
       when(() => localStoreMock.getKey(any())).thenAnswer((invocation) => Future.value(userData));
       when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("true");
+      when(() => responseMock.body).thenReturn(userData);
 
       // Act
       final result = await authRepo.isAuthenticated();
@@ -89,42 +91,40 @@ void main() {
       // Assert
       expect(result, true);
     });
-
-    test("saved user, status code is 200, response body is false", () async {
-      // Arrange
-      when(() => localStoreMock.getKey(any())).thenAnswer((invocation) => Future.value(userData));
-      when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("false");
-
-      // Act
-      final result = await authRepo.isAuthenticated();
-
-      // Assert
-      expect(result, false);
-    });
   });
 
   group("register method tests", () {
     test("status code is 200", () async {
       // Arrange
-      when(() => localStoreMock.getKey(any())).thenAnswer((invocation) => Future.value(userData));
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
       when(() => jsonWrapperMock.encodeData(any())).thenReturn(userData);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("true");
+      when(() => responseMock.body).thenReturn(userData);
 
       // Act
       final result = await authRepo.register("username1", "mail@example.com", "Password123!");
 
       // Assert
-      expect(result, isNull);
+      expect(result, "");
       verify(() => localStoreMock.setKey(any(), any())).called(1);
     });
 
-    test("status code is not 200", () async {
+    test("status code is 400", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(400);
+      when(() => responseMock.body).thenReturn("Username already exists");
+
+      // Act
+      final result = await authRepo.register("username1", "mail@example.com", "Password123!");
+
+      // Assert
+      expect(result, "Username already exists");
+      verifyNever(() => localStoreMock.setKey(any(), any()));
+    });
+
+    test("status code is 500", () async {
       // Arrange
       when(() => responseMock.statusCode).thenReturn(500);
-      when(() => responseMock.body).thenReturn("true");
 
       // Act
       final result = await authRepo.register("username1", "mail@example.com", "Password123!");
@@ -136,51 +136,37 @@ void main() {
   });
 
   group("loginWithUserNameOrEmail method tests", () {
-    test("status code is 200, response body is true", () async {
+    test("status code is 200", () async {
       // Arrange
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
       when(() => jsonWrapperMock.encodeData(any())).thenReturn(userData);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("true");
+      when(() => responseMock.body).thenReturn(userData);
 
       // Act
       final result = await authRepo.loginWithUserNameOrEmail("mail@example.com", "Password123!");
 
       // Assert
-      expect(result, isNull);
+      expect(result, "");
       verify(() => localStoreMock.setKey(any(), any())).called(1);
     });
 
-    test("status code is 200, response body is true, using username instead of email", () async {
+    test("status code is 400", () async {
       // Arrange
-      when(() => jsonWrapperMock.encodeData(any())).thenReturn(userData);
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("true");
+      when(() => responseMock.statusCode).thenReturn(400);
+      when(() => responseMock.body).thenReturn("Invalid Credentials");
 
       // Act
       final result = await authRepo.loginWithUserNameOrEmail("username1", "Password123!");
 
       // Assert
-      expect(result, isNull);
-      verify(() => localStoreMock.setKey(any(), any())).called(1);
-    });
-
-    test("status code is not 200", () async {
-      // Arrange
-      when(() => responseMock.statusCode).thenReturn(500);
-      when(() => responseMock.body).thenReturn("true");
-
-      // Act
-      final result = await authRepo.loginWithUserNameOrEmail("mail@example.com", "Password123!");
-
-      // Assert
-      expect(result, "Issue Signing In");
+      expect(result, "Invalid Credentials");
       verifyNever(() => localStoreMock.setKey(any(), any()));
     });
 
-    test("status code is 200, response body is false", () async {
+    test("status code is 500", () async {
       // Arrange
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn("false");
+      when(() => responseMock.statusCode).thenReturn(500);
 
       // Act
       final result = await authRepo.loginWithUserNameOrEmail("mail@example.com", "Password123!");

@@ -16,13 +16,13 @@ void main() {
   group("formSubmitted method tests", () {
     blocTest("form submission success",
       build: () {
-        when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(null));
+        when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
         return LoginBloc(authRepo: authRepoMock);
       },
       act: (bloc) => bloc.add(const FormSubmitted()),
       expect: () => [
-        const InputState(formStatus: FormzSubmissionStatus.inProgress, errorMessage: null),
-        const InputState(formStatus: FormzSubmissionStatus.success, errorMessage: null)
+        const InputState(formStatus: FormzSubmissionStatus.inProgress, errorMessage: ""),
+        const InputState(formStatus: FormzSubmissionStatus.success, errorMessage: "")
       ]
     );
 
@@ -33,7 +33,7 @@ void main() {
       },
       act: (bloc) => bloc.add(const FormSubmitted()),
       expect: () => [
-        const InputState(formStatus: FormzSubmissionStatus.inProgress, errorMessage: null),
+        const InputState(formStatus: FormzSubmissionStatus.inProgress, errorMessage: ""),
         const InputState(formStatus: FormzSubmissionStatus.failure, errorMessage: "form error")
       ]
     );

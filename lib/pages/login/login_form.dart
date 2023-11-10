@@ -63,7 +63,7 @@ class FormErrorLabel extends StatelessWidget {
     return BlocBuilder<LoginBloc, InputState>(
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
-        return Text(state.errorMessage ?? "",
+        return Text(state.errorMessage,
             style: const TextStyle(
               color: Color.fromRGBO(244, 113, 116, 1),
             ));
