@@ -30,9 +30,7 @@ class ImageRepository {
   Future<Signature?> getSignature({String? publicId}) async {
     final response = await request.postWithoutBody("/image/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
     if (!response.isOk) return null;
-
-    final jsonSignature = jsonWrapper.decodeData(response.body);
-    return Signature.fromJson(jsonSignature);
+    return Signature.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<HostedImage?> uploadImage(String filePath, SignedUploadContract contract) async {
@@ -46,8 +44,7 @@ class ImageRepository {
     if (!response.isOk) return null;
 
     final responseData = await response.stream.toBytes();
-    final jsonHostedImage = jsonWrapper.decodeData(String.fromCharCodes(responseData));
-    return HostedImage.fromJson(jsonHostedImage);
+    return HostedImage.fromJsonStr(String.fromCharCodes(responseData), jsonWrapper);
   }
 
   Future<bool> removeImage(String publicId) async {

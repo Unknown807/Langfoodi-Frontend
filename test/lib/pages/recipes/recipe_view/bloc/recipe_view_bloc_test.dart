@@ -27,7 +27,9 @@ void main() {
               const ["lbl"], const Duration(seconds: 500), 1000, 1,
               DateTime.now(), DateTime.now()),
         ];
-        when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(const User(id: "1")));
+        final user = User("01", "testHandler", "user1", "mail@example.com", "Pass123!", DateTime.parse("2023-11-08"));
+
+        when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(user));
         when(() => recipeRepoMock.getRecipesFromUserId(any())).thenAnswer((invocation) => Future.value(recipes));
         return RecipeViewBloc(authRepoMock, recipeRepoMock);
       },

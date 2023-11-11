@@ -2,25 +2,31 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable with JsonConvertible {
-  const User({this.id, this.userName, this.email, this.password});
+  const User(
+      this.id,
+      this.handler,
+      this.username,
+      this.email,
+      this.password,
+      this.creationDate);
 
-  final String? id;
-  final String? userName;
-  final String? email;
-  final String? password;
-  // TODO: Add expiry date for login
-
-  static const empty = User();
-  bool get isEmpty => this == User.empty;
-  bool get isNotEmpty => this != User.empty;
+  final String id;
+  final String handler;
+  final String username;
+  final String email;
+  final String password;
+  final DateTime creationDate;
+  // TODO: Add expiry date for login?
 
   @override
   Map toJson() {
     return {
       "id": id,
-      "userName": userName,
+      "handler": handler,
+      "userName": username,
       "email": email,
-      "password": password
+      "password": password,
+      "accountCreationDate": creationDate.toString()
     };
   }
 
@@ -30,13 +36,18 @@ class User extends Equatable with JsonConvertible {
   
   static User fromJson(Map jsonData) {
     return User(
-      id: jsonData["id"],
-      userName: jsonData["userName"],
-      email: jsonData["email"],
-      password: jsonData["password"]
+      jsonData["id"],
+      jsonData["handler"],
+      jsonData["userName"],
+      jsonData["email"],
+      jsonData["password"],
+      DateTime.parse(jsonData["accountCreationDate"])
     );
   }
 
   @override
-  List<Object?> get props => [id, userName, email, password];
+  List<Object?> get props => [
+    id, handler, username, email,
+    password, creationDate
+  ];
 }

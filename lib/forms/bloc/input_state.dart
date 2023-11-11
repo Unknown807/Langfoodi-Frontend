@@ -11,7 +11,7 @@ class InputState extends Equatable {
     this.emailValid = false,
     this.passwordValid = false,
     this.confirmedPasswordValid = false,
-    this.errorMessage,
+    this.errorMessage = "",
   });
 
   final Username userName;
@@ -23,7 +23,7 @@ class InputState extends Equatable {
   final bool emailValid;
   final bool passwordValid;
   final bool confirmedPasswordValid;
-  final String? errorMessage;
+  final String errorMessage;
 
   @override
   List<Object?> get props => [
