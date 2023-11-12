@@ -42,6 +42,7 @@ class Request {
   }
 
   Future<http.StreamedResponse> fileUpload(String path, String filePath, Map<String, String> fields, {String? baseUrl}) async {
+    // TODO change this to allow files optionally, should be called multipartPost
     final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     final request = http.MultipartRequest("POST", url);
 
