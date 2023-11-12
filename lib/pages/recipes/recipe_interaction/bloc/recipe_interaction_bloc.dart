@@ -88,6 +88,10 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       return emit(state.copyWith(
         recipeTitleValid: recipeTitleValid,
         recipeDescriptionValid: recipeDescriptionValid,
+        recipeStepDescriptionValid: recipeStepsValid,
+        ingredientNameValid: recipeIngredientsValid,
+        ingredientQuantityValid: recipeIngredientsValid,
+        ingredientMeasurementValid: recipeIngredientsValid,
         servingSizeValid: servingSizeValid,
         servingNumberValid: servingNumberValid,
         kilocaloriesValid: kilocaloriesValid,

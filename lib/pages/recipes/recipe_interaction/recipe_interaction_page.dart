@@ -45,7 +45,8 @@ class RecipeInteractionPage extends StatelessWidget {
                     : Scaffold(
                         appBar: AppBar(
                           title: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                            buildWhen: (p, c) => p.recipeTitle != c.recipeTitle,
+                            buildWhen: (p, c) => p.recipeTitle != c.recipeTitle
+                                              || p.recipeTitleValid != c.recipeTitleValid,
                             builder: (context, state) {
                               return FormInput(
                                 textController: state.recipeTitleTextController,
@@ -146,7 +147,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                        buildWhen: (p, c) => p.recipeDescription != c.recipeDescription,
+                                        buildWhen: (p, c) => p.recipeDescription != c.recipeDescription
+                                                          || p.recipeDescriptionValid != c.recipeDescriptionValid,
                                         builder: (context, state) {
                                           return FormInput(
                                             textController: state.recipeDescriptionTextController,
@@ -264,6 +266,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                               Flexible(
                                                   flex: 2,
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                                                      buildWhen: (p, c) => p.ingredientName != c.ingredientName
+                                                                        || p.ingredientNameValid != c.ingredientNameValid,
                                                       builder: (context, state) {
                                                         return FormInput(
                                                             textController: state.ingredientNameTextController,
@@ -290,7 +294,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                               Flexible(
                                                   flex: 1,
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity,
+                                                      buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity
+                                                                        || p.ingredientQuantityValid != c.ingredientQuantityValid,
                                                       builder: (context, state) {
                                                         return FormInput(
                                                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -317,7 +322,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                               Flexible(
                                                   flex: 2,
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement,
+                                                      buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement
+                                                                        || p.ingredientMeasurementValid != c.ingredientMeasurementValid,
                                                       builder: (context, state) {
                                                         return FormInput(
                                                             textController: state.ingredientMeasurementTextController,
@@ -400,7 +406,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 Flexible(
                                                   flex: 2,
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.recipeStepDescription != c.recipeStepDescription,
+                                                    buildWhen: (p, c) => p.recipeStepDescription != c.recipeStepDescription
+                                                                      || p.recipeDescriptionValid != c.recipeDescriptionValid,
                                                     builder: (context, state) {
                                                       return FormInput(
                                                         textController: state.recipeStepDescriptionTextController,
@@ -557,7 +564,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                               children: [
                                                 Flexible(
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.servingNumber != c.servingNumber,
+                                                      buildWhen: (p, c) => p.servingNumber != c.servingNumber
+                                                                        || p.servingNumberValid != c.servingNumberValid,
                                                       builder: (context, state) {
                                                         return FormInput(
                                                           textController: state.servingNumberTextController,
@@ -580,7 +588,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 ),
                                                 Flexible(
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.servingSize != c.servingSize,
+                                                    buildWhen: (p, c) => p.servingSize != c.servingSize
+                                                                      || p.servingSizeValid != c.servingSizeValid,
                                                     builder: (context, state) {
                                                       return FormInput(
                                                         textController: state.servingSizeTextController,
@@ -611,7 +620,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                               children: [
                                                 Flexible(
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.cookingTime != c.cookingTime,
+                                                    buildWhen: (p, c) => p.cookingTime != c.cookingTime
+                                                                      || p.cookingTimeValid != c.cookingTimeValid,
                                                     builder: (context, state) {
                                                       return FormInput(
                                                         textController: state.cookingTimeTextController,
@@ -633,7 +643,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 ),
                                                 Flexible(
                                                   child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.kilocalories != c.kilocalories,
+                                                    buildWhen: (p, c) => p.kilocalories != c.kilocalories
+                                                                      || p.kilocaloriesValid != c.kilocaloriesValid,
                                                     builder: (context, state) {
                                                       return FormInput(
                                                         textController: state.kilocaloriesTextController,
