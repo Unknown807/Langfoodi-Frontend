@@ -1,11 +1,11 @@
 import 'package:cloudinary_url_gen/cloudinary.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:equatable/equatable.dart';
 
 export 'image_repo.dart';
 part 'contracts/signed_upload_contract.dart';
+part 'contracts/signed_delete_contract.dart';
 part 'models/hosted_image.dart';
 part 'models/signature.dart';
 
@@ -34,21 +34,9 @@ class ImageRepository {
   }
 
   Future<Signature?> getBulkDeletionSignature(List<String> publicIds) async {
-
-  }
-
-  Future<HostedImage?> uploadImage(String filePath, SignedUploadContract contract) async {
-    contract.newApiKey = cloudinaryConfig.config.cloudConfig.apiKey!;
-
-    final response = await request.fileUpload(
-      "/v1_1/${cloudinaryConfig.config.cloudConfig.cloudName}/image/upload",
-      filePath, contract.toJson(),
-      baseUrl: baseUrl);
-
+    final response = await request.post("/image/get/cloudinary-signature/bulk-delete", publicIds, jsonWrapper);
     if (!response.isOk) return null;
-
-    final responseData = await response.stream.toBytes();
-    return HostedImage.fromJsonStr(String.fromCharCodes(responseData), jsonWrapper);
+    return Signature.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<bool> removeImage(String publicId) async {
@@ -68,13 +56,37 @@ class ImageRepository {
     final signature = await getBulkDeletionSignature(publicIds);
     if (signature == null) return false;
 
-    // TODO: change this to use multipart request
-    final cloudName = cloudinaryConfig.config.cloudConfig.cloudName;
-    final apiKey = cloudinaryConfig.config.cloudConfig.apiKey;
-    final response = await request.postWithoutBody(
-        "/v1_1/$cloudName/image/delete_resources?api_key=$apiKey&signature=${signature.signature}&timestamp=${signature.timeStamp}",
-        baseUrl: baseUrl);
+    SignedDeleteContract contract = SignedDeleteContract(
+      signature.signature,
+      signature.timeStamp,
+      cloudinaryConfig.config.cloudConfig.apiKey!,
+      publicIds,
+    );
+
+    final response = await request.multipartRequest(
+      "DELETE",
+      "/v1_1/${cloudinaryConfig.config.cloudConfig.cloudName}/resources/image/upload",
+      contract.toJson(),
+      baseUrl: baseUrl
+    );
 
     return response.isOk;
+  }
+
+  Future<HostedImage?> uploadImage(String filePath, SignedUploadContract contract) async {
+    contract.newApiKey = cloudinaryConfig.config.cloudConfig.apiKey!;
+
+    final response = await request.multipartRequest(
+      "POST",
+      "/v1_1/${cloudinaryConfig.config.cloudConfig.cloudName}/image/upload",
+      contract.toJson(),
+      filePath: filePath,
+      baseUrl: baseUrl
+    );
+
+    if (!response.isOk) return null;
+
+    final responseData = await response.stream.toBytes();
+    return HostedImage.fromJsonStr(String.fromCharCodes(responseData), jsonWrapper);
   }
 }

@@ -20,7 +20,7 @@ class Request {
     return allHeaders;
   }
 
-  Future<http.Response> post(String path, JsonConvertible data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
+  Future<http.Response> post(String path, Object data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
     final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     final jsonData = jsonWrapper.encodeData(data);
     return client.getInstance().post(url, body: jsonData, headers: formatHeaders(headers));
@@ -41,13 +41,12 @@ class Request {
     return client.getInstance().delete(url, headers: formatHeaders(headers));
   }
 
-  Future<http.StreamedResponse> fileUpload(String path, String filePath, Map<String, String> fields, {String? baseUrl}) async {
-    // TODO change this to allow files optionally, should be called multipartPost
+  Future<http.StreamedResponse> multipartRequest(String method, String path, Map<String, String> fields, {String? filePath, String? baseUrl}) async {
     final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
-    final request = http.MultipartRequest("POST", url);
+    final request = http.MultipartRequest(method, url);
 
     request.fields.addAll(fields);
-    request.files.add(await multipartFileProvider.fromPath("file", filePath));
+    if (filePath != null) request.files.add(await multipartFileProvider.fromPath("file", filePath));
 
     return client.getInstance().send(request);
   }
