@@ -27,49 +27,19 @@ class ImageRepository {
     return _instance;
   }
 
-  Future<Signature?> getSignature({String? publicId}) async {
-    final response = await request.postWithoutBody("/image/get/cloudinary-signature${publicId == null ? "" : "?publicId=$publicId"}");
-    if (!response.isOk) return null;
-    return Signature.fromJsonStr(response.body, jsonWrapper);
-  }
-
-  Future<Signature?> getBulkDeletionSignature(List<String> publicIds) async {
-    final response = await request.post("/image/get/cloudinary-signature/bulk-delete", publicIds, jsonWrapper);
+  Future<Signature?> getSignature() async {
+    final response = await request.postWithoutBody("/image/get/cloudinary-signature");
     if (!response.isOk) return null;
     return Signature.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<bool> removeImage(String publicId) async {
-    final signature = await getSignature(publicId: publicId);
-    if (signature == null) return false;
-
-    final cloudName = cloudinaryConfig.config.cloudConfig.cloudName;
-    final apiKey = cloudinaryConfig.config.cloudConfig.apiKey;
-    final response = await request.postWithoutBody(
-        "/v1_1/$cloudName/image/destroy?public_id=$publicId&api_key=$apiKey&signature=${signature.signature}&timestamp=${signature.timeStamp}",
-        baseUrl: baseUrl);
-
+    final response = await request.delete("/image/single-delete?publicId=$publicId");
     return response.isOk;
   }
 
   Future<bool> removeImages(List<String> publicIds) async {
-    final signature = await getBulkDeletionSignature(publicIds);
-    if (signature == null) return false;
-
-    SignedDeleteContract contract = SignedDeleteContract(
-      signature.signature,
-      signature.timeStamp,
-      cloudinaryConfig.config.cloudConfig.apiKey!,
-      publicIds,
-    );
-
-    final response = await request.multipartRequest(
-      "DELETE",
-      "/v1_1/${cloudinaryConfig.config.cloudConfig.cloudName}/resources/image/upload",
-      contract.toJson(),
-      baseUrl: baseUrl
-    );
-
+    final response = await request.delete("/image/bulk-delete?publicIds=${publicIds.join("&publicIds=")}");
     return response.isOk;
   }
 
