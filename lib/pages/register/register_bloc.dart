@@ -20,13 +20,13 @@ class RegisterBloc extends FormBloc {
   Future<void> formSubmitted(FormSubmitted event, Emitter<InputState> emit) async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
-    String? errorMessage = await _authRepo.register(
+    String errorMessage = await _authRepo.register(
         state.userName.value, state.email.value, state.password.value);
 
     emit(
       state.copyWith(
         errorMessage: errorMessage,
-        formStatus: errorMessage == null
+        formStatus: errorMessage.isEmpty
             ? FormzSubmissionStatus.success
             : FormzSubmissionStatus.failure,
       ),

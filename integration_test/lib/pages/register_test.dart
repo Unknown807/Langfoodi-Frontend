@@ -23,20 +23,20 @@ void main() {
 
   Widget createSystemUnderTest() {
     return MaterialApp(
-        home: MultiRepositoryProvider(
-          providers: [
-            RepositoryProvider<AuthenticationRepository>(create: (_) => authRepoMock),
-            RepositoryProvider<NavigationRepository>(create: (_) => navigRepoMock),
-          ],
-          child: const RegisterPage(),
-        )
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthenticationRepository>(create: (_) => authRepoMock),
+          RepositoryProvider<NavigationRepository>(create: (_) => navigRepoMock),
+        ],
+        child: const RegisterPage(),
+      )
     );
   }
   
   group("register integration tests", () {
     testWidgets("valid registration", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value(null));
+      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value(""));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
       final userNameTextField = find.descendant(
@@ -72,7 +72,7 @@ void main() {
       ));
 
       expect(formErrorLabel.data, "");
-      expect(find.text("server error"), findsNothing);
+      expect(find.text("Issue Signing Up"), findsNothing);
       expect(find.text("Needs 3+ length & only letters/numbers"), findsNothing);
       expect(find.text("Invalid email"), findsNothing);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsNothing);
@@ -82,7 +82,7 @@ void main() {
 
     testWidgets("invalid registration form", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value("server error"));
+      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value("Issue Signing Up"));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
       final userNameTextField = find.descendant(
@@ -118,7 +118,7 @@ void main() {
       ));
 
       expect(formErrorLabel.data, "");
-      expect(find.text("server error"), findsNothing);
+      expect(find.text("Issue Signing Up"), findsNothing);
       expect(find.text("Needs 3+ length & only letters/numbers"), findsNothing);
       expect(find.text("Invalid email"), findsOneWidget);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsOneWidget);
@@ -128,7 +128,7 @@ void main() {
 
     testWidgets("invalid registration", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value("server error"));
+      when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value("Issue Signing Up"));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
       final userNameTextField = find.descendant(
@@ -158,7 +158,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
-      expect(find.text("server error"), findsOneWidget);
+      expect(find.text("Issue Signing Up"), findsOneWidget);
       expect(find.text("Needs 3+ length & only letters/numbers"), findsNothing);
       expect(find.text("Invalid email"), findsNothing);
       expect(find.text("Needs 8+ length & 1 uppercase, 1 lowercase, 1 digit & 1 special"), findsNothing);

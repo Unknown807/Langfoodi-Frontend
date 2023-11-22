@@ -24,8 +24,7 @@ class RecipeRepository {
     final response = await request.postWithoutBody("/recipe/get/id?id=$id");
     if (!response.isOk) return null;
 
-    final jsonRecipe = jsonWrapper.decodeData(response.body);
-    return RecipeDetailed.fromJson(jsonRecipe);
+    return RecipeDetailed.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<List<Recipe>> _getRecipesFromUser(String path) async {
@@ -49,8 +48,7 @@ class RecipeRepository {
     final response = await request.post("/recipe/create", contract, jsonWrapper);
     if (!response.isOk) return null;
 
-    final jsonRecipe = jsonWrapper.decodeData(response.body);
-    return RecipeDetailed.fromJson(jsonRecipe);
+    return RecipeDetailed.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<bool> updateRecipe(UpdateRecipeContract contract) async {

@@ -26,43 +26,45 @@ class AuthenticationRepository {
       User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
 
       var data = AuthenticationAttemptContract(
-          usernameOrEmail: loggedInUser.email ?? loggedInUser.userName!,
-          password: loggedInUser.password!);
+          usernameOrEmail: loggedInUser.email,
+          password: loggedInUser.password);
 
       var response = await request.post("/auth/authenticate", data, jsonWrapper);
-      return response.statusCode == 200 && response.body.toLowerCase() == "true";
+      return response.isOk;
     }
 
     return false;
   }
 
-  Future<String?> register(String username, String email, String password) async {
-    var data = NewUserContract(username: username, email: email, password: password);
+  Future<String> register(String username, String email, String password) async {
+    // TODO: add handler field to register page
+    var data = NewUserContract(
+      handler: "testHandler",
+      username: username,
+      email: email,
+      password: password);
 
     var response = await request.post("/user/create", data, jsonWrapper);
-    if (response.statusCode == 200) {
-      User user = User(userName: username, email: email, password: password);
+    if (response.isOk) {
+      User user = User.fromJsonStr(response.body, jsonWrapper);
       localStore.setKey(userKey, user.serialize(jsonWrapper));
+      return "";
     }
 
-    return ResponseError.getErrorMessageFromCode("Issue Signing Up", response);
+    return response.isBadRequest ? response.body : "Issue Signing Up";
   }
 
-  Future<String?> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
+  Future<String> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
     var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password);
-
     var response = await request.post("/auth/authenticate", data, jsonWrapper);
-    if (response.statusCode == 200 && response.body.toLowerCase() == "true") {
-      bool isEmail = usernameOrEmail.contains("@");
-      User user = User(
-        userName: isEmail ? "" : usernameOrEmail,
-        email: isEmail ? usernameOrEmail : "",
-        password: password
-      );
+
+    if (response.isOk) {
+      User user = User.fromJsonStr(response.body, jsonWrapper);
       localStore.setKey(userKey, user.serialize(jsonWrapper));
+      return "";
     }
 
-    return ResponseError.getErrorMessageFromCode("Issue Signing In", response);
+    return response.isBadRequest ? response.body : "Issue Signing In";
   }
 
   Future<void> logOut() async {
