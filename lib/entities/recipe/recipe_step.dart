@@ -1,10 +1,10 @@
 part of 'recipe_entities.dart';
 
 class RecipeStep extends Equatable with JsonConvertible {
-  const RecipeStep(this.text, this.imageUrl);
+  RecipeStep(this.text, this.imageUrl);
 
   final String text;
-  final String? imageUrl;
+  String? imageUrl;
 
   @override
   List<Object?> get props => [text, imageUrl];

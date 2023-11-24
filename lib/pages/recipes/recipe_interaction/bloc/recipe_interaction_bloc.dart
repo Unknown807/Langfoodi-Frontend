@@ -84,7 +84,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
         && kilocaloriesValid && cookingTimeValid;
 
     if (!allFieldsValid) {
-      // TODO: is this gonna work?
       return emit(state.copyWith(
         recipeTitleValid: recipeTitleValid,
         recipeDescriptionValid: recipeDescriptionValid,
@@ -133,21 +132,23 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
       if (thumbnailNotEmpty) hostedImages[-1] = recipeThumbnailHosted;
 
-      // TODO: remove all non-null images from hosting
+      await _imageRepo.removeImages(hostedImages
+          .values
+          .where((img) => img != null)
+          .map((img) => img!.publicId).toList());
 
-      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
-      return;
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
-    final List<RecipeStep> hostedRecipeSteps = [];
+    final List<RecipeStep> finalisedRecipeSteps = [];
     for (int i = 0 ; i < state.recipeStepList.length ; i++) {
-      hostedRecipeSteps.add(RecipeStep(
+      finalisedRecipeSteps.add(RecipeStep(
           state.recipeStepList[i].text,
           hostedImages.containsKey(i) ? hostedImages[i]!.publicId : null)
       );
     }
 
-    final userId = (await _authRepo.currentUser).id!;
+    final userId = (await _authRepo.currentUser).id;
 
     Duration? cookingTimeDuration;
     if (cookingTimeNotEmpty) {
@@ -166,7 +167,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       chefId: userId,
       tags: state.recipeTagList,
       ingredients: state.ingredientList,
-      recipeSteps: hostedRecipeSteps,
+      recipeSteps: finalisedRecipeSteps,
       cookingTime: cookingTimeDuration,
       kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
       numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
@@ -175,9 +176,18 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
     if (recipeDetailed == null) {
-      // TODO: remove recipe step images and hosted image
-      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
-      return;
+      List<String> publicIdsToRemove = hostedImages
+          .values
+          .where((img) => img != null)
+          .map((img) => img!.publicId).toList();
+
+      if (recipeThumbnailHosted != null) {
+        publicIdsToRemove.add(recipeThumbnailHosted.publicId);
+      }
+
+      await _imageRepo.removeImages(publicIdsToRemove);
+
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
     emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
