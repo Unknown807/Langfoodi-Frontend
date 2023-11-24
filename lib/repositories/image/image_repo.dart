@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 
 export 'image_repo.dart';
 part 'contracts/signed_upload_contract.dart';
-part 'contracts/signed_delete_contract.dart';
 part 'models/hosted_image.dart';
 part 'models/signature.dart';
 
