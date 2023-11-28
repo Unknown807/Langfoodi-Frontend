@@ -29,7 +29,9 @@ class ConversationListPage extends StatelessWidget implements PageLander
           separatorBuilder: (context, index) {
             return conversationDivider;
           },
-          itemCount: 2 + numberOfConversations)
+          itemCount: 2 + numberOfConversations),
+      floatingActionButton: const NewConversationFloatingButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -55,4 +57,26 @@ class ConversationListPage extends StatelessWidget implements PageLander
       ),
     )
   );
+}
+
+class NewConversationFloatingButton extends StatelessWidget{
+  const NewConversationFloatingButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.large(
+      onPressed: () {
+
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100.0), // Adjust the radius
+      ),
+      backgroundColor: const Color(0xFF189A03),
+      child: const Icon(
+        Icons.add,
+        color: Colors.white,
+        size: 80
+      )
+    );
+  }
 }
