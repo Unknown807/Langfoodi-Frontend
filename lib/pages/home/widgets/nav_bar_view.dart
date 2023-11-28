@@ -60,7 +60,7 @@ class NavBarViewState extends State<NavBarView> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat),
-                label: 'Chats',
+                label: 'Conversations',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),
