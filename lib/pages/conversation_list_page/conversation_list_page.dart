@@ -1,6 +1,9 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
+import '../../entities/messaging/conversation_card_content.dart';
 import '../../widgets/new_conversation_floating_button.dart';
 import '../../widgets/sorting_options_button.dart';
 
@@ -22,6 +25,16 @@ class _ConversationListPageState extends State<ConversationListPage> {
   final Widget conversationDivider = const Divider(height:1, color: Color(0xFFeaeaea));
 
   SortingOption selectedSortingOption = SortingOption.lastMessage;
+  List<ConversationCardContent> conversationCards = [
+    ConversationCardContent(conversationName: "Connection1", conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 11, 18), isPinned: true),
+    ConversationCardContent(conversationName: "Connection2", conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "Connection2", lastMessageSentDate: DateTime(2023, 11, 13), isPinned: true),
+    ConversationCardContent(conversationName: "Group1", conversationImage: Icons.group,  conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "GroupMember1", lastMessageSentDate: DateTime(2023, 11, 25), isPinned: false),
+    ConversationCardContent(conversationName: "Group2", conversationImage: Icons.group, conversationStatus: ConversationStatus.connected, isPinned: false),
+    ConversationCardContent(conversationName: "Connection3", conversationStatus: ConversationStatus.pending, lastMessage: "Last message...", lastMessageSender: "Connection3", lastMessageSentDate: DateTime(2023, 11, 12), isPinned: false),
+    ConversationCardContent(conversationName: "Connection4", conversationStatus: ConversationStatus.blocked, isPinned: false),
+    ConversationCardContent(conversationName: "Group3", conversationImage: Icons.group, conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 01, 19), isPinned: false),
+    ConversationCardContent(conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +58,16 @@ class _ConversationListPageState extends State<ConversationListPage> {
         child:
         ListView.separated(
             itemBuilder: (context, index) {
-              bool isAtListEnd = index == 0 || index == numberOfConversations + 1;
+              bool isAtListEnd = index == 0 || index == conversationCards.length + 1;
               if (isAtListEnd) {
                 return const SizedBox.shrink();
               }
-              return buildConversationCard(index);
+              return buildConversationCard(conversationCards[index - 1]);
             },
             separatorBuilder: (context, index) {
               return conversationDivider;
             },
-            itemCount: 2 + numberOfConversations
+            itemCount: 2 + conversationCards.length
         )
     );
   }
@@ -104,7 +117,7 @@ class _ConversationListPageState extends State<ConversationListPage> {
     );
   }
 
-  Widget buildConversationCard(int index) => Center(
+  Widget buildConversationCard(ConversationCardContent conversationCardContent) => Center(
     child: Card(
       shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
       elevation: 0,
@@ -112,18 +125,57 @@ class _ConversationListPageState extends State<ConversationListPage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            leading: const Icon(Icons.person, size: 50),
+            leading: Stack(
+              children: [
+                Icon(conversationCardContent.conversationImage, size: 50),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: getIcon(conversationCardContent.conversationStatus)
+                )
+              ],
+            ),
             title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Conversation $index", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const Text("28/11/2023", style: TextStyle(fontSize: 12))
+                  Text(conversationCardContent.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                      conversationCardContent.lastMessageSentDate != null
+                        ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!)
+                        : "",
+                      style: const TextStyle(fontSize: 12))
                 ]
             ),
-            subtitle: const Text("Last message...", style: TextStyle(fontSize: 16)),
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  conversationCardContent.lastMessage.isNotEmpty
+                    ? "${conversationCardContent.lastMessageSender}: ${conversationCardContent.lastMessage}"
+                    : "",
+                  style: const TextStyle(fontSize: 16)
+                ),
+                conversationCardContent.isPinned
+                    ? Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size:30))
+                    : const SizedBox (width: 30, height: 30)
+              ]
+            )
           ),
         ],
       ),
     )
   );
+}
+
+Widget getIcon(ConversationStatus conversationStatus) {
+  switch (conversationStatus) {
+    case ConversationStatus.blocked:
+      return const Icon(Icons.block, size: 25, color: Colors.red);
+    case ConversationStatus.pending:
+      return const Icon(Icons.pending_actions, size: 25, color: Colors.blue);
+
+    default:
+      return const SizedBox.shrink();
+  }
 }
