@@ -51,16 +51,16 @@ class NavBarViewState extends State<NavBarView> {
             type: BottomNavigationBarType.fixed,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.newspaper),
-                label: 'Home',
+                icon: Icon(Icons.chat),
+                label: 'Conversations',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.fastfood),
                 label: 'My Recipes',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Conversations',
+                icon: Icon(Icons.person),
+                label: 'Profile',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),

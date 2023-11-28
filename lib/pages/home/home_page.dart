@@ -24,12 +24,12 @@ class HomePage extends StatelessWidget {
                 recipeRepoContext.read<RecipeRepository>()),
             child: const NavBarView(
               widgetPages: [
-                PlaceholderPage(),
-                RecipeViewPage(),
                 ConversationListPage(),
+                RecipeViewPage(),
+                PlaceholderPage(),
                 PlaceholderPage()
               ],
-              pageTitles: ["Welcome", "Your Recipes", "Chats", "Notifications"],
+              pageTitles: ["Conversations", "My Recipes", "Profile", "Notifications"],
             )));
   }
 }
