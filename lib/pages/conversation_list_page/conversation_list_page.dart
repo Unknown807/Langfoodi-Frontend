@@ -173,7 +173,7 @@ class NewConversationFloatingButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.large(
+    return FloatingActionButton(
       onPressed: () {
 
       },
@@ -184,7 +184,7 @@ class NewConversationFloatingButton extends StatelessWidget{
       child: const Icon(
         Icons.add,
         color: Colors.white,
-        size: 80
+        size: 40
       )
     );
   }
