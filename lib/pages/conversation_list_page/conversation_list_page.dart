@@ -6,7 +6,7 @@ class ConversationListPage extends StatelessWidget implements PageLander
   const ConversationListPage({super.key});
 
   final int numberOfConversations = 10;
-  final Widget conversationDivider = const Divider(height:1, color: Colors.grey);
+  final Widget conversationDivider = const Divider(height:1, color: Color(0xFFeaeaea));
 
   @override
   void onLanding(BuildContext context) {
@@ -42,8 +42,14 @@ class ConversationListPage extends StatelessWidget implements PageLander
         children: <Widget>[
           ListTile(
             leading: const Icon(Icons.person, size: 50),
-            title: Text("Conversation $index"),
-            subtitle: const Text('Last message...'),
+            title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text("Conversation $index", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text("28/11/2023", style: TextStyle(fontSize: 12))
+                ]
+            ),
+            subtitle: const Text("Last message...", style: TextStyle(fontSize: 16)),
           ),
         ],
       ),
