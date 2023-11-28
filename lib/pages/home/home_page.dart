@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list_page/conversation_list_page.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
               widgetPages: [
                 PlaceholderPage(),
                 RecipeViewPage(),
-                PlaceholderPage(),
+                ConversationListPage(),
                 PlaceholderPage()
               ],
               pageTitles: ["Welcome", "Your Recipes", "Chats", "Notifications"],

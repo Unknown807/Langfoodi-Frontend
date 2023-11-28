@@ -52,7 +52,7 @@ class _AppView extends StatelessWidget {
             case AppStatus.authenticated:
               return const HomePage();
             case AppStatus.unauthenticated:
-              return const ConversationListPage();
+              return const LoginPage();
             default:
               return const SplashPage();
           }
