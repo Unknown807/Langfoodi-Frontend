@@ -1,9 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 import '../../entities/messaging/conversation_card_content.dart';
+import '../../widgets/conversation_card.dart';
 import '../../widgets/new_conversation_floating_button.dart';
 import '../../widgets/sorting_options_button.dart';
 
@@ -62,7 +61,7 @@ class _ConversationListPageState extends State<ConversationListPage> {
               if (isAtListEnd) {
                 return const SizedBox.shrink();
               }
-              return buildConversationCard(conversationCards[index - 1]);
+              return ConversationCard(conversationCardContent: conversationCards[index - 1]);
             },
             separatorBuilder: (context, index) {
               return conversationDivider;
@@ -115,67 +114,5 @@ class _ConversationListPageState extends State<ConversationListPage> {
             ]
         )
     );
-  }
-
-  Widget buildConversationCard(ConversationCardContent conversationCardContent) => Center(
-    child: Card(
-      shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
-      elevation: 0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: Stack(
-              children: [
-                Icon(conversationCardContent.conversationImage, size: 50),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: getIcon(conversationCardContent.conversationStatus)
-                )
-              ],
-            ),
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(conversationCardContent.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text(
-                      conversationCardContent.lastMessageSentDate != null
-                        ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!)
-                        : "",
-                      style: const TextStyle(fontSize: 12))
-                ]
-            ),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  conversationCardContent.lastMessage.isNotEmpty
-                    ? "${conversationCardContent.lastMessageSender}: ${conversationCardContent.lastMessage}"
-                    : "",
-                  style: const TextStyle(fontSize: 16)
-                ),
-                conversationCardContent.isPinned
-                    ? Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size:30))
-                    : const SizedBox (width: 30, height: 30)
-              ]
-            )
-          ),
-        ],
-      ),
-    )
-  );
-}
-
-Widget getIcon(ConversationStatus conversationStatus) {
-  switch (conversationStatus) {
-    case ConversationStatus.blocked:
-      return const Icon(Icons.block, size: 25, color: Colors.red);
-    case ConversationStatus.pending:
-      return const Icon(Icons.pending_actions, size: 25, color: Colors.blue);
-
-    default:
-      return const SizedBox.shrink();
   }
 }
