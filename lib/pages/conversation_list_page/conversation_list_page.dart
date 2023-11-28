@@ -44,7 +44,14 @@ class _ConversationListPageState extends State<ConversationListPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           getSortBySection(),
-          getConversationList()
+          conversationCards.isNotEmpty
+            ? getConversationList()
+            : Container(
+                padding: const EdgeInsets.only(top: 20),
+                child: const Center(
+                  child: Text("You have no conversations yet!", style: TextStyle(fontSize: 20),),
+              )
+          )
         ]
       ),
       floatingActionButton: const NewConversationFloatingButton(),
