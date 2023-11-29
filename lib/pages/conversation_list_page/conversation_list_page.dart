@@ -80,46 +80,55 @@ class _ConversationListPageState extends State<ConversationListPage> {
 
   Widget getSortBySection() {
     return Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 10),
-        color: const Color(0xFF02A713),
-        child: Row(
-            children: [
-              const Text("Sort By:", style: TextStyle(color: Colors.white, fontSize: 16)),
-              const SizedBox(width: 18),
-              SortingOptionButton(
-                  isSelected: selectedSortingOption == SortingOption.lastMessage,
-                  sortingOption: SortingOption.lastMessage,
-                  onPressed: ()
-                  {
-                    setState(() {
-                      selectedSortingOption = SortingOption.lastMessage;
-                    });
-                  }
-              ),
-              const SizedBox(width: 18),
-              SortingOptionButton(
-                  isSelected: selectedSortingOption == SortingOption.alphabeticalOrder,
-                  sortingOption: SortingOption.alphabeticalOrder,
-                  onPressed: ()
-                  {
-                    setState(() {
-                      selectedSortingOption = SortingOption.alphabeticalOrder;
-                    });
-                  }
-              ),
-              const SizedBox(width: 18),
-              SortingOptionButton(
-                  isSelected: selectedSortingOption == SortingOption.dateAdded,
-                  sortingOption: SortingOption.dateAdded,
-                  onPressed: ()
-                  {
-                    setState(() {
-                      selectedSortingOption = SortingOption.dateAdded;
-                    });
-                  }
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 10),
+      color: const Color(0xFF02A713),
+      child: Row(
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  const Text("Sort By:", style: TextStyle(color: Colors.white, fontSize: 16)),
+                  const SizedBox(width: 18),
+                  SortingOptionButton(
+                    isSelected: selectedSortingOption == SortingOption.lastMessage,
+                    sortingOption: SortingOption.lastMessage,
+                    onPressed: ()
+                    {
+                      setState(() {
+                        selectedSortingOption = SortingOption.lastMessage;
+                      });
+                    }
+                  ),
+                  const SizedBox(width: 18),
+                  SortingOptionButton(
+                    isSelected: selectedSortingOption == SortingOption.alphabeticalOrder,
+                    sortingOption: SortingOption.alphabeticalOrder,
+                    onPressed: ()
+                    {
+                      setState(() {
+                        selectedSortingOption = SortingOption.alphabeticalOrder;
+                      });
+                    }
+                  ),
+                  const SizedBox(width: 18),
+                  SortingOptionButton(
+                    isSelected: selectedSortingOption == SortingOption.dateAdded,
+                    sortingOption: SortingOption.dateAdded,
+                    onPressed: ()
+                    {
+                      setState(() {
+                        selectedSortingOption = SortingOption.dateAdded;
+                      });
+                    }
+                  )
+                ]
               )
-            ]
-        )
+            )
+          )
+        ]
+      )
     );
   }
 }

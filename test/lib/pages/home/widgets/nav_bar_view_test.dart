@@ -8,12 +8,12 @@ void main() {
     return const MaterialApp(
         home: Scaffold(
           bottomNavigationBar: NavBarView(widgetPages: [
-            PageLanderFake(pageText: "home page"),
+            PageLanderFake(pageText: "conversations page"),
             PageLanderFake(pageText: "recipes page"),
-            PageLanderFake(pageText: "chats page"),
+            PageLanderFake(pageText: "profile page"),
             PageLanderFake(pageText: "notifications page"),
           ],
-          pageTitles: ["Welcome", "My Recipes", "Chats", "Notifications"],),
+          pageTitles: ["Conversations", "My Recipes", "Profile", "Notifications"],),
         )
     );
   }
@@ -24,23 +24,23 @@ void main() {
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
-      expect(find.byIcon(Icons.newspaper), findsOneWidget);
-      expect(find.text("Home"), findsOneWidget);
+      expect(find.byIcon(Icons.chat), findsOneWidget);
+      expect(find.text("Conversations"), findsNWidgets(2));
       expect(find.byIcon(Icons.fastfood), findsOneWidget);
       expect(find.text("My Recipes"), findsOneWidget);
+      expect(find.byIcon(Icons.person), findsOneWidget);
+      expect(find.text("Profile"), findsOneWidget);
       expect(find.byIcon(Icons.notifications), findsOneWidget);
       expect(find.text("Notifications"), findsOneWidget);
-      expect(find.byIcon(Icons.chat), findsOneWidget);
-      expect(find.text("Chats"), findsOneWidget);
     });
 
-    testWidgets("on 'Home' page", (widgetTester) async {
+    testWidgets("on 'Conversations' page", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
       expect(find.byType(TopAppBar), findsOneWidget);
-      expect(find.text("home page"), findsOneWidget);
+      expect(find.text("conversations page"), findsOneWidget);
     });
 
     testWidgets("on 'My Recipes' page", (widgetTester) async {
@@ -56,17 +56,17 @@ void main() {
       expect(find.text("recipes page"), findsOneWidget);
     });
 
-    testWidgets("on 'Chats' page", (widgetTester) async {
+    testWidgets("on 'Profile' page", (widgetTester) async {
       // Arrange
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Act
-      await widgetTester.tap(find.text("Chats"));
+      await widgetTester.tap(find.text("Profile"));
       await widgetTester.pumpAndSettle();
 
       // Assert
       expect(find.byType(TopAppBar), findsOneWidget);
-      expect(find.text("chats page"), findsOneWidget);
+      expect(find.text("profile page"), findsOneWidget);
     });
 
     testWidgets("on 'Notifications' page", (widgetTester) async {

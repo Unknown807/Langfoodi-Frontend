@@ -22,14 +22,14 @@ void main() {
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
-      expect(find.byIcon(Icons.newspaper), findsOneWidget);
-      expect(find.text("Home"), findsOneWidget);
+      expect(find.byIcon(Icons.chat), findsOneWidget);
+      expect(find.text("Conversations"), findsNWidgets(2));
       expect(find.byIcon(Icons.fastfood), findsOneWidget);
       expect(find.text("My Recipes"), findsOneWidget);
+      expect(find.byIcon(Icons.person), findsOneWidget);
+      expect(find.text("Profile"), findsOneWidget);
       expect(find.byIcon(Icons.notifications), findsOneWidget);
       expect(find.text("Notifications"), findsOneWidget);
-      expect(find.byIcon(Icons.chat), findsOneWidget);
-      expect(find.text("Chats"), findsOneWidget);
     });
   });
 }
