@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
 
 class ConversationCard extends StatelessWidget {
+
+  static const double conversationImageSize = 50;
+  static const double statusImageSize = 20;
+  static const double pinIconSize = 30;
+
   const ConversationCard({super.key, required this.conversationCardContent});
 
   final ConversationCardContent conversationCardContent;
@@ -21,24 +27,38 @@ class ConversationCard extends StatelessWidget {
               ListTile(
                   leading: Stack(
                     children: [
-                      Icon(conversationCardContent.conversationImage, size: 50),
+                      ClipOval(
+                        child: Container(
+                          constraints: const BoxConstraints(
+                            maxHeight: conversationImageSize,
+                            maxWidth: conversationImageSize
+                          ),
+                          child: conversationCardContent.conversationImage,
+                          )
+                      ),
                       Positioned(
-                          top: 0,
-                          left: 0,
-                          child: getIcon(conversationCardContent.conversationStatus)
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          constraints: const BoxConstraints(
+                            maxHeight: statusImageSize,
+                            maxWidth: statusImageSize
+                          ),
+                          child: getStatusIcon(conversationCardContent.conversationStatus),
+                        )
                       )
                     ],
                   ),
                   title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(conversationCardContent.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text(
-                            conversationCardContent.lastMessageSentDate != null
-                                ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!)
-                                : "",
-                            style: const TextStyle(fontSize: 12))
-                      ]
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(conversationCardContent.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(
+                        conversationCardContent.lastMessageSentDate != null
+                          ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!)
+                          : "",
+                        style: const TextStyle(fontSize: 12))
+                    ]
                   ),
                   subtitle: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,8 +71,8 @@ class ConversationCard extends StatelessWidget {
                             style: const TextStyle(fontSize: 16)
                         ),
                         conversationCardContent.isPinned
-                            ? Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size:30))
-                            : const SizedBox (width: 30, height: 30)
+                            ? Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
+                            : const SizedBox (width: pinIconSize, height: pinIconSize)
                       ]
                   )
               ),
@@ -62,12 +82,12 @@ class ConversationCard extends StatelessWidget {
     );
   }
 
-  Widget getIcon(ConversationStatus conversationStatus) {
+  Widget getStatusIcon(ConversationStatus conversationStatus) {
     switch (conversationStatus) {
       case ConversationStatus.blocked:
-        return const Icon(Icons.block, size: 25, color: Colors.red);
+        return Image.asset("assets/images/block_icon.png");
       case ConversationStatus.pending:
-        return const Icon(Icons.pending_actions, size: 25, color: Colors.blue);
+        return Image.asset("assets/images/pending_icon.png");
 
       default:
         return const SizedBox.shrink();

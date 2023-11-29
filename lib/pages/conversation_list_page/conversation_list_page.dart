@@ -25,14 +25,14 @@ class _ConversationListPageState extends State<ConversationListPage> {
 
   SortingOption selectedSortingOption = SortingOption.lastMessage;
   List<ConversationCardContent> conversationCards = [
-    ConversationCardContent(conversationName: "Connection1", conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 11, 18), isPinned: true),
-    ConversationCardContent(conversationName: "Connection2", conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "Connection2", lastMessageSentDate: DateTime(2023, 11, 13), isPinned: true),
-    ConversationCardContent(conversationName: "Group1", conversationImage: Icons.group,  conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "GroupMember1", lastMessageSentDate: DateTime(2023, 11, 25), isPinned: false),
-    ConversationCardContent(conversationName: "Group2", conversationImage: Icons.group, conversationStatus: ConversationStatus.connected, isPinned: false),
-    ConversationCardContent(conversationName: "Connection3", conversationStatus: ConversationStatus.pending, lastMessage: "Last message...", lastMessageSender: "Connection3", lastMessageSentDate: DateTime(2023, 11, 12), isPinned: false),
-    ConversationCardContent(conversationName: "Connection4", conversationStatus: ConversationStatus.blocked, isPinned: false),
-    ConversationCardContent(conversationName: "Group3", conversationImage: Icons.group, conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 01, 19), isPinned: false),
-    ConversationCardContent(conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)
+    ConversationCardContent.withDefaultImage(isGroup: false, conversationName: "Connection1", conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 11, 18), isPinned: true),
+    ConversationCardContent.withDefaultImage(isGroup: false, conversationName: "Connection2", conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "Connection2", lastMessageSentDate: DateTime(2023, 11, 13), isPinned: true),
+    ConversationCardContent.withDefaultImage(isGroup: true, conversationName: "Group1",  conversationStatus: ConversationStatus.connected, lastMessage: "Last message...", lastMessageSender: "GroupMember1", lastMessageSentDate: DateTime(2023, 11, 25), isPinned: false),
+    ConversationCardContent.withDefaultImage(isGroup: true, conversationName: "Group2", conversationStatus: ConversationStatus.connected, isPinned: false),
+    ConversationCardContent.withDefaultImage(isGroup: false, conversationName: "Connection3", conversationStatus: ConversationStatus.pending, lastMessage: "Last message...", lastMessageSender: "Connection3", lastMessageSentDate: DateTime(2023, 11, 12), isPinned: false),
+    ConversationCardContent.withDefaultImage(isGroup: false, conversationName: "Connection4", conversationStatus: ConversationStatus.blocked, isPinned: false),
+    ConversationCardContent.withDefaultImage(isGroup: true, conversationName: "Group3", conversationStatus: ConversationStatus.connected, lastMessage: "Last message sent...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 01, 19), isPinned: false),
+    ConversationCardContent.withDefaultImage(isGroup: false, conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)
   ];
 
   @override
