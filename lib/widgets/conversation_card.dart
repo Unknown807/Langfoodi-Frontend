@@ -1,17 +1,14 @@
-import 'dart:ffi';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
 
 class ConversationCard extends StatelessWidget {
-
-  static const double conversationImageSize = 50;
-  static const double statusImageSize = 20;
-  static const double pinIconSize = 30;
-
   const ConversationCard({super.key, required this.conversationCardContent});
+
+  static const double conversationIconSize = 30;
+  static const double statusIconSize = 20;
+  static const double pinIconSize = 25;
 
   final ConversationCardContent conversationCardContent;
 
@@ -27,25 +24,35 @@ class ConversationCard extends StatelessWidget {
               ListTile(
                   leading: Stack(
                     children: [
-                      ClipOval(
-                        child: Container(
-                          constraints: const BoxConstraints(
-                            maxHeight: conversationImageSize,
-                            maxWidth: conversationImageSize
-                          ),
-                          child: conversationCardContent.conversationImage,
-                          )
+                      CircleAvatar(
+                        backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
+                        child: Icon(
+                          conversationCardContent.isGroup ? Icons.group : Icons.person,
+                          color: const Color.fromRGBO(207, 212, 214, 1),
+                          size: conversationIconSize,
+                        )
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
-                        child: Container(
-                          constraints: const BoxConstraints(
-                            maxHeight: statusImageSize,
-                            maxWidth: statusImageSize
-                          ),
-                          child: getStatusIcon(conversationCardContent.conversationStatus),
-                        )
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                margin: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                  border: Border.all(
+                                    width: 8,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            getStatusIcon(conversationCardContent.conversationStatus)
+                          ]
+                        ),
                       )
                     ],
                   ),
@@ -85,10 +92,17 @@ class ConversationCard extends StatelessWidget {
   Widget getStatusIcon(ConversationStatus conversationStatus) {
     switch (conversationStatus) {
       case ConversationStatus.blocked:
-        return Image.asset("assets/images/block_icon.png");
+        return const Icon(
+          Icons.block,
+          color: Colors.red,
+          size: statusIconSize,
+        );
       case ConversationStatus.pending:
-        return Image.asset("assets/images/pending_icon.png");
-
+        return const Icon(
+          Icons.pending,
+          color: Colors.lightBlueAccent,
+          size: statusIconSize,
+        );
       default:
         return const SizedBox.shrink();
     }

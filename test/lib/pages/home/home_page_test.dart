@@ -26,7 +26,7 @@ void main() {
       expect(find.text("Conversations"), findsNWidgets(2));
       expect(find.byIcon(Icons.fastfood), findsOneWidget);
       expect(find.text("My Recipes"), findsOneWidget);
-      expect(find.byIcon(Icons.person), findsOneWidget);
+      expect(find.byIcon(Icons.person), findsAtLeastNWidgets(1));
       expect(find.text("Profile"), findsOneWidget);
       expect(find.byIcon(Icons.notifications), findsOneWidget);
       expect(find.text("Notifications"), findsOneWidget);
