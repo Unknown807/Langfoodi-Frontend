@@ -57,6 +57,66 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   final RecipeRepository _recipeRepo;
   final ImageRepository _imageRepo;
 
+  Future<Map<int, HostedImage?>> _uploadRecipeStepImages(SignedUploadContract contract) async {
+    Map<int, HostedImage?> hostedImages = {};
+    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      RecipeStep step = state.recipeStepList[i];
+      if (step.imageUrl != null) {
+        HostedImage? recipeStepHostedImage = await _imageRepo
+            .uploadImage(step.imageUrl!, contract);
+
+        hostedImages[i] = recipeStepHostedImage;
+      }
+    }
+
+    return hostedImages;
+  }
+
+  Future<HostedImage?> _uploadRecipeThumbnail(SignedUploadContract contract) async {
+    HostedImage? recipeThumbnailHosted;
+    if (state.recipeThumbnailPath.isNotEmpty) {
+      recipeThumbnailHosted = await _imageRepo
+          .uploadImage(state.recipeThumbnailPath, contract);
+    }
+
+    return recipeThumbnailHosted;
+  }
+
+  Future<bool> _removeImagesIfUploadError(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
+    bool anyNullHostedImages = hostedImages.values.any((img) => img == null);
+    bool thumbnailNotEmpty = state.recipeThumbnailPath.isNotEmpty;
+
+    if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
+      if (thumbnailNotEmpty) hostedImages[-1] = recipeThumbnailHosted;
+
+      await _imageRepo.removeImages(hostedImages
+          .values
+          .where((img) => img != null)
+          .map((img) => img!.publicId).toList());
+
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<(bool, HostedImage?, Map<int, HostedImage?>)> _attemptFormImageHosting() async {
+    Signature? uploadSignature = await _imageRepo.getSignature();
+    if (uploadSignature == null) { return (false, null, <int, HostedImage?>{}); }
+
+    final contract = SignedUploadContract(
+        uploadSignature.signature,
+        uploadSignature.timeStamp);
+
+    Map<int, HostedImage?> hostedImages = await _uploadRecipeStepImages(contract);
+    HostedImage? recipeThumbnailHosted = await _uploadRecipeThumbnail(contract);
+
+    bool imageUploadError = await _removeImagesIfUploadError(recipeThumbnailHosted, hostedImages);
+    if (imageUploadError) { return (false, null, <int, HostedImage?>{}); }
+
+    return (true, recipeThumbnailHosted, hostedImages);
+  }
+
   void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
@@ -84,6 +144,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
         && kilocaloriesValid && cookingTimeValid;
 
     if (!allFieldsValid) {
+      // TODO: maybe add error message to display?
       return emit(state.copyWith(
         recipeTitleValid: recipeTitleValid,
         recipeDescriptionValid: recipeDescriptionValid,
@@ -99,44 +160,11 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       ));
     }
 
-    Signature? uploadSignature = await _imageRepo.getSignature();
-    if (uploadSignature == null) {
+    // Upload thumbnail and recipe step images and finalise recipe step list
+
+    var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
+    if (!hostingSuccess) {
       // TODO: maybe add error message to display?
-      emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
-      return;
-    }
-
-    final contract = SignedUploadContract(
-        uploadSignature.signature,
-        uploadSignature.timeStamp);
-
-    Map<int, HostedImage?> hostedImages = {};
-    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
-      RecipeStep step = state.recipeStepList[i];
-      if (step.imageUrl != null) {
-        HostedImage? recipeStepHostedImage = await _imageRepo
-            .uploadImage(step.imageUrl!, contract);
-
-        hostedImages[i] = recipeStepHostedImage;
-      }
-    }
-
-    HostedImage? recipeThumbnailHosted;
-    bool thumbnailNotEmpty = state.recipeThumbnailPath.isNotEmpty;
-    if (thumbnailNotEmpty) {
-      recipeThumbnailHosted = await _imageRepo
-          .uploadImage(state.recipeThumbnailPath, contract);
-    }
-
-    bool anyNullHostedImages = hostedImages.values.any((img) => img == null);
-    if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
-      if (thumbnailNotEmpty) hostedImages[-1] = recipeThumbnailHosted;
-
-      await _imageRepo.removeImages(hostedImages
-          .values
-          .where((img) => img != null)
-          .map((img) => img!.publicId).toList());
-
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
@@ -148,17 +176,13 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       );
     }
 
-    final userId = (await _authRepo.currentUser).id;
+    // Send recipe creation request to backend
 
-    Duration? cookingTimeDuration;
-    if (cookingTimeNotEmpty) {
-      final cookingTimeParts = state.cookingTime.value.split(":");
-      cookingTimeDuration = Duration(
-          hours: int.parse(cookingTimeParts[0]),
-          minutes: int.parse(cookingTimeParts[1]),
-          seconds: int.parse(cookingTimeParts[2])
-      );
-    }
+    Duration? cookingTimeDuration = cookingTimeNotEmpty
+        ? state.cookingTime.getCookingTimeAsDuration()
+        : null;
+
+    final userId = (await _authRepo.currentUser).id;
 
     NewRecipeContract newRecipeContract = NewRecipeContract(
       title: state.recipeTitle.value,
@@ -171,7 +195,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       cookingTime: cookingTimeDuration,
       kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
       numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
-      servingSize: servingSizeNotEmpty ? int.parse(state.servingSize.value) : null
+      // TODO: get unit of measurement from another distinct field
+      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingSize.value) : null,
+      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingSize.value : null
     );
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
@@ -186,7 +212,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       }
 
       await _imageRepo.removeImages(publicIdsToRemove);
-
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
