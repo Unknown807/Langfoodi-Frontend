@@ -10,7 +10,10 @@ class UpdateRecipeContract with JsonConvertible {
     required this.recipeSteps,
     this.cookingTime,
     this.kiloCalories,
-    this.numberOfServings
+    this.numberOfServings,
+    this.servingQuantity,
+    this.servingUnitOfMeasurement,
+    this.thumbnailId
   });
 
   final String id;
@@ -22,6 +25,9 @@ class UpdateRecipeContract with JsonConvertible {
   final Duration? cookingTime;
   final int? kiloCalories;
   final int? numberOfServings;
+  final double? servingQuantity;
+  final String? servingUnitOfMeasurement;
+  final String? thumbnailId;
 
   @override
   Map toJson() {
@@ -29,12 +35,15 @@ class UpdateRecipeContract with JsonConvertible {
       "id": id,
       "title": title,
       "description": description,
+      "thumbnailId": thumbnailId,
       "labels": tags,
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
       "kiloCalories": kiloCalories,
-      "numberOfServings": numberOfServings
+      "numberOfServings": numberOfServings,
+      "servingQuantity": servingQuantity,
+      "servingUnitOfMeasurement": servingUnitOfMeasurement
     };
   }
 }

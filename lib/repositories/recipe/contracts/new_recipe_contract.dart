@@ -12,7 +12,8 @@ class NewRecipeContract with JsonConvertible {
     this.cookingTime,
     this.kiloCalories,
     this.numberOfServings,
-    this.servingSize
+    this.servingQuantity,
+    this.servingUnitOfMeasurement
   });
 
   final String title;
@@ -25,7 +26,8 @@ class NewRecipeContract with JsonConvertible {
   final Duration? cookingTime;
   final int? kiloCalories;
   final int? numberOfServings;
-  final int? servingSize;
+  final double? servingQuantity;
+  final String? servingUnitOfMeasurement;
 
   @override
   Map toJson() {
@@ -40,7 +42,8 @@ class NewRecipeContract with JsonConvertible {
       "cookingTime": cookingTime?.inSeconds,
       "kiloCalories": kiloCalories,
       "numberOfServings": numberOfServings,
-      "servingSize": servingSize
+      "servingQuantity": servingQuantity,
+      "servingUnitOfMeasurement": servingUnitOfMeasurement
     };
   }
 }

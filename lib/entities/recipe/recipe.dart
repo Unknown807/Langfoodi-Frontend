@@ -5,17 +5,19 @@ class Recipe extends Equatable with JsonConvertible {
       this.id,
       this.title,
       this.description,
+      this.thumbnailId,
       this.chefUsername,
       this.labels,
       this.cookingTime,
       this.kiloCalories,
       this.numberOfServings,
       this.creationDate,
-      this.lastUpdatedDate);
+      this.lastUpdatedDate,);
 
   final String id;
   final String title;
   final String description;
+  final String? thumbnailId;
   final String chefUsername;
   final List<String> labels;
   final Duration? cookingTime;
@@ -30,6 +32,7 @@ class Recipe extends Equatable with JsonConvertible {
       jsonData["title"],
       jsonData["description"],
       jsonData["chefUsername"],
+      jsonData["thumbnailId"],
       (jsonData["labels"] as List).map((label) => label as String).toList(),
       jsonData["cookingTime"] != null ? Duration(seconds: jsonData["cookingTime"]) : null,
       jsonData["kiloCalories"],
@@ -45,6 +48,7 @@ class Recipe extends Equatable with JsonConvertible {
     id,
     title,
     description,
+    thumbnailId,
     chefUsername,
     labels,
     cookingTime,
