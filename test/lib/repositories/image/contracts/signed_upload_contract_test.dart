@@ -5,7 +5,7 @@ void main() {
   group("toJson method tests", () {
     test("map returned", () {
       // Arrange
-      var contract = SignedUploadContract("signature", "api key", "time stamp");
+      var contract = SignedUploadContract("signature", "time stamp", apiKey: "api key");
 
       // Act
       var result = contract.toJson();

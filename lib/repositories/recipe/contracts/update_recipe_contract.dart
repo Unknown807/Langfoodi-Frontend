@@ -36,7 +36,7 @@ class UpdateRecipeContract with JsonConvertible {
       "title": title,
       "description": description,
       "thumbnailId": thumbnailId,
-      "labels": tags,
+      "tags": tags,
       "ingredients": ingredients.map((i) => i.toJson()).toList(),
       "recipeSteps": recipeSteps.map((r) => r.toJson()).toList(),
       "cookingTime": cookingTime?.inSeconds,
