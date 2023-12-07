@@ -82,18 +82,20 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     return recipeThumbnailHosted;
   }
 
+  Future<void> _removeHostedImages(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
+    hostedImages[-1] = recipeThumbnailHosted;
+    await _imageRepo.removeImages(hostedImages
+        .values
+        .where((img) => img != null)
+        .map((img) => img!.publicId).toList());
+  }
+
   Future<bool> _removeImagesIfUploadError(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
     bool anyNullHostedImages = hostedImages.values.any((img) => img == null);
     bool thumbnailNotEmpty = state.recipeThumbnailPath.isNotEmpty;
 
     if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
-      if (thumbnailNotEmpty) hostedImages[-1] = recipeThumbnailHosted;
-
-      await _imageRepo.removeImages(hostedImages
-          .values
-          .where((img) => img != null)
-          .map((img) => img!.publicId).toList());
-
+      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
       return true;
     }
 
@@ -202,16 +204,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
     if (recipeDetailed == null) {
-      List<String> publicIdsToRemove = hostedImages
-          .values
-          .where((img) => img != null)
-          .map((img) => img!.publicId).toList();
-
-      if (recipeThumbnailHosted != null) {
-        publicIdsToRemove.add(recipeThumbnailHosted.publicId);
-      }
-
-      await _imageRepo.removeImages(publicIdsToRemove);
+      // TODO: maybe add error message to display?
+      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
