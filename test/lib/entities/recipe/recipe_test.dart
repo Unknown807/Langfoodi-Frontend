@@ -12,7 +12,7 @@ void main() {
         final result = Recipe.fromJson(data);
 
         // Assert
-        expect(result, Recipe("01", "title", "desc", "chef1", "001", const ["lbl1"], null, null, null, DateTime.parse("2023-08-18"), DateTime.parse("2023-08-18")));
+        expect(result, Recipe("01", "title", "desc", "001", "chef1", const ["lbl1"], null, null, null, DateTime.parse("2023-08-18"), DateTime.parse("2023-08-18")));
       });
     });
   });
