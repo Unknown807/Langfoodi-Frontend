@@ -1,5 +1,4 @@
-import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:equatable/equatable.dart';
+part of 'user_entities.dart';
 
 class User extends Equatable with JsonConvertible {
   const User(
