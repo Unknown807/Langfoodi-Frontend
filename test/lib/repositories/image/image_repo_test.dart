@@ -32,7 +32,7 @@ void main() {
   });
 
   group("getSignature method tests", () {
-    test("no public id, returns successful signature model", () async {
+    test("success, returns signature model", () async {
       // Arrange
       when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(200);
@@ -48,7 +48,7 @@ void main() {
       verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
     });
 
-    test("no public id, unsuccessful call returns null", () async {
+    test("unsuccessful, call returns null", () async {
       // Arrange
       when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(401);
@@ -59,79 +59,30 @@ void main() {
       // Assert
       expect(result, isNull);
       verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
-    });
-
-    test("with public id, returns successful signature model", () async {
-      // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
-      when(() => jsonWrapperMock.decodeData(any()))
-          .thenReturn({"signature": "sig", "timeStamp": 12345 });
-
-      // Act
-      final result = await sut.getSignature(publicId: "publicidhere");
-
-      // Assert
-      expect(result, const Signature("sig", "12345"));
-      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature?publicId=publicidhere")).called(1);
-    });
-
-    test("with public id, unsuccessful call returns null", () async {
-      // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(401);
-
-      // Act
-      final result = await sut.getSignature(publicId: "publicidhere");
-
-      // Assert
-      expect(result, isNull);
-      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature?publicId=publicidhere")).called(1);
     });
   });
 
   group("uploadImage method tests", () {
-    test("signature is null so return null hosted image", () async {
+    test("unsuccessful upload, return null hosted image", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(401);
-
-      // Act
-      final result = await sut.uploadImage("path");
-
-      // Assert
-      expect(result, isNull);
-    });
-
-    test("valid signature, unsuccessful upload, return null hosted image", () async {
-      // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
-      when(() => jsonWrapperMock.decodeData(any()))
-          .thenReturn({"signature": "sig", "timeStamp": 12345 });
-      when(() => requestMock.fileUpload(any(), any(), any(), baseUrl: any(named: "baseUrl")))
+      final contract = SignedUploadContract("sig", "12345");
+      when(() => requestMock.multipartRequest("POST", any(), any(), filePath: any(named: "filePath"), baseUrl: any(named: "baseUrl")))
         .thenAnswer((invocation) => Future.value(streamedResponseMock));
       when(() => streamedResponseMock.statusCode).thenReturn(401);
 
       // Act
-      final result = await sut.uploadImage("path");
+      final result = await sut.uploadImage("path", contract);
 
       // Assert
       expect(result, isNull);
     });
 
-    test("valid signature, successful upload, return hosted image model", () async {
+    test("successful upload, return hosted image model", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
-      when(() => jsonWrapperMock.decodeData('{"signature": "sig", "timeStamp": 12345 }'))
-          .thenReturn({"signature": "sig", "timeStamp": 12345 });
-      when(() => requestMock.fileUpload(any(), any(), any(), baseUrl: any(named: "baseUrl")))
+      final contract = SignedUploadContract("sig", "12345");
+      when(() => requestMock.multipartRequest("POST", any(), any(), filePath: any(named: "filePath"), baseUrl: any(named: "baseUrl")))
           .thenAnswer((invocation) => Future.value(streamedResponseMock));
-      
+
       final byteStreamMock = ByteStreamMock();
       when(() => streamedResponseMock.statusCode).thenReturn(200);
       when(() => streamedResponseMock.stream).thenAnswer((invocation) => byteStreamMock);
@@ -149,7 +100,7 @@ void main() {
           });
 
       // Act
-      final result = (await sut.uploadImage("path"))!;
+      final result = (await sut.uploadImage("path", contract))!;
 
       // Assert
       expect(result.publicId, "public id");
@@ -162,63 +113,63 @@ void main() {
     });
   });
 
-  group("removeImage method tests", () {
-    test("signature is null so return false", () async {
+  group("removeImages method tests", () {
+    test("unsuccessful response, so return false", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
-      when(() => responseMock.statusCode).thenReturn(401);
+      when(() => responseMock.statusCode).thenReturn(500);
+      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3"))
+        .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
-      final result = await sut.removeImage("public id");
+      final result = await sut.removeImages(["1", "2", "3"]);
 
       // Assert
       expect(result, false);
+      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3")).called(1);
     });
 
-    test("valid signature, unsuccessful response so return false", () async {
+    test("successful response, so return true", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any()))
-          .thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
-      when(() => jsonWrapperMock.decodeData(any()))
-          .thenReturn({"signature": "sig", "timeStamp": 12345 });
+      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3"))
+          .thenAnswer((invocation) => Future.value(responseMock));
 
-      final removeImageResponseMock = ResponseMock();
-      when(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345", baseUrl: any(named: "baseUrl")))
-        .thenAnswer((invocation) => Future.value(removeImageResponseMock));
-      when(() => removeImageResponseMock.statusCode).thenReturn(401);
+      // Act
+      final result = await sut.removeImages(["1", "2", "3"]);
+
+      // Assert
+      expect(result, true);
+      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3")).called(1);
+    });
+  });
+  
+  group("removeImage method tests", () {
+    test("unsuccessful response, so return false", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(401);
+      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow"))
+        .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       final result = await sut.removeImage("publicidwow");
 
       // Assert
       expect(result, false);
-      verify(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345",
-          baseUrl: any(named: "baseUrl"))).called(1);
+      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow")).called(1);
     });
 
-    test("valid signature, successful response so return true", () async {
+    test("successful response, so return true", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any()))
-          .thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
-      when(() => jsonWrapperMock.decodeData(any()))
-          .thenReturn({"signature": "sig", "timeStamp": 12345 });
-
-      final removeImageResponseMock = ResponseMock();
-      when(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345", baseUrl: any(named: "baseUrl")))
-          .thenAnswer((invocation) => Future.value(removeImageResponseMock));
-      when(() => removeImageResponseMock.statusCode).thenReturn(200);
+      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow"))
+          .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       final result = await sut.removeImage("publicidwow");
 
       // Assert
       expect(result, true);
-      verify(() => requestMock.postWithoutBody("/v1_1/cloud name/image/destroy?public_id=publicidwow&api_key=api key&signature=sig&timestamp=12345",
-          baseUrl: any(named: "baseUrl"))).called(1);
+      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow")).called(1);
     });
   });
 }
