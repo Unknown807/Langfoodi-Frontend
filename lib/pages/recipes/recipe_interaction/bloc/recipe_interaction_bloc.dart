@@ -46,11 +46,11 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
     on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
     on<RecipeTitleChanged>(_recipeTitleChanged);
-    on<RecipeFormSubmission>(_recipeFormSubmission);
     on<AddNewRecipeTagFromField>(_addNewTagFromField);
     on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
+    on<RecipeFormSubmission>(_recipeFormSubmission);
   }
 
   final AuthenticationRepository _authRepo;
