@@ -1,4 +1,4 @@
-import 'package:recipe_social_media/entities/user/user.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
 

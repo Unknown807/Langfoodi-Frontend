@@ -23,7 +23,7 @@ class RecipeDetailed extends Equatable with JsonConvertible {
   final String title;
   final String description;
   final String? thumbnailId;
-  final User chef;
+  final UserAccount chef;
   final List<String> labels;
   final List<Ingredient> ingredients;
   final List<RecipeStep> recipeSteps;
@@ -45,7 +45,7 @@ class RecipeDetailed extends Equatable with JsonConvertible {
         jsonData["title"],
         jsonData["description"],
         jsonData["thumbnailId"],
-        User.fromJson(jsonData["chef"]),
+        UserAccount.fromJson(jsonData["chef"]),
         (jsonData["labels"] as List).map((label) => label as String).toList(),
         jsonData["ingredients"].map<Ingredient>((i) => Ingredient.fromJson(i)).toList(),
         jsonData["recipeSteps"].map<RecipeStep>((r) => RecipeStep.fromJson(r)).toList(),
