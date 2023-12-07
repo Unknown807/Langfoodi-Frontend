@@ -6,7 +6,7 @@ void main() {
     group("toJson method tests", () {
       test("model to json map", () {
         // Arrange
-        const model = RecipeStep("step1", "www.example.com/imgpath");
+        final model = RecipeStep("step1", "www.example.com/imgpath");
 
         // Act
         final result = model.toJson();
@@ -28,7 +28,7 @@ void main() {
         final result = RecipeStep.fromJson(data);
 
         // Assert
-        expect(result, const RecipeStep("step1", "www.example.com/imgpath"));
+        expect(result, RecipeStep("step1", "www.example.com/imgpath"));
       });
     });
   });
