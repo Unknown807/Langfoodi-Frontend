@@ -188,27 +188,28 @@ void main() {
   });
 
   group("fileUpload method tests", () {
-    test("with baseUrl", () async {
+    test("with baseUrl and filePath", () async {
       // Arrange
       when(() => clientMock.send(any())).thenAnswer((invocation) => Future.value(StreamedResponseMock()));
       when(() => multipartFileProviderMock.fromPath(any(), any())).thenAnswer((invocation) => Future.value(MultipartFileMock()));
 
       // Act
-      final result = await sut.fileUpload("/path", "/filePath",
-          {"field1":"val1", "field2":"val2"}, baseUrl: "www.example.com");
+      final result = await sut.multipartRequest("POST", "/path",
+          {"field1":"val1", "field2":"val2"}, baseUrl: "www.example.com",
+          filePath: "/filePath");
 
       // Assert
       expect(result, isA<http.StreamedResponse>());
       verify(() => clientMock.send(any())).called(1);
     });
 
-    test("without baseUrl", () async {
+    test("without baseUrl and filePath", () async {
       // Arrange
       when(() => clientMock.send(any())).thenAnswer((invocation) => Future.value(StreamedResponseMock()));
       when(() => multipartFileProviderMock.fromPath(any(), any())).thenAnswer((invocation) => Future.value(MultipartFileMock()));
 
       // Act
-      final result = await sut.fileUpload("/path", "/filePath",
+      final result = await sut.multipartRequest("DELETE", "/path",
           {"field1":"val1", "field2":"val2"});
 
       // Assert

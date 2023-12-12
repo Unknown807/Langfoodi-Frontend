@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 export 'recipe_interaction_bloc.dart';
@@ -12,7 +13,7 @@ part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._authRepo, this._recipeRepo) : super(RecipeInteractionState(
+  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -22,6 +23,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
     recipeStepDescriptionTextController: TextEditingController(),
+    recipeDescriptionTextController: TextEditingController(),
+    recipeTitleTextController: TextEditingController(),
     recipeTagTextController: TextEditingController()
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
@@ -41,14 +44,195 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
+    on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
+    on<RecipeTitleChanged>(_recipeTitleChanged);
     on<AddNewRecipeTagFromField>(_addNewTagFromField);
     on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
+    on<RecipeFormSubmission>(_recipeFormSubmission);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+  final ImageRepository _imageRepo;
+
+  Future<Map<int, HostedImage?>> _uploadRecipeStepImages(SignedUploadContract contract) async {
+    Map<int, HostedImage?> hostedImages = {};
+    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      RecipeStep step = state.recipeStepList[i];
+      if (step.imageUrl != null) {
+        HostedImage? recipeStepHostedImage = await _imageRepo
+            .uploadImage(step.imageUrl!, contract);
+
+        hostedImages[i] = recipeStepHostedImage;
+      }
+    }
+
+    return hostedImages;
+  }
+
+  Future<HostedImage?> _uploadRecipeThumbnail(SignedUploadContract contract) async {
+    HostedImage? recipeThumbnailHosted;
+    if (state.recipeThumbnailPath.isNotEmpty) {
+      recipeThumbnailHosted = await _imageRepo
+          .uploadImage(state.recipeThumbnailPath, contract);
+    }
+
+    return recipeThumbnailHosted;
+  }
+
+  Future<void> _removeHostedImages(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
+    hostedImages[-1] = recipeThumbnailHosted;
+    await _imageRepo.removeImages(hostedImages
+        .values
+        .where((img) => img != null)
+        .map((img) => img!.publicId).toList());
+  }
+
+  Future<bool> _removeImagesIfUploadError(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
+    bool anyNullHostedImages = hostedImages.values.any((img) => img == null);
+    bool thumbnailNotEmpty = state.recipeThumbnailPath.isNotEmpty;
+
+    if (anyNullHostedImages || (recipeThumbnailHosted == null && thumbnailNotEmpty)) {
+      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<(bool, HostedImage?, Map<int, HostedImage?>)> _attemptFormImageHosting() async {
+    Signature? uploadSignature = await _imageRepo.getSignature();
+    if (uploadSignature == null) { return (false, null, <int, HostedImage?>{}); }
+
+    final contract = SignedUploadContract(
+        uploadSignature.signature,
+        uploadSignature.timeStamp);
+
+    Map<int, HostedImage?> hostedImages = await _uploadRecipeStepImages(contract);
+    HostedImage? recipeThumbnailHosted = await _uploadRecipeThumbnail(contract);
+
+    bool imageUploadError = await _removeImagesIfUploadError(recipeThumbnailHosted, hostedImages);
+    if (imageUploadError) { return (false, null, <int, HostedImage?>{}); }
+
+    return (true, recipeThumbnailHosted, hostedImages);
+  }
+
+  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+
+    // Required Fields
+    final recipeDescriptionValid = Formz.validate([state.recipeDescription]);
+    final recipeTitleValid = Formz.validate([state.recipeTitle]);
+    final recipeStepsValid = state.recipeStepList.isNotEmpty;
+    final recipeIngredientsValid = state.ingredientList.isNotEmpty;
+
+    // Optional Fields
+    final servingSizeNotEmpty = state.servingSize.value.isNotEmpty;
+    final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
+    final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
+    final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
+
+    final servingSizeValid = servingSizeNotEmpty ? Formz.validate([state.servingSize]) : true;
+    final servingNumberValid = servingNumberNotEmpty ? Formz.validate([state.servingNumber]) : true;
+    final kilocaloriesValid = kilocaloriesNotEmpty ? Formz.validate([state.kilocalories]) : true;
+    final cookingTimeValid = cookingTimeNotEmpty ? Formz.validate([state.cookingTime]) : true;
+
+    bool allFieldsValid =
+        recipeDescriptionValid && recipeTitleValid
+        && recipeStepsValid && recipeIngredientsValid
+        && servingSizeValid && servingNumberValid
+        && kilocaloriesValid && cookingTimeValid;
+
+    if (!allFieldsValid) {
+      // TODO: maybe add error message to display?
+      return emit(state.copyWith(
+        recipeTitleValid: recipeTitleValid,
+        recipeDescriptionValid: recipeDescriptionValid,
+        recipeStepDescriptionValid: recipeStepsValid,
+        ingredientNameValid: recipeIngredientsValid,
+        ingredientQuantityValid: recipeIngredientsValid,
+        ingredientMeasurementValid: recipeIngredientsValid,
+        servingSizeValid: servingSizeValid,
+        servingNumberValid: servingNumberValid,
+        kilocaloriesValid: kilocaloriesValid,
+        cookingTimeValid: cookingTimeValid,
+        formStatus: FormzSubmissionStatus.failure
+      ));
+    }
+
+    // Upload thumbnail and recipe step images and finalise recipe step list
+
+    var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
+    if (!hostingSuccess) {
+      // TODO: maybe add error message to display?
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+    final List<RecipeStep> finalisedRecipeSteps = [];
+    for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      finalisedRecipeSteps.add(RecipeStep(
+          state.recipeStepList[i].text,
+          hostedImages.containsKey(i) ? hostedImages[i]!.publicId : null)
+      );
+    }
+
+    // Send recipe creation request to backend
+
+    Duration? cookingTimeDuration = cookingTimeNotEmpty
+        ? state.cookingTime.getCookingTimeAsDuration()
+        : null;
+
+    final userId = (await _authRepo.currentUser).id;
+
+    NewRecipeContract newRecipeContract = NewRecipeContract(
+      title: state.recipeTitle.value,
+      description: state.recipeDescription.value,
+      thumbnailId: recipeThumbnailHosted?.publicId,
+      chefId: userId,
+      tags: state.recipeTagList,
+      ingredients: state.ingredientList,
+      recipeSteps: finalisedRecipeSteps,
+      cookingTime: cookingTimeDuration,
+      kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
+      numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
+      // TODO: get unit of measurement from another distinct field
+      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingSize.value) : null,
+      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingSize.value : null
+    );
+
+    RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
+    if (recipeDetailed == null) {
+      // TODO: maybe add error message to display?
+      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
+  }
+
+  void _recipeTitleChanged(RecipeTitleChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeTitle = RecipeTitle.dirty(event.title);
+    
+    emit(
+      state.copyWith(
+        recipeTitle: recipeTitle,
+        recipeTitleValid: Formz.validate([recipeTitle])
+      )
+    );
+  }
+
+  void _recipeDescriptionChanged(RecipeDescriptionChanged event, Emitter<RecipeInteractionState> emit) {
+    final recipeDescription = RecipeDescription.dirty(event.description);
+    
+    emit(
+      state.copyWith(
+        recipeDescription: recipeDescription,
+        recipeDescriptionValid: Formz.validate([recipeDescription])
+      )
+    );
+  }
 
   void _removeRecipeTag(RemoveRecipeTag event, Emitter<RecipeInteractionState> emit) {
     if (event.index >= 0 && event.index <= state.recipeTagList.length) {
@@ -129,9 +313,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final recipeStepDescription = RecipeStepDescription.dirty(event.description);
     final recipeStepDescriptionValid = Formz.validate([recipeStepDescription]);
 
-    if (recipeStepDescriptionValid && state.recipeStepImagePath.isNotEmpty) {
+    if (recipeStepDescriptionValid) {
       List<RecipeStep> recipeStepsList = List.from(state.recipeStepList);
-      recipeStepsList.add(RecipeStep(recipeStepDescription.value, state.recipeStepImagePath));
+      String? recipeStepImagePath = state.recipeStepImagePath.isNotEmpty
+        ? state.recipeStepImagePath : null;
+
+      recipeStepsList.add(RecipeStep(recipeStepDescription.value, recipeStepImagePath));
 
       emit(
         state.copyWith(
