@@ -135,59 +135,17 @@ class RecipeInteractionPage extends StatelessWidget {
                                       'Extra Information',
                                       style: TextStyle(color: Colors.black),
                                     ),
-                                    children: [
+                                    children: const [
                                       SizedBox(
                                           height: 65,
                                           child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.servingNumber != c.servingNumber
-                                                                        || p.servingNumberValid != c.servingNumberValid,
-                                                      builder: (context, state) {
-                                                        return FormInput(
-                                                          textController: state.servingNumberTextController,
-                                                          keyboardType: TextInputType.number,
-                                                          innerPadding: const EdgeInsets.only(left: 5),
-                                                          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                          hint: 'Number Of Servings',
-                                                          boxDecorationType: state.servingNumberValid
-                                                              ? FormInputBoxDecorationType.textArea
-                                                              : FormInputBoxDecorationType.error,
-                                                          fontSize: 14,
-                                                          eventFunc: (value) {
-                                                            context
-                                                                .read<RecipeInteractionBloc>()
-                                                                .add(ServingNumberChanged(value));
-                                                          },
-                                                        );
-                                                      },
-                                                  )
+                                                  child: RIServingNumberField()
                                                 ),
                                                 Flexible(
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.servingSize != c.servingSize
-                                                                      || p.servingSizeValid != c.servingSizeValid,
-                                                    builder: (context, state) {
-                                                      return FormInput(
-                                                        textController: state.servingSizeTextController,
-                                                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                        innerPadding: const EdgeInsets.only(left: 5),
-                                                        outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-                                                        hint: 'Serving Size',
-                                                        boxDecorationType: state.servingSizeValid
-                                                            ? FormInputBoxDecorationType.textArea
-                                                            : FormInputBoxDecorationType.error,
-                                                        fontSize: 14,
-                                                        eventFunc: (value) {
-                                                          context
-                                                            .read<RecipeInteractionBloc>()
-                                                            .add(ServingSizeChanged(value));
-                                                        },
-                                                      );
-                                                    }
-                                                  )
+                                                  child: RIServingSizeField()
                                                 ),
                                               ]
                                           )
@@ -198,51 +156,10 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.cookingTime != c.cookingTime
-                                                                      || p.cookingTimeValid != c.cookingTimeValid,
-                                                    builder: (context, state) {
-                                                      return FormInput(
-                                                        textController: state.cookingTimeTextController,
-                                                        innerPadding: const EdgeInsets.only(left: 5),
-                                                        outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-                                                        hint: 'Cooking Time',
-                                                        boxDecorationType: state.cookingTimeValid
-                                                            ? FormInputBoxDecorationType.textArea
-                                                            : FormInputBoxDecorationType.error,
-                                                        fontSize: 14,
-                                                        eventFunc: (value) {
-                                                          context
-                                                            .read<RecipeInteractionBloc>()
-                                                            .add(CookingTimeChanged(value));
-                                                        },
-                                                      );
-                                                    }
-                                                  )
+                                                  child: RICookingTimeField()
                                                 ),
                                                 Flexible(
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                    buildWhen: (p, c) => p.kilocalories != c.kilocalories
-                                                                      || p.kilocaloriesValid != c.kilocaloriesValid,
-                                                    builder: (context, state) {
-                                                      return FormInput(
-                                                        textController: state.kilocaloriesTextController,
-                                                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                        innerPadding: const EdgeInsets.only(left: 5),
-                                                        outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-                                                        hint: 'Kilocalories',
-                                                        boxDecorationType: state.kilocaloriesValid
-                                                            ? FormInputBoxDecorationType.textArea
-                                                            : FormInputBoxDecorationType.error,
-                                                        fontSize: 14,
-                                                        eventFunc: (value) {
-                                                          context
-                                                            .read<RecipeInteractionBloc>()
-                                                            .add(KilocaloriesChanged(value));
-                                                        },
-                                                      );
-                                                    }
-                                                  ),
+                                                  child: RIKilocaloriesField(),
                                                 ),
                                               ]
                                           )
@@ -252,6 +169,125 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
+  }
+}
+
+class RIKilocaloriesField extends StatelessWidget {
+  const RIKilocaloriesField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.kilocalories != c.kilocalories
+            || p.kilocaloriesValid != c.kilocaloriesValid,
+        builder: (context, state) {
+          return FormInput(
+            textController: state.kilocaloriesTextController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            innerPadding: const EdgeInsets.only(left: 5),
+            outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
+            hint: 'Kilocalories',
+            boxDecorationType: state.kilocaloriesValid
+                ? FormInputBoxDecorationType.textArea
+                : FormInputBoxDecorationType.error,
+            fontSize: 14,
+            eventFunc: (value) {
+              context
+                  .read<RecipeInteractionBloc>()
+                  .add(KilocaloriesChanged(value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class RICookingTimeField extends StatelessWidget {
+  const RICookingTimeField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.cookingTime != c.cookingTime
+            || p.cookingTimeValid != c.cookingTimeValid,
+        builder: (context, state) {
+          return FormInput(
+            textController: state.cookingTimeTextController,
+            innerPadding: const EdgeInsets.only(left: 5),
+            outerPadding: const EdgeInsets.symmetric(horizontal: 10),
+            hint: 'Cooking Time',
+            boxDecorationType: state.cookingTimeValid
+                ? FormInputBoxDecorationType.textArea
+                : FormInputBoxDecorationType.error,
+            fontSize: 14,
+            eventFunc: (value) {
+              context
+                  .read<RecipeInteractionBloc>()
+                  .add(CookingTimeChanged(value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class RIServingSizeField extends StatelessWidget {
+  const RIServingSizeField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.servingSize != c.servingSize
+            || p.servingSizeValid != c.servingSizeValid,
+        builder: (context, state) {
+          return FormInput(
+            textController: state.servingSizeTextController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            innerPadding: const EdgeInsets.only(left: 5),
+            outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+            hint: 'Serving Size',
+            boxDecorationType: state.servingSizeValid
+                ? FormInputBoxDecorationType.textArea
+                : FormInputBoxDecorationType.error,
+            fontSize: 14,
+            eventFunc: (value) {
+              context
+                  .read<RecipeInteractionBloc>()
+                  .add(ServingSizeChanged(value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class RIServingNumberField extends StatelessWidget {
+  const RIServingNumberField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+      buildWhen: (p, c) => p.servingNumber != c.servingNumber
+          || p.servingNumberValid != c.servingNumberValid,
+      builder: (context, state) {
+        return FormInput(
+          textController: state.servingNumberTextController,
+          keyboardType: TextInputType.number,
+          innerPadding: const EdgeInsets.only(left: 5),
+          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          hint: 'Number Of Servings',
+          boxDecorationType: state.servingNumberValid
+              ? FormInputBoxDecorationType.textArea
+              : FormInputBoxDecorationType.error,
+          fontSize: 14,
+          eventFunc: (value) {
+            context
+                .read<RecipeInteractionBloc>()
+                .add(ServingNumberChanged(value));
+          },
+        );
+      },
+    );
   }
 }
 
