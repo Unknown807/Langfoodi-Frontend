@@ -159,7 +159,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: RICookingTimeField()
+                                                  child: CookingTimeInput()
                                                 ),
                                                 Flexible(
                                                   child: KilocaloriesInput(),
@@ -172,35 +172,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
-  }
-}
-
-class RICookingTimeField extends StatelessWidget {
-  const RICookingTimeField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.cookingTime != c.cookingTime
-            || p.cookingTimeValid != c.cookingTimeValid,
-        builder: (context, state) {
-          return FormInput(
-            textController: state.cookingTimeTextController,
-            innerPadding: const EdgeInsets.only(left: 5),
-            outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-            hint: 'Cooking Time',
-            boxDecorationType: state.cookingTimeValid
-                ? FormInputBoxDecorationType.textArea
-                : FormInputBoxDecorationType.error,
-            fontSize: RecipeInteractionPage.inputFormFontSize,
-            eventFunc: (value) {
-              context
-                  .read<RecipeInteractionBloc>()
-                  .add(CookingTimeChanged(value));
-            },
-          );
-        }
-    );
   }
 }
 
