@@ -18,7 +18,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
     servingNumberTextController: TextEditingController(),
-    servingSizeTextController: TextEditingController(),
+    servingQuantityTextController: TextEditingController(),
+    servingMeasurementTextController: TextEditingController(),
     kilocaloriesTextController: TextEditingController(),
     cookingTimeTextController: TextEditingController(),
     cookingTimeHiddenTextController: TextEditingController(),
@@ -36,7 +37,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RemoveIngredient>(_removeIngredient);
     on<RemoveRecipeStep>(_removeRecipeStep);
     on<ServingNumberChanged>(_servingNumberChanged);
-    on<ServingSizeChanged>(_servingSizeChanged);
+    on<ServingQuantityChanged>(_servingQuantityChanged);
+    on<ServingMeasurementChanged>(_servingMeasurementChanged);
     on<KilocaloriesChanged>(_kilocaloriesChanged);
     on<CookingTimeChanged>(_cookingTimeChanged);
     on<RecipeThumbnailPicked>(_recipeThumbnailPicked);
@@ -129,12 +131,13 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final recipeIngredientsValid = state.ingredientList.isNotEmpty;
 
     // Optional Fields
-    final servingSizeNotEmpty = state.servingSize.value.isNotEmpty;
+    final servingSizeNotEmpty = state.servingQuantity.value.isNotEmpty || state.servingMeasurement.value.isNotEmpty;
     final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
     final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
     final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
 
-    final servingSizeValid = servingSizeNotEmpty ? Formz.validate([state.servingSize]) : true;
+    final servingQuantityValid = servingSizeNotEmpty ? Formz.validate([state.servingQuantity]) : true;
+    final servingMeasurementValid = servingSizeNotEmpty ? Formz.validate([state.servingMeasurement]) : true;
     final servingNumberValid = servingNumberNotEmpty ? Formz.validate([state.servingNumber]) : true;
     final kilocaloriesValid = kilocaloriesNotEmpty ? Formz.validate([state.kilocalories]) : true;
     final cookingTimeValid = cookingTimeNotEmpty ? Formz.validate([state.cookingTime]) : true;
@@ -142,8 +145,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     bool allFieldsValid =
         recipeDescriptionValid && recipeTitleValid
         && recipeStepsValid && recipeIngredientsValid
-        && servingSizeValid && servingNumberValid
-        && kilocaloriesValid && cookingTimeValid;
+        && servingQuantityValid && servingMeasurementValid
+        && servingNumberValid && kilocaloriesValid
+        && cookingTimeValid;
 
     if (!allFieldsValid) {
       // TODO: maybe add error message to display?
@@ -154,7 +158,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
         ingredientNameValid: recipeIngredientsValid,
         ingredientQuantityValid: recipeIngredientsValid,
         ingredientMeasurementValid: recipeIngredientsValid,
-        servingSizeValid: servingSizeValid,
+        servingQuantityValid: servingQuantityValid,
+        servingMeasurementValid: servingMeasurementValid,
         servingNumberValid: servingNumberValid,
         kilocaloriesValid: kilocaloriesValid,
         cookingTimeValid: cookingTimeValid,
@@ -197,9 +202,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       cookingTime: cookingTimeDuration,
       kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
       numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
-      // TODO: get unit of measurement from another distinct field
-      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingSize.value) : null,
-      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingSize.value : null
+      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
+      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null
     );
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
@@ -403,12 +407,23 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     ));
   }
 
-  void _servingSizeChanged(ServingSizeChanged event, Emitter<RecipeInteractionState> emit) {
-    final servingSize = ServingSize.dirty(event.servingSize);
-    
+  void _servingQuantityChanged(ServingQuantityChanged event, Emitter<RecipeInteractionState> emit) {
+    _servingSizeChanged(event.quantity, state.servingMeasurement.value);
+  }
+
+  void _servingMeasurementChanged(ServingMeasurementChanged event, Emitter<RecipeInteractionState> emit) {
+    _servingSizeChanged(state.servingQuantity.value, event.measurement);
+  }
+
+  void _servingSizeChanged(String quantity, String measurement) {
+    final servingQuantity = ServingQuantity.dirty(quantity);
+    final servingMeasurement = ServingMeasurement.dirty(measurement);
+
     emit(state.copyWith(
-      servingSize: servingSize,
-      servingSizeValid: Formz.validate([servingSize])
+      servingQuantity: servingQuantity,
+      servingMeasurement: servingMeasurement,
+      servingQuantityValid: Formz.validate([servingQuantity]),
+      servingMeasurementValid: Formz.validate([servingMeasurement])
     ));
   }
 
