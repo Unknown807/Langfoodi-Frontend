@@ -18,6 +18,8 @@ import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 class RecipeInteractionPage extends StatelessWidget {
   const RecipeInteractionPage({super.key});
 
+  static const double inputFormFontSize = 14;
+
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments;
@@ -190,7 +192,7 @@ class RIKilocaloriesField extends StatelessWidget {
             boxDecorationType: state.kilocaloriesValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
-            fontSize: 14,
+            fontSize: RecipeInteractionPage.inputFormFontSize,
             eventFunc: (value) {
               context
                   .read<RecipeInteractionBloc>()
@@ -219,7 +221,7 @@ class RICookingTimeField extends StatelessWidget {
             boxDecorationType: state.cookingTimeValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
-            fontSize: 14,
+            fontSize: RecipeInteractionPage.inputFormFontSize,
             eventFunc: (value) {
               context
                   .read<RecipeInteractionBloc>()
@@ -249,7 +251,7 @@ class RIServingSizeField extends StatelessWidget {
             boxDecorationType: state.servingSizeValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
-            fontSize: 14,
+            fontSize: RecipeInteractionPage.inputFormFontSize,
             eventFunc: (value) {
               context
                   .read<RecipeInteractionBloc>()
@@ -279,7 +281,7 @@ class RIServingNumberField extends StatelessWidget {
           boxDecorationType: state.servingNumberValid
               ? FormInputBoxDecorationType.textArea
               : FormInputBoxDecorationType.error,
-          fontSize: 14,
+          fontSize: RecipeInteractionPage.inputFormFontSize,
           eventFunc: (value) {
             context
                 .read<RecipeInteractionBloc>()
@@ -434,7 +436,7 @@ class RIRecipeStepDescriptionField extends StatelessWidget {
             boxDecorationType: state.recipeStepDescriptionValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
-            fontSize: 14,
+            fontSize: RecipeInteractionPage.inputFormFontSize,
             maxLines: 6,
             onSubmittedEventFunc: (value) {
               context
@@ -519,7 +521,7 @@ class RIIngredientMeasurementField extends StatelessWidget {
               boxDecorationType: state.ingredientMeasurementValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,
-              fontSize: 14,
+              fontSize: RecipeInteractionPage.inputFormFontSize,
               maxLines: 1,
               onSubmittedEventFunc: (value) {
                 context
@@ -553,7 +555,7 @@ class RIIngredientQuantityField extends StatelessWidget {
               boxDecorationType: state.ingredientQuantityValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,
-              fontSize: 14,
+              fontSize: RecipeInteractionPage.inputFormFontSize,
               maxLines: 1,
               onSubmittedEventFunc: (value) {
                 context
@@ -587,7 +589,7 @@ class RIIngredientNameField extends StatelessWidget {
               boxDecorationType: state.ingredientNameValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,
-              fontSize: 14,
+              fontSize: RecipeInteractionPage.inputFormFontSize,
               maxLines: 1,
               onSubmittedEventFunc: (value) {
                 context
@@ -734,7 +736,7 @@ class RIDescriptionField extends StatelessWidget {
               boxDecorationType: state.recipeDescriptionValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,
-              fontSize: 14,
+              fontSize: RecipeInteractionPage.inputFormFontSize,
               maxLines: 6,
               eventFunc: (value) {
                 context
@@ -764,7 +766,7 @@ class RITagField extends StatelessWidget {
                       boxDecorationType: state.recipeTagValid
                           ? FormInputBoxDecorationType.underlined
                           : FormInputBoxDecorationType.underlinedError,
-                      fontSize: 14,
+                      fontSize: RecipeInteractionPage.inputFormFontSize,
                       maxLines: 1,
                       eventFunc: (value) {
                         context
