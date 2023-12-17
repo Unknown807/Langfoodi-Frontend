@@ -5,7 +5,7 @@ class ServingMeasurement extends FormzInput<String, RecipeFormValidationError> {
   const ServingMeasurement.dirty([super.value = ""]) : super.dirty();
 
   static final RegExp _servingMeasurementExp = RegExp(
-      r"^(?!0(\.0+)?$)\d+(\.\d+)?$"
+      r"^((?=.*[a-z])|(?=.*[A-Z]))[a-zA-Z'\s]+$"
   );
 
   @override
