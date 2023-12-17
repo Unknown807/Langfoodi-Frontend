@@ -7,6 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
@@ -161,7 +162,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                   child: RICookingTimeField()
                                                 ),
                                                 Flexible(
-                                                  child: RIKilocaloriesField(),
+                                                  child: KilocaloriesInput(),
                                                 ),
                                               ]
                                           )
@@ -171,36 +172,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
-  }
-}
-
-class RIKilocaloriesField extends StatelessWidget {
-  const RIKilocaloriesField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.kilocalories != c.kilocalories
-            || p.kilocaloriesValid != c.kilocaloriesValid,
-        builder: (context, state) {
-          return FormInput(
-            textController: state.kilocaloriesTextController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            innerPadding: const EdgeInsets.only(left: 5),
-            outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-            hint: 'Kilocalories',
-            boxDecorationType: state.kilocaloriesValid
-                ? FormInputBoxDecorationType.textArea
-                : FormInputBoxDecorationType.error,
-            fontSize: RecipeInteractionPage.inputFormFontSize,
-            eventFunc: (value) {
-              context
-                  .read<RecipeInteractionBloc>()
-                  .add(KilocaloriesChanged(value));
-            },
-          );
-        }
-    );
   }
 }
 
