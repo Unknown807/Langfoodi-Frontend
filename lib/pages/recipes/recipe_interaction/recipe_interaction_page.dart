@@ -145,7 +145,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: RIServingNumberField()
+                                                  child: ServingNumberInput()
                                                 ),
                                                 Flexible(
                                                   child: RIServingSizeField()
@@ -201,36 +201,6 @@ class RIServingSizeField extends StatelessWidget {
             },
           );
         }
-    );
-  }
-}
-
-class RIServingNumberField extends StatelessWidget {
-  const RIServingNumberField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-      buildWhen: (p, c) => p.servingNumber != c.servingNumber
-          || p.servingNumberValid != c.servingNumberValid,
-      builder: (context, state) {
-        return FormInput(
-          textController: state.servingNumberTextController,
-          keyboardType: TextInputType.number,
-          innerPadding: const EdgeInsets.only(left: 5),
-          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          hint: 'Number Of Servings',
-          boxDecorationType: state.servingNumberValid
-              ? FormInputBoxDecorationType.textArea
-              : FormInputBoxDecorationType.error,
-          fontSize: RecipeInteractionPage.inputFormFontSize,
-          eventFunc: (value) {
-            context
-                .read<RecipeInteractionBloc>()
-                .add(ServingNumberChanged(value));
-          },
-        );
-      },
     );
   }
 }

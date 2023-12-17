@@ -7,3 +7,4 @@ import 'package:recipe_social_media/pages/recipes/recipe_interaction/recipe_inte
 export 'recipe_interaction_widgets.dart';
 part 'kilocalories_input.dart';
 part 'cooking_time_input.dart';
+part 'serving_number_input.dart';
