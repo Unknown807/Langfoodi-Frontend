@@ -85,7 +85,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                       'Ingredients',
                                       style: TextStyle(color: Colors.black),
                                     ),
-                                    children: [
+                                    children: const [
                                       SizedBox(
                                           height: 65,
                                           child: Row(
@@ -93,131 +93,16 @@ class RecipeInteractionPage extends StatelessWidget {
                                             children: [
                                               Flexible(
                                                   flex: 2,
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.ingredientName != c.ingredientName
-                                                                        || p.ingredientNameValid != c.ingredientNameValid,
-                                                      builder: (context, state) {
-                                                        return FormInput(
-                                                            textController: state.ingredientNameTextController,
-                                                            innerPadding: const EdgeInsets.only(left: 5),
-                                                            outerPadding:
-                                                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                            hint: "Flour",
-                                                            boxDecorationType: state.ingredientNameValid
-                                                                ? FormInputBoxDecorationType.textArea
-                                                                : FormInputBoxDecorationType.error,
-                                                            fontSize: 14,
-                                                            maxLines: 1,
-                                                            onSubmittedEventFunc: (value) {
-                                                              context
-                                                                .read<RecipeInteractionBloc>()
-                                                                .add(AddNewIngredientFromName(value));
-                                                            },
-                                                            eventFunc: (value) {
-                                                              context
-                                                                .read<RecipeInteractionBloc>()
-                                                                .add(IngredientNameChanged(value));
-                                                            });
-                                                      })),
+                                                  child: RIIngredientNameField()),
                                               Flexible(
                                                   flex: 1,
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity
-                                                                        || p.ingredientQuantityValid != c.ingredientQuantityValid,
-                                                      builder: (context, state) {
-                                                        return FormInput(
-                                                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                                            textController: state.ingredientQuantityTextController,
-                                                            innerPadding: const EdgeInsets.only(left: 5),
-                                                            outerPadding: const EdgeInsets.symmetric(vertical: 5),
-                                                            hint: "1",
-                                                            boxDecorationType: state.ingredientQuantityValid
-                                                                ? FormInputBoxDecorationType.textArea
-                                                                : FormInputBoxDecorationType.error,
-                                                            fontSize: 14,
-                                                            maxLines: 1,
-                                                            onSubmittedEventFunc: (value) {
-                                                              context
-                                                                  .read<RecipeInteractionBloc>()
-                                                                  .add(AddNewIngredientFromQuantity(value));
-                                                            },
-                                                            eventFunc: (value) {
-                                                              context
-                                                                  .read<RecipeInteractionBloc>()
-                                                                  .add(IngredientQuantityChanged(value));
-                                                            });
-                                                      })),
+                                                  child: RIIngredientQuantityField()),
                                               Flexible(
                                                   flex: 2,
-                                                  child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement
-                                                                        || p.ingredientMeasurementValid != c.ingredientMeasurementValid,
-                                                      builder: (context, state) {
-                                                        return FormInput(
-                                                            textController: state.ingredientMeasurementTextController,
-                                                            innerPadding: const EdgeInsets.only(left: 5),
-                                                            outerPadding:
-                                                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                            hint: "kg",
-                                                            boxDecorationType: state.ingredientMeasurementValid
-                                                                ? FormInputBoxDecorationType.textArea
-                                                                : FormInputBoxDecorationType.error,
-                                                            fontSize: 14,
-                                                            maxLines: 1,
-                                                            onSubmittedEventFunc: (value) {
-                                                              context
-                                                                  .read<RecipeInteractionBloc>()
-                                                                  .add(AddNewIngredientFromMeasurement(value));
-                                                            },
-                                                            eventFunc: (value) {
-                                                              context
-                                                                  .read<RecipeInteractionBloc>()
-                                                                  .add(IngredientMeasurementChanged(value));
-                                                            });
-                                                      }))
+                                                  child: RIIngredientMeasurementField())
                                             ],
                                           )),
-                                      BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                        buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
-                                        builder: (context, state) {
-                                          return ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: state.ingredientList.length,
-                                            itemBuilder: (context, index) {
-                                              final ing = state.ingredientList[index];
-                                              return Padding(
-                                                  padding: const EdgeInsets.only(left: 10),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(child: Text(
-                                                        "${ing.name}, ${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
-                                                        style: const TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w400
-                                                        ),
-                                                      )),
-                                                      IconButton(
-                                                          splashRadius: 20,
-                                                          onPressed: () => showDialog(
-                                                              context: context,
-                                                              builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
-                                                                  value: BlocProvider.of<RecipeInteractionBloc>(context),
-                                                                  child: CustomAlertDialog(
-                                                                    title: const Text("Remove Ingredient"),
-                                                                    content: Text("Are you sure you want to remove ${ing.name}"),
-                                                                    rightButtonText: "Remove",
-                                                                    rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
-                                                                  )
-                                                              )
-                                                          ),
-                                                          icon: const Icon(Icons.delete, color: Colors.redAccent)
-                                                      )
-                                                    ],
-                                                  ));
-                                            },
-                                          );
-                                        },
-                                      )
+                                      RIIngredientList()
                                     ],
                                   ),
                                   CustomExpansionTile(
@@ -501,6 +386,157 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
+  }
+}
+
+class RIIngredientList extends StatelessWidget {
+  const RIIngredientList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+      buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
+      builder: (context, state) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.ingredientList.length,
+          itemBuilder: (context, index) {
+            final ing = state.ingredientList[index];
+            return Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(
+                      "${ing.name}, ${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400
+                      ),
+                    )),
+                    IconButton(
+                        splashRadius: 20,
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                                value: BlocProvider.of<RecipeInteractionBloc>(context),
+                                child: CustomAlertDialog(
+                                  title: const Text("Remove Ingredient"),
+                                  content: Text("Are you sure you want to remove ${ing.name}"),
+                                  rightButtonText: "Remove",
+                                  rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(RemoveIngredient(index)),
+                                )
+                            )
+                        ),
+                        icon: const Icon(Icons.delete, color: Colors.redAccent)
+                    )
+                  ],
+                ));
+          },
+        );
+      },
+    );
+  }
+}
+
+class RIIngredientMeasurementField extends StatelessWidget {
+  const RIIngredientMeasurementField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.ingredientMeasurement != c.ingredientMeasurement
+            || p.ingredientMeasurementValid != c.ingredientMeasurementValid,
+        builder: (context, state) {
+          return FormInput(
+              textController: state.ingredientMeasurementTextController,
+              innerPadding: const EdgeInsets.only(left: 5),
+              outerPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              hint: "kg",
+              boxDecorationType: state.ingredientMeasurementValid
+                  ? FormInputBoxDecorationType.textArea
+                  : FormInputBoxDecorationType.error,
+              fontSize: 14,
+              maxLines: 1,
+              onSubmittedEventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(AddNewIngredientFromMeasurement(value));
+              },
+              eventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(IngredientMeasurementChanged(value));
+              });
+        });
+  }
+}
+
+class RIIngredientQuantityField extends StatelessWidget {
+  const RIIngredientQuantityField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.ingredientQuantity != c.ingredientQuantity
+            || p.ingredientQuantityValid != c.ingredientQuantityValid,
+        builder: (context, state) {
+          return FormInput(
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              textController: state.ingredientQuantityTextController,
+              innerPadding: const EdgeInsets.only(left: 5),
+              outerPadding: const EdgeInsets.symmetric(vertical: 5),
+              hint: "1",
+              boxDecorationType: state.ingredientQuantityValid
+                  ? FormInputBoxDecorationType.textArea
+                  : FormInputBoxDecorationType.error,
+              fontSize: 14,
+              maxLines: 1,
+              onSubmittedEventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(AddNewIngredientFromQuantity(value));
+              },
+              eventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(IngredientQuantityChanged(value));
+              });
+        });
+  }
+}
+
+class RIIngredientNameField extends StatelessWidget {
+  const RIIngredientNameField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.ingredientName != c.ingredientName
+            || p.ingredientNameValid != c.ingredientNameValid,
+        builder: (context, state) {
+          return FormInput(
+              textController: state.ingredientNameTextController,
+              innerPadding: const EdgeInsets.only(left: 5),
+              outerPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              hint: "Flour",
+              boxDecorationType: state.ingredientNameValid
+                  ? FormInputBoxDecorationType.textArea
+                  : FormInputBoxDecorationType.error,
+              fontSize: 14,
+              maxLines: 1,
+              onSubmittedEventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(AddNewIngredientFromName(value));
+              },
+              eventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(IngredientNameChanged(value));
+              });
+        });
   }
 }
 
