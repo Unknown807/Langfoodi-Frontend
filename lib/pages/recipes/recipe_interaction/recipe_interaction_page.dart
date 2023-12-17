@@ -110,148 +110,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                 padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                                 child: Column(
                                   children: <Widget>[
-                                    Row(children: <Widget>[
-                                        Expanded(child:
-                                          BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                          buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
-                                          builder: (context, state) {
-                                            return GestureDetector(
-                                              onTap: () async {
-                                                final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-                                                if (selectedImage != null && context.mounted) {
-                                                  context
-                                                      .read<RecipeInteractionBloc>()
-                                                      .add(RecipeThumbnailPicked(selectedImage.path));
-                                                }
-                                              } ,
-                                              child: Padding(
-                                                  padding: const EdgeInsets.only(top: 5, right: 5),
-                                                  child: state.recipeThumbnailPath.isEmpty
-                                                      ? DottedBorder(
-                                                          strokeWidth: 1.5,
-                                                          color: Colors.blue,
-                                                          borderType: BorderType.RRect,
-                                                          radius: const Radius.circular(10),
-                                                          padding: const EdgeInsets.all(25),
-                                                          child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
-                                                      : AspectRatio(
-                                                          aspectRatio: 4/3,
-                                                          child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
-                                                      )),
-                                            );
-                                          }
-                                        ))
+                                    const Row(children: <Widget>[
+                                        Expanded(child: RIThumbnailPicker())
                                     ]),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                        buildWhen: (p, c) => p.recipeDescription != c.recipeDescription
-                                                          || p.recipeDescriptionValid != c.recipeDescriptionValid,
-                                        builder: (context, state) {
-                                          return FormInput(
-                                            textController: state.recipeDescriptionTextController,
-                                            hint: "Recipe Description Here",
-                                            boxDecorationType: state.recipeDescriptionValid
-                                                ? FormInputBoxDecorationType.textArea
-                                                : FormInputBoxDecorationType.error,
-                                            fontSize: 14,
-                                            maxLines: 6,
-                                            eventFunc: (value) {
-                                              context
-                                                .read<RecipeInteractionBloc>()
-                                                .add(RecipeDescriptionChanged(value));
-                                            }
-                                          );
-                                         }
-                                       ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: RIDescriptionField()
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 10),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget> [
-                                        BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                          builder: (context, state) {
-                                            return Row(
-                                              children: <Widget>[
-                                                Flexible(
-                                                  flex: 6,
-                                                  child: FormInput(
-                                                    textController: state.recipeTagTextController,
-                                                    hint: "Type Tags Here",
-                                                    boxDecorationType: state.recipeTagValid
-                                                        ? FormInputBoxDecorationType.underlined
-                                                        : FormInputBoxDecorationType.underlinedError,
-                                                    fontSize: 14,
-                                                    maxLines: 1,
-                                                    eventFunc: (value) {
-                                                      context
-                                                        .read<RecipeInteractionBloc>()
-                                                        .add(RecipeTagChanged(value));
-                                                    },
-                                                    onSubmittedEventFunc: (value) {
-                                                      context
-                                                        .read<RecipeInteractionBloc>()
-                                                        .add(AddNewRecipeTagFromField(value));
-                                                    },
-                                                  )
-                                                ),
-                                                Flexible(
-                                                  flex: 1,
-                                                  child: IconButton(
-                                                    padding: const EdgeInsets.only(right: 1),
-                                                    splashRadius: 20,
-                                                    icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
-                                                    onPressed: () {
-                                                      context
-                                                        .read<RecipeInteractionBloc>()
-                                                        .add(const AddNewRecipeTagFromButton());
-                                                    },
-                                                  ),
-                                                ),
-                                              ]
-                                            );
-                                          }
-                                        ),
+                                        RITagField(),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 10),
-                                          child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                            buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length,
-                                            builder: (context, state) {
-                                              return Wrap(
-                                                runSpacing: 5,
-                                                spacing: 10,
-                                                children:
-                                                  List.generate(
-                                                    state.recipeTagList.length,
-                                                    (index) {
-                                                      final label = state.recipeTagList[index];
-                                                      return Chip(
-                                                        label: Text(label,
-                                                          style: const TextStyle(color: Color.fromRGBO(98, 151, 246, 1))),
-                                                        backgroundColor: const Color.fromRGBO(229, 239, 255, 1),
-                                                        deleteButtonTooltipMessage: "",
-                                                        deleteIcon: const Icon(Icons.close_rounded,
-                                                            color: Color.fromRGBO(98, 151, 246, 1),
-                                                            size: 17),
-                                                        onDeleted: () {
-                                                          context
-                                                            .read<RecipeInteractionBloc>()
-                                                            .add(RemoveRecipeTag(index));
-                                                        },
-                                                      );
-                                                    }
-                                                  )
-                                              );
-                                            }
-                                          )
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: RITagList()
                                         )
                                       ]
                                     )
                                   ),
-                                  //Chip(label: Text("ting"), deleteIcon: Icon(Icons.close, size: 15,), onDeleted: () {},),
                                   CustomExpansionTile(
                                     title: const Text(
                                       'Ingredients',
@@ -673,5 +551,161 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
+  }
+}
+
+class RIThumbnailPicker extends StatelessWidget {
+  const RIThumbnailPicker({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () async {
+              final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+              if (selectedImage != null && context.mounted) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(RecipeThumbnailPicked(selectedImage.path));
+              }
+            } ,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 5, right: 5),
+                child: state.recipeThumbnailPath.isEmpty
+                    ? DottedBorder(
+                    strokeWidth: 1.5,
+                    color: Colors.blue,
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(10),
+                    padding: const EdgeInsets.all(25),
+                    child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
+                    : AspectRatio(
+                    aspectRatio: 4/3,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
+                )),
+          );
+        }
+    );
+  }
+}
+
+class RIDescriptionField extends StatelessWidget {
+  const RIDescriptionField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.recipeDescription != c.recipeDescription
+            || p.recipeDescriptionValid != c.recipeDescriptionValid,
+        builder: (context, state) {
+          return FormInput(
+              textController: state.recipeDescriptionTextController,
+              hint: "Recipe Description Here",
+              boxDecorationType: state.recipeDescriptionValid
+                  ? FormInputBoxDecorationType.textArea
+                  : FormInputBoxDecorationType.error,
+              fontSize: 14,
+              maxLines: 6,
+              eventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(RecipeDescriptionChanged(value));
+              }
+          );
+        }
+    );
+  }
+}
+
+class RITagField extends StatelessWidget {
+  const RITagField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        builder: (context, state) {
+          return Row(
+              children: <Widget>[
+                Flexible(
+                    flex: 6,
+                    child: FormInput(
+                      textController: state.recipeTagTextController,
+                      hint: "Type Tags Here",
+                      boxDecorationType: state.recipeTagValid
+                          ? FormInputBoxDecorationType.underlined
+                          : FormInputBoxDecorationType.underlinedError,
+                      fontSize: 14,
+                      maxLines: 1,
+                      eventFunc: (value) {
+                        context
+                            .read<RecipeInteractionBloc>()
+                            .add(RecipeTagChanged(value));
+                      },
+                      onSubmittedEventFunc: (value) {
+                        context
+                            .read<RecipeInteractionBloc>()
+                            .add(AddNewRecipeTagFromField(value));
+                      },
+                    )
+                ),
+                Flexible(
+                  flex: 1,
+                  child: IconButton(
+                    padding: const EdgeInsets.only(right: 1),
+                    splashRadius: 20,
+                    icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
+                    onPressed: () {
+                      context
+                          .read<RecipeInteractionBloc>()
+                          .add(const AddNewRecipeTagFromButton());
+                    },
+                  ),
+                ),
+              ]
+          );
+        }
+    );
+  }
+}
+
+class RITagList extends StatelessWidget {
+  const RITagList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length,
+        builder: (context, state) {
+          return Wrap(
+              runSpacing: 5,
+              spacing: 10,
+              children:
+              List.generate(
+                  state.recipeTagList.length,
+                      (index) {
+                    final label = state.recipeTagList[index];
+                    return Chip(
+                      label: Text(label,
+                          style: const TextStyle(color: Color.fromRGBO(98, 151, 246, 1))),
+                      backgroundColor: const Color.fromRGBO(229, 239, 255, 1),
+                      deleteButtonTooltipMessage: "",
+                      deleteIcon: const Icon(Icons.close_rounded,
+                          color: Color.fromRGBO(98, 151, 246, 1),
+                          size: 17),
+                      onDeleted: () {
+                        context
+                            .read<RecipeInteractionBloc>()
+                            .add(RemoveRecipeTag(index));
+                      },
+                    );
+                  }
+              )
+          );
+        }
+    );
   }
 }
