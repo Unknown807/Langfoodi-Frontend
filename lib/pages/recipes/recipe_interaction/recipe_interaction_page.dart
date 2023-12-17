@@ -142,10 +142,10 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: RIServingNumberField()
+                                                    child: RICookingTimeField()
                                                 ),
                                                 Flexible(
-                                                  child: RIServingSizeField()
+                                                  child: RIKilocaloriesField(),
                                                 ),
                                               ]
                                           )
@@ -156,14 +156,26 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: RICookingTimeField()
+                                                  child: RIServingQuantityField()
                                                 ),
                                                 Flexible(
-                                                  child: RIKilocaloriesField(),
+                                                  child: RIServingMeasurementField()
                                                 ),
                                               ]
                                           )
                                       ),
+                                      SizedBox(
+                                        height: 65,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                                child: RIServingNumberField()
+                                            ),
+                                            Spacer()
+                                          ],
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ],
@@ -231,29 +243,59 @@ class RICookingTimeField extends StatelessWidget {
   }
 }
 
-class RIServingSizeField extends StatelessWidget {
-  const RIServingSizeField({super.key});
+class RIServingQuantityField extends StatelessWidget {
+  const RIServingQuantityField({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.servingSize != c.servingSize
-            || p.servingSizeValid != c.servingSizeValid,
+        buildWhen: (p, c) => p.servingQuantity != c.servingQuantity
+            || p.servingQuantityValid != c.servingQuantityValid,
         builder: (context, state) {
           return FormInput(
-            textController: state.servingSizeTextController,
+            textController: state.servingQuantityTextController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
-            outerPadding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            hint: 'Serving Size',
-            boxDecorationType: state.servingSizeValid
+            outerPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+            hint: 'Serving Quantity',
+            boxDecorationType: state.servingQuantityValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
             fontSize: 14,
             eventFunc: (value) {
               context
                   .read<RecipeInteractionBloc>()
-                  .add(ServingSizeChanged(value));
+                  .add(ServingQuantityChanged(value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class RIServingMeasurementField extends StatelessWidget {
+  const RIServingMeasurementField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.servingMeasurement != c.servingMeasurement
+            || p.servingMeasurementValid != c.servingMeasurementValid,
+        builder: (context, state) {
+          return FormInput(
+            textController: state.servingMeasurementTextController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            innerPadding: const EdgeInsets.only(left: 5),
+            outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
+            hint: 'Serving Unit Of Measurement',
+            boxDecorationType: state.servingMeasurementValid
+                ? FormInputBoxDecorationType.textArea
+                : FormInputBoxDecorationType.error,
+            fontSize: 14,
+            eventFunc: (value) {
+              context
+                  .read<RecipeInteractionBloc>()
+                  .add(ServingMeasurementChanged(value));
             },
           );
         }
@@ -274,7 +316,7 @@ class RIServingNumberField extends StatelessWidget {
           textController: state.servingNumberTextController,
           keyboardType: TextInputType.number,
           innerPadding: const EdgeInsets.only(left: 5),
-          outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          outerPadding: const EdgeInsets.symmetric(horizontal: 10),
           hint: 'Number Of Servings',
           boxDecorationType: state.servingNumberValid
               ? FormInputBoxDecorationType.textArea
