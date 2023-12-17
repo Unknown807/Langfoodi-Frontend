@@ -44,62 +44,12 @@ class RecipeInteractionPage extends StatelessWidget {
                     ? const Scaffold(body: Center(child: CircularProgressIndicator()))
                     : Scaffold(
                         appBar: AppBar(
-                          title: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                            buildWhen: (p, c) => p.recipeTitle != c.recipeTitle
-                                              || p.recipeTitleValid != c.recipeTitleValid,
-                            builder: (context, state) {
-                              return FormInput(
-                                textController: state.recipeTitleTextController,
-                                hint: "Recipe Name Here",
-                                boxDecorationType: state.recipeTitleValid
-                                    ? FormInputBoxDecorationType.minimal
-                                    : FormInputBoxDecorationType.error,
-                                innerPadding: EdgeInsets.zero,
-                                outerPadding: const EdgeInsets.only(bottom: 5),
-                                textAlign: TextAlign.center,
-                                fontSize: 20,
-                                eventFunc: (value) {
-                                  context
-                                    .read<RecipeInteractionBloc>()
-                                    .add(RecipeTitleChanged(value));
-                                }
-                              );
-                            }),
+                          title: const RITitleField(),
                           backgroundColor: Colors.white,
                           elevation: 0.5,
-                          leading: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_circle_left_outlined,
-                              color: Colors.indigoAccent,
-                              size: 30,
-                            ),
-                            onPressed: () => context.read<NavigationRepository>().goTo(context, "home", routeType: RouteType.backLink),
-                          ),
-                          actions: <Widget>[
-                              BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                builder: (context, state) {
-                                  return IconButton(
-                                    padding: const EdgeInsets.only(right: 20),
-                                    icon: const Icon(
-                                      Icons.check_circle_outline,
-                                      color: Colors.lightGreenAccent,
-                                      size: 30,
-                                    ),
-                                    onPressed: () => showDialog(
-                                        context: context,
-                                        builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
-                                            value: BlocProvider.of<RecipeInteractionBloc>(context),
-                                            child: CustomAlertDialog(
-                                              title: const Text("Create Recipe"),
-                                              content: const Text("Ready to create your recipe? (may take a second)"),
-                                              rightButtonText: "Create",
-                                              rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
-                                            )
-                                        )
-                                    ),
-                                  );
-                                }
-                              ),
+                          leading: const RIBackButton(),
+                          actions: const <Widget>[
+                            RISubmitButton()
                           ],
                         ),
                         resizeToAvoidBottomInset: false,
@@ -551,6 +501,83 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ],
                               ))));
             })));
+  }
+}
+
+class RISubmitButton extends StatelessWidget {
+  const RISubmitButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        builder: (context, state) {
+          return IconButton(
+            padding: const EdgeInsets.only(right: 20),
+            icon: const Icon(
+              Icons.check_circle_outline,
+              color: Colors.lightGreenAccent,
+              size: 30,
+            ),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                    value: BlocProvider.of<RecipeInteractionBloc>(context),
+                    child: CustomAlertDialog(
+                      title: const Text("Create Recipe"),
+                      content: const Text("Ready to create your recipe? (may take a second)"),
+                      rightButtonText: "Create",
+                      rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
+                    )
+                )
+            ),
+          );
+        }
+    );
+  }
+}
+
+class RIBackButton extends StatelessWidget {
+  const RIBackButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(
+        Icons.arrow_circle_left_outlined,
+        color: Colors.indigoAccent,
+        size: 30,
+      ),
+      onPressed: () => context.read<NavigationRepository>().goTo(context, "home", routeType: RouteType.backLink),
+    );
+  }
+}
+
+class RITitleField extends StatelessWidget {
+  const RITitleField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+        buildWhen: (p, c) => p.recipeTitle != c.recipeTitle
+            || p.recipeTitleValid != c.recipeTitleValid,
+        builder: (context, state) {
+          return FormInput(
+              textController: state.recipeTitleTextController,
+              hint: "Recipe Name Here",
+              boxDecorationType: state.recipeTitleValid
+                  ? FormInputBoxDecorationType.minimal
+                  : FormInputBoxDecorationType.error,
+              innerPadding: EdgeInsets.zero,
+              outerPadding: const EdgeInsets.only(bottom: 5),
+              textAlign: TextAlign.center,
+              fontSize: 20,
+              eventFunc: (value) {
+                context
+                    .read<RecipeInteractionBloc>()
+                    .add(RecipeTitleChanged(value));
+              }
+          );
+        });
   }
 }
 
