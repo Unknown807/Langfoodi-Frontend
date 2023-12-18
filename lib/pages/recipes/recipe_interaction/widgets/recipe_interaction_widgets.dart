@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/recipe_interaction_page_constants.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 
 export 'recipe_interaction_widgets.dart';
@@ -21,3 +22,5 @@ part 'ingredient_list.dart';
 part 'ingredient_measurement_input.dart';
 part 'ingredient_quantity_input.dart';
 part 'ingredient_name_input.dart';
+part 'back_button.dart';
+part 'submit_button.dart';

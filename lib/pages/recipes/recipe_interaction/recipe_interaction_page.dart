@@ -7,13 +7,11 @@ import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
-import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart' as riw;
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
-import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
-import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
@@ -50,9 +48,9 @@ class RecipeInteractionPage extends StatelessWidget {
                           title: const RITitleField(),
                           backgroundColor: Colors.white,
                           elevation: 0.5,
-                          leading: const RIBackButton(),
+                          leading: const riw.BackButton(),
                           actions: const <Widget>[
-                            RISubmitButton()
+                            riw.SubmitButton()
                           ],
                         ),
                         resizeToAvoidBottomInset: false,
@@ -96,16 +94,16 @@ class RecipeInteractionPage extends StatelessWidget {
                                             children: [
                                               Flexible(
                                                   flex: 2,
-                                                  child: IngredientNameInput()),
+                                                  child: riw.IngredientNameInput()),
                                               Flexible(
                                                   flex: 1,
-                                                  child: IngredientQuantityInput()),
+                                                  child: riw.IngredientQuantityInput()),
                                               Flexible(
                                                   flex: 2,
-                                                  child: IngredientMeasurementInput())
+                                                  child: riw.IngredientMeasurementInput())
                                             ],
                                           )),
-                                      IngredientList()
+                                      riw.IngredientList()
                                     ],
                                   ),
                                   CustomExpansionTile(
@@ -121,16 +119,16 @@ class RecipeInteractionPage extends StatelessWidget {
                                               children: [
                                                 Flexible(
                                                   flex: 2,
-                                                  child: RecipeStepDescriptionInput(),
+                                                  child: riw.RecipeStepDescriptionInput(),
                                                 ),
                                                 Flexible(
                                                     flex: 0,
-                                                    child: RecipeStepImagePicker()
+                                                    child: riw.RecipeStepImagePicker()
                                                 )
                                               ]
                                           )
                                       ),
-                                      RecipeStepList()
+                                      riw.RecipeStepList()
                                     ],
                                   ),
                                   CustomExpansionTile(
@@ -145,7 +143,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: ServingNumberInput()
+                                                  child: riw.ServingNumberInput()
                                                 ),
                                                 Flexible(
                                                   child: RIServingSizeField()
@@ -159,10 +157,10 @@ class RecipeInteractionPage extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                  child: CookingTimeInput()
+                                                  child: riw.CookingTimeInput()
                                                 ),
                                                 Flexible(
-                                                  child: KilocaloriesInput(),
+                                                  child: riw.KilocaloriesInput(),
                                                 ),
                                               ]
                                           )
@@ -201,54 +199,6 @@ class RIServingSizeField extends StatelessWidget {
             },
           );
         }
-    );
-  }
-}
-
-class RISubmitButton extends StatelessWidget {
-  const RISubmitButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        builder: (context, state) {
-          return IconButton(
-            padding: const EdgeInsets.only(right: 20),
-            icon: const Icon(
-              Icons.check_circle_outline,
-              color: Colors.lightGreenAccent,
-              size: 30,
-            ),
-            onPressed: () => showDialog(
-                context: context,
-                builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
-                    value: BlocProvider.of<RecipeInteractionBloc>(context),
-                    child: CustomAlertDialog(
-                      title: const Text("Create Recipe"),
-                      content: const Text("Ready to create your recipe? (may take a second)"),
-                      rightButtonText: "Create",
-                      rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
-                    )
-                )
-            ),
-          );
-        }
-    );
-  }
-}
-
-class RIBackButton extends StatelessWidget {
-  const RIBackButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(
-        Icons.arrow_circle_left_outlined,
-        color: Colors.indigoAccent,
-        size: 30,
-      ),
-      onPressed: () => context.read<NavigationRepository>().goTo(context, "home", routeType: RouteType.backLink),
     );
   }
 }
