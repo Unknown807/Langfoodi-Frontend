@@ -121,11 +121,11 @@ class RecipeInteractionPage extends StatelessWidget {
                                               children: [
                                                 Flexible(
                                                   flex: 2,
-                                                  child: RIRecipeStepDescriptionField(),
+                                                  child: RecipeStepDescriptionInput(),
                                                 ),
                                                 Flexible(
                                                     flex: 0,
-                                                    child: RIRecipeStepImagePicker()
+                                                    child: RecipeStepImagePicker()
                                                 )
                                               ]
                                           )
@@ -198,80 +198,6 @@ class RIServingSizeField extends StatelessWidget {
               context
                   .read<RecipeInteractionBloc>()
                   .add(ServingSizeChanged(value));
-            },
-          );
-        }
-    );
-  }
-}
-
-class RIRecipeStepImagePicker extends StatelessWidget {
-  const RIRecipeStepImagePicker({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeStepImagePath != c.recipeStepImagePath,
-        builder: (context, state) {
-          return GestureDetector(
-              onTap: () async {
-                final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-                if (selectedImage != null && context.mounted) {
-                  context
-                      .read<RecipeInteractionBloc>()
-                      .add(RecipeStepImagePicked(selectedImage.path));
-                }
-              },
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
-                  child: state.recipeStepImagePath.isEmpty
-                      ? DottedBorder(
-                      strokeWidth: 1.5,
-                      color: Colors.blue,
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.all(25),
-                      child: const Center(child: Icon(Icons.image, size: 40, color: Colors.blue,)))
-                      : AspectRatio(
-                      aspectRatio: 1/1,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Image.file(File(state.recipeStepImagePath), fit: BoxFit.cover,))
-                  ))
-          );
-        }
-    );
-  }
-}
-
-class RIRecipeStepDescriptionField extends StatelessWidget {
-  const RIRecipeStepDescriptionField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeStepDescription != c.recipeStepDescription
-            || p.recipeDescriptionValid != c.recipeDescriptionValid,
-        builder: (context, state) {
-          return FormInput(
-            textController: state.recipeStepDescriptionTextController,
-            innerPadding: const EdgeInsets.only(left: 5),
-            outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            hint: "Write step here and enter to submit",
-            boxDecorationType: state.recipeStepDescriptionValid
-                ? FormInputBoxDecorationType.textArea
-                : FormInputBoxDecorationType.error,
-            fontSize: RecipeInteractionPage.inputFormFontSize,
-            maxLines: 6,
-            onSubmittedEventFunc: (value) {
-              context
-                  .read<RecipeInteractionBloc>()
-                  .add(AddNewRecipeStepFromDescription(value));
-            },
-            eventFunc: (value) {
-              context
-                  .read<RecipeInteractionBloc>()
-                  .add(RecipeStepDescriptionChanged(value));
             },
           );
         }
