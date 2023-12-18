@@ -72,10 +72,10 @@ class RecipeInteractionPage extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget> [
-                                        RITagField(),
+                                        riw.RecipeTagInput(),
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
-                                          child: RITagList()
+                                          child: riw.RecipeTagList()
                                         )
                                       ]
                                     )
@@ -196,95 +196,6 @@ class RIServingSizeField extends StatelessWidget {
                   .read<RecipeInteractionBloc>()
                   .add(ServingSizeChanged(value));
             },
-          );
-        }
-    );
-  }
-}
-
-class RITagField extends StatelessWidget {
-  const RITagField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        builder: (context, state) {
-          return Row(
-              children: <Widget>[
-                Flexible(
-                    flex: 6,
-                    child: FormInput(
-                      textController: state.recipeTagTextController,
-                      hint: "Type Tags Here",
-                      boxDecorationType: state.recipeTagValid
-                          ? FormInputBoxDecorationType.underlined
-                          : FormInputBoxDecorationType.underlinedError,
-                      fontSize: RecipeInteractionPage.inputFormFontSize,
-                      maxLines: 1,
-                      eventFunc: (value) {
-                        context
-                            .read<RecipeInteractionBloc>()
-                            .add(RecipeTagChanged(value));
-                      },
-                      onSubmittedEventFunc: (value) {
-                        context
-                            .read<RecipeInteractionBloc>()
-                            .add(AddNewRecipeTagFromField(value));
-                      },
-                    )
-                ),
-                Flexible(
-                  flex: 1,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(right: 1),
-                    splashRadius: 20,
-                    icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
-                    onPressed: () {
-                      context
-                          .read<RecipeInteractionBloc>()
-                          .add(const AddNewRecipeTagFromButton());
-                    },
-                  ),
-                ),
-              ]
-          );
-        }
-    );
-  }
-}
-
-class RITagList extends StatelessWidget {
-  const RITagList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length,
-        builder: (context, state) {
-          return Wrap(
-              runSpacing: 5,
-              spacing: 10,
-              children:
-              List.generate(
-                  state.recipeTagList.length,
-                      (index) {
-                    final label = state.recipeTagList[index];
-                    return Chip(
-                      label: Text(label,
-                          style: const TextStyle(color: Color.fromRGBO(98, 151, 246, 1))),
-                      backgroundColor: const Color.fromRGBO(229, 239, 255, 1),
-                      deleteButtonTooltipMessage: "",
-                      deleteIcon: const Icon(Icons.close_rounded,
-                          color: Color.fromRGBO(98, 151, 246, 1),
-                          size: 17),
-                      onDeleted: () {
-                        context
-                            .read<RecipeInteractionBloc>()
-                            .add(RemoveRecipeTag(index));
-                      },
-                    );
-                  }
-              )
           );
         }
     );

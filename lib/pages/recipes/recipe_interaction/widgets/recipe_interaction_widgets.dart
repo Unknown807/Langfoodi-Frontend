@@ -27,3 +27,5 @@ part 'recipe_submit_button.dart';
 part 'recipe_title_input.dart';
 part 'recipe_thumbnail_picker.dart';
 part 'recipe_description_input.dart';
+part 'recipe_tag_input.dart';
+part 'recipe_tag_list.dart';
