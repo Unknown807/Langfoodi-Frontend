@@ -17,3 +17,7 @@ part 'serving_number_input.dart';
 part 'recipe_step_list.dart';
 part 'recipe_step_image_picker.dart';
 part 'recipe_step_description_input.dart';
+part 'ingredient_list.dart';
+part 'ingredient_measurement_input.dart';
+part 'ingredient_quantity_input.dart';
+part 'ingredient_name_input.dart';
