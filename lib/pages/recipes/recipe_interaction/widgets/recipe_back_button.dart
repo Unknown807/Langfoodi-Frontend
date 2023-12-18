@@ -1,7 +1,7 @@
 part of 'recipe_interaction_widgets.dart';
 
-class BackButton extends StatelessWidget {
-  const BackButton({super.key});
+class RecipeBackButton extends StatelessWidget {
+  const RecipeBackButton({super.key});
 
   @override
   Widget build(BuildContext context) {

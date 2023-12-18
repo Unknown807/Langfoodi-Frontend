@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,12 +44,12 @@ class RecipeInteractionPage extends StatelessWidget {
                     ? const Scaffold(body: Center(child: CircularProgressIndicator()))
                     : Scaffold(
                         appBar: AppBar(
-                          title: const RITitleField(),
+                          title: const riw.RecipeTitleInput(),
                           backgroundColor: Colors.white,
                           elevation: 0.5,
-                          leading: const riw.BackButton(),
+                          leading: const riw.RecipeBackButton(),
                           actions: const <Widget>[
-                            riw.SubmitButton()
+                            riw.RecipeSubmitButton()
                           ],
                         ),
                         resizeToAvoidBottomInset: false,
@@ -62,11 +61,11 @@ class RecipeInteractionPage extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     const Row(children: <Widget>[
-                                        Expanded(child: RIThumbnailPicker())
+                                        Expanded(child: riw.RecipeThumbnailPicker())
                                     ]),
                                     const Padding(
                                       padding: EdgeInsets.only(top: 10),
-                                      child: RIDescriptionField()
+                                      child: riw.RecipeDescriptionInput()
                                   ),
                                   const Padding(
                                     padding: EdgeInsets.only(bottom: 10),
@@ -197,102 +196,6 @@ class RIServingSizeField extends StatelessWidget {
                   .read<RecipeInteractionBloc>()
                   .add(ServingSizeChanged(value));
             },
-          );
-        }
-    );
-  }
-}
-
-class RITitleField extends StatelessWidget {
-  const RITitleField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeTitle != c.recipeTitle
-            || p.recipeTitleValid != c.recipeTitleValid,
-        builder: (context, state) {
-          return FormInput(
-              textController: state.recipeTitleTextController,
-              hint: "Recipe Name Here",
-              boxDecorationType: state.recipeTitleValid
-                  ? FormInputBoxDecorationType.minimal
-                  : FormInputBoxDecorationType.error,
-              innerPadding: EdgeInsets.zero,
-              outerPadding: const EdgeInsets.only(bottom: 5),
-              textAlign: TextAlign.center,
-              fontSize: 20,
-              eventFunc: (value) {
-                context
-                    .read<RecipeInteractionBloc>()
-                    .add(RecipeTitleChanged(value));
-              }
-          );
-        });
-  }
-}
-
-class RIThumbnailPicker extends StatelessWidget {
-  const RIThumbnailPicker({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeThumbnailPath != c.recipeThumbnailPath,
-        builder: (context, state) {
-          return GestureDetector(
-            onTap: () async {
-              final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-              if (selectedImage != null && context.mounted) {
-                context
-                    .read<RecipeInteractionBloc>()
-                    .add(RecipeThumbnailPicked(selectedImage.path));
-              }
-            } ,
-            child: Padding(
-                padding: const EdgeInsets.only(top: 5, right: 5),
-                child: state.recipeThumbnailPath.isEmpty
-                    ? DottedBorder(
-                    strokeWidth: 1.5,
-                    color: Colors.blue,
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(10),
-                    padding: const EdgeInsets.all(25),
-                    child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
-                    : AspectRatio(
-                    aspectRatio: 4/3,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
-                )),
-          );
-        }
-    );
-  }
-}
-
-class RIDescriptionField extends StatelessWidget {
-  const RIDescriptionField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeDescription != c.recipeDescription
-            || p.recipeDescriptionValid != c.recipeDescriptionValid,
-        builder: (context, state) {
-          return FormInput(
-              textController: state.recipeDescriptionTextController,
-              hint: "Recipe Description Here",
-              boxDecorationType: state.recipeDescriptionValid
-                  ? FormInputBoxDecorationType.textArea
-                  : FormInputBoxDecorationType.error,
-              fontSize: RecipeInteractionPage.inputFormFontSize,
-              maxLines: 6,
-              eventFunc: (value) {
-                context
-                    .read<RecipeInteractionBloc>()
-                    .add(RecipeDescriptionChanged(value));
-              }
           );
         }
     );

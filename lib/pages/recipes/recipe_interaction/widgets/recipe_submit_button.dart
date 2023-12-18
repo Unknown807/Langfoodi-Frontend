@@ -1,7 +1,7 @@
 part of 'recipe_interaction_widgets.dart';
 
-class SubmitButton extends StatelessWidget {
-  const SubmitButton({super.key});
+class RecipeSubmitButton extends StatelessWidget {
+  const RecipeSubmitButton({super.key});
 
   @override
   Widget build(BuildContext context) {
