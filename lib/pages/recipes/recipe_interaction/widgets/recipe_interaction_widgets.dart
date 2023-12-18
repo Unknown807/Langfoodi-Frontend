@@ -29,3 +29,5 @@ part 'recipe_thumbnail_picker.dart';
 part 'recipe_description_input.dart';
 part 'recipe_tag_input.dart';
 part 'recipe_tag_list.dart';
+part 'serving_measurement_input.dart';
+part 'serving_quantity_input.dart';

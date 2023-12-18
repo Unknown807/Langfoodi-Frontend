@@ -34,8 +34,10 @@ void main() {
         "cookingTime": null,
         "kiloCalories": 1000,
         "numberOfServings": null,
-        "servingQuantity": 30,
-        "servingUnitOfMeasurement": "kg"
+        "servingSize": {
+          "quantity": 30,
+          "unitOfMeasurement": "kg"
+        }
       });
     });
   });
