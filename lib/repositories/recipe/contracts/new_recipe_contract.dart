@@ -42,10 +42,9 @@ class NewRecipeContract with JsonConvertible {
       "cookingTime": cookingTime?.inSeconds,
       "kiloCalories": kiloCalories,
       "numberOfServings": numberOfServings,
-      "servingSize": {
-        "quantity": servingQuantity,
-        "unitOfMeasurement": servingUnitOfMeasurement
-      }
+      "servingSize": servingQuantity == null || servingUnitOfMeasurement == null
+        ? null
+        : { "quantity": servingQuantity, "unitOfMeasurement": servingUnitOfMeasurement }
     };
   }
 }
