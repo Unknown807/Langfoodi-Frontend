@@ -3,8 +3,9 @@ part of 'form_widgets.dart';
 enum FormInputBoxDecorationType { underlined, textArea, error, underlinedError, minimal }
 
 class FormInput extends StatelessWidget {
-  FormInput(
-      {super.key,
+  FormInput({
+      super.key,
+      required this.eventFunc,
       this.errorText,
       this.width,
       this.height,
@@ -15,8 +16,8 @@ class FormInput extends StatelessWidget {
       this.onSubmittedEventFunc,
       this.textController,
       this.keyboardType,
-      required this.hint,
-      required this.eventFunc,
+      this.hintText,
+      this.labelText,
       this.isConfidential = false,
       this.textAlign = TextAlign.left,
       this.maxLines = 1,
@@ -33,12 +34,13 @@ class FormInput extends StatelessWidget {
   Function? onSubmittedEventFunc;
   TextEditingController? textController;
   TextInputType? keyboardType;
+  String? hintText;
+  String? labelText;
   bool isConfidential;
   int maxLines;
   EdgeInsets innerPadding;
   EdgeInsets outerPadding;
   TextAlign textAlign;
-  final String hint;
   final Function eventFunc;
 
   Decoration? getBoxDecoration(FormInputBoxDecorationType? type) {
@@ -82,10 +84,14 @@ class FormInput extends StatelessWidget {
               onChanged: (value) => eventFunc(value),
               style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
               decoration: InputDecoration(
+                focusColor: Colors.red,
                   border: InputBorder.none,
-                  hintText: hint,
+                  hintText: hintText,
+                  labelText: labelText,
                   errorText: errorText,
-                  hintStyle: TextStyle(color: Colors.grey.shade400)),
+                  hintStyle: TextStyle(color: Colors.grey.shade400),
+                  labelStyle: TextStyle(color: Colors.grey.shade400),
+                  floatingLabelStyle: const TextStyle(color: Colors.blue)),
             )));
   }
 }
