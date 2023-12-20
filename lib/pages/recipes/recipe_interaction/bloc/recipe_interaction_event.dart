@@ -170,6 +170,10 @@ final class RecipeTagChanged extends RecipeInteractionEvent {
   List<Object> get props => [tag];
 }
 
+final class AddNewRecipeStepFromButton extends RecipeInteractionEvent {
+  const AddNewRecipeStepFromButton();
+}
+
 final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
   const AddNewRecipeStepFromDescription(this.description);
 

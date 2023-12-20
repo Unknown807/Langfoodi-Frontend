@@ -45,6 +45,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeStepImagePicked>(_recipeStepImagePicked);
     on<RecipeStepDescriptionChanged>(_recipeStepDescriptionChanged);
     on<AddNewRecipeStepFromDescription>(_addNewRecipeStepFromDescription);
+    on<AddNewRecipeStepFromButton>(_addNewRecipeStepFromButton);
     on<ReorderRecipeStepList>(_reorderRecipeStepList);
     on<RecipeDescriptionChanged>(_recipeDescriptionChanged);
     on<RecipeTitleChanged>(_recipeTitleChanged);
@@ -313,8 +314,16 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     );
   }
 
+  void _addNewRecipeStepFromButton(AddNewRecipeStepFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewRecipeStep(state.recipeStepDescription.value);
+  }
+
   void _addNewRecipeStepFromDescription(AddNewRecipeStepFromDescription event, Emitter<RecipeInteractionState> emit) {
-    final recipeStepDescription = RecipeStepDescription.dirty(event.description);
+    _addNewRecipeStep(event.description);
+  }
+
+  void _addNewRecipeStep(String description) {
+    final recipeStepDescription = RecipeStepDescription.dirty(description);
     final recipeStepDescriptionValid = Formz.validate([recipeStepDescription]);
 
     if (recipeStepDescriptionValid) {
