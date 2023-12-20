@@ -18,7 +18,7 @@ class RecipeStepImagePicker extends StatelessWidget {
                 }
               },
               child: Padding(
-                  padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
+                  padding: const EdgeInsets.only(top: 5, left: 5, bottom: 5),
                   child: state.recipeStepImagePath.isEmpty
                       ? DottedBorder(
                       strokeWidth: 1.5,
