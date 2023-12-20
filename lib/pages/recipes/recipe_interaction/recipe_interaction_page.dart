@@ -12,8 +12,6 @@ import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 class RecipeInteractionPage extends StatelessWidget {
   const RecipeInteractionPage({super.key});
 
-  static const double inputFormFontSize = 14;
-
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments;
@@ -112,9 +110,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                               height: 65,
                                               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                                 Flexible(child: riw.CookingTimeInput()),
-                                                Flexible(
-                                                  child: riw.KilocaloriesInput(),
-                                                ),
+                                                Flexible(child: riw.KilocaloriesInput()),
                                               ])),
                                           SizedBox(
                                               height: 65,

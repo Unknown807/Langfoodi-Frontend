@@ -13,7 +13,7 @@ class CookingTimeInput extends StatelessWidget {
             textController: state.cookingTimeTextController,
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-            hint: 'Cooking Time',
+            labelText: 'Cooking Time',
             boxDecorationType: state.cookingTimeValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

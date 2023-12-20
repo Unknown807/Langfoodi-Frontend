@@ -14,7 +14,7 @@ class ServingQuantityInput extends StatelessWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-            hint: 'Serving Quantity',
+            labelText: 'Serving Quantity',
             boxDecorationType: state.servingQuantityValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

@@ -11,7 +11,7 @@ class RecipeTitleInput extends StatelessWidget {
         builder: (context, state) {
           return FormInput(
               textController: state.recipeTitleTextController,
-              hint: "Recipe Name Here",
+              hintText: "Recipe Name Here",
               boxDecorationType: state.recipeTitleValid
                   ? FormInputBoxDecorationType.minimal
                   : FormInputBoxDecorationType.error,

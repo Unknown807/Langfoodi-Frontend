@@ -11,7 +11,7 @@ class RecipeDescriptionInput extends StatelessWidget {
         builder: (context, state) {
           return FormInput(
               textController: state.recipeDescriptionTextController,
-              hint: "Recipe Description Here",
+              hintText: "Recipe Description Here",
               boxDecorationType: state.recipeDescriptionValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,

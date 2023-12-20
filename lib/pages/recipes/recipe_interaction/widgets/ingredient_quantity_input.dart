@@ -14,7 +14,7 @@ class IngredientQuantityInput extends StatelessWidget {
               textController: state.ingredientQuantityTextController,
               innerPadding: const EdgeInsets.only(left: 5),
               outerPadding: const EdgeInsets.symmetric(vertical: 5),
-              hint: "1",
+              hintText: "1",
               boxDecorationType: state.ingredientQuantityValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,
