@@ -14,7 +14,7 @@ class KilocaloriesInput extends StatelessWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-            hint: 'Kilocalories',
+            labelText: 'Kilocalories',
             boxDecorationType: state.kilocaloriesValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

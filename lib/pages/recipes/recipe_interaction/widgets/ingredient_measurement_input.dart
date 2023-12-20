@@ -14,7 +14,7 @@ class IngredientMeasurementInput extends StatelessWidget {
               innerPadding: const EdgeInsets.only(left: 5),
               outerPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              hint: "kg",
+              hintText: "kg",
               boxDecorationType: state.ingredientMeasurementValid
                   ? FormInputBoxDecorationType.textArea
                   : FormInputBoxDecorationType.error,

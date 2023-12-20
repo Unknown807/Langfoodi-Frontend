@@ -82,7 +82,7 @@ class UserNameEmailInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
             boxDecorationType: FormInputBoxDecorationType.underlined,
-            hint: "Username or Email",
+            hintText: "Username or Email",
             eventFunc: (value) {
               context.read<LoginBloc>().add(EmailChanged(value));
               context.read<LoginBloc>().add(UserNameChanged(value));
@@ -102,7 +102,7 @@ class PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
-          hint: "Password",
+          hintText: "Password",
           eventFunc: (password) {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },

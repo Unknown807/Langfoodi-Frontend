@@ -14,7 +14,7 @@ class ServingMeasurementInput extends StatelessWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-            hint: 'Serving Unit Of Measurement',
+            labelText: 'Serving Unit Of Measurement',
             boxDecorationType: state.servingMeasurementValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

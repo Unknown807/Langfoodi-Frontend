@@ -13,7 +13,7 @@ class RecipeTagInput extends StatelessWidget {
                     flex: 6,
                     child: FormInput(
                       textController: state.recipeTagTextController,
-                      hint: "Type Tags Here",
+                      hintText: "Type Tags Here",
                       boxDecorationType: state.recipeTagValid
                           ? FormInputBoxDecorationType.underlined
                           : FormInputBoxDecorationType.underlinedError,

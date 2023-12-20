@@ -66,7 +66,7 @@ class UserNameInput extends StatelessWidget {
         return FormInput(
             boxDecorationType: FormInputBoxDecorationType.underlined,
             errorText: FormValidationError.getErrorMessage(state.userName.displayError),
-            hint: "Username",
+            hintText: "Username",
             eventFunc: (userName) {
               context.read<RegisterBloc>().add(UserNameChanged(userName));
             });
@@ -86,7 +86,7 @@ class EmailInput extends StatelessWidget {
         return FormInput(
             boxDecorationType: FormInputBoxDecorationType.underlined,
             errorText: FormValidationError.getErrorMessage(state.email.displayError),
-            hint: "Email",
+            hintText: "Email",
             eventFunc: (email) {
               context.read<RegisterBloc>().add(EmailChanged(email));
             });
@@ -107,7 +107,7 @@ class PasswordInput extends StatelessWidget {
           boxDecorationType: FormInputBoxDecorationType.underlined,
           isConfidential: true,
           errorText: FormValidationError.getErrorMessage(state.password.displayError),
-          hint: "Password",
+          hintText: "Password",
           eventFunc: (password) {
             context.read<RegisterBloc>().add(PasswordChanged(password));
           },
@@ -130,7 +130,7 @@ class ConfirmPasswordInput extends StatelessWidget {
         return FormInput(
           isConfidential: true,
           errorText: FormValidationError.getErrorMessage(state.confirmedPassword.displayError),
-          hint: "Confirm Password",
+          hintText: "Confirm Password",
           eventFunc: (confirmedPassword) {
             context
                 .read<RegisterBloc>()

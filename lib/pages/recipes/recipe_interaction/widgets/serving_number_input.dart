@@ -14,7 +14,7 @@ class ServingNumberInput extends StatelessWidget {
           keyboardType: TextInputType.number,
           innerPadding: const EdgeInsets.only(left: 5),
           outerPadding: const EdgeInsets.symmetric(horizontal: 10),
-          hint: 'Number Of Servings',
+          labelText: 'Number Of Servings',
           boxDecorationType: state.servingNumberValid
               ? FormInputBoxDecorationType.textArea
               : FormInputBoxDecorationType.error,
