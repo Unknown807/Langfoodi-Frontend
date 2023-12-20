@@ -110,20 +110,43 @@ class RecipeInteractionPage extends StatelessWidget {
                                       'Recipe Steps',
                                       style: TextStyle(color: Colors.black),
                                     ),
-                                    children: const [
+                                    children:  [
                                       SizedBox(
                                           height: 100,
                                           child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Flexible(
+                                                    flex: 0,
+                                                    child: riw.RecipeStepImagePicker()
+                                                ),
+                                                Flexible(
                                                   flex: 2,
                                                   child: riw.RecipeStepDescriptionInput(),
                                                 ),
                                                 Flexible(
-                                                    flex: 0,
-                                                    child: riw.RecipeStepImagePicker()
-                                                )
+                                                  flex: 0,
+                                                  child: Padding(
+                                                      padding: EdgeInsets.symmetric(vertical: 6),
+                                                      child: SizedBox(
+                                                    width: 20,
+                                                    height: double.infinity,
+                                                    child: ElevatedButton(
+                                                      onPressed: () {},
+                                                      style: ButtonStyle(
+                                                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                                        backgroundColor:
+                                                        MaterialStateProperty.all<Color>(Colors.blue),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(5),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      child: const Icon(Icons.add, size: 20),
+                                                    ),
+                                                  )
+                                                ))
                                               ]
                                           )
                                       ),
