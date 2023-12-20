@@ -91,40 +91,13 @@ class RecipeInteractionPage extends StatelessWidget {
                                           'Recipe Steps',
                                           style: TextStyle(color: Colors.black),
                                         ),
-                                        children: [
+                                        children: const [
                                           SizedBox(
                                               height: 100,
                                               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                                 Flexible(flex: 0, child: riw.RecipeStepImagePicker()),
                                                 Flexible(flex: 2, child: riw.RecipeStepDescriptionInput()),
-                                                Flexible(
-                                                    flex: 0,
-                                                    child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-                                                      builder: (context, state) {
-                                                        return Padding(
-                                                        padding: EdgeInsets.symmetric(vertical: 6),
-                                                        child: SizedBox(
-                                                          width: 20,
-                                                          height: double.infinity,
-                                                          child: ElevatedButton(
-                                                            style: ButtonStyle(
-                                                              padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                                              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius.circular(5),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            child: const Icon(Icons.add, size: 20),
-                                                            onPressed: () {
-                                                              context
-                                                                .read<RecipeInteractionBloc>()
-                                                                .add(const AddNewRecipeStepFromButton());
-                                                            },
-                                                          ),
-                                                        ));
-                                                      }))
+                                                Flexible(flex: 0, child: riw.RecipeStepAddButton())
                                               ])),
                                           riw.RecipeStepList()
                                         ],
