@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/recipe_interaction_page_constants.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart' as riw;
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
@@ -72,7 +73,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                         ),
                                         children: const [
                                           SizedBox(
-                                              height: 65,
+                                              height: RecipeInteractionPageConstants.sizedBoxHeight,
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
@@ -107,19 +108,19 @@ class RecipeInteractionPage extends StatelessWidget {
                                         ),
                                         children: const [
                                           SizedBox(
-                                              height: 65,
+                                              height: RecipeInteractionPageConstants.sizedBoxHeight,
                                               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                                 Flexible(child: riw.CookingTimeInput()),
                                                 Flexible(child: riw.KilocaloriesInput()),
                                               ])),
                                           SizedBox(
-                                              height: 65,
+                                              height: RecipeInteractionPageConstants.sizedBoxHeight,
                                               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                                 Flexible(child: riw.ServingQuantityInput()),
                                                 Flexible(child: riw.ServingMeasurementInput()),
                                               ])),
                                           SizedBox(
-                                            height: 65,
+                                            height: RecipeInteractionPageConstants.sizedBoxHeight,
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [Flexible(child: riw.ServingNumberInput()), Spacer()],
