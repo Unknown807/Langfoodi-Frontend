@@ -71,7 +71,42 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
-    emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
+    // load:
+    /*
+    thumbnail,
+    recipe step list,
+     */
+
+    state.recipeTitleTextController.text = recipe.title;
+    state.recipeDescriptionTextController.text = recipe.description;
+    state.servingNumberTextController.text = recipe.numberOfServings?.toString() ?? "";
+    state.servingQuantityTextController.text = recipe.servingQuantity?.toString() ?? "";
+    state.servingMeasurementTextController.text = recipe.servingUnitOfMeasurement ?? "";
+    state.kilocaloriesTextController.text = recipe.kiloCalories?.toString() ?? "";
+
+    CookingTime? cookingTime;
+    if (recipe.cookingTime != null) {
+      String hours = recipe.cookingTime!.inHours.toString().padLeft(2, "0");
+      String minutes = recipe.cookingTime!.inMinutes.remainder(60).toString().padLeft(2, "0");
+      String seconds = recipe.cookingTime!.inSeconds.remainder(60).toString().padLeft(2, "0");
+
+      state.cookingTimeHiddenTextController.text = "$hours$minutes$seconds";
+      cookingTime = CookingTime.dirty("$hours:$minutes:$seconds");
+      state.cookingTimeTextController.text = cookingTime.value;
+    }
+
+    emit(state.copyWith(
+      recipeTitle: RecipeTitle.dirty(recipe.title),
+      recipeDescription: RecipeDescription.dirty(recipe.description),
+      recipeTagList: recipe.tags,
+      ingredientList: recipe.ingredients,
+      servingNumber: ServingNumber.dirty(recipe.numberOfServings?.toString() ?? ""),
+      servingQuantity: ServingQuantity.dirty(recipe.servingQuantity?.toString() ?? ""),
+      servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
+      kilocalories: Kilocalories.dirty(recipe.kiloCalories?.toString() ?? ""),
+      cookingTime: cookingTime,
+      formStatus: FormzSubmissionStatus.success
+    ));
   }
 
   Future<Map<int, HostedImage?>> _uploadRecipeStepImages(SignedUploadContract contract) async {

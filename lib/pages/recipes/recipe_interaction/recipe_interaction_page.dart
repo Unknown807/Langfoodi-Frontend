@@ -40,11 +40,6 @@ class RecipeInteractionPage extends StatelessWidget {
             child: BlocConsumer<RecipeInteractionBloc, RecipeInteractionState>(
                 listener: (context, state) {
                   // TODO: will be used soon, leave for now
-                  // if (state.pageType == RecipeInteractionType.edit || state.pageType == RecipeInteractionType.readonly) {
-                  //   context
-                  //       .read<RecipeInteractionBloc>()
-                  //       .add(const GetExistingRecipeDetails());
-                  // }
                 },
                 buildWhen: (p, c) => p.formStatus != c.formStatus,
                 builder: (context, state) {
