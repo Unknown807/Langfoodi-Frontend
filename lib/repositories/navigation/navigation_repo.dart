@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 export 'navigation_repo.dart';
-part 'route_types.dart';
+part 'route_type.dart';
 
 class NavigationRepository {
   void goTo(BuildContext context, String routeName, {Object? arguments, RouteType routeType = RouteType.normal}) {
