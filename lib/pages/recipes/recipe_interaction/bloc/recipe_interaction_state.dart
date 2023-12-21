@@ -15,8 +15,6 @@ class RecipeInteractionState extends Equatable {
     required this.recipeDescriptionTextController,
     required this.recipeTitleTextController,
     required this.recipeTagTextController,
-    required this.pageType,
-    required this.currentRecipeId,
     this.ingredientList = const [],
     this.recipeStepList = const [],
     this.recipeTagList = const [],
@@ -46,7 +44,9 @@ class RecipeInteractionState extends Equatable {
     this.recipeTagValid = true,
     this.recipeThumbnailPath = "",
     this.recipeStepImagePath = "",
-    this.formStatus = FormzSubmissionStatus.initial
+    this.formStatus = FormzSubmissionStatus.initial,
+    this.pageType = RecipeInteractionType.create,
+    this.currentRecipeId
   });
 
   final String? currentRecipeId;

@@ -33,12 +33,19 @@ class RecipeInteractionPage extends StatelessWidget {
         ],
         child: BlocProvider<RecipeInteractionBloc>(
             create: (recipeInteractContext) => RecipeInteractionBloc(
-              context.read<AuthenticationRepository>(),
-              recipeInteractContext.read<RecipeRepository>(),
-              recipeInteractContext.read<ImageRepository>(),
-              pageType, recipeId
-            ),
-            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                context.read<AuthenticationRepository>(),
+                recipeInteractContext.read<RecipeRepository>(),
+                recipeInteractContext.read<ImageRepository>())
+            ..add(InitState(pageType, recipeId)),
+            child: BlocConsumer<RecipeInteractionBloc, RecipeInteractionState>(
+                listener: (context, state) {
+                  // TODO: will be used soon, leave for now
+                  // if (state.pageType == RecipeInteractionType.edit || state.pageType == RecipeInteractionType.readonly) {
+                  //   context
+                  //       .read<RecipeInteractionBloc>()
+                  //       .add(const GetExistingRecipeDetails());
+                  // }
+                },
                 buildWhen: (p, c) => p.formStatus != c.formStatus,
                 builder: (context, state) {
                   return state.formStatus.isInProgress
@@ -59,11 +66,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                   padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                                   child: Column(
                                     children: <Widget>[
-                                      const Row(children: <Widget>[
-                                        Expanded(child: riw.RecipeThumbnailPicker())
-                                      ]),
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
+                                      const Row(children: <Widget>[Expanded(child: riw.RecipeThumbnailPicker())]),
+                                      const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 10),
                                           child: Column(

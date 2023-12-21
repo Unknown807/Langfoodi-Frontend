@@ -14,12 +14,7 @@ part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(
-      this._authRepo,
-      this._recipeRepo,
-      this._imageRepo,
-      final RecipeInteractionType pageType,
-      final String? recipeId) : super(RecipeInteractionState(
+  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -33,8 +28,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     recipeDescriptionTextController: TextEditingController(),
     recipeTitleTextController: TextEditingController(),
     recipeTagTextController: TextEditingController(),
-    currentRecipeId: recipeId,
-    pageType: pageType,
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
@@ -62,11 +55,24 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
     on<RecipeFormSubmission>(_recipeFormSubmission);
+    on<InitState>(_initState);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final ImageRepository _imageRepo;
+
+  void _initState(InitState event, Emitter<RecipeInteractionState> emit) async {
+    if (event.pageType == RecipeInteractionType.create) return;
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+
+    RecipeDetailed? recipe = await _recipeRepo.getRecipeById(event.recipeId!);
+    if (recipe == null) {
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
+  }
 
   Future<Map<int, HostedImage?>> _uploadRecipeStepImages(SignedUploadContract contract) async {
     Map<int, HostedImage?> hostedImages = {};
