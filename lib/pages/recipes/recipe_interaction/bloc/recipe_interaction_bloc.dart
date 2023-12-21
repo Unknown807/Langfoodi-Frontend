@@ -96,6 +96,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     }
 
     emit(state.copyWith(
+      recipeThumbnailPath: recipe.thumbnailId,
       recipeTitle: RecipeTitle.dirty(recipe.title),
       recipeDescription: RecipeDescription.dirty(recipe.description),
       recipeTagList: recipe.tags,
@@ -105,6 +106,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
       kilocalories: Kilocalories.dirty(recipe.kiloCalories?.toString() ?? ""),
       cookingTime: cookingTime,
+      currentRecipeId: event.recipeId,
+      pageType: event.pageType,
       formStatus: FormzSubmissionStatus.success
     ));
   }

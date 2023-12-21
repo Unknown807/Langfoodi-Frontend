@@ -161,7 +161,9 @@ class RecipeInteractionState extends Equatable {
     bool? recipeTitleValid,
     bool? recipeTagValid,
     String? recipeThumbnailPath,
-    String? recipeStepImagePath
+    String? recipeStepImagePath,
+    RecipeInteractionType? pageType,
+    String? currentRecipeId
   }) {
     return RecipeInteractionState(
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
@@ -207,8 +209,8 @@ class RecipeInteractionState extends Equatable {
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,
-      currentRecipeId: currentRecipeId,
-      pageType: pageType,
+      currentRecipeId: currentRecipeId ?? this.currentRecipeId,
+      pageType: pageType ?? this.pageType,
     );
   }
 }
