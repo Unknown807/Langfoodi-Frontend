@@ -47,7 +47,10 @@ class RecipeThumbnailPicker extends StatelessWidget {
                                   tileColor: Colors.red,
                                   borderStrokeWidth: 3,
                                 );
-                              })
+                              },
+                              transformation: Transformation()
+                                ..addTransformation("q_70")
+                        )
                 ))),
           );
         }
