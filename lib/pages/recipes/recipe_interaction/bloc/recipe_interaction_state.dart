@@ -15,6 +15,8 @@ class RecipeInteractionState extends Equatable {
     required this.recipeDescriptionTextController,
     required this.recipeTitleTextController,
     required this.recipeTagTextController,
+    required this.pageType,
+    required this.currentRecipeId,
     this.ingredientList = const [],
     this.recipeStepList = const [],
     this.recipeTagList = const [],
@@ -47,6 +49,8 @@ class RecipeInteractionState extends Equatable {
     this.formStatus = FormzSubmissionStatus.initial
   });
 
+  final String? currentRecipeId;
+  final RecipeInteractionType pageType;
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
   final TextEditingController ingredientMeasurementTextController;
@@ -111,6 +115,7 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionValid, recipeTitle, recipeTitleValid,
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
+    pageType, currentRecipeId
   ];
 
   RecipeInteractionState copyWith({
@@ -202,6 +207,8 @@ class RecipeInteractionState extends Equatable {
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,
+      currentRecipeId: currentRecipeId,
+      pageType: pageType,
     );
   }
 }

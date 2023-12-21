@@ -6,6 +6,7 @@ import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/models/recipe_interaction_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 export 'recipe_interaction_bloc.dart';
@@ -13,7 +14,12 @@ part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
+  RecipeInteractionBloc(
+      this._authRepo,
+      this._recipeRepo,
+      this._imageRepo,
+      final RecipeInteractionType pageType,
+      final String? recipeId) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -26,7 +32,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     recipeStepDescriptionTextController: TextEditingController(),
     recipeDescriptionTextController: TextEditingController(),
     recipeTitleTextController: TextEditingController(),
-    recipeTagTextController: TextEditingController()
+    recipeTagTextController: TextEditingController(),
+    currentRecipeId: recipeId,
+    pageType: pageType,
   )) {
     on<AddNewIngredientFromName>(_addNewIngredientFromName);
     on<AddNewIngredientFromQuantity>(_addNewIngredientFromQuantity);
