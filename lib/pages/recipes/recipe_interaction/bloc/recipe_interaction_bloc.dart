@@ -96,6 +96,10 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       recipeTagList: recipe.tags,
       ingredientList: recipe.ingredients,
       recipeStepList: recipe.recipeSteps,
+      currentRecipeStepImageIds: recipe.recipeSteps
+          .where((rs) => rs.imageUrl != null)
+          .map((rs) => rs.imageUrl as String)
+          .toList(),
       servingNumber: ServingNumber.dirty(recipe.numberOfServings?.toString() ?? ""),
       servingQuantity: ServingQuantity.dirty(recipe.servingQuantity?.toString() ?? ""),
       servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
@@ -228,7 +232,23 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   void _recipeEditFormSubmission() async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
-    
+    if (!validateAllFields()) {
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+
+
+    // all fields valid
+    // upload new images
+    // if error -> delete new images
+
+    // make update recipe contract
+    // update recipe
+    // if false, then recipe update failed, delete new images
+
+    // if true, then recipe update succeeded, so:
+    // delete old images
+    // if error -> continue and ignore
   }
 
   void _recipeCreateFormSubmission() async {

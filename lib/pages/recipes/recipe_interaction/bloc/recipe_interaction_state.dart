@@ -17,6 +17,7 @@ class RecipeInteractionState extends Equatable {
     required this.recipeTagTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
+    this.currentRecipeStepImageIds = const [],
     this.recipeTagList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
@@ -67,6 +68,7 @@ class RecipeInteractionState extends Equatable {
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
+  final List<String> currentRecipeStepImageIds;
   final List<String> recipeTagList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
@@ -115,7 +117,7 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionValid, recipeTitle, recipeTitleValid,
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
-    pageType, currentRecipeId
+    pageType, currentRecipeId, currentRecipeStepImageIds
   ];
 
   RecipeInteractionState copyWith({
@@ -136,6 +138,7 @@ class RecipeInteractionState extends Equatable {
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
     List<String>? recipeTagList,
+    List<String>? currentRecipeStepImageIds,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
@@ -181,6 +184,7 @@ class RecipeInteractionState extends Equatable {
       recipeTagTextController: recipeTagTextController ?? this.recipeTagTextController,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
+      currentRecipeStepImageIds: currentRecipeStepImageIds ?? this.currentRecipeStepImageIds,
       recipeTagList: recipeTagList ?? this.recipeTagList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
