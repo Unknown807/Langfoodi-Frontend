@@ -169,9 +169,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     return (true, recipeThumbnailHosted, hostedImages);
   }
 
-  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
-    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
-
+  bool validateAllFields() {
     // Required Fields
     final recipeDescriptionValid = Formz.validate([state.recipeDescription]);
     final recipeTitleValid = Formz.validate([state.recipeTitle]);
@@ -192,31 +190,55 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     bool allFieldsValid =
         recipeDescriptionValid && recipeTitleValid
-        && recipeStepsValid && recipeIngredientsValid
-        && servingQuantityValid && servingMeasurementValid
-        && servingNumberValid && kilocaloriesValid
-        && cookingTimeValid;
+            && recipeStepsValid && recipeIngredientsValid
+            && servingQuantityValid && servingMeasurementValid
+            && servingNumberValid && kilocaloriesValid
+            && cookingTimeValid;
 
     if (!allFieldsValid) {
       // TODO: maybe add error message to display?
-      return emit(state.copyWith(
-        recipeTitleValid: recipeTitleValid,
-        recipeDescriptionValid: recipeDescriptionValid,
-        recipeStepDescriptionValid: recipeStepsValid,
-        ingredientNameValid: recipeIngredientsValid,
-        ingredientQuantityValid: recipeIngredientsValid,
-        ingredientMeasurementValid: recipeIngredientsValid,
-        servingQuantityValid: servingQuantityValid,
-        servingMeasurementValid: servingMeasurementValid,
-        servingNumberValid: servingNumberValid,
-        kilocaloriesValid: kilocaloriesValid,
-        cookingTimeValid: cookingTimeValid,
-        formStatus: FormzSubmissionStatus.failure
+      emit(state.copyWith(
+          recipeTitleValid: recipeTitleValid,
+          recipeDescriptionValid: recipeDescriptionValid,
+          recipeStepDescriptionValid: recipeStepsValid,
+          ingredientNameValid: recipeIngredientsValid,
+          ingredientQuantityValid: recipeIngredientsValid,
+          ingredientMeasurementValid: recipeIngredientsValid,
+          servingQuantityValid: servingQuantityValid,
+          servingMeasurementValid: servingMeasurementValid,
+          servingNumberValid: servingNumberValid,
+          kilocaloriesValid: kilocaloriesValid,
+          cookingTimeValid: cookingTimeValid,
       ));
+
+      return false;
+    }
+
+    return true;
+  }
+
+  void _recipeFormSubmission(RecipeFormSubmission event, Emitter<RecipeInteractionState> emit) async {
+    if (state.pageType == RecipeInteractionType.create) {
+      _recipeCreateFormSubmission();
+    } else if (state.pageType == RecipeInteractionType.edit) {
+      _recipeEditFormSubmission();
+    }
+  }
+
+  void _recipeEditFormSubmission() async {
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+
+    
+  }
+
+  void _recipeCreateFormSubmission() async {
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+
+    if (!validateAllFields()) {
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
     // Upload thumbnail and recipe step images and finalise recipe step list
-
     var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
     if (!hostingSuccess) {
       // TODO: maybe add error message to display?
@@ -232,6 +254,10 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     }
 
     // Send recipe creation request to backend
+    final servingSizeNotEmpty = state.servingQuantity.value.isNotEmpty || state.servingMeasurement.value.isNotEmpty;
+    final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
+    final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
+    final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
 
     Duration? cookingTimeDuration = cookingTimeNotEmpty
         ? state.cookingTime.getCookingTimeAsDuration()
