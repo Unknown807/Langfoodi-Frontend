@@ -25,13 +25,38 @@ class RecipeStepList extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
                     child: Column(
                         children: <Widget>[
-                          step.imageUrl != null
-                              ? AspectRatio(
-                              aspectRatio: 3/1,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,)))
-                              : const SizedBox(height: 0, width: 0,),
+                          step.imageUrl == null
+                              ? const SizedBox(height: 0, width: 0,)
+                              : AspectRatio(
+                                  aspectRatio: 3/1,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: File(step.imageUrl!).existsSync()
+                                        ? Image.file(
+                                            File(step.imageUrl!),
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                              return const CustomIconTile(
+                                                icon: Icons.close,
+                                                tileColor: Colors.red,
+                                                borderStrokeWidth: 3,
+                                              );
+                                            })
+                                        : CldImageWidget(
+                                          publicId: step.imageUrl!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (BuildContext context, String url, Object error) {
+                                            return const CustomIconTile(
+                                              icon: Icons.close,
+                                              tileColor: Colors.red,
+                                              borderStrokeWidth: 3,
+                                            );
+                                          },
+                                          transformation: Transformation()
+                                            ..addTransformation("q_30"),
+                                        )
+                                  )
+                                ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

@@ -71,12 +71,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
-    // load:
-    /*
-    thumbnail,
-    recipe step list,
-     */
-
     state.recipeTitleTextController.text = recipe.title;
     state.recipeDescriptionTextController.text = recipe.description;
     state.servingNumberTextController.text = recipe.numberOfServings?.toString() ?? "";
@@ -101,6 +95,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       recipeDescription: RecipeDescription.dirty(recipe.description),
       recipeTagList: recipe.tags,
       ingredientList: recipe.ingredients,
+      recipeStepList: recipe.recipeSteps,
       servingNumber: ServingNumber.dirty(recipe.numberOfServings?.toString() ?? ""),
       servingQuantity: ServingQuantity.dirty(recipe.servingQuantity?.toString() ?? ""),
       servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
