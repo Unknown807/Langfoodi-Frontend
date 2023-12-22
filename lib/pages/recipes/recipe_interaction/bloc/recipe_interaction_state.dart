@@ -48,10 +48,10 @@ class RecipeInteractionState extends Equatable {
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial,
     this.pageType = RecipeInteractionType.create,
-    this.currentRecipeId
+    this.currentRecipeId = ""
   });
 
-  final String? currentRecipeId;
+  final String currentRecipeId;
   final RecipeInteractionType pageType;
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
