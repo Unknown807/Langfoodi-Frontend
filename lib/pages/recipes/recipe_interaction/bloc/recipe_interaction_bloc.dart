@@ -116,6 +116,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     for (int i = 0 ; i < state.recipeStepList.length ; i++) {
       RecipeStep step = state.recipeStepList[i];
       if (step.imageUrl != null) {
+        if (state.pageType == RecipeInteractionType.edit
+            && state.currentRecipeStepImageIds.contains(step.imageUrl)) continue;
+
         HostedImage? recipeStepHostedImage = await _imageRepo
             .uploadImage(step.imageUrl!, contract);
 
@@ -129,6 +132,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   Future<HostedImage?> _uploadRecipeThumbnail(SignedUploadContract contract) async {
     HostedImage? recipeThumbnailHosted;
     if (state.recipeThumbnailPath.isNotEmpty) {
+      if (state.pageType == RecipeInteractionType.edit
+          && state.currentRecipeThumbnailId == state.recipeThumbnailPath) return null;
+
       recipeThumbnailHosted = await _imageRepo
           .uploadImage(state.recipeThumbnailPath, contract);
     }
@@ -235,6 +241,22 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     if (!validateAllFields()) {
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
+
+    // Upload new images (if there are any)
+    var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
+    if (!hostingSuccess) {
+      // TODO: maybe add error message to display?
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+
+    // Signature? uploadSignature = await _imageRepo.getSignature();
+    // if (uploadSignature == null) {
+    //   return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    // }
+    //
+    // Map<int, HostedImage?> hostedImages = await _uploadRecipeStepImages(SignedUploadContract(
+    //     uploadSignature.signature,
+    //     uploadSignature.timeStamp));
 
 
 

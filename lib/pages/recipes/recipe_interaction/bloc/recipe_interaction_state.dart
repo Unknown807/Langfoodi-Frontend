@@ -44,6 +44,7 @@ class RecipeInteractionState extends Equatable {
     this.recipeTitleValid = true,
     this.recipeTagValid = true,
     this.recipeThumbnailPath = "",
+    this.currentRecipeThumbnailId = "",
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial,
     this.pageType = RecipeInteractionType.create,
@@ -95,6 +96,7 @@ class RecipeInteractionState extends Equatable {
   final bool recipeTitleValid;
   final bool recipeTagValid;
   final String recipeThumbnailPath;
+  final String currentRecipeThumbnailId;
   final String recipeStepImagePath;
 
   @override
@@ -117,7 +119,8 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionValid, recipeTitle, recipeTitleValid,
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
-    pageType, currentRecipeId, currentRecipeStepImageIds
+    pageType, currentRecipeId, currentRecipeStepImageIds,
+    currentRecipeThumbnailId
   ];
 
   RecipeInteractionState copyWith({
@@ -164,6 +167,7 @@ class RecipeInteractionState extends Equatable {
     bool? recipeTitleValid,
     bool? recipeTagValid,
     String? recipeThumbnailPath,
+    String? currentRecipeThumbnailId,
     String? recipeStepImagePath,
     RecipeInteractionType? pageType,
     String? currentRecipeId
@@ -211,6 +215,7 @@ class RecipeInteractionState extends Equatable {
       recipeTitleValid: recipeTitleValid ?? this.recipeTitleValid,
       recipeTagValid: recipeTagValid ?? this.recipeTagValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
+      currentRecipeThumbnailId: currentRecipeThumbnailId ?? this.currentRecipeThumbnailId,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,
       currentRecipeId: currentRecipeId ?? this.currentRecipeId,
