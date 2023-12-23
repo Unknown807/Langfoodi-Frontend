@@ -5,9 +5,9 @@ class CustomIconTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.tileColor,
-    this.borderStrokeWidth = 1.5,
+    this.borderStrokeWidth = 3,
     this.borderRadius = 10,
-    this.iconSize = 70,
+    this.iconSize = 40,
   });
 
   final IconData icon;

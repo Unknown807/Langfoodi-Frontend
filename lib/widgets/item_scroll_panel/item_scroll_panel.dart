@@ -50,7 +50,6 @@ class ItemScrollPanel extends StatelessWidget {
                         icon: Icons.close,
                         tileColor: Colors.red,
                         borderRadius: 20,
-                        borderStrokeWidth: 3,
                       );
                     },
                   ))),
