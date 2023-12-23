@@ -20,6 +20,12 @@ class Request {
     return allHeaders;
   }
 
+  Future<http.Response> put(String path, Object data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
+    final jsonData = jsonWrapper.encodeData(data);
+    return client.getInstance().put(url, body: jsonData, headers: formatHeaders(headers));
+  }
+
   Future<http.Response> post(String path, Object data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
     final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     final jsonData = jsonWrapper.encodeData(data);
