@@ -27,32 +27,16 @@ class RecipeThumbnailPicker extends StatelessWidget {
                       tileColor: Colors.blue)
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: File(state.recipeThumbnailPath).existsSync()
-                          ? Image.file(
-                              File(state.recipeThumbnailPath),
-                              fit: BoxFit.cover,
-                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                return const CustomIconTile(
-                                  icon: Icons.close,
-                                  tileColor: Colors.red,
-                                  borderStrokeWidth: 3,
-                                );
-                              })
-                          : CldImageWidget(
-                              publicId: state.recipeThumbnailPath,
-                              fit: BoxFit.cover,
-                              errorBuilder: (BuildContext context, String url, Object error) {
-                                return const CustomIconTile(
-                                  icon: Icons.close,
-                                  tileColor: Colors.red,
-                                  borderStrokeWidth: 3,
-                                );
-                              },
-                              transformation: Transformation()
-                                ..delivery(Quality(Quality.auto()))
-                                ..resize(Resize.thumbnail()..width(500))
-                                ..delivery(Dpr(Dpr.auto))
-                        )
+                        child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                          imageUrl: state.recipeThumbnailPath,
+                          transformationType: ImageTransformationType.standard,
+                          errorBuilder: (context, obj1, obj2) {
+                            return const CustomIconTile(
+                              icon: Icons.close,
+                              tileColor: Colors.red,
+                            );
+                          },
+                        ),
                 ))),
           );
         }

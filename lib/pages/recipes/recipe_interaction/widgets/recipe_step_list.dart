@@ -20,7 +20,7 @@ class RecipeStepList extends StatelessWidget {
             final step = state.recipeStepList[index];
             return ReorderableDragStartListener(
                 index: index,
-                key: ValueKey(step),
+                key: ValueKey(index),
                 child: Padding(
                     padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
                     child: Column(
@@ -31,30 +31,16 @@ class RecipeStepList extends StatelessWidget {
                                   aspectRatio: 3/1,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
-                                      child: File(step.imageUrl!).existsSync()
-                                        ? Image.file(
-                                            File(step.imageUrl!),
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                              return const CustomIconTile(
+                                      child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                                          imageUrl: step.imageUrl!,
+                                          transformationType: ImageTransformationType.standard,
+                                          errorBuilder: (context, obj1, obj2) {
+                                            return const CustomIconTile(
                                                 icon: Icons.close,
                                                 tileColor: Colors.red,
-                                                borderStrokeWidth: 3,
-                                              );
-                                            })
-                                        : CldImageWidget(
-                                          publicId: step.imageUrl!,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (BuildContext context, String url, Object error) {
-                                            return const CustomIconTile(
-                                              icon: Icons.close,
-                                              tileColor: Colors.red,
-                                              borderStrokeWidth: 3,
                                             );
                                           },
-                                          transformation: Transformation()
-                                            ..addTransformation("q_30"),
-                                        )
+                                      ),
                                   )
                                 ),
                           Row(
