@@ -49,7 +49,9 @@ class RecipeThumbnailPicker extends StatelessWidget {
                                 );
                               },
                               transformation: Transformation()
-                                ..addTransformation("q_70")
+                                ..delivery(Quality(Quality.auto()))
+                                ..resize(Resize.thumbnail()..width(500))
+                                ..delivery(Dpr(Dpr.auto))
                         )
                 ))),
           );

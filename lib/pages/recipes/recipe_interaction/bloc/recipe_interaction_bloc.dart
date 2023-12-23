@@ -295,19 +295,17 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
       servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
       servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null,
-      thumbnailId: recipeThumbnailHosted?.publicId
+      thumbnailId: recipeThumbnailHosted?.publicId ?? state.currentRecipeThumbnailId
     );
 
     bool recipeUpdated = await _recipeRepo.updateRecipe(updateRecipeContract);
     if (recipeUpdated) {
-      List<String> newImageIds = hostedImages
-          .values
-          .where((img) => img != null)
-          .map((img) => img!.publicId)
+      List<String?> finalImageIds = finalisedRecipeSteps
+          .map((rs) => rs.imageUrl)
           .toList();
 
       List<String> oldImageIds = state.currentRecipeStepImageIds
-          .where((id) => !newImageIds.contains(id))
+          .where((id) => !finalImageIds.contains(id))
           .toList();
 
       if (state.currentRecipeThumbnailId.isNotEmpty
@@ -315,7 +313,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
             oldImageIds.add(state.currentRecipeThumbnailId);
       }
 
-      await _imageRepo.removeImages(oldImageIds);
+      if (oldImageIds.isNotEmpty) await _imageRepo.removeImages(oldImageIds);
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
     } else {
       // TODO: maybe add error message to display?
