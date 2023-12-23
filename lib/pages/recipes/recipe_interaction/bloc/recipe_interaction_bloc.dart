@@ -90,6 +90,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     }
 
     emit(state.copyWith(
+      currentRecipeThumbnailId: recipe.thumbnailId,
       recipeThumbnailPath: recipe.thumbnailId,
       recipeTitle: RecipeTitle.dirty(recipe.title),
       recipeDescription: RecipeDescription.dirty(recipe.description),
@@ -147,7 +148,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     await _imageRepo.removeImages(hostedImages
         .values
         .where((img) => img != null)
-        .map((img) => img!.publicId).toList());
+        .map((img) => img!.publicId)
+        .toList());
   }
 
   Future<bool> _removeImagesIfUploadError(HostedImage? recipeThumbnailHosted, Map<int, HostedImage?> hostedImages) async {
@@ -184,9 +186,15 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   List<RecipeStep> _matchNewImagesWithRecipeSteps(Map<int, HostedImage?> hostedImages) {
     final List<RecipeStep> finalisedRecipeSteps = [];
     for (int i = 0 ; i < state.recipeStepList.length ; i++) {
+      String? existingPublicId;
+
+      if (state.pageType == RecipeInteractionType.edit) {
+        existingPublicId = state.recipeStepList[i].imageUrl;
+      }
+
       finalisedRecipeSteps.add(RecipeStep(
           state.recipeStepList[i].text,
-          hostedImages.containsKey(i) ? hostedImages[i]!.publicId : null)
+          hostedImages.containsKey(i) ? hostedImages[i]!.publicId : existingPublicId)
       );
     }
 
@@ -292,8 +300,10 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     bool recipeUpdated = await _recipeRepo.updateRecipe(updateRecipeContract);
     if (recipeUpdated) {
-      List<String?> newImageIds = finalisedRecipeSteps
-          .map((rs) => rs.imageUrl)
+      List<String> newImageIds = hostedImages
+          .values
+          .where((img) => img != null)
+          .map((img) => img!.publicId)
           .toList();
 
       List<String> oldImageIds = state.currentRecipeStepImageIds
