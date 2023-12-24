@@ -1,5 +1,6 @@
 import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:cloudinary_url_gen/cloudinary.dart';
+import 'package:file/local.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,9 +14,10 @@ import 'app/app.dart';
 
 Future<void> main() async {
   ReferenceWrapper<http.Client> clientWrapper = ReferenceWrapper(http.Client());
+  const localFileSystem = LocalFileSystem();
+  const secureStorage = FlutterSecureStorage();
   final multipartFileProvider = MultipartFileProvider();
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
-  const secureStorage = FlutterSecureStorage();
 
   final localStore = LocalStore(secureStorage);
   final request = Request(clientWrapper, multipartFileProvider);
@@ -25,7 +27,7 @@ Future<void> main() async {
 
   // Widget Utilities
   final imageTransformationBuilder = ImageTransformationBuilder();
-  final imageBuilder = ImageBuilder(imageTransformationBuilder);
+  final imageBuilder = ImageBuilder(imageTransformationBuilder, localFileSystem);
 
   // Singleton Repositories
   RecipeRepository(request, jsonWrapper);
