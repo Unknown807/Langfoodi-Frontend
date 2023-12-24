@@ -7,7 +7,7 @@ class RecipeSubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
         builder: (context, state) {
-          final String formType = state.pageType == RecipeInteractionType.edit ? "Edit" : "Create";
+          final String formType = state.pageType == RecipeInteractionType.edit ? "Update" : "Create";
           return IconButton(
             padding: const EdgeInsets.only(right: 20),
             icon: const Icon(
