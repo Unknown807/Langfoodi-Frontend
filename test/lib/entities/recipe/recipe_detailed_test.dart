@@ -5,7 +5,7 @@ import 'package:recipe_social_media/entities/user/user_entities.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  const jsonMap = {"id": "01","title": "title1","thumbnailId":"001","description": "description here","chef": {"id":"01", "handler": "testHandler", "userName": "user1", "accountCreationDate": "2023-11-08"},"tags": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18","kiloCalories":1000,"numberOfServings":20,"servingQuantity":30,"servingUnitOfMeasurement":"kg"};
+  const jsonMap = {"id": "01","title": "title1","thumbnailId":"001","description": "description here","chef": {"id":"01", "handler": "testHandler", "userName": "user1", "accountCreationDate": "2023-11-08"},"tags": ["lbl1", "lbl2"],"ingredients": [{"name": "eggs", "quantity": 12, "unitOfMeasurement": "whole"}],"recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/imgpath"}],"creationDate": "2023-08-18","lastUpdatedDate": "2023-08-18","kiloCalories":1000,"numberOfServings":20,"servingSize": {"quantity":30,"unitOfMeasurement":"kg"}};
 
   group("Recipe detailed model tests", () {
     group("fromJson method tests", () {

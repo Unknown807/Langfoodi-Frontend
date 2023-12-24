@@ -24,6 +24,8 @@ class CloudinaryConfigMock extends Mock implements CloudinaryConfig {}
 class CloudConfigMock extends Mock implements CloudConfig {}
 class FunctionMock extends Mock { void call([dynamic parameter]); }
 class InputStateMock extends Mock implements InputState {}
+class ImageBuilderMock extends Mock implements ImageBuilder {}
+class ImageTransformationBuilderMock extends Mock implements ImageTransformationBuilder {}
 class JsonWrapperMock extends Mock implements JsonWrapper {}
 class JsonConvertibleMock extends Mock implements JsonConvertible {}
 class LocalStoreMock extends Mock implements LocalStore {}
