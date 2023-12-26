@@ -257,6 +257,49 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     }
   }
 
+  UpdateRecipeContract _constructUpdateRecipeContract(HostedImage? recipeThumbnail, List<RecipeStep> finalisedRecipeSteps) {
+    final servingSizeNotEmpty = state.servingQuantity.value.isNotEmpty || state.servingMeasurement.value.isNotEmpty;
+    final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
+    final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
+    final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
+
+    Duration? cookingTimeDuration = cookingTimeNotEmpty
+        ? state.cookingTime.getCookingTimeAsDuration()
+        : null;
+
+    return UpdateRecipeContract(
+        id: state.currentRecipeId,
+        title: state.recipeTitle.value,
+        description: state.recipeDescription.value,
+        tags: state.recipeTagList,
+        ingredients: state.ingredientList,
+        recipeSteps: finalisedRecipeSteps,
+        cookingTime: cookingTimeDuration,
+        kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
+        numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
+        servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
+        servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null,
+        thumbnailId: recipeThumbnail?.publicId ?? state.currentRecipeThumbnailId
+    );
+  }
+
+  List<String> _getOldImagesToRemoveAfterUpdate(List<RecipeStep> finalisedRecipeSteps) {
+    List<String?> finalImageIds = finalisedRecipeSteps
+        .map((rs) => rs.imageUrl)
+        .toList();
+
+    List<String> oldImageIds = state.currentRecipeStepImageIds
+        .where((id) => !finalImageIds.contains(id))
+        .toList();
+
+    if (state.currentRecipeThumbnailId.isNotEmpty
+        && state.currentRecipeThumbnailId != state.recipeThumbnailPath) {
+      oldImageIds.add(state.currentRecipeThumbnailId);
+    }
+
+    return oldImageIds;
+  }
+
   void _recipeEditFormSubmission() async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
@@ -274,6 +317,21 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     // Send recipe update request to backend
     final List<RecipeStep> finalisedRecipeSteps = _matchNewImagesWithRecipeSteps(hostedImages);
+    UpdateRecipeContract updateRecipeContract = _constructUpdateRecipeContract(recipeThumbnailHosted, finalisedRecipeSteps);
+
+    bool recipeUpdated = await _recipeRepo.updateRecipe(updateRecipeContract);
+    if (recipeUpdated) {
+      List<String> oldImageIds = _getOldImagesToRemoveAfterUpdate(finalisedRecipeSteps);
+      if (oldImageIds.isNotEmpty) await _imageRepo.removeImages(oldImageIds);
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
+    } else {
+      // TODO: maybe add error message to display?
+      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
+      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+    }
+  }
+
+  NewRecipeContract _constructNewRecipeContract(String userId, HostedImage? recipeThumbnail, List<RecipeStep> finalisedRecipeSteps) {
     final servingSizeNotEmpty = state.servingQuantity.value.isNotEmpty || state.servingMeasurement.value.isNotEmpty;
     final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
     final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
@@ -283,43 +341,20 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
         ? state.cookingTime.getCookingTimeAsDuration()
         : null;
 
-    UpdateRecipeContract updateRecipeContract = UpdateRecipeContract(
-      id: state.currentRecipeId,
-      title: state.recipeTitle.value,
-      description: state.recipeDescription.value,
-      tags: state.recipeTagList,
-      ingredients: state.ingredientList,
-      recipeSteps: finalisedRecipeSteps,
-      cookingTime: cookingTimeDuration,
-      kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
-      numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
-      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
-      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null,
-      thumbnailId: recipeThumbnailHosted?.publicId ?? state.currentRecipeThumbnailId
+    return NewRecipeContract(
+        title: state.recipeTitle.value,
+        description: state.recipeDescription.value,
+        thumbnailId: recipeThumbnail?.publicId,
+        chefId: userId,
+        tags: state.recipeTagList,
+        ingredients: state.ingredientList,
+        recipeSteps: finalisedRecipeSteps,
+        cookingTime: cookingTimeDuration,
+        kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
+        numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
+        servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
+        servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null
     );
-
-    bool recipeUpdated = await _recipeRepo.updateRecipe(updateRecipeContract);
-    if (recipeUpdated) {
-      List<String?> finalImageIds = finalisedRecipeSteps
-          .map((rs) => rs.imageUrl)
-          .toList();
-
-      List<String> oldImageIds = state.currentRecipeStepImageIds
-          .where((id) => !finalImageIds.contains(id))
-          .toList();
-
-      if (state.currentRecipeThumbnailId.isNotEmpty
-          && state.currentRecipeThumbnailId != state.recipeThumbnailPath) {
-            oldImageIds.add(state.currentRecipeThumbnailId);
-      }
-
-      if (oldImageIds.isNotEmpty) await _imageRepo.removeImages(oldImageIds);
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
-    } else {
-      // TODO: maybe add error message to display?
-      await _removeHostedImages(recipeThumbnailHosted, hostedImages);
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
-    }
   }
 
   void _recipeCreateFormSubmission() async {
@@ -337,31 +372,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     }
 
     // Send recipe creation request to backend
-    final List<RecipeStep> finalisedRecipeSteps = _matchNewImagesWithRecipeSteps(hostedImages);
-    final servingSizeNotEmpty = state.servingQuantity.value.isNotEmpty || state.servingMeasurement.value.isNotEmpty;
-    final servingNumberNotEmpty = state.servingNumber.value.isNotEmpty;
-    final kilocaloriesNotEmpty = state.kilocalories.value.isNotEmpty;
-    final cookingTimeNotEmpty = state.cookingTime.value.isNotEmpty && state.cookingTime.value != "00:00:00";
     final userId = (await _authRepo.currentUser).id;
-
-    Duration? cookingTimeDuration = cookingTimeNotEmpty
-        ? state.cookingTime.getCookingTimeAsDuration()
-        : null;
-
-    NewRecipeContract newRecipeContract = NewRecipeContract(
-      title: state.recipeTitle.value,
-      description: state.recipeDescription.value,
-      thumbnailId: recipeThumbnailHosted?.publicId,
-      chefId: userId,
-      tags: state.recipeTagList,
-      ingredients: state.ingredientList,
-      recipeSteps: finalisedRecipeSteps,
-      cookingTime: cookingTimeDuration,
-      kiloCalories: kilocaloriesNotEmpty ? int.parse(state.kilocalories.value) : null,
-      numberOfServings: servingNumberNotEmpty ? int.parse(state.servingNumber.value) : null,
-      servingQuantity: servingSizeNotEmpty ? double.parse(state.servingQuantity.value) : null,
-      servingUnitOfMeasurement: servingSizeNotEmpty ? state.servingMeasurement.value : null
-    );
+    final List<RecipeStep> finalisedRecipeSteps = _matchNewImagesWithRecipeSteps(hostedImages);
+    NewRecipeContract newRecipeContract = _constructNewRecipeContract(userId, recipeThumbnailHosted, finalisedRecipeSteps);
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
     if (recipeDetailed == null) {
