@@ -320,18 +320,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       await _removeHostedImages(recipeThumbnailHosted, hostedImages);
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
-
-    // all fields valid
-    // upload new images
-    // if error -> delete new images
-
-    // make update recipe contract
-    // update recipe
-    // if false, then recipe update failed, delete new images
-
-    // if true, then recipe update succeeded, so:
-    // delete old images
-    // if error -> continue and ignore
   }
 
   void _recipeCreateFormSubmission() async {
