@@ -39,6 +39,53 @@ void main() {
     });
   });
 
+  group("HandlerInput tests", () {
+    testWidgets("valid handler entered", (widgetTester) async {
+      // Arrange
+      when(() => inputStateMock.handler).thenReturn(const Handler.dirty("handler1"));
+      final widget = MaterialApp(
+        home: BlocProvider<RegisterBloc>(
+          create: (_) => registerBlocMock,
+          child: const Scaffold(
+            body: HandlerInput(),
+          ),
+        ),
+      );
+
+      // Act
+      await widgetTester.pumpWidget(widget);
+      await widgetTester.enterText(find.byType(TextField), "handler1");
+
+      // Assert
+      final FormInput formInput = widgetTester.widget(find.byType(FormInput));
+      expect(formInput.errorText, null);
+      verify(() => registerBlocMock.add(const HandlerChanged("handler1"))).called(1);
+    });
+
+    testWidgets("invalid handler entered", (widgetTester) async {
+      // Arrange
+      // Arrange
+      when(() => inputStateMock.handler).thenReturn(const Handler.dirty("h1"));
+      final widget = MaterialApp(
+        home: BlocProvider<RegisterBloc>(
+          create: (_) => registerBlocMock,
+          child: const Scaffold(
+            body: HandlerInput(),
+          ),
+        ),
+      );
+
+      // Act
+      await widgetTester.pumpWidget(widget);
+      await widgetTester.enterText(find.byType(TextField), "h1");
+
+      // Assert
+      final FormInput formInput = widgetTester.widget(find.byType(FormInput));
+      expect(formInput.errorText, "Needs 3+ length & only letters/numbers/spaces or underscore");
+      verify(() => registerBlocMock.add(const HandlerChanged("h1"))).called(1);
+    });
+  });
+
   group("UserNameInput tests", () {
     testWidgets("valid username entered", (widgetTester) async {
       // Arrange
