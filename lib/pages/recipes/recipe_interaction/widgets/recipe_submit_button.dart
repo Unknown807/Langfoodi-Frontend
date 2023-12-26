@@ -20,9 +20,9 @@ class RecipeSubmitButton extends StatelessWidget {
                 builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
                     value: BlocProvider.of<RecipeInteractionBloc>(context),
                     child: CustomAlertDialog(
-                      title: Text("${formType.capitalize()} Recipe"),
+                      title: Text("${formType.capitalise()} Recipe"),
                       content: Text("Ready to $formType? (may take a second)"),
-                      rightButtonText: formType.capitalize(),
+                      rightButtonText: formType.capitalise(),
                       rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
                     )
                 )
