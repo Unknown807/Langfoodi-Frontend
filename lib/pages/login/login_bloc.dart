@@ -19,10 +19,15 @@ class LoginBloc extends FormBloc {
 
   @override
   Future<void> formSubmitted(FormSubmitted event, Emitter<InputState> emit) async {
-    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+    String errorMessage = "";
+    if (state.handler.value.isEmpty || state.password.value.isEmpty) {
+      errorMessage = "Fields can't be empty";
+    } else {
+      emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
-    String errorMessage = await _authRepo.loginWithUserNameOrEmail(
-        state.email.value, state.password.value);
+      errorMessage = await _authRepo.loginWithUserNameOrEmail(
+          state.email.value, state.password.value);
+    }
 
     emit(state.copyWith(
         errorMessage: errorMessage,

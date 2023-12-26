@@ -26,7 +26,7 @@ class LoginForm extends StatelessWidget {
                         offset: Offset(0, 10))
                   ]),
               child: const Column(children: <Widget>[
-                UserNameEmailInput(),
+                HandlerEmailInput(),
                 PasswordInput(),
               ])),
           const SizedBox(height: 5),
@@ -72,20 +72,20 @@ class FormErrorLabel extends StatelessWidget {
   }
 }
 
-class UserNameEmailInput extends StatelessWidget {
-  const UserNameEmailInput({super.key});
+class HandlerEmailInput extends StatelessWidget {
+  const HandlerEmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
-      buildWhen: (p, c) => p.email != c.email || p.userName != c.userName,
+      buildWhen: (p, c) => p.email != c.email || p.handler != c.handler,
       builder: (context, state) {
         return FormInput(
             boxDecorationType: FormInputBoxDecorationType.underlined,
-            hintText: "Username or Email",
+            hintText: "Handler or Email",
             eventFunc: (value) {
               context.read<LoginBloc>().add(EmailChanged(value));
-              context.read<LoginBloc>().add(UserNameChanged(value));
+              context.read<LoginBloc>().add(HandlerChanged(value));
             });
       },
     );
@@ -123,13 +123,8 @@ class LoginButton extends StatelessWidget {
           return const CircularProgressIndicator();
         }
 
-        bool allFieldsValid =
-            (state.userNameValid || state.emailValid) && state.passwordValid;
-
         return FormButton(
-          eventFunc: allFieldsValid
-              ? () => context.read<LoginBloc>().add(const FormSubmitted())
-              : null,
+          eventFunc: () => context.read<LoginBloc>().add(const FormSubmitted()),
           text: "Login",
         );
       },
