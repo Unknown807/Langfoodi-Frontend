@@ -80,7 +80,7 @@ void main() {
 
       // Assert
       final FormInput formInput = widgetTester.widget(find.byType(FormInput));
-      expect(formInput.errorText, "Needs 3+ length & only letters/numbers/spaces and underscore");
+      expect(formInput.errorText, "Needs 3+ length & only letters/numbers/spaces or underscore");
       verify(() => registerBlocMock.add(const UserNameChanged("u1"))).called(1);
     });
   });

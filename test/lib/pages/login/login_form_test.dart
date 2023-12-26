@@ -37,25 +37,24 @@ void main() {
     });
   });
 
-  group("UserNameEmailInput tests", () {
-    testWidgets("username or email entered", (widgetTester) async {
+  group("handlerEmailInput tests", () {
+    testWidgets("handler or email entered", (widgetTester) async {
       // Arrange
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
           create: (_) => loginBlocMock,
           child: const Scaffold(
-            body: UserNameEmailInput()
+            body: HandlerEmailInput()
           )
         ),
       );
 
       // Act
       await widgetTester.pumpWidget(widget);
-      await widgetTester.enterText(find.byType(TextField), "username here");
+      await widgetTester.enterText(find.byType(TextField), "handler here");
 
       // Assert
-      verify(() => loginBlocMock.add(const EmailChanged("username here"))).called(1);
-      verify(() => loginBlocMock.add(const UserNameChanged("username here"))).called(1);
+      verify(() => loginBlocMock.add(const EmailChanged("handler here"))).called(1);
     });
   });
 
@@ -100,12 +99,9 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets("invalid form submission", (widgetTester) async {
+    testWidgets("form submission not in progress, can click button", (widgetTester) async {
       // Arrange
       when(() => inputStateMock.formStatus).thenReturn(FormzSubmissionStatus.initial);
-      when(() => inputStateMock.userNameValid).thenReturn(true);
-      when(() => inputStateMock.emailValid).thenReturn(true);
-      when(() => inputStateMock.passwordValid).thenReturn(false);
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
             create: (_) => loginBlocMock,
@@ -114,30 +110,6 @@ void main() {
             )
         ),
       );
-
-      // Act
-      await widgetTester.pumpWidget(widget);
-      await widgetTester.tap(find.byType(ElevatedButton));
-
-      // Assert
-      verifyNever(() => loginBlocMock.add(const FormSubmitted()));
-    });
-
-    testWidgets("valid form submission", (widgetTester) async {
-      // Arrange
-      when(() => inputStateMock.formStatus).thenReturn(FormzSubmissionStatus.initial);
-      when(() => inputStateMock.userNameValid).thenReturn(true);
-      when(() => inputStateMock.emailValid).thenReturn(false);
-      when(() => inputStateMock.passwordValid).thenReturn(true);
-      final widget = MaterialApp(
-        home: BlocProvider<LoginBloc>(
-            create: (_) => loginBlocMock,
-            child: const Scaffold(
-                body: LoginButton()
-            )
-        ),
-      );
-
 
       // Act
       await widgetTester.pumpWidget(widget);

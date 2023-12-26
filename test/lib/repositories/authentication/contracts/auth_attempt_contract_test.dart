@@ -7,7 +7,7 @@ void main() {
       test("map returned", () {
         // Arrange
         final contract = AuthenticationAttemptContract(
-            usernameOrEmail: "mail@example.com",
+            handlerOrEmail: "mail@example.com",
             password: "pass123"
         );
 
@@ -16,7 +16,7 @@ void main() {
 
         // Assert
         expect(result, {
-          "usernameOrEmail": "mail@example.com",
+          "handlerOrEmail": "mail@example.com",
           "password": "pass123"
         });
       });
