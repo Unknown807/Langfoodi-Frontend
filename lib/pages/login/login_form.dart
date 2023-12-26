@@ -78,14 +78,13 @@ class HandlerEmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
-      buildWhen: (p, c) => p.email != c.email || p.handler != c.handler,
+      buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
             boxDecorationType: FormInputBoxDecorationType.underlined,
             hintText: "Handler or Email",
             eventFunc: (value) {
               context.read<LoginBloc>().add(EmailChanged(value));
-              context.read<LoginBloc>().add(HandlerChanged(value));
             });
       },
     );
