@@ -135,7 +135,7 @@ void main() {
     });
   });
 
-  group("loginWithUserNameOrEmail method tests", () {
+  group("loginWithHandlerOrEmail method tests", () {
     test("status code is 200", () async {
       // Arrange
       when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
@@ -157,7 +157,7 @@ void main() {
       when(() => responseMock.body).thenReturn("Invalid Credentials");
 
       // Act
-      final result = await authRepo.loginWithHandlerOrEmail("username1", "Password123!");
+      final result = await authRepo.loginWithHandlerOrEmail("handler1", "Password123!");
 
       // Assert
       expect(result, "Invalid Credentials");
