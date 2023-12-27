@@ -7,6 +7,7 @@ class RecipeSubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
         builder: (context, state) {
+          final String formType = state.pageType == RecipeInteractionType.edit ? "update" : "create";
           return IconButton(
             padding: const EdgeInsets.only(right: 20),
             icon: const Icon(
@@ -19,9 +20,9 @@ class RecipeSubmitButton extends StatelessWidget {
                 builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
                     value: BlocProvider.of<RecipeInteractionBloc>(context),
                     child: CustomAlertDialog(
-                      title: const Text("Create Recipe"),
-                      content: const Text("Ready to create your recipe? (may take a second)"),
-                      rightButtonText: "Create",
+                      title: Text("${formType.capitalise()} Recipe"),
+                      content: Text("Ready to $formType? (may take a second)"),
+                      rightButtonText: formType.capitalise(),
                       rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
                     )
                 )

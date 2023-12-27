@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
-import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
@@ -49,7 +49,11 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: CustomTextButton(
-                          eventFunc: () => context.read<NavigationRepository>().goTo(context, "/recipe-interaction"),
+                          eventFunc: () => context
+                              .read<NavigationRepository>()
+                              .goTo(context, "/recipe-interaction",
+                                arguments: RecipeInteractionPageArguments(
+                                  pageType: RecipeInteractionType.create)),
                           text: "Create", fontSize: 20)
                     ),
                     const Spacer(),
@@ -72,7 +76,9 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                             onTap: (ScrollItem item) => context
                                 .read<NavigationRepository>()
                                 .goTo(context, "/recipe-interaction",
-                                  arguments: RecipeInteractionPageArguments(item.id)),
+                                  arguments: RecipeInteractionPageArguments(
+                                      pageType: RecipeInteractionType.edit,
+                                      recipeId: item.id)),
                             items: state.recipesToDisplay
                                 .where((r) => r.show)
                                 .toList(),

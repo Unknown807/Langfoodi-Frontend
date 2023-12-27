@@ -46,7 +46,11 @@ class ItemScrollPanel extends StatelessWidget {
                     item.urlImage,
                     fit: BoxFit.cover,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      return const Icon(Icons.close, color: Colors.red);
+                      return const CustomIconTile(
+                        icon: Icons.close,
+                        tileColor: Colors.red,
+                        borderRadius: 20,
+                      );
                     },
                   ))),
           const SizedBox(height: 4),

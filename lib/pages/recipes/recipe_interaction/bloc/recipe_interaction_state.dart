@@ -17,6 +17,7 @@ class RecipeInteractionState extends Equatable {
     required this.recipeTagTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
+    this.currentRecipeStepImageIds = const [],
     this.recipeTagList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
@@ -43,10 +44,15 @@ class RecipeInteractionState extends Equatable {
     this.recipeTitleValid = true,
     this.recipeTagValid = true,
     this.recipeThumbnailPath = "",
+    this.currentRecipeThumbnailId = "",
     this.recipeStepImagePath = "",
-    this.formStatus = FormzSubmissionStatus.initial
+    this.formStatus = FormzSubmissionStatus.initial,
+    this.pageType = RecipeInteractionType.create,
+    this.currentRecipeId = ""
   });
 
+  final String currentRecipeId;
+  final RecipeInteractionType pageType;
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
   final TextEditingController ingredientMeasurementTextController;
@@ -63,6 +69,7 @@ class RecipeInteractionState extends Equatable {
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
+  final List<String> currentRecipeStepImageIds;
   final List<String> recipeTagList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
@@ -89,6 +96,7 @@ class RecipeInteractionState extends Equatable {
   final bool recipeTitleValid;
   final bool recipeTagValid;
   final String recipeThumbnailPath;
+  final String currentRecipeThumbnailId;
   final String recipeStepImagePath;
 
   @override
@@ -111,6 +119,8 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionValid, recipeTitle, recipeTitleValid,
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
+    pageType, currentRecipeId, currentRecipeStepImageIds,
+    currentRecipeThumbnailId
   ];
 
   RecipeInteractionState copyWith({
@@ -131,6 +141,7 @@ class RecipeInteractionState extends Equatable {
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
     List<String>? recipeTagList,
+    List<String>? currentRecipeStepImageIds,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
@@ -156,7 +167,10 @@ class RecipeInteractionState extends Equatable {
     bool? recipeTitleValid,
     bool? recipeTagValid,
     String? recipeThumbnailPath,
-    String? recipeStepImagePath
+    String? currentRecipeThumbnailId,
+    String? recipeStepImagePath,
+    RecipeInteractionType? pageType,
+    String? currentRecipeId
   }) {
     return RecipeInteractionState(
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
@@ -174,6 +188,7 @@ class RecipeInteractionState extends Equatable {
       recipeTagTextController: recipeTagTextController ?? this.recipeTagTextController,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
+      currentRecipeStepImageIds: currentRecipeStepImageIds ?? this.currentRecipeStepImageIds,
       recipeTagList: recipeTagList ?? this.recipeTagList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
@@ -200,8 +215,11 @@ class RecipeInteractionState extends Equatable {
       recipeTitleValid: recipeTitleValid ?? this.recipeTitleValid,
       recipeTagValid: recipeTagValid ?? this.recipeTagValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
+      currentRecipeThumbnailId: currentRecipeThumbnailId ?? this.currentRecipeThumbnailId,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,
+      currentRecipeId: currentRecipeId ?? this.currentRecipeId,
+      pageType: pageType ?? this.pageType,
     );
   }
 }

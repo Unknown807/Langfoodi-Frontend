@@ -11,6 +11,7 @@ void main() {
   late Uri fullPath;
   late MultipartFileProviderMock multipartFileProviderMock;
   late ClientMock clientMock;
+  late JsonWrapperMock jsonWrapperMock;
   late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
@@ -18,9 +19,11 @@ void main() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
+    jsonWrapperMock = JsonWrapperMock();
     jsonConvertibleMock = JsonConvertibleMock();
     multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
+    when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
@@ -59,15 +62,50 @@ void main() {
     });
   });
 
+  group("put method tests", () {
+    test("with headers", () async {
+      // Arrange
+      const headers = { "authorization": "auth-token-here" };
+      when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+
+      // Act
+      await sut.put(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
+
+      // Assert
+      verify(() => clientMock.put(fullPath,
+          body: '{"username": "username1"}',
+          headers: {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "authorization": "auth-token-here"}
+      )).called(1);
+    });
+
+    test("without headers", () async {
+      // Arrange
+      when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+
+      // Act
+      await sut.put(path, jsonConvertibleMock, jsonWrapperMock);
+
+      // Assert
+      verify(() => clientMock.put(fullPath,
+          body: '{"username": "username1"}',
+          headers: {
+            "accept": "application/json",
+            "content-type": "application/json"}
+      )).called(1);
+    });
+  });
+
   group("post method tests", () {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
-      final jsonWrapper = JsonWrapperMock();
-      when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, jsonConvertibleMock, jsonWrapper, headers: headers);
+      await sut.post(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
 
       // Assert
       verify(() => clientMock.post(fullPath,
@@ -81,11 +119,10 @@ void main() {
 
     test("without headers", () async {
       // Arrange
-      final jsonWrapper = JsonWrapperMock();
-      when(() => jsonWrapper.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
 
       // Act
-      await sut.post(path, jsonConvertibleMock, jsonWrapper);
+      await sut.post(path, jsonConvertibleMock, jsonWrapperMock);
 
       // Assert
       verify(() => clientMock.post(fullPath,

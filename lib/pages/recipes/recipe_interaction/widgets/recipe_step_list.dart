@@ -20,18 +20,29 @@ class RecipeStepList extends StatelessWidget {
             final step = state.recipeStepList[index];
             return ReorderableDragStartListener(
                 index: index,
-                key: ValueKey(step),
+                key: ValueKey(index),
                 child: Padding(
                     padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
                     child: Column(
                         children: <Widget>[
-                          step.imageUrl != null
-                              ? AspectRatio(
-                              aspectRatio: 3/1,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.file(File(step.imageUrl!), fit: BoxFit.cover,)))
-                              : const SizedBox(height: 0, width: 0,),
+                          step.imageUrl == null
+                              ? const SizedBox(height: 0, width: 0,)
+                              : AspectRatio(
+                                  aspectRatio: 3/1,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                                          imageUrl: step.imageUrl!,
+                                          transformationType: ImageTransformationType.standard,
+                                          errorBuilder: (context, obj1, obj2) {
+                                            return const CustomIconTile(
+                                                icon: Icons.close,
+                                                tileColor: Colors.red,
+                                            );
+                                          },
+                                      ),
+                                  )
+                                ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

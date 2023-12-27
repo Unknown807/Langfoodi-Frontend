@@ -19,20 +19,25 @@ class RecipeThumbnailPicker extends StatelessWidget {
             } ,
             child: Padding(
                 padding: const EdgeInsets.only(top: 5, right: 5),
-                child: state.recipeThumbnailPath.isEmpty
-                    ? DottedBorder(
-                    strokeWidth: 1.5,
-                    color: Colors.blue,
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(10),
-                    padding: const EdgeInsets.all(25),
-                    child: const Center(child: Icon(Icons.image, size: 70, color: Colors.blue,)))
-                    : AspectRatio(
+                child: AspectRatio(
                     aspectRatio: 4/3,
-                    child: ClipRRect(
+                    child: state.recipeThumbnailPath.isEmpty
+                    ? const CustomIconTile(
+                      icon: Icons.image,
+                      tileColor: Colors.blue)
+                    : ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image.file(File(state.recipeThumbnailPath), fit: BoxFit.cover,))
-                )),
+                        child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                          imageUrl: state.recipeThumbnailPath,
+                          transformationType: ImageTransformationType.standard,
+                          errorBuilder: (context, obj1, obj2) {
+                            return const CustomIconTile(
+                              icon: Icons.close,
+                              tileColor: Colors.red,
+                            );
+                          },
+                        ),
+                ))),
           );
         }
     );

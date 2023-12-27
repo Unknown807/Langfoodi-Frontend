@@ -52,8 +52,8 @@ class RecipeDetailed extends Equatable with JsonConvertible {
         jsonData["cookingTime"] != null ? Duration(seconds: jsonData["cookingTime"]) : null,
         jsonData["kiloCalories"],
         jsonData["numberOfServings"],
-        jsonData["servingQuantity"]?.toDouble(),
-        jsonData["servingUnitOfMeasurement"],
+        jsonData["servingSize"] != null ? jsonData["servingSize"]["quantity"].toDouble() : null,
+        jsonData["servingSize"] != null ? jsonData["servingSize"]["unitOfMeasurement"] : null,
         DateTime.parse(jsonData["creationDate"]),
         DateTime.parse(jsonData["lastUpdatedDate"])
     );

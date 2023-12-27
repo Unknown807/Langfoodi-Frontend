@@ -1,5 +1,6 @@
 import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:cloudinary_url_gen/cloudinary.dart';
+import 'package:file/local.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,9 +14,10 @@ import 'app/app.dart';
 
 Future<void> main() async {
   ReferenceWrapper<http.Client> clientWrapper = ReferenceWrapper(http.Client());
+  const localFileSystem = LocalFileSystem();
+  const secureStorage = FlutterSecureStorage();
   final multipartFileProvider = MultipartFileProvider();
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
-  const secureStorage = FlutterSecureStorage();
 
   final localStore = LocalStore(secureStorage);
   final request = Request(clientWrapper, multipartFileProvider);
@@ -23,8 +25,9 @@ Future<void> main() async {
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 
-  // The below line is used for manual testing purposes:
-  // localStore.deleteKey("loggedInUser");
+  // Widget Utilities
+  final imageTransformationBuilder = ImageTransformationBuilder();
+  final imageBuilder = ImageBuilder(imageTransformationBuilder, localFileSystem);
 
   // Singleton Repositories
   RecipeRepository(request, jsonWrapper);
@@ -34,11 +37,16 @@ Future<void> main() async {
   final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
   final navigationRepo = NavigationRepository();
 
+  // The below line is used for manual testing purposes:
+  // localStore.deleteKey("loggedInUser");
+
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(App(
     authRepo: authRepo,
     navigationRepo: navigationRepo,
+    imageTransformationBuilder: imageTransformationBuilder,
+    imageBuilder: imageBuilder
   ));
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);

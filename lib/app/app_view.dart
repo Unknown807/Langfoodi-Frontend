@@ -5,10 +5,17 @@ class App extends StatelessWidget {
     super.key,
     required this.authRepo,
     required this.navigationRepo,
+    required this.imageTransformationBuilder,
+    required this.imageBuilder
   });
 
+  // Repositories
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
+
+  // Widget Utilities
+  final ImageTransformationBuilder imageTransformationBuilder;
+  final ImageBuilder imageBuilder;
   
   @override
   Widget build(BuildContext context) {
@@ -16,6 +23,8 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (_) => authRepo),
           RepositoryProvider(create: (_) => navigationRepo),
+          RepositoryProvider(create: (_) => imageTransformationBuilder),
+          RepositoryProvider(create: (_) => imageBuilder)
         ],
         child: BlocProvider(
           create: (_) => AppBloc(authRepo: authRepo),

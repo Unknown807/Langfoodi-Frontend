@@ -52,7 +52,7 @@ class RecipeRepository {
   }
 
   Future<bool> updateRecipe(UpdateRecipeContract contract) async {
-    final response = await request.post("/recipe/update", contract, jsonWrapper);
+    final response = await request.put("/recipe/update", contract, jsonWrapper);
     return response.isOk;
   }
 

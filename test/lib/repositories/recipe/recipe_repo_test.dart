@@ -157,7 +157,7 @@ void main() {
           tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
           recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);
@@ -174,7 +174,7 @@ void main() {
           tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
           recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(404);
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);

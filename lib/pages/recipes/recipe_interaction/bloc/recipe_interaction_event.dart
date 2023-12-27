@@ -224,6 +224,16 @@ final class RecipeTitleChanged extends RecipeInteractionEvent {
   List<Object> get props => [title];
 }
 
+final class InitState extends RecipeInteractionEvent {
+  const InitState(this.pageType, this.recipeId);
+
+  final RecipeInteractionType pageType;
+  final String? recipeId;
+
+  @override
+  List<Object> get props => [pageType, recipeId ?? ""];
+}
+
 final class RecipeFormSubmission extends RecipeInteractionEvent {
   const RecipeFormSubmission();
 }

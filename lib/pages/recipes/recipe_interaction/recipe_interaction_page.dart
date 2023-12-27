@@ -6,7 +6,7 @@ import 'package:recipe_social_media/pages/recipes/recipe_interaction/recipe_inte
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart' as riw;
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
-import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
@@ -16,10 +16,14 @@ class RecipeInteractionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)!.settings.arguments;
+
+    RecipeInteractionType pageType = RecipeInteractionType.create;
+    String? recipeId;
+
     if (args != null) {
       args = args as RecipeInteractionPageArguments;
-      print(args.recipeId);
-      print(args.readonly);
+      pageType = args.pageType;
+      recipeId = args.recipeId;
     }
 
     return MultiRepositoryProvider(
@@ -31,8 +35,12 @@ class RecipeInteractionPage extends StatelessWidget {
             create: (recipeInteractContext) => RecipeInteractionBloc(
                 context.read<AuthenticationRepository>(),
                 recipeInteractContext.read<RecipeRepository>(),
-                recipeInteractContext.read<ImageRepository>()),
-            child: BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
+                recipeInteractContext.read<ImageRepository>())
+            ..add(InitState(pageType, recipeId)),
+            child: BlocConsumer<RecipeInteractionBloc, RecipeInteractionState>(
+                listener: (context, state) {
+                  // TODO: will be used soon, leave for now
+                },
                 buildWhen: (p, c) => p.formStatus != c.formStatus,
                 builder: (context, state) {
                   return state.formStatus.isInProgress
@@ -53,11 +61,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                   padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                                   child: Column(
                                     children: <Widget>[
-                                      const Row(children: <Widget>[
-                                        Expanded(child: riw.RecipeThumbnailPicker())
-                                      ]),
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
+                                      const Row(children: <Widget>[Expanded(child: riw.RecipeThumbnailPicker())]),
+                                      const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 10),
                                           child: Column(
