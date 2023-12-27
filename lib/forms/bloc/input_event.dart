@@ -8,6 +8,15 @@ sealed class InputEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class HandlerChanged extends InputEvent {
+  const HandlerChanged(this.handler);
+
+  final String handler;
+
+  @override
+  List<Object> get props => [handler];
+}
+
 final class UserNameChanged extends InputEvent {
   const UserNameChanged(this.userName);
 

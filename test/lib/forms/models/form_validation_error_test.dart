@@ -12,12 +12,20 @@ void main() {
         expect(result, "Invalid email");
       });
 
+      test("handlerInvalid error", () {
+        // Act
+        final result = FormValidationError.getErrorMessage(FormValidationError.handlerInvalid);
+
+        // Assert
+        expect(result, "Needs 3+ length & only letters/numbers/spaces or underscore");
+      });
+
       test("userNameInvalid error", () {
         // Act
         final result = FormValidationError.getErrorMessage(FormValidationError.userNameInvalid);
 
         // Assert
-        expect(result, "Needs 3+ length & only letters/numbers/spaces and underscore");
+        expect(result, "Needs 3+ length & only letters/numbers/spaces or underscore");
       });
 
       test("passwordInvalid error", () {

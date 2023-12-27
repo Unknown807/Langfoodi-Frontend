@@ -2,11 +2,22 @@ part of 'base_form.dart';
 
 class FormBloc extends Bloc<InputEvent, InputState> {
   FormBloc() : super(const InputState()) {
+    on<HandlerChanged>(_onHandlerChanged);
     on<UserNameChanged>(_onUserNameChanged);
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_passwordChanged);
     on<ConfirmedPasswordChanged>(_confirmedPasswordChanged);
     on<FormSubmitted>(formSubmitted);
+  }
+
+  void _onHandlerChanged(HandlerChanged event, Emitter<InputState> emit) {
+    final handler = Handler.dirty(event.handler);
+    emit(
+      state.copyWith(
+        handler: handler,
+        handlerValid: Formz.validate([handler])
+      )
+    );
   }
 
   void _onUserNameChanged(UserNameChanged event, Emitter<InputState> emit) {

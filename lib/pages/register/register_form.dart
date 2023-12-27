@@ -26,6 +26,7 @@ class RegisterForm extends StatelessWidget {
                       offset: Offset(0, 10))
                 ]),
             child: const Column(children: <Widget>[
+              HandlerInput(),
               UserNameInput(),
               EmailInput(),
               PasswordInput(),
@@ -50,6 +51,26 @@ class FormErrorLabel extends StatelessWidget {
             style: const TextStyle(
               color: Color.fromRGBO(244, 113, 116, 1),
             ));
+      },
+    );
+  }
+}
+
+class HandlerInput extends StatelessWidget {
+  const HandlerInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterBloc, InputState>(
+      buildWhen: (p, c) => p.handler != c.handler,
+      builder: (context, state) {
+        return FormInput(
+            boxDecorationType: FormInputBoxDecorationType.underlined,
+            errorText: FormValidationError.getErrorMessage(state.handler.displayError),
+            hintText: "Handler",
+            eventFunc: (handler) {
+              context.read<RegisterBloc>().add(HandlerChanged(handler));
+            });
       },
     );
   }

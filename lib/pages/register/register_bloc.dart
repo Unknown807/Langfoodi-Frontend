@@ -21,7 +21,9 @@ class RegisterBloc extends FormBloc {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
     String errorMessage = await _authRepo.register(
-        state.userName.value, state.email.value, state.password.value);
+      state.handler.value, state.userName.value,
+      state.email.value, state.password.value
+    );
 
     emit(
       state.copyWith(

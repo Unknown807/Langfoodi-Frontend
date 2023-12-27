@@ -102,7 +102,7 @@ void main() {
       when(() => responseMock.body).thenReturn(userData);
 
       // Act
-      final result = await authRepo.register("username1", "mail@example.com", "Password123!");
+      final result = await authRepo.register("handler1", "username1", "mail@example.com", "Password123!");
 
       // Assert
       expect(result, "");
@@ -115,7 +115,7 @@ void main() {
       when(() => responseMock.body).thenReturn("Username already exists");
 
       // Act
-      final result = await authRepo.register("username1", "mail@example.com", "Password123!");
+      final result = await authRepo.register("handler1", "username1", "mail@example.com", "Password123!");
 
       // Assert
       expect(result, "Username already exists");
@@ -127,7 +127,7 @@ void main() {
       when(() => responseMock.statusCode).thenReturn(500);
 
       // Act
-      final result = await authRepo.register("username1", "mail@example.com", "Password123!");
+      final result = await authRepo.register("handler1", "username1", "mail@example.com", "Password123!");
 
       // Assert
       expect(result, "Issue Signing Up");
@@ -135,7 +135,7 @@ void main() {
     });
   });
 
-  group("loginWithUserNameOrEmail method tests", () {
+  group("loginWithHandlerOrEmail method tests", () {
     test("status code is 200", () async {
       // Arrange
       when(() => jsonWrapperMock.decodeData(any())).thenReturn(userMapData);
@@ -144,7 +144,7 @@ void main() {
       when(() => responseMock.body).thenReturn(userData);
 
       // Act
-      final result = await authRepo.loginWithUserNameOrEmail("mail@example.com", "Password123!");
+      final result = await authRepo.loginWithHandlerOrEmail("mail@example.com", "Password123!");
 
       // Assert
       expect(result, "");
@@ -157,7 +157,7 @@ void main() {
       when(() => responseMock.body).thenReturn("Invalid Credentials");
 
       // Act
-      final result = await authRepo.loginWithUserNameOrEmail("username1", "Password123!");
+      final result = await authRepo.loginWithHandlerOrEmail("handler1", "Password123!");
 
       // Assert
       expect(result, "Invalid Credentials");
@@ -169,7 +169,7 @@ void main() {
       when(() => responseMock.statusCode).thenReturn(500);
 
       // Act
-      final result = await authRepo.loginWithUserNameOrEmail("mail@example.com", "Password123!");
+      final result = await authRepo.loginWithHandlerOrEmail("mail@example.com", "Password123!");
 
       // Assert
       expect(result, "Issue Signing In");
