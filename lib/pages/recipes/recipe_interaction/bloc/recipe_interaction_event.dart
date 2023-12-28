@@ -107,13 +107,22 @@ final class ServingNumberChanged extends RecipeInteractionEvent {
   List<Object> get props => [servingNumber];
 }
 
-final class ServingSizeChanged extends RecipeInteractionEvent {
-  const ServingSizeChanged(this.servingSize);
+final class ServingQuantityChanged extends RecipeInteractionEvent {
+  const ServingQuantityChanged(this.quantity);
 
-  final String servingSize;
+  final String quantity;
 
   @override
-  List<Object> get props => [servingSize];
+  List<Object> get props => [quantity];
+}
+
+final class ServingMeasurementChanged extends RecipeInteractionEvent {
+  const ServingMeasurementChanged(this.measurement);
+
+  final String measurement;
+
+  @override
+  List<Object> get props => [measurement];
 }
 
 final class KilocaloriesChanged extends RecipeInteractionEvent {
@@ -143,6 +152,15 @@ final class RecipeStepDescriptionChanged extends RecipeInteractionEvent {
   List<Object> get props => [description];
 }
 
+final class RecipeDescriptionChanged extends RecipeInteractionEvent {
+  const RecipeDescriptionChanged(this.description);
+
+  final String description;
+
+  @override
+  List<Object> get props => [description];
+}
+
 final class RecipeTagChanged extends RecipeInteractionEvent {
   const RecipeTagChanged(this.tag);
 
@@ -150,6 +168,10 @@ final class RecipeTagChanged extends RecipeInteractionEvent {
 
   @override
   List<Object> get props => [tag];
+}
+
+final class AddNewRecipeStepFromButton extends RecipeInteractionEvent {
+  const AddNewRecipeStepFromButton();
 }
 
 final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
@@ -191,4 +213,27 @@ final class ReorderRecipeStepList extends RecipeInteractionEvent {
 
   @override
   List<Object> get props => [oldIndex, newIndex];
+}
+
+final class RecipeTitleChanged extends RecipeInteractionEvent {
+  const RecipeTitleChanged(this.title);
+
+  final String title;
+
+  @override
+  List<Object> get props => [title];
+}
+
+final class InitState extends RecipeInteractionEvent {
+  const InitState(this.pageType, this.recipeId);
+
+  final RecipeInteractionType pageType;
+  final String? recipeId;
+
+  @override
+  List<Object> get props => [pageType, recipeId ?? ""];
+}
+
+final class RecipeFormSubmission extends RecipeInteractionEvent {
+  const RecipeFormSubmission();
 }

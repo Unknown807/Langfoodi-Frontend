@@ -31,12 +31,15 @@ class CustomAlertDialog extends StatelessWidget {
               leftButtonCallback?.call();
               context.read<NavigationRepository>().dismissDialog(context);
             },
-            child: Text(leftButtonText)),
+            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+            child: Text(leftButtonText),
+        ),
         TextButton(
             onPressed: () {
               rightButtonCallback?.call();
               context.read<NavigationRepository>().dismissDialog(context);
             },
+            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
             child: Text(rightButtonText))
       ],
     );

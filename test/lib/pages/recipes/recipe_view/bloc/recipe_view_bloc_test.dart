@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
-import 'package:recipe_social_media/entities/user/user.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import '../../../../../../test_utilities/mocks/generic_mocks.dart';
@@ -20,10 +20,10 @@ void main() {
     blocTest("list of scrollable recipes is emitted",
       build: () {
         final recipes = [
-          Recipe("1", "title1", "desc1", "user1",
+          Recipe("1", "title1", "desc1", "user1", "thumbnailId1",
               const ["lbl"], const Duration(seconds: 500), 1000, 1,
               DateTime.now(), DateTime.now()),
-          Recipe("2", "title2", "desc1", "user1",
+          Recipe("2", "title2", "desc1", "user1", "thumbnailId1",
               const ["lbl"], const Duration(seconds: 500), 1000, 1,
               DateTime.now(), DateTime.now()),
         ];

@@ -16,7 +16,7 @@ void main() {
   group("formSubmitted method tests", () {
     blocTest("form submission success",
       build: () {
-        when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value(""));
+        when(() => authRepoMock.register(any(), any(), any(), any())).thenAnswer((invocation) => Future.value(""));
         return RegisterBloc(authRepo: authRepoMock);
       },
       act: (bloc) => bloc.add(const FormSubmitted()),
@@ -28,7 +28,7 @@ void main() {
 
     blocTest("form submission failure",
       build: () {
-        when(() => authRepoMock.register(any(), any(), any())).thenAnswer((invocation) => Future.value("form error"));
+        when(() => authRepoMock.register(any(), any(), any(), any())).thenAnswer((invocation) => Future.value("form error"));
         return RegisterBloc(authRepo: authRepoMock);
       },
       act: (bloc) => bloc.add(const FormSubmitted()),

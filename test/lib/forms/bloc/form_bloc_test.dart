@@ -4,6 +4,20 @@ import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/forms/models/form_models.dart';
 
 void main() {
+  group("_onHandlerChanged method tests", () {
+    blocTest("valid handler",
+        build: () => FormBloc(),
+        act: (bloc) => bloc.add(const HandlerChanged("handler123")),
+        expect: () => [const InputState(handler: Handler.dirty("handler123"), handlerValid: true)]
+    );
+
+    blocTest("invalid handler",
+        build: () => FormBloc(),
+        act: (bloc) => bloc.add(const HandlerChanged("h1")),
+        expect: () => [const InputState(handler: Handler.dirty("h1"), handlerValid: false)]
+    );
+  });
+
   group("_onUserNameChanged method tests", () {
     blocTest("valid user name",
       build: () => FormBloc(),

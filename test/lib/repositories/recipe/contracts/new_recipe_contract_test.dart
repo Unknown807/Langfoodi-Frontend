@@ -10,9 +10,13 @@ void main() {
         title: "title",
         description: "desc",
         chefId: "chef1",
-        labels: ["lbl1", "lbl2"],
+        thumbnailId: "id1",
+        tags: ["lbl1", "lbl2"],
         ingredients: const [Ingredient("eggs", 12.0, "whole")],
-        recipeSteps: const [RecipeStep("step1", "www.example.com/image")],
+        recipeSteps: [RecipeStep("step1", "www.example.com/image")],
+        kiloCalories: 1000,
+        servingQuantity: 30,
+        servingUnitOfMeasurement: "kg"
       );
 
       // Act
@@ -23,12 +27,17 @@ void main() {
         "title": "title",
         "description": "desc",
         "chefId": "chef1",
-        "labels": ["lbl1", "lbl2"],
+        "thumbnailId": "id1",
+        "tags": ["lbl1", "lbl2"],
         "ingredients": [{"name": "eggs", "quantity": 12.0, "unitOfMeasurement": "whole"}],
         "recipeSteps": [{"text": "step1", "imageUrl": "www.example.com/image"}],
         "cookingTime": null,
-        "kiloCalories": null,
-        "numberOfServings": null
+        "kiloCalories": 1000,
+        "numberOfServings": null,
+        "servingSize": {
+          "quantity": 30,
+          "unitOfMeasurement": "kg"
+        }
       });
     });
   });

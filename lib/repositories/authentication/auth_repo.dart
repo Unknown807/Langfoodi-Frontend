@@ -1,4 +1,4 @@
-import 'package:recipe_social_media/entities/user/user.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
 
@@ -26,7 +26,7 @@ class AuthenticationRepository {
       User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
 
       var data = AuthenticationAttemptContract(
-          usernameOrEmail: loggedInUser.email,
+          handlerOrEmail: loggedInUser.email,
           password: loggedInUser.password);
 
       var response = await request.post("/auth/authenticate", data, jsonWrapper);
@@ -36,10 +36,9 @@ class AuthenticationRepository {
     return false;
   }
 
-  Future<String> register(String username, String email, String password) async {
-    // TODO: add handler field to register page
+  Future<String> register(String handler, String username, String email, String password) async {
     var data = NewUserContract(
-      handler: "testHandler",
+      handler: handler,
       username: username,
       email: email,
       password: password);
@@ -54,8 +53,8 @@ class AuthenticationRepository {
     return response.isBadRequest ? response.body : "Issue Signing Up";
   }
 
-  Future<String> loginWithUserNameOrEmail(String usernameOrEmail, String password) async {
-    var data = AuthenticationAttemptContract(usernameOrEmail: usernameOrEmail, password: password);
+  Future<String> loginWithHandlerOrEmail(String handlerOrEmail, String password) async {
+    var data = AuthenticationAttemptContract(handlerOrEmail: handlerOrEmail, password: password);
     var response = await request.post("/auth/authenticate", data, jsonWrapper);
 
     if (response.isOk) {

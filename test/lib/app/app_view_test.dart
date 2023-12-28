@@ -11,15 +11,24 @@ import '../../../test_utilities/mocks/generic_mocks.dart';
 void main() {
   late AuthenticationRepositoryMock authRepoMock;
   late NavigationRepositoryMock navigRepoMock;
+  late ImageTransformationBuilderMock imageTransformationBuilderMock;
+  late ImageBuilderMock imageBuilderMock;
 
   setUp(() {
     RecipeRepository(RequestMock(), JsonWrapperMock());
     authRepoMock = AuthenticationRepositoryMock();
     navigRepoMock = NavigationRepositoryMock();
+    imageBuilderMock = ImageBuilderMock();
+    imageTransformationBuilderMock = ImageTransformationBuilderMock();
   });
 
   Widget createWidgetUnderTest() {
-    return App(authRepo: authRepoMock, navigationRepo: navigRepoMock);
+    return App(
+      authRepo: authRepoMock,
+      navigationRepo: navigRepoMock,
+      imageBuilder: imageBuilderMock,
+      imageTransformationBuilder: imageTransformationBuilderMock,
+    );
   }
 
   group("app and app view tests", () {

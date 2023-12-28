@@ -8,9 +8,18 @@ class CookingTime extends FormzInput<String, RecipeFormValidationError> {
     r"^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$"
   );
 
+  Duration getCookingTimeAsDuration() {
+    final cookingTimeParts = value.split(":");
+    return Duration(
+        hours: int.parse(cookingTimeParts[0]),
+        minutes: int.parse(cookingTimeParts[1]),
+        seconds: int.parse(cookingTimeParts[2])
+    );
+  }
+
   @override
   RecipeFormValidationError? validator(String value) {
-    return _cookingTimeExp.hasMatch(value) && (value != "00:00:00")
+    return _cookingTimeExp.hasMatch(value)
         ? null
         : RecipeFormValidationError.cookingTimeInvalid;
   }

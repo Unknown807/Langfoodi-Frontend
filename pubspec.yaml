@@ -42,9 +42,10 @@ dependencies:
   equatable: ^2.0.5
   dotted_border: ^2.1.0
   cloudinary_url_gen: ^1.1.0
-  cloudinary_flutter: ^1.0.0
+  cloudinary_flutter: 1.0.0
   image_picker: ^1.0.4
   intl: ^0.18.0
+  file: ^6.0.0
 
 dev_dependencies:
   integration_test:
