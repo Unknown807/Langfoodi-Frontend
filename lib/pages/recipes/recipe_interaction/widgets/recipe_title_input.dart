@@ -10,6 +10,7 @@ class RecipeTitleInput extends StatelessWidget {
             || p.recipeTitleValid != c.recipeTitleValid,
         builder: (context, state) {
           return FormInput(
+              readonly: state.pageType == RecipeInteractionType.readonly,
               textController: state.recipeTitleTextController,
               hintText: "Recipe Name Here",
               boxDecorationType: state.recipeTitleValid

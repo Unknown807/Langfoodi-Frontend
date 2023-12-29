@@ -9,12 +9,16 @@ class ServingMeasurementInput extends StatelessWidget {
         buildWhen: (p, c) => p.servingMeasurement != c.servingMeasurement
             || p.servingMeasurementValid != c.servingMeasurementValid,
         builder: (context, state) {
+          final readonly = state.pageType == RecipeInteractionType.readonly;
+          final isEmpty = state.servingMeasurement.value.isEmpty;
           return FormInput(
+            readonly: readonly,
             textController: state.servingMeasurementTextController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-            labelText: 'Serving Unit Of Measurement',
+            labelText: (readonly && isEmpty) ? null : 'Serving Unit',
+            hintText: (readonly && isEmpty) ? 'Serving Unit' : null,
             boxDecorationType: state.servingMeasurementValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

@@ -10,6 +10,7 @@ class RecipeDescriptionInput extends StatelessWidget {
             || p.recipeDescriptionValid != c.recipeDescriptionValid,
         builder: (context, state) {
           return FormInput(
+              readonly: state.pageType == RecipeInteractionType.readonly,
               textController: state.recipeDescriptionTextController,
               hintText: "Recipe Description Here",
               boxDecorationType: state.recipeDescriptionValid

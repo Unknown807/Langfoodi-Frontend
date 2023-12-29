@@ -9,12 +9,16 @@ class ServingQuantityInput extends StatelessWidget {
         buildWhen: (p, c) => p.servingQuantity != c.servingQuantity
             || p.servingQuantityValid != c.servingQuantityValid,
         builder: (context, state) {
+          final readonly = state.pageType == RecipeInteractionType.readonly;
+          final isEmpty = state.servingQuantity.value.isEmpty;
           return FormInput(
+            readonly: readonly,
             textController: state.servingQuantityTextController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
-            labelText: 'Serving Quantity',
+            labelText: (readonly && isEmpty) ? null : 'Serving Quantity',
+            hintText: (readonly && isEmpty) ? 'Serving Quantity' : null,
             boxDecorationType: state.servingQuantityValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,

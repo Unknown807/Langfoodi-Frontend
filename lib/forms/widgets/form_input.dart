@@ -18,6 +18,7 @@ class FormInput extends StatelessWidget {
       this.keyboardType,
       this.hintText,
       this.labelText,
+      this.readonly = false,
       this.isConfidential = false,
       this.textAlign = TextAlign.left,
       this.maxLines = 1,
@@ -36,6 +37,7 @@ class FormInput extends StatelessWidget {
   TextInputType? keyboardType;
   String? hintText;
   String? labelText;
+  bool readonly;
   bool isConfidential;
   int maxLines;
   EdgeInsets innerPadding;
@@ -74,6 +76,7 @@ class FormInput extends StatelessWidget {
             padding: innerPadding,
             decoration: getBoxDecoration(boxDecorationType),
             child: TextField(
+              readOnly: readonly,
               keyboardType: keyboardType,
               controller: textController,
               onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
@@ -85,13 +88,13 @@ class FormInput extends StatelessWidget {
               style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
               decoration: InputDecoration(
                 focusColor: Colors.red,
-                  border: InputBorder.none,
-                  hintText: hintText,
-                  labelText: labelText,
-                  errorText: errorText,
-                  hintStyle: TextStyle(color: Colors.grey.shade400),
-                  labelStyle: TextStyle(color: Colors.grey.shade400),
-                  floatingLabelStyle: const TextStyle(color: Colors.blue)),
+                border: InputBorder.none,
+                hintText: hintText,
+                labelText: labelText,
+                errorText: errorText,
+                hintStyle: TextStyle(color: Colors.grey.shade400),
+                labelStyle: TextStyle(color: Colors.grey.shade400),
+                floatingLabelStyle: const TextStyle(color: Colors.blue)),
             )));
   }
 }
