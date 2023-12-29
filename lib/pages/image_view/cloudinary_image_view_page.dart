@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:recipe_social_media/repositories/navigation/args/image_view/image_view_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -36,7 +35,7 @@ class CloudinaryImageViewPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   child: context.read<ImageBuilder>().displayCloudinaryImage(
                     imageUrl: imageUrl,
-                    transformationType: ImageTransformationType.standard,
+                    transformationType: ImageTransformationType.high,
                     errorBuilder: (context, obj1, obj2) {
                       return const CustomIconTile(
                         icon: Icons.close,
