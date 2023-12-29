@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_card.dart';
-import 'package:recipe_social_media/widgets/new_conversation_floating_button.dart';
+import 'package:recipe_social_media/widgets/plus_floating_button.dart';
 import 'package:recipe_social_media/widgets/sorting_options_button.dart';
 
 class ConversationListPage extends StatelessWidget implements PageLander  {
@@ -42,7 +42,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
             }
         )
       ),
-      floatingActionButton: const NewConversationFloatingButton(),
+      floatingActionButton: const PlusFloatingButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }

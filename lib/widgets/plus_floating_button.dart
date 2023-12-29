@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NewConversationFloatingButton extends StatelessWidget {
-  const NewConversationFloatingButton({super.key});
+class PlusFloatingButton extends StatelessWidget {
+  const PlusFloatingButton({super.key});
 
   @override
   Widget build(BuildContext context) {
