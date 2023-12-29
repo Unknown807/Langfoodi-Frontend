@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
+import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
+import 'package:recipe_social_media/widgets/conversation_card.dart';
+import 'package:recipe_social_media/widgets/new_conversation_floating_button.dart';
+import 'package:recipe_social_media/widgets/sorting_options_button.dart';
 
-import '../../entities/messaging/conversation_card_content.dart';
-import '../../widgets/conversation_card.dart';
-import '../../widgets/new_conversation_floating_button.dart';
-import '../../widgets/sorting_options_button.dart';
-
-class ConversationListPage extends StatefulWidget implements PageLander
-{
+class ConversationListPage extends StatefulWidget implements PageLander  {
   const ConversationListPage({super.key});
 
   @override
-  State<ConversationListPage> createState() => _ConversationListPageState();
+  void onLanding(BuildContext context) {
+
+  }
 
   @override
-  void onLanding(BuildContext context) {
-    
-  }
+  State<ConversationListPage> createState() => _ConversationListPageState();
 }
 
 class _ConversationListPageState extends State<ConversationListPage> {

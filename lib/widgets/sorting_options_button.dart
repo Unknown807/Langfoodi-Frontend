@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 enum SortingOption { lastMessage, alphabeticalOrder, dateAdded }
 
 class SortingOptionButton extends StatefulWidget {
+  const SortingOptionButton({super.key, required this.isSelected, required this.sortingOption, this.onPressed});
+
   final bool isSelected;
   final SortingOption sortingOption;
   final VoidCallback? onPressed;
-
-  const SortingOptionButton({super.key, required this.isSelected, required this.sortingOption, this.onPressed});
 
   @override
   State<SortingOptionButton> createState() => _SortingOptionButtonState();
