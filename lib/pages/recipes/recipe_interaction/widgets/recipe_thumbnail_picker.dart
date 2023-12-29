@@ -24,6 +24,7 @@ class RecipeThumbnailPicker extends StatelessWidget {
                     child: state.recipeThumbnailPath.isEmpty
                     ? const CustomIconTile(
                       icon: Icons.image,
+                      iconColor: Colors.blue,
                       tileColor: Colors.blue)
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(5),
@@ -33,6 +34,7 @@ class RecipeThumbnailPicker extends StatelessWidget {
                           errorBuilder: (context, obj1, obj2) {
                             return const CustomIconTile(
                               icon: Icons.close,
+                              iconColor: Colors.red,
                               tileColor: Colors.red,
                             );
                           },

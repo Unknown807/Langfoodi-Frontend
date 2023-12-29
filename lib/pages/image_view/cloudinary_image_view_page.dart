@@ -27,25 +27,27 @@ class CloudinaryImageViewPage extends StatelessWidget {
         ),
       ),
       body: InteractiveViewer(
-            maxScale: 3.0,
-            minScale: 0.01,
-            boundaryMargin: const EdgeInsets.all(double.infinity),
-            child: Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: context.read<ImageBuilder>().displayCloudinaryImage(
-                    imageUrl: imageUrl,
-                    transformationType: ImageTransformationType.high,
-                    errorBuilder: (context, obj1, obj2) {
-                      return const CustomIconTile(
-                        icon: Icons.close,
-                        tileColor: Colors.red,
-                      );
-                    },
-                  ),
-                )
+        maxScale: 3.0,
+        minScale: 0.01,
+        boundaryMargin: const EdgeInsets.all(double.infinity),
+        child: Center(
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: context.read<ImageBuilder>().displayCloudinaryImage(
+                imageUrl: imageUrl,
+                transformationType: ImageTransformationType.high,
+                errorBuilder: (context, obj1, obj2) {
+                  return const CustomIconTile(
+                    icon: Icons.close,
+                    iconSize: 100,
+                    iconColor: Colors.red,
+                    tileColor: Colors.white,
+                  );
+                },
+              ),
             )
-          )
+        )
+      )
     );
   }
 }

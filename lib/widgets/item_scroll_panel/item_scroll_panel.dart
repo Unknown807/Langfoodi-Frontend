@@ -49,6 +49,7 @@ class ItemScrollPanel extends StatelessWidget {
                       return const CustomIconTile(
                         icon: Icons.close,
                         tileColor: Colors.red,
+                        iconColor: Colors.red,
                         borderRadius: 20,
                       );
                     },

@@ -32,6 +32,7 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                                 errorBuilder: (context, obj1, obj2) {
                                   return const CustomIconTile(
                                     icon: Icons.close,
+                                    iconColor: Colors.red,
                                     tileColor: Colors.red,
                                   );
                                 },
