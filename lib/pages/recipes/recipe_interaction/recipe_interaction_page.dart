@@ -91,7 +91,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 ],
                                               )
                                           ),
-                                          const riw.IngredientList()
+                                          readonly ? const riw.ReadonlyIngredientList() : const riw.IngredientList()
                                         ],
                                       ),
                                       CustomExpansionTile(
