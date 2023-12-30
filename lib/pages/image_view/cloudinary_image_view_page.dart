@@ -23,7 +23,7 @@ class CloudinaryImageViewPage extends StatelessWidget {
             size: 30,
           ),
           onPressed: () => context.read<NavigationRepository>()
-              .goTo(context, "recipe-interaction", routeType: RouteType.backLink),
+              .goTo(context, "/recipe-interaction", routeType: RouteType.backLink),
         ),
       ),
       body: InteractiveViewer(
