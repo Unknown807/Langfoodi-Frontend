@@ -6,10 +6,10 @@ class RecipeTagList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-        buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length,
+        buildWhen: (p, c) => p.recipeTagList.length != c.recipeTagList.length
+          || p.pageType != c.pageType,
         builder: (context, state) {
           return Wrap(
-              runSpacing: 5,
               spacing: 10,
               children:
               List.generate(
@@ -24,11 +24,9 @@ class RecipeTagList extends StatelessWidget {
                       deleteIcon: const Icon(Icons.close_rounded,
                           color: Color.fromRGBO(98, 151, 246, 1),
                           size: 17),
-                      onDeleted: () {
-                        context
-                            .read<RecipeInteractionBloc>()
-                            .add(RemoveRecipeTag(index));
-                      },
+                      onDeleted: state.pageType == RecipeInteractionType.readonly
+                          ? null
+                          : () => context.read<RecipeInteractionBloc>().add(RemoveRecipeTag(index)),
                     );
                   }
               )

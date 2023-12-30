@@ -66,14 +66,16 @@ class RecipeInteractionPage extends StatelessWidget {
                                     children: <Widget>[
                                       const Row(children: <Widget>[Expanded(child: riw.RecipeThumbnailPicker())]),
                                       const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
-                                      const Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                riw.RecipeTagInput(),
-                                                Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeTagList())
-                                              ])),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              readonly ? const SizedBox() : const riw.RecipeTagInput(),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(top: 10),
+                                                  child: riw.RecipeTagList())
+                                            ])),
                                       CustomExpansionTile(
                                         title: const Text(
                                           'Ingredients',
