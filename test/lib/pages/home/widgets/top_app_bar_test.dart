@@ -20,7 +20,7 @@ void main() {
 
       // Assert
       expect(find.byIcon(Icons.search), findsOneWidget);
-      expect(find.byIcon(Icons.person), findsOneWidget);
+      expect(find.byIcon(Icons.more_vert), findsOneWidget);
       expect(find.text("title here"), findsOneWidget);
     });
   });
