@@ -45,12 +45,6 @@ class ImageBuilder {
     return Image.file(
         fileSystem.file(imagePath),
         fit: imageFit,
-        frameBuilder: (
-            BuildContext context,
-            Widget child,
-            int? frame,
-            bool wasSynchronouslyLoaded,
-        ) => const Center(child: CircularProgressIndicator()),
         errorBuilder: errorBuilder);
   }
 }
