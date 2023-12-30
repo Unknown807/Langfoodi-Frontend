@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/bloc/conversation_list_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_sortby_section.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_card.dart';
 import 'package:recipe_social_media/widgets/plus_floating_button.dart';
-import 'package:recipe_social_media/widgets/sorting_options_button.dart';
 
 class ConversationListPage extends StatelessWidget implements PageLander  {
   const ConversationListPage({super.key});
@@ -30,7 +30,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    getSortBySection(context, state),
+                    ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
                     state.conversationCards.isNotEmpty
                         ? getConversationList(state)
                         : Container(
@@ -64,61 +64,6 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               return conversationDivider;
             },
             itemCount: 2 + state.conversationCards.length
-        )
-    );
-  }
-
-  Widget getSortBySection(BuildContext context, ConversationListState state) {
-    return Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 5, bottom: 10),
-        color: const Color(0xFF02A713),
-        child: Row(
-            children: [
-              Flexible(
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: [
-                            const Text("Sort By:", style: TextStyle(
-                                color: Colors.white, fontSize: 16)),
-                            const SizedBox(width: 18),
-                            SortingOptionButton(
-                                isSelected: state.selectedSortingOption ==
-                                    SortingOption.lastMessage,
-                                sortingOption: SortingOption.lastMessage,
-                                onPressed: () {
-                                  context
-                                    .read<ConversationListBloc>()
-                                    .add(const ChangeSelectedSortingOption(SortingOption.lastMessage));
-                                }
-                            ),
-                            const SizedBox(width: 18),
-                            SortingOptionButton(
-                                isSelected: state.selectedSortingOption ==
-                                    SortingOption.alphabeticalOrder,
-                                sortingOption: SortingOption.alphabeticalOrder,
-                                onPressed: () {
-                                  context
-                                    .read<ConversationListBloc>()
-                                    .add(const ChangeSelectedSortingOption(SortingOption.alphabeticalOrder));
-                                }
-                            ),
-                            const SizedBox(width: 18),
-                            SortingOptionButton(
-                                isSelected: state.selectedSortingOption ==
-                                    SortingOption.dateAdded,
-                                sortingOption: SortingOption.dateAdded,
-                                onPressed: () {
-                                  context
-                                    .read<ConversationListBloc>()
-                                    .add(const ChangeSelectedSortingOption(SortingOption.dateAdded));
-                                }
-                            )
-                          ]
-                      )
-                  )
-              )
-            ]
         )
     );
   }
