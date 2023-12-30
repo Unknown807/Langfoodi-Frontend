@@ -8,13 +8,16 @@ class ReadonlyIngredientList extends StatelessWidget {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
       buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
       builder: (context, state) {
-        return ListView.builder(
+        return ListView.separated(
           shrinkWrap: true,
           itemCount: state.ingredientList.length,
+          separatorBuilder: (context, _) {
+            return const SizedBox(height: 20);
+          },
           itemBuilder: (context, index) {
             final ing = state.ingredientList[index];
             return Padding(
-              padding: EdgeInsets.only(left: 10, top: (index > 0 ? 20 : 0)),
+              padding: const EdgeInsets.only(left: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

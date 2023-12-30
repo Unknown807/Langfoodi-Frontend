@@ -6,13 +6,16 @@ class ReadonlyRecipeStepList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(builder: (context, state) {
-      return ListView.builder(
+      return ListView.separated(
         shrinkWrap: true,
         itemCount: state.recipeStepList.length,
+        separatorBuilder: (context, _) {
+          return const SizedBox(height: 30);
+        },
         itemBuilder: (context, index) {
           final step = state.recipeStepList[index];
           return Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: (index > 0 ? 30 : 0)),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Column(children: <Widget>[
                 step.imageUrl == null
                     ? const SizedBox(height: 0, width: 0)

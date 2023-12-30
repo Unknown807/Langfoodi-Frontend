@@ -14,6 +14,7 @@ class CookingTimeInput extends StatelessWidget {
           return FormInput(
             readonly: readonly,
             textController: state.cookingTimeTextController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.symmetric(horizontal: 10),
             labelText: (readonly && isEmpty) ? null : 'Cooking Time',
