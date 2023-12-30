@@ -64,7 +64,12 @@ class RecipeInteractionPage extends StatelessWidget {
                                   padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                                   child: Column(
                                     children: <Widget>[
-                                      const Row(children: <Widget>[Expanded(child: riw.RecipeThumbnailPicker())]),
+                                      Row(children: <Widget>[
+                                        Expanded(
+                                          child: readonly
+                                            ? const riw.ReadonlyRecipeThumbnail()
+                                            : const riw.RecipeThumbnailPicker())
+                                      ]),
                                       const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
                                       Padding(
                                         padding: const EdgeInsets.only(bottom: 10),

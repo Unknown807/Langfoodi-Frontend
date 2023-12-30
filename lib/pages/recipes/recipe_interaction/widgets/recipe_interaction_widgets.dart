@@ -39,3 +39,4 @@ part 'recipe_step_add_button.dart';
 part 'readonly/readonly_recipe_step_list.dart';
 part 'readonly/readonly_ingredient_list.dart';
 part 'readonly/recipe_enable_edit_button.dart';
+part 'readonly/readonly_recipe_thumbnail.dart';

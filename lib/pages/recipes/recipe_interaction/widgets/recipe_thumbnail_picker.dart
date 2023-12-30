@@ -12,36 +12,30 @@ class RecipeThumbnailPicker extends StatelessWidget {
             onTap: () async {
               final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
               if (selectedImage != null && context.mounted) {
-                context
-                    .read<RecipeInteractionBloc>()
-                    .add(RecipeThumbnailPicked(selectedImage.path));
+                context.read<RecipeInteractionBloc>().add(RecipeThumbnailPicked(selectedImage.path));
               }
-            } ,
+            },
             child: Padding(
                 padding: const EdgeInsets.only(top: 5, right: 5),
                 child: AspectRatio(
-                    aspectRatio: 4/3,
+                    aspectRatio: 4 / 3,
                     child: state.recipeThumbnailPath.isEmpty
-                    ? const CustomIconTile(
-                      icon: Icons.image,
-                      iconColor: Colors.blue,
-                      tileColor: Colors.blue)
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: context.read<ImageBuilder>().decideOnAndDisplayImage(
-                          imageUrl: state.recipeThumbnailPath,
-                          transformationType: ImageTransformationType.standard,
-                          errorBuilder: (context, obj1, obj2) {
-                            return const CustomIconTile(
-                              icon: Icons.close,
-                              iconColor: Colors.red,
-                              tileColor: Colors.red,
-                            );
-                          },
-                        ),
-                ))),
+                        ? const CustomIconTile(icon: Icons.image, iconColor: Colors.blue, tileColor: Colors.blue)
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                              imageUrl: state.recipeThumbnailPath,
+                              transformationType: ImageTransformationType.standard,
+                              errorBuilder: (context, obj1, obj2) {
+                                return const CustomIconTile(
+                                  icon: Icons.close,
+                                  iconColor: Colors.red,
+                                  tileColor: Colors.red,
+                                );
+                              },
+                            ),
+                          ))),
           );
-        }
-    );
+        });
   }
 }
