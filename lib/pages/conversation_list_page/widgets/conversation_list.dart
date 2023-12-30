@@ -6,8 +6,6 @@ import 'package:recipe_social_media/pages/conversation_list_page/widgets/convers
 class ConversationList extends StatelessWidget {
   const ConversationList({super.key});
 
-  final Widget conversationDivider = const Divider(height:1, color: Color(0xFFeaeaea));
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ConversationListBloc, ConversationListState> (builder: (BuildContext context, state) {
@@ -22,7 +20,7 @@ class ConversationList extends StatelessWidget {
                 return ConversationCard(conversationCardContent: state.conversationCards[index - 1]);
               },
               separatorBuilder: (context, index) {
-                return conversationDivider;
+                return const Divider(height:1, color: Color(0xFFeaeaea));
               },
               itemCount: 2 + state.conversationCards.length
           )
