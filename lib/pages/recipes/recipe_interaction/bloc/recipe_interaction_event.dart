@@ -234,6 +234,10 @@ final class InitState extends RecipeInteractionEvent {
   List<Object> get props => [pageType, recipeId ?? ""];
 }
 
+final class EnableRecipeEditing extends RecipeInteractionEvent {
+  const EnableRecipeEditing();
+}
+
 final class RecipeFormSubmission extends RecipeInteractionEvent {
   const RecipeFormSubmission();
 }

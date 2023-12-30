@@ -41,8 +41,9 @@ class RecipeInteractionPage extends StatelessWidget {
                 listener: (context, state) {
                   // TODO: will be used soon, leave for now
                 },
-                buildWhen: (p, c) => p.formStatus != c.formStatus,
+                buildWhen: (p, c) => p.formStatus != c.formStatus || p.pageType != c.pageType,
                 builder: (context, state) {
+                  bool readonly = state.pageType == RecipeInteractionType.readonly;
                   return state.formStatus.isInProgress
                       ? const Scaffold(body: Center(child: CircularProgressIndicator()))
                       : Scaffold(
@@ -51,7 +52,12 @@ class RecipeInteractionPage extends StatelessWidget {
                             elevation: 0.5,
                             title: const riw.RecipeTitleInput(),
                             leading: const riw.RecipeBackButton(),
-                            actions: const <Widget>[riw.RecipeSubmitButton()],
+                            actions: readonly
+                                ? <Widget>[
+                                    state.recipeOwned
+                                      ? const riw.RecipeEnableEditButton()
+                                      : const SizedBox(width: 50)]
+                                : const <Widget>[riw.RecipeSubmitButton()],
                           ),
                           resizeToAvoidBottomInset: false,
                           backgroundColor: Colors.white,
@@ -61,23 +67,30 @@ class RecipeInteractionPage extends StatelessWidget {
                                   padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                                   child: Column(
                                     children: <Widget>[
-                                      const Row(children: <Widget>[Expanded(child: riw.RecipeThumbnailPicker())]),
+                                      Row(children: <Widget>[
+                                        Expanded(
+                                          child: readonly
+                                            ? const riw.ReadonlyRecipeThumbnail()
+                                            : const riw.RecipeThumbnailPicker())
+                                      ]),
                                       const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
-                                      const Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                riw.RecipeTagInput(),
-                                                Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeTagList())
-                                              ])),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                              readonly ? const SizedBox() : const riw.RecipeTagInput(),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(top: 10),
+                                                  child: riw.RecipeTagList())
+                                            ])),
                                       CustomExpansionTile(
                                         title: const Text(
                                           'Ingredients',
                                           style: TextStyle(color: Colors.black),
                                         ),
-                                        children: const [
-                                          SizedBox(
+                                        children: [
+                                          readonly ? const SizedBox() : const SizedBox(
                                               height: RecipeInteractionPageConstants.sizedBoxHeight,
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +99,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                                   Flexible(flex: 1, child: riw.IngredientQuantityInput()),
                                                   Flexible(flex: 2, child: riw.IngredientMeasurementInput())
                                                 ],
-                                              )),
-                                          riw.IngredientList()
+                                              )
+                                          ),
+                                          readonly ? const riw.ReadonlyIngredientList() : const riw.IngredientList()
                                         ],
                                       ),
                                       CustomExpansionTile(
@@ -95,15 +109,16 @@ class RecipeInteractionPage extends StatelessWidget {
                                           'Recipe Steps',
                                           style: TextStyle(color: Colors.black),
                                         ),
-                                        children: const [
-                                          SizedBox(
+                                        children: [
+                                          readonly ? const SizedBox() : const SizedBox(
                                               height: 100,
                                               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                                 Flexible(flex: 0, child: riw.RecipeStepImagePicker()),
                                                 Flexible(flex: 2, child: riw.RecipeStepDescriptionInput()),
                                                 Flexible(flex: 0, child: riw.RecipeStepAddButton())
-                                              ])),
-                                          riw.RecipeStepList()
+                                              ])
+                                          ),
+                                          readonly ? const riw.ReadonlyRecipeStepList() : const riw.RecipeStepList()
                                         ],
                                       ),
                                       CustomExpansionTile(

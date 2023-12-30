@@ -32,6 +32,8 @@ class ImageBuilder {
       publicId: imageUrl,
       fit: imageFit,
       errorBuilder: errorBuilder,
+      placeholder: (BuildContext context, String url) =>
+        const Center(child: CircularProgressIndicator()),
       transformation: imageTransformationBuilder.getImageTransformation(transformationType),
     );
   }

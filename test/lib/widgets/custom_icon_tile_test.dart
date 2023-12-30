@@ -7,7 +7,7 @@ void main() {
   Widget createWidgetUnderTest() {
     return const MaterialApp(
       home: Scaffold(
-        body: CustomIconTile(icon: Icons.abc_sharp, tileColor: Colors.black),
+        body: CustomIconTile(icon: Icons.abc_sharp, iconColor: Colors.black, tileColor: Colors.black),
       )
     );
   }

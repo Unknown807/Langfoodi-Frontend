@@ -43,6 +43,7 @@ class RecipeInteractionState extends Equatable {
     this.recipeDescriptionValid = true,
     this.recipeTitleValid = true,
     this.recipeTagValid = true,
+    this.recipeOwned = false,
     this.recipeThumbnailPath = "",
     this.currentRecipeThumbnailId = "",
     this.recipeStepImagePath = "",
@@ -95,6 +96,7 @@ class RecipeInteractionState extends Equatable {
   final bool recipeDescriptionValid;
   final bool recipeTitleValid;
   final bool recipeTagValid;
+  final bool recipeOwned;
   final String recipeThumbnailPath;
   final String currentRecipeThumbnailId;
   final String recipeStepImagePath;
@@ -120,7 +122,7 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
     pageType, currentRecipeId, currentRecipeStepImageIds,
-    currentRecipeThumbnailId
+    currentRecipeThumbnailId, recipeOwned
   ];
 
   RecipeInteractionState copyWith({
@@ -166,6 +168,7 @@ class RecipeInteractionState extends Equatable {
     bool? recipeDescriptionValid,
     bool? recipeTitleValid,
     bool? recipeTagValid,
+    bool? recipeOwned,
     String? recipeThumbnailPath,
     String? currentRecipeThumbnailId,
     String? recipeStepImagePath,
@@ -220,6 +223,7 @@ class RecipeInteractionState extends Equatable {
       formStatus: formStatus ?? this.formStatus,
       currentRecipeId: currentRecipeId ?? this.currentRecipeId,
       pageType: pageType ?? this.pageType,
+      recipeOwned: recipeOwned ?? this.recipeOwned
     );
   }
 }

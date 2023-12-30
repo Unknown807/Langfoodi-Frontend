@@ -9,12 +9,16 @@ class KilocaloriesInput extends StatelessWidget {
         buildWhen: (p, c) => p.kilocalories != c.kilocalories
             || p.kilocaloriesValid != c.kilocaloriesValid,
         builder: (context, state) {
+          final readonly = state.pageType == RecipeInteractionType.readonly;
+          final isEmpty = state.kilocalories.value.isEmpty;
           return FormInput(
+            readonly: readonly,
             textController: state.kilocaloriesTextController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             innerPadding: const EdgeInsets.only(left: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
-            labelText: 'Kilocalories',
+            labelText: (readonly && isEmpty) ? null : 'Kilocalories',
+            hintText: (readonly && isEmpty) ? 'Kilocalories' : null,
             boxDecorationType: state.kilocaloriesValid
                 ? FormInputBoxDecorationType.textArea
                 : FormInputBoxDecorationType.error,
