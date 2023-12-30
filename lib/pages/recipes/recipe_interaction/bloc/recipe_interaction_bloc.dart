@@ -95,6 +95,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       state.cookingTimeTextController.text = cookingTime.value;
     }
 
+    final userId = (await _authRepo.currentUser).id;
+
     emit(state.copyWith(
       currentRecipeThumbnailId: recipe.thumbnailId,
       recipeThumbnailPath: recipe.thumbnailId,
@@ -114,6 +116,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       cookingTime: cookingTime,
       currentRecipeId: event.recipeId,
       pageType: event.pageType,
+      recipeOwned: (recipe.chef.id == userId),
       formStatus: FormzSubmissionStatus.success
     ));
   }

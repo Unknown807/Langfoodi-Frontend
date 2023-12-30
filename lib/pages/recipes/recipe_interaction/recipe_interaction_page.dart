@@ -53,7 +53,10 @@ class RecipeInteractionPage extends StatelessWidget {
                             title: const riw.RecipeTitleInput(),
                             leading: const riw.RecipeBackButton(),
                             actions: readonly
-                                ? const <Widget>[riw.RecipeEnableEditButton()]
+                                ? <Widget>[
+                                    state.recipeOwned
+                                      ? const riw.RecipeEnableEditButton()
+                                      : const SizedBox(width: 50)]
                                 : const <Widget>[riw.RecipeSubmitButton()],
                           ),
                           resizeToAvoidBottomInset: false,
