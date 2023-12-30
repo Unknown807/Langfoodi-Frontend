@@ -9,6 +9,8 @@ import 'package:recipe_social_media/widgets/sorting_options_button.dart';
 class ConversationListPage extends StatelessWidget implements PageLander  {
   const ConversationListPage({super.key});
 
+  final Widget conversationDivider = const Divider(height:1, color: Color(0xFFeaeaea));
+
   @override
   void onLanding(BuildContext context) {
 
@@ -59,7 +61,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               return ConversationCard(conversationCardContent: state.conversationCards[index - 1]);
             },
             separatorBuilder: (context, index) {
-              return state.conversationDivider;
+              return conversationDivider;
             },
             itemCount: 2 + state.conversationCards.length
         )

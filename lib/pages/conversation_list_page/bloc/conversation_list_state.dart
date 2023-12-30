@@ -7,13 +7,11 @@ class ConversationListState extends Equatable {
   });
 
   final int numberOfConversations = 10;
-  final Widget conversationDivider = const Divider(height:1, color: Color(0xFFeaeaea));
-
   final List<ConversationCardContent> conversationCards;
   final SortingOption selectedSortingOption;
 
   @override
-  List<Object?> get props => [conversationCards, conversationDivider, selectedSortingOption];
+  List<Object?> get props => [conversationCards, selectedSortingOption];
 
   ConversationListState copyWith({
     List<ConversationCardContent>? conversationsToDisplay,
