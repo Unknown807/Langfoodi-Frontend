@@ -77,7 +77,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                 .read<NavigationRepository>()
                                 .goTo(context, "/recipe-interaction",
                                   arguments: RecipeInteractionPageArguments(
-                                      pageType: RecipeInteractionType.edit,
+                                      pageType: RecipeInteractionType.readonly,
                                       recipeId: item.id)),
                             items: state.recipesToDisplay
                                 .where((r) => r.show)

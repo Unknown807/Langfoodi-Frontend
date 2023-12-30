@@ -5,6 +5,8 @@ class Request {
 
   final ReferenceWrapper<http.Client> client;
   final MultipartFileProvider multipartFileProvider;
+  // used for Android AVD, port 10.0.2.2 forwards to localhost on PC
+  //final String baseUrl = "https://10.0.2.2:7120";
   final String baseUrl = "https://localhost:7120";
   final Map<String, String> baseHeaders = {
     HttpHeaders.acceptHeader: "application/json",

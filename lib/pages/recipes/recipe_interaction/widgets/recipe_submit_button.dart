@@ -23,7 +23,9 @@ class RecipeSubmitButton extends StatelessWidget {
                       title: Text("${formType.capitalise()} Recipe"),
                       content: Text("Ready to $formType? (may take a second)"),
                       rightButtonText: formType.capitalise(),
-                      rightButtonCallback: () => context.read<RecipeInteractionBloc>().add(const RecipeFormSubmission()),
+                      rightButtonCallback: () => context
+                          .read<RecipeInteractionBloc>()
+                          .add(const RecipeFormSubmission()),
                     )
                 )
             ),

@@ -7,9 +7,11 @@ class RecipeDescriptionInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
         buildWhen: (p, c) => p.recipeDescription != c.recipeDescription
-            || p.recipeDescriptionValid != c.recipeDescriptionValid,
+            || p.recipeDescriptionValid != c.recipeDescriptionValid
+            || p.pageType != c.pageType,
         builder: (context, state) {
           return FormInput(
+              readonly: state.pageType == RecipeInteractionType.readonly,
               textController: state.recipeDescriptionTextController,
               hintText: "Recipe Description Here",
               boxDecorationType: state.recipeDescriptionValid
