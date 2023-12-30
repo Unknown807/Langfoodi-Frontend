@@ -7,7 +7,8 @@ class RecipeTitleInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
         buildWhen: (p, c) => p.recipeTitle != c.recipeTitle
-            || p.recipeTitleValid != c.recipeTitleValid,
+            || p.recipeTitleValid != c.recipeTitleValid
+            || p.pageType != c.pageType,
         builder: (context, state) {
           return FormInput(
               readonly: state.pageType == RecipeInteractionType.readonly,

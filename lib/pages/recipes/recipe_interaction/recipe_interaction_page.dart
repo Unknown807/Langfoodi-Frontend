@@ -41,7 +41,7 @@ class RecipeInteractionPage extends StatelessWidget {
                 listener: (context, state) {
                   // TODO: will be used soon, leave for now
                 },
-                buildWhen: (p, c) => p.formStatus != c.formStatus,
+                buildWhen: (p, c) => p.formStatus != c.formStatus || p.pageType != c.pageType,
                 builder: (context, state) {
                   bool readonly = state.pageType == RecipeInteractionType.readonly;
                   return state.formStatus.isInProgress
@@ -53,7 +53,7 @@ class RecipeInteractionPage extends StatelessWidget {
                             title: const riw.RecipeTitleInput(),
                             leading: const riw.RecipeBackButton(),
                             actions: readonly
-                                ? const <Widget>[SizedBox(width: 50,)]
+                                ? const <Widget>[riw.RecipeEnableEditButton()]
                                 : const <Widget>[riw.RecipeSubmitButton()],
                           ),
                           resizeToAvoidBottomInset: false,

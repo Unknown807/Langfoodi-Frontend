@@ -55,12 +55,18 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
     on<RecipeFormSubmission>(_recipeFormSubmission);
+    on<EnableRecipeEditing>(_enableRecipeEditing);
     on<InitState>(_initState);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final ImageRepository _imageRepo;
+
+  void _enableRecipeEditing(EnableRecipeEditing event, Emitter<RecipeInteractionState> emit) async {
+    emit(state.copyWith(pageType: RecipeInteractionType.edit));
+    print("page type is now editing");
+  }
 
   void _initState(InitState event, Emitter<RecipeInteractionState> emit) async {
     if (event.pageType == RecipeInteractionType.create) return;
