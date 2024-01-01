@@ -51,8 +51,8 @@ class RecipeInteractionPage extends StatelessWidget {
                           leftButtonText: null,
                           rightButtonText: "Ok",
                           rightButtonCallback: () => context
-                              .read<RecipeInteractionBloc>()
-                              .add()
+                            .read<RecipeInteractionBloc>()
+                            .add(const ResetFormStatus())
                         )
                       )
                     );
