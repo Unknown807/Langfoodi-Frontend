@@ -12,12 +12,12 @@ final class ChangeRecipesToDisplay extends RecipeViewEvent {
   const ChangeRecipesToDisplay();
 }
 
-final class GoToEditRecipeAndExpectResult extends RecipeViewEvent {
-  const GoToEditRecipeAndExpectResult(this.context, this.recipeId);
+final class GoToInteractionPageAndExpectResult extends RecipeViewEvent {
+  const GoToInteractionPageAndExpectResult(this.context, this.arguments);
 
   final BuildContext context;
-  final String recipeId;
+  final RecipeInteractionPageArguments arguments;
 
   @override
-  List<Object> get props => [context, recipeId];
+  List<Object> get props => [context, arguments];
 }

@@ -17,21 +17,19 @@ part 'recipe_view_state.dart';
 class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   RecipeViewBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
-    on<GoToEditRecipeAndExpectResult>(_goToEditRecipeAndExpectResult);
+    on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  Future<void> _goToEditRecipeAndExpectResult(GoToEditRecipeAndExpectResult event, Emitter<RecipeViewState> emit) async {
+  Future<void> _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
     BuildContext eventContext = event.context;
     RecipeViewPageArguments? result = await eventContext
       .read<NavigationRepository>()
       .goTo(eventContext, "/recipe-interaction",
         routeType: RouteType.expect,
-        arguments: RecipeInteractionPageArguments(
-          pageType: RecipeInteractionType.readonly,
-          recipeId: event.recipeId)) as RecipeViewPageArguments?;
+        arguments: event.arguments) as RecipeViewPageArguments?;
 
     if (result != null) {
       emit(state.copyWith(successMessage: result.formType));
@@ -39,14 +37,15 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   }
 
   Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
+    emit(state.copyWith(pageLoading: true, successMessage: ""));
     String? userId = (await _authRepo.currentUser).id;
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
     List<ScrollItem> scrollableRecipes =  newRecipes.map((recipe) => ScrollItem(recipe.id, "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", recipe.title)).toList();
 
     emit(
       state.copyWith(
-        successMessage: "",
-        recipesToDisplay: scrollableRecipes
+        pageLoading: false,
+        recipesToDisplay: scrollableRecipes,
       )
     );
   }
