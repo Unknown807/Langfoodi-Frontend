@@ -7,6 +7,8 @@ import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/rec
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
@@ -57,7 +59,15 @@ class RecipeInteractionPage extends StatelessWidget {
                       )
                     );
                   } else if (state.formStatus.isSuccess) {
-                    print("success listener");
+                    final formType = state.pageType == RecipeInteractionType.create ? "created" : "updated";
+                    context
+                      .read<NavigationRepository>()
+                      .goTo(context, "/recipe-view",
+                        routeType: RouteType.backLink,
+                        arguments: RecipeViewPageArguments(
+                          formType: "${state.recipeTitle.value} successfully $formType"
+                        )
+                      );
                   }
                 },
                 buildWhen: (p, c) => p.formStatus != c.formStatus || p.pageType != c.pageType,

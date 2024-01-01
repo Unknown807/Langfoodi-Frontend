@@ -28,15 +28,13 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
     RecipeViewPageArguments? result = await eventContext
       .read<NavigationRepository>()
       .goTo(eventContext, "/recipe-interaction",
+        routeType: RouteType.expect,
         arguments: RecipeInteractionPageArguments(
           pageType: RecipeInteractionType.readonly,
-          recipeId: event.recipeId), routeType: RouteType.expect) as RecipeViewPageArguments?;
+          recipeId: event.recipeId)) as RecipeViewPageArguments?;
 
     if (result != null) {
-
-      //TODO: handle edit success (always success here)
-      //TODO: display success popup AND
-      //TODO: update listed recipes (spinner)
+      emit(state.copyWith(successMessage: result.formType));
     }
   }
 
@@ -47,6 +45,7 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
 
     emit(
       state.copyWith(
+        successMessage: "",
         recipesToDisplay: scrollableRecipes
       )
     );
