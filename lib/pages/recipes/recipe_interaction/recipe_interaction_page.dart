@@ -8,6 +8,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
@@ -39,7 +40,25 @@ class RecipeInteractionPage extends StatelessWidget {
             ..add(InitState(pageType, recipeId)),
             child: BlocConsumer<RecipeInteractionBloc, RecipeInteractionState>(
                 listener: (context, state) {
-                  // TODO: will be used soon, leave for now
+                  if (state.formStatus.isFailure) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+                        value: BlocProvider.of<RecipeInteractionBloc>(context),
+                        child: CustomAlertDialog(
+                          title: const Text("Unsuccessful"),
+                          content: Text(state.formErrorMessage),
+                          leftButtonText: null,
+                          rightButtonText: "Ok",
+                          rightButtonCallback: () => context
+                              .read<RecipeInteractionBloc>()
+                              .add()
+                        )
+                      )
+                    );
+                  } else if (state.formStatus.isSuccess) {
+                    print("success listener");
+                  }
                 },
                 buildWhen: (p, c) => p.formStatus != c.formStatus || p.pageType != c.pageType,
                 builder: (context, state) {

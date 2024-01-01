@@ -49,10 +49,12 @@ class RecipeInteractionState extends Equatable {
     this.recipeStepImagePath = "",
     this.formStatus = FormzSubmissionStatus.initial,
     this.pageType = RecipeInteractionType.create,
-    this.currentRecipeId = ""
+    this.currentRecipeId = "",
+    this.formErrorMessage = "",
   });
 
   final String currentRecipeId;
+  final String formErrorMessage;
   final RecipeInteractionType pageType;
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
@@ -122,7 +124,7 @@ class RecipeInteractionState extends Equatable {
     recipeDescriptionTextController, recipeTitleTextController,
     recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
     pageType, currentRecipeId, currentRecipeStepImageIds,
-    currentRecipeThumbnailId, recipeOwned
+    currentRecipeThumbnailId, recipeOwned, formErrorMessage
   ];
 
   RecipeInteractionState copyWith({
@@ -173,7 +175,8 @@ class RecipeInteractionState extends Equatable {
     String? currentRecipeThumbnailId,
     String? recipeStepImagePath,
     RecipeInteractionType? pageType,
-    String? currentRecipeId
+    String? currentRecipeId,
+    String? formErrorMessage
   }) {
     return RecipeInteractionState(
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
@@ -223,7 +226,8 @@ class RecipeInteractionState extends Equatable {
       formStatus: formStatus ?? this.formStatus,
       currentRecipeId: currentRecipeId ?? this.currentRecipeId,
       pageType: pageType ?? this.pageType,
-      recipeOwned: recipeOwned ?? this.recipeOwned
+      recipeOwned: recipeOwned ?? this.recipeOwned,
+      formErrorMessage: formErrorMessage ?? this.formErrorMessage
     );
   }
 }

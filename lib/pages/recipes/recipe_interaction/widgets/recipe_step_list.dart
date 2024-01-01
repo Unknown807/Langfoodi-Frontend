@@ -79,7 +79,9 @@ class RecipeStepList extends StatelessWidget {
                                   IconButton(
                                       splashRadius: 20,
                                       onPressed: () => Clipboard.setData(ClipboardData(text: step.text)).then((_) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                          ..removeCurrentSnackBar()
+                                          ..showSnackBar(
                                             SnackBar(
                                               content: Text("Step ${index+1} copied to clipboard"),
                                               backgroundColor: Colors.lightGreen,

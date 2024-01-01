@@ -20,8 +20,8 @@ class HomePage extends StatelessWidget {
         create: (_) => RecipeRepository(),
         child: BlocProvider<RecipeViewBloc>(
             create: (recipeRepoContext) => RecipeViewBloc(
-                context.read<AuthenticationRepository>(),
-                recipeRepoContext.read<RecipeRepository>()),
+              context.read<AuthenticationRepository>(),
+              recipeRepoContext.read<RecipeRepository>()),
             child: const NavBarView(
               widgetPages: [
                 ConversationListPage(),

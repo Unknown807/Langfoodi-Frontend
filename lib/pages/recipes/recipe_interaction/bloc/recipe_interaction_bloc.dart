@@ -65,7 +65,6 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
   void _enableRecipeEditing(EnableRecipeEditing event, Emitter<RecipeInteractionState> emit) async {
     emit(state.copyWith(pageType: RecipeInteractionType.edit));
-    print("page type is now editing");
   }
 
   void _initState(InitState event, Emitter<RecipeInteractionState> emit) async {
@@ -117,7 +116,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       currentRecipeId: event.recipeId,
       pageType: event.pageType,
       recipeOwned: (recipe.chef.id == userId),
-      formStatus: FormzSubmissionStatus.success
+      formStatus: FormzSubmissionStatus.initial
     ));
   }
 
@@ -237,19 +236,19 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
             && cookingTimeValid;
 
     if (!allFieldsValid) {
-      // TODO: maybe add error message to display?
       emit(state.copyWith(
-          recipeTitleValid: recipeTitleValid,
-          recipeDescriptionValid: recipeDescriptionValid,
-          recipeStepDescriptionValid: recipeStepsValid,
-          ingredientNameValid: recipeIngredientsValid,
-          ingredientQuantityValid: recipeIngredientsValid,
-          ingredientMeasurementValid: recipeIngredientsValid,
-          servingQuantityValid: servingQuantityValid,
-          servingMeasurementValid: servingMeasurementValid,
-          servingNumberValid: servingNumberValid,
-          kilocaloriesValid: kilocaloriesValid,
-          cookingTimeValid: cookingTimeValid,
+        recipeTitleValid: recipeTitleValid,
+        recipeDescriptionValid: recipeDescriptionValid,
+        recipeStepDescriptionValid: recipeStepsValid,
+        ingredientNameValid: recipeIngredientsValid,
+        ingredientQuantityValid: recipeIngredientsValid,
+        ingredientMeasurementValid: recipeIngredientsValid,
+        servingQuantityValid: servingQuantityValid,
+        servingMeasurementValid: servingMeasurementValid,
+        servingNumberValid: servingNumberValid,
+        kilocaloriesValid: kilocaloriesValid,
+        cookingTimeValid: cookingTimeValid,
+        formErrorMessage: "Some fields aren't valid"
       ));
 
       return false;
@@ -313,15 +312,16 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
     if (!validateAllRelevantFields()) {
-      // TODO: maybe add error message to display?
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
 
     // Upload new images (if there are any)
     var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
     if (!hostingSuccess) {
-      // TODO: maybe add error message to display?
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Issue uploading new images, please check and try again"
+      ));
     }
 
     // Send recipe update request to backend
@@ -334,9 +334,11 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       if (oldImageIds.isNotEmpty) await _imageRepo.removeImages(oldImageIds);
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
     } else {
-      // TODO: maybe add error message to display?
       await _removeHostedImages(recipeThumbnailHosted, hostedImages);
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Recipe could not be updated, please check and try again"
+      ));
     }
   }
 
@@ -376,8 +378,10 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     // Upload thumbnail and recipe step images and finalise recipe step list
     var (hostingSuccess, recipeThumbnailHosted, hostedImages) = await _attemptFormImageHosting();
     if (!hostingSuccess) {
-      // TODO: maybe add error message to display?
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Issue uploading new images, please check and try again"
+      ));
     }
 
     // Send recipe creation request to backend
@@ -387,9 +391,11 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
     RecipeDetailed? recipeDetailed = await _recipeRepo.addNewRecipe(newRecipeContract);
     if (recipeDetailed == null) {
-      // TODO: maybe add error message to display?
       await _removeHostedImages(recipeThumbnailHosted, hostedImages);
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Recipe could not be created, please check and try again"
+      ));
     }
 
     emit(state.copyWith(formStatus: FormzSubmissionStatus.success));
