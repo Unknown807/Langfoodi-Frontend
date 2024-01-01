@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
@@ -13,10 +17,28 @@ part 'recipe_view_state.dart';
 class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   RecipeViewBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
+    on<GoToEditRecipeAndExpectResult>(_goToEditRecipeAndExpectResult);
   }
 
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  Future<void> _goToEditRecipeAndExpectResult(GoToEditRecipeAndExpectResult event, Emitter<RecipeViewState> emit) async {
+    BuildContext eventContext = event.context;
+    RecipeViewPageArguments? result = await eventContext
+      .read<NavigationRepository>()
+      .goTo(eventContext, "/recipe-interaction",
+        arguments: RecipeInteractionPageArguments(
+          pageType: RecipeInteractionType.readonly,
+          recipeId: event.recipeId), routeType: RouteType.expect) as RecipeViewPageArguments?;
+
+    if (result != null) {
+
+      //TODO: handle edit success (always success here)
+      //TODO: display success popup AND
+      //TODO: update listed recipes (spinner)
+    }
+  }
 
   Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
     String? userId = (await _authRepo.currentUser).id;

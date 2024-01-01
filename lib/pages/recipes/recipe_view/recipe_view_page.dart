@@ -58,9 +58,9 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                     ),
                     const Spacer(),
                     Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
-                        child: CustomTextButton(
-                            eventFunc: () {}, text: "+ Filter", fontSize: 20))
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: CustomTextButton(eventFunc: () {}, text: "+ Filter", fontSize: 20)
+                    )
                   ]),
                   BlocBuilder<RecipeViewBloc, RecipeViewState>(
                       builder: (context, state) {
@@ -69,24 +69,19 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                             height: MediaQuery.of(context).size.height - 200,
                             child: const Align(
                               alignment: Alignment.center,
-                              child: Text("No Recipes Yet", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                              child: Text("No Recipes Yet",
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                             ),
                           )
                         : ItemScrollPanel(
                             onTap: (ScrollItem item) => context
-                                .read<NavigationRepository>()
-                                .goTo(context, "/recipe-interaction",
-                                  arguments: RecipeInteractionPageArguments(
-                                      pageType: RecipeInteractionType.readonly,
-                                      recipeId: item.id)),
+                              .read<RecipeViewBloc>()
+                              .add(GoToEditRecipeAndExpectResult(context, item.id)),
                             items: state.recipesToDisplay
-                                .where((r) => r.show)
-                                .toList(),
+                              .where((r) => r.show)
+                              .toList(),
                             scrollDirection: Axis.horizontal,
-                            imageAspectRatio:
-                                (MediaQuery.of(context).size.width /
-                                        MediaQuery.of(context).size.height) +
-                                    0.02);
+                            imageAspectRatio: (MediaQuery.of(context).size.width / MediaQuery.of(context).size.height) + 0.02);
                   })
                 ],
               ),

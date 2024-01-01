@@ -11,3 +11,13 @@ sealed class RecipeViewEvent extends Equatable {
 final class ChangeRecipesToDisplay extends RecipeViewEvent {
   const ChangeRecipesToDisplay();
 }
+
+final class GoToEditRecipeAndExpectResult extends RecipeViewEvent {
+  const GoToEditRecipeAndExpectResult(this.context, this.recipeId);
+
+  final BuildContext context;
+  final String recipeId;
+
+  @override
+  List<Object> get props => [context, recipeId];
+}
