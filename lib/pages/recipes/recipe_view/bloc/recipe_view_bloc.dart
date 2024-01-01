@@ -15,21 +15,22 @@ part 'recipe_view_event.dart';
 part 'recipe_view_state.dart';
 
 class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
-  RecipeViewBloc(this._authRepo, this._recipeRepo) : super(const RecipeViewState()) {
+  RecipeViewBloc(this._authRepo, this._navigationRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
   }
 
+  final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
   Future<void> _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
     BuildContext eventContext = event.context;
-    RecipeViewPageArguments? result = await eventContext
-      .read<NavigationRepository>()
-      .goTo(eventContext, "/recipe-interaction",
-        routeType: RouteType.expect,
-        arguments: event.arguments) as RecipeViewPageArguments?;
+    RecipeViewPageArguments? result = await _navigationRepo.goTo(
+      eventContext,
+      "/recipe-interaction",
+      routeType: RouteType.expect,
+      arguments: event.arguments) as RecipeViewPageArguments?;
 
     if (result != null) {
       emit(state.copyWith(successMessage: result.formType));

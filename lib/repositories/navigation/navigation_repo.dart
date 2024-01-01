@@ -4,7 +4,7 @@ export 'navigation_repo.dart';
 part 'route_type.dart';
 
 class NavigationRepository {
-  Future<Object?> goTo(BuildContext context, String routeName, {Object? arguments, RouteType routeType = RouteType.normal}) async {
+  Future<Object?>? goTo(BuildContext context, String routeName, {Object? arguments, RouteType routeType = RouteType.normal}) async {
     switch (routeType) {
       case RouteType.normal:
         _push(context, routeName, arguments);
