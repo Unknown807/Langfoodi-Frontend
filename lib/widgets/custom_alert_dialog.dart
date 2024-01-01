@@ -15,7 +15,7 @@ class CustomAlertDialog extends StatelessWidget {
 
   final Widget? title;
   final Widget? content;
-  final String leftButtonText;
+  final String? leftButtonText;
   final String rightButtonText;
   final VoidCallback? leftButtonCallback;
   final VoidCallback? rightButtonCallback;
@@ -26,13 +26,15 @@ class CustomAlertDialog extends StatelessWidget {
       title: title,
       content: content,
       actions: [
-        TextButton(
-            onPressed: () {
-              leftButtonCallback?.call();
-              context.read<NavigationRepository>().dismissDialog(context);
-            },
-            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
-            child: Text(leftButtonText),
+        leftButtonText == null
+            ? const SizedBox()
+            : TextButton(
+                onPressed: () {
+                  leftButtonCallback?.call();
+                  context.read<NavigationRepository>().dismissDialog(context);
+                },
+                style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+                child: Text(leftButtonText!),
         ),
         TextButton(
             onPressed: () {

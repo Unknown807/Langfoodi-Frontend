@@ -238,6 +238,10 @@ final class EnableRecipeEditing extends RecipeInteractionEvent {
   const EnableRecipeEditing();
 }
 
+final class ResetFormStatus extends RecipeInteractionEvent {
+  const ResetFormStatus();
+}
+
 final class RecipeFormSubmission extends RecipeInteractionEvent {
   const RecipeFormSubmission();
 }
