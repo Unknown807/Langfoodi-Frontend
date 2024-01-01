@@ -48,7 +48,7 @@ class RecipeInteractionPage extends StatelessWidget {
                       builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
                         value: BlocProvider.of<RecipeInteractionBloc>(context),
                         child: CustomAlertDialog(
-                          title: const Text("Unsuccessful"),
+                          title: const Text("Oops!"),
                           content: Text(state.formErrorMessage),
                           leftButtonText: null,
                           rightButtonText: "Ok",
