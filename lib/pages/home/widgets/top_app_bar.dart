@@ -13,7 +13,7 @@ class TopAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text(title, style: const TextStyle(color: Colors.white),),
+      title: Text(title, style: const TextStyle(color: Colors.white)),
       backgroundColor: backgroundColor,
       actions: <Widget>[
         Padding(
