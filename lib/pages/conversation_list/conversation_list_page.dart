@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/pages/conversation_list_page/bloc/conversation_list_bloc.dart';
-import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_list.dart';
-import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_sortby_section.dart';
+import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_list.dart';
+import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_sortby_section.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/plus_floating_button.dart';
 
