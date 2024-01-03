@@ -22,45 +22,61 @@ class ItemScrollPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: ListView.separated(
-            padding: const EdgeInsets.all(8),
-            scrollDirection: scrollDirection,
-            itemBuilder: (context, index) => buildScrollItem(context, items[index]),
-            separatorBuilder: (context, _) => const SizedBox(width: 12),
-            itemCount: items.length));
+      child: ListView.separated(
+        padding: const EdgeInsets.all(8),
+        scrollDirection: scrollDirection,
+        itemBuilder: (context, index) => buildScrollItem(context, items[index]),
+        separatorBuilder: (context, _) => const SizedBox(width: 12),
+        itemCount: items.length));
   }
 
   Widget buildScrollItem(BuildContext context, ScrollItem item) {
-    return GestureDetector(
-      onTap: () => onTap?.call(item),
-      child: Container(
+    return Container(
       width: 200,
       padding: const EdgeInsets.only(top: 8.0),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          AspectRatio(
-              aspectRatio: imageAspectRatio,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(imageBorderRadius),
-                  child: context.read<ImageBuilder>().decideOnAndDisplayImage(
-                    isAsset: true,
-                    imageUrl: item.urlImage ?? "assets/images/no_image.png",
-                    transformationType: ImageTransformationType.standard,
-                    errorBuilder: (context, obj1, obj2) {
-                      return const CustomIconTile(
-                        icon: Icons.close,
-                        iconColor: Colors.red,
-                        tileColor: Colors.red,
-                        borderRadius: 20,
-                      );
-                    },
-                  )
-              )),
-          const SizedBox(height: 4),
-          Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
-          Text(item.subtitle ?? "", style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
-        ],
-      ),
-    ));
+          GestureDetector(
+            onTap: () => onTap?.call(item),
+            child: Column(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: imageAspectRatio,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(imageBorderRadius),
+                    child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                      isAsset: true,
+                      imageUrl: item.urlImage ?? "assets/images/no_image.png",
+                      transformationType: ImageTransformationType.standard,
+                      errorBuilder: (context, obj1, obj2) {
+                        return const CustomIconTile(
+                          icon: Icons.close,
+                          iconColor: Colors.red,
+                          tileColor: Colors.red,
+                          borderRadius: 20,
+                        );
+                      },
+                    )
+                  )),
+                const SizedBox(height: 4),
+                Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
+                Text(item.subtitle ?? "", style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.close_rounded, color: Colors.redAccent),
+              onPressed: () {
+                print("delete clicked");
+              },
+            ),
+          ),
+        ]
+      )
+    );
   }
 }
