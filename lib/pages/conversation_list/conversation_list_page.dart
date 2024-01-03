@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_list.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_sortby_section.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/plus_floating_button.dart';
 
@@ -21,7 +22,9 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
       backgroundColor: Colors.white,
       body: BlocProvider<ConversationListBloc>(
           create: (conversationListContext) =>
-          ConversationListBloc()
+            ConversationListBloc(
+              context.read<NavigationRepository>()
+            )
             ..add(const InitState()),
           child: BlocConsumer<ConversationListBloc, ConversationListState>(
               listener: (BuildContext context, ConversationListState state) {},

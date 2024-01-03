@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/widgets/sorting_options_button.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,11 +10,14 @@ part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
-  ConversationListBloc() : super(const ConversationListState()) {
+  ConversationListBloc(this._navigationRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
+    on<NavigateToConversation>(_navigateToConversation);
     on<ChangeSelectedSortingOption>(_changeSelectedSortingOption);
     on<InitState>(_initState);
   }
+
+  final NavigationRepository _navigationRepo;
 
   List<ConversationCardContent> conversationCards = [
     ConversationCardContent.withDefaultImage(details: const ConversationDetails(isGroup: false, conversationName: "Connection1", conversationStatus: ConversationStatus.connected, isPinned: true), lastMessage: "Last message...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 11, 18)),
@@ -38,6 +42,15 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
         conversationsToDisplay: conversationCards
       )
     );
+  }
+
+  Future<void> _navigateToConversation(NavigateToConversation event, Emitter<ConversationListState> emit) async {
+    BuildContext eventContext = event.context;
+    await _navigationRepo.goTo(
+        eventContext,
+        "/conversation",
+        routeType: RouteType.expect,
+        arguments: event.conversationDetails);
   }
 
   Future<void> _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {

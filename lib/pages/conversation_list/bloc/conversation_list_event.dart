@@ -12,6 +12,16 @@ final class ChangeConversationsToDisplay extends ConversationListEvent {
   const ChangeConversationsToDisplay();
 }
 
+final class NavigateToConversation extends ConversationListEvent {
+  const NavigateToConversation(this.conversationDetails, this.context);
+
+  final BuildContext context;
+  final ConversationDetails conversationDetails;
+
+  @override
+  List<Object> get props => [conversationDetails, context];
+}
+
 final class ChangeSelectedSortingOption extends ConversationListEvent {
   const ChangeSelectedSortingOption(this.selectedSortingOption);
 

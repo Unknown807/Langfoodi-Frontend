@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_back_button.dart';
 
 class ConversationTopBar extends StatelessWidget {
-  const ConversationTopBar({super.key, required this.conversationName});
+  const ConversationTopBar({super.key, required this.details});
 
-  final String conversationName;
+  static const double conversationIconSize = 25;
+  final ConversationDetails details;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFF02A713),
-      title: Text(conversationName, style: const TextStyle(color: Colors.white)),
+      title: Text(details.conversationName, style: const TextStyle(color: Colors.white)),
       leading: const ConversationBackButton(),
       actions: <Widget>[
         Padding(
