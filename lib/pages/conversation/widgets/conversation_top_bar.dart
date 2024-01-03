@@ -12,7 +12,20 @@ class ConversationTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFF02A713),
-      title: Text(details.conversationName, style: const TextStyle(color: Colors.white)),
+      title: Row(
+        children: [
+          CircleAvatar(
+              backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
+              child: Icon(
+                details.isGroup ? Icons.group : Icons.person,
+                color: const Color.fromRGBO(207, 212, 214, 1),
+                size: conversationIconSize,
+              )
+          ),
+          const SizedBox(width: 8),
+          Text(details.conversationName, style: const TextStyle(color: Colors.white)),
+        ],
+      ),
       leading: const ConversationBackButton(),
       actions: <Widget>[
         Padding(
