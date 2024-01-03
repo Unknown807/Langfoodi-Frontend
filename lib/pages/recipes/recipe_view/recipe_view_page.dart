@@ -99,9 +99,12 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                   ),
                                 )
                               : ItemScrollPanel(
+                                  hasButton: true,
+                                  buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
                                   items: state.recipesToDisplay.where((r) => r.show).toList(),
                                   scrollDirection: Axis.horizontal,
                                   imageAspectRatio: (MediaQuery.of(context).size.width / MediaQuery.of(context).size.height) + 0.02,
+                                  onTapButton: () {},
                                   onTap: (ScrollItem item) => context
                                     .read<RecipeViewBloc>()
                                     .add(GoToInteractionPageAndExpectResult(

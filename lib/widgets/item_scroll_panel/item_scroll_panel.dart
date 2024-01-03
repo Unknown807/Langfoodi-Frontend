@@ -2,15 +2,19 @@ part of 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ItemScrollPanel extends StatelessWidget {
   const ItemScrollPanel(
-      {super.key,
-      required this.items,
-      required this.scrollDirection,
-      required this.imageAspectRatio,
-      this.onTap,
-      this.titleFontSize = 18,
-      this.subtitleFontSize = 16,
-      this.imageBorderRadius = 20});
+    {super.key,
+    required this.items,
+    required this.scrollDirection,
+    required this.imageAspectRatio,
+    this.onTap,
+    this.onTapButton,
+    this.buttonIcon,
+    this.hasButton = false,
+    this.titleFontSize = 18,
+    this.subtitleFontSize = 16,
+    this.imageBorderRadius = 20});
 
+  final bool hasButton;
   final double titleFontSize;
   final double subtitleFontSize;
   final double imageBorderRadius;
@@ -18,6 +22,8 @@ class ItemScrollPanel extends StatelessWidget {
   final List<ScrollItem> items;
   final Axis scrollDirection;
   final Function? onTap;
+  final Function? onTapButton;
+  final Icon? buttonIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +70,14 @@ class ItemScrollPanel extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
+          if (hasButton)
+            Positioned(
             top: 0,
             right: 0,
             child: IconButton(
               iconSize: 30,
-              icon: const Icon(Icons.close_rounded, color: Colors.redAccent),
-              onPressed: () {
-                print("delete clicked");
-              },
+              icon: buttonIcon!,
+              onPressed: () => onTapButton?.call(),
             ),
           ),
         ]
