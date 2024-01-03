@@ -40,8 +40,11 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
     emit(state.copyWith(pageLoading: true, successMessage: ""));
     String? userId = (await _authRepo.currentUser).id;
+
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
-    List<ScrollItem> scrollableRecipes =  newRecipes.map((recipe) => ScrollItem(recipe.id, "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", recipe.title)).toList();
+    List<ScrollItem> scrollableRecipes = newRecipes.map(
+      (recipe) => ScrollItem(recipe.id, recipe.title, urlImage: recipe.thumbnailId)
+    ).toList();
 
     emit(
       state.copyWith(

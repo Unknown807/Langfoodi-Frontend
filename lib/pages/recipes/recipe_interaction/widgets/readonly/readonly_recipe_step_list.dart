@@ -32,7 +32,7 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                               child: context.read<ImageBuilder>().displayCloudinaryImage(
                                   imageUrl: step.imageUrl!,
                                   transformationType: ImageTransformationType.standard,
-                                  errorBuilder: (context, obj1, obj2) {
+                                  errorBuilder: (context, url, error) {
                                     return const CustomIconTile(
                                       icon: Icons.close,
                                       iconColor: Colors.red,

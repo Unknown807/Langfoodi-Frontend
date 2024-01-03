@@ -42,18 +42,20 @@ class ItemScrollPanel extends StatelessWidget {
               aspectRatio: imageAspectRatio,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(imageBorderRadius),
-                  child: Image.network(
-                    item.urlImage,
-                    fit: BoxFit.cover,
-                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                    isAsset: true,
+                    imageUrl: item.urlImage ?? "assets/images/no_image.png",
+                    transformationType: ImageTransformationType.standard,
+                    errorBuilder: (context, obj1, obj2) {
                       return const CustomIconTile(
                         icon: Icons.close,
-                        tileColor: Colors.red,
                         iconColor: Colors.red,
+                        tileColor: Colors.red,
                         borderRadius: 20,
                       );
                     },
-                  ))),
+                  )
+              )),
           const SizedBox(height: 4),
           Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
           Text(item.subtitle ?? "", style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
