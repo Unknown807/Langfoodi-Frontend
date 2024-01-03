@@ -27,7 +27,7 @@ class ConversationCard extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
                         child: Icon(
-                          conversationCardContent.isGroup ? Icons.group : Icons.person,
+                          conversationCardContent.details.isGroup ? Icons.group : Icons.person,
                           color: const Color.fromRGBO(207, 212, 214, 1),
                           size: conversationIconSize,
                         )
@@ -50,7 +50,7 @@ class ConversationCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            getStatusIcon(conversationCardContent.conversationStatus)
+                            getStatusIcon(conversationCardContent.details.conversationStatus)
                           ]
                         ),
                       )
@@ -59,7 +59,7 @@ class ConversationCard extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(conversationCardContent.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(conversationCardContent.details.conversationName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       Text(
                         conversationCardContent.lastMessageSentDate != null
                           ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!)
@@ -77,7 +77,7 @@ class ConversationCard extends StatelessWidget {
                                 : "",
                             style: const TextStyle(fontSize: 16)
                         ),
-                        conversationCardContent.isPinned
+                        conversationCardContent.details.isPinned
                             ? Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
                             : const SizedBox (width: pinIconSize, height: pinIconSize)
                       ]
