@@ -104,7 +104,20 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                   items: state.recipesToDisplay.where((r) => r.show).toList(),
                                   scrollDirection: Axis.horizontal,
                                   imageAspectRatio: (MediaQuery.of(context).size.width / MediaQuery.of(context).size.height) + 0.02,
-                                  onTapButton: () {},
+                                  onTapButton: (ScrollItem item) => showDialog(
+                                    context: context,
+                                    builder: (_) => BlocProvider<RecipeViewBloc>.value(
+                                      value: BlocProvider.of<RecipeViewBloc>(context),
+                                      child: CustomAlertDialog(
+                                        title: const Text("Remove Recipe"),
+                                        content: Text("Are you sure you want to remove ${item.title}"),
+                                        rightButtonText: "Remove",
+                                        rightButtonCallback: () => context
+                                          .read<RecipeViewBloc>()
+                                          .add(RemoveRecipe(item.id)),
+                                      )
+                                    )
+                                  ),
                                   onTap: (ScrollItem item) => context
                                     .read<RecipeViewBloc>()
                                     .add(GoToInteractionPageAndExpectResult(

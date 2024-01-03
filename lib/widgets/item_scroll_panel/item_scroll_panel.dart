@@ -77,7 +77,7 @@ class ItemScrollPanel extends StatelessWidget {
             child: IconButton(
               iconSize: 30,
               icon: buttonIcon!,
-              onPressed: () => onTapButton?.call(),
+              onPressed: () => onTapButton?.call(item),
             ),
           ),
         ]

@@ -18,13 +18,18 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   RecipeViewBloc(this._authRepo, this._navigationRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
+    on<RemoveRecipe>(_removeRecipe);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  Future<void> _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
+  void _removeRecipe(RemoveRecipe event, Emitter<RecipeViewState> emit) {
+    print("recipe removed");
+  }
+
+  void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
     BuildContext eventContext = event.context;
     RecipeViewPageArguments? result = await _navigationRepo.goTo(
       eventContext,
@@ -37,7 +42,7 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
     }
   }
 
-  Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
+  void _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
     emit(state.copyWith(pageLoading: true, successMessage: ""));
     String? userId = (await _authRepo.currentUser).id;
 
