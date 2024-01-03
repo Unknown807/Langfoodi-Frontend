@@ -33,14 +33,14 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
   Widget build(BuildContext context) {
     return BlocConsumer<RecipeViewBloc, RecipeViewState>(
       listener: (context, state) {
-        if (state.successMessage.isNotEmpty) {
+        if (state.dialogMessage.isNotEmpty) {
           showDialog(
             context: context,
             builder: (_) => BlocProvider<RecipeViewBloc>.value(
               value: BlocProvider.of<RecipeViewBloc>(context),
               child: CustomAlertDialog(
-                title: const Text("Success!"),
-                content: Text(state.successMessage),
+                title: Text(state.dialogTitle),
+                content: Text(state.dialogMessage),
                 leftButtonText: null,
                 rightButtonText: "Ok",
                 rightButtonCallback: () => context

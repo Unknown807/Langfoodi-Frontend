@@ -25,8 +25,22 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  void _removeRecipe(RemoveRecipe event, Emitter<RecipeViewState> emit) {
-    print("recipe removed");
+  void _removeRecipe(RemoveRecipe event, Emitter<RecipeViewState> emit) async {
+    emit(state.copyWith(pageLoading: true));
+
+    bool removed = await _recipeRepo.removeRecipe(event.recipeId);
+
+    if (removed) {
+      emit(state.copyWith(
+        dialogTitle: "Recipe Removed!",
+        dialogMessage: "Recipe was successfully removed"
+      ));
+    } else {
+      emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Something went wrong, recipe was not removed"
+      ));
+    }
   }
 
   void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
@@ -38,14 +52,17 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
       arguments: event.arguments) as RecipeViewPageArguments?;
 
     if (result != null) {
-      emit(state.copyWith(successMessage: result.formType));
+      emit(state.copyWith(
+        dialogTitle: result.dialogTitle,
+        dialogMessage: result.dialogMessage)
+      );
     }
   }
 
   void _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
-    emit(state.copyWith(pageLoading: true, successMessage: ""));
-    String? userId = (await _authRepo.currentUser).id;
+    emit(state.copyWith(pageLoading: true, dialogTitle: "", dialogMessage: ""));
 
+    String? userId = (await _authRepo.currentUser).id;
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
     List<ScrollItem> scrollableRecipes = newRecipes.map(
       (recipe) => ScrollItem(recipe.id, recipe.title, urlImage: recipe.thumbnailId)
