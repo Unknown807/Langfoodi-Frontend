@@ -65,7 +65,8 @@ class RecipeInteractionPage extends StatelessWidget {
                       .goTo(context, "/recipe-view",
                         routeType: RouteType.backLink,
                         arguments: RecipeViewPageArguments(
-                          formType: "${state.recipeTitle.value} successfully $formType"
+                          dialogTitle: "Success!",
+                          dialogMessage: "${state.recipeTitle.value} successfully $formType"
                         )
                       );
                   }

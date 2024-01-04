@@ -18,13 +18,32 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   RecipeViewBloc(this._authRepo, this._navigationRepo, this._recipeRepo) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
+    on<RemoveRecipe>(_removeRecipe);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  Future<void> _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
+  void _removeRecipe(RemoveRecipe event, Emitter<RecipeViewState> emit) async {
+    emit(state.copyWith(pageLoading: true));
+
+    bool removed = await _recipeRepo.removeRecipe(event.recipeId);
+
+    if (removed) {
+      emit(state.copyWith(
+        dialogTitle: "Recipe Removed!",
+        dialogMessage: "Recipe was successfully removed"
+      ));
+    } else {
+      emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Something went wrong, recipe was not removed"
+      ));
+    }
+  }
+
+  void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
     BuildContext eventContext = event.context;
     RecipeViewPageArguments? result = await _navigationRepo.goTo(
       eventContext,
@@ -33,15 +52,21 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
       arguments: event.arguments) as RecipeViewPageArguments?;
 
     if (result != null) {
-      emit(state.copyWith(successMessage: result.formType));
+      emit(state.copyWith(
+        dialogTitle: result.dialogTitle,
+        dialogMessage: result.dialogMessage)
+      );
     }
   }
 
-  Future<void> _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
-    emit(state.copyWith(pageLoading: true, successMessage: ""));
+  void _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
+    emit(state.copyWith(pageLoading: true, dialogTitle: "", dialogMessage: ""));
+
     String? userId = (await _authRepo.currentUser).id;
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
-    List<ScrollItem> scrollableRecipes =  newRecipes.map((recipe) => ScrollItem(recipe.id, "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", recipe.title)).toList();
+    List<ScrollItem> scrollableRecipes = newRecipes.map(
+      (recipe) => ScrollItem(recipe.id, recipe.title, urlImage: recipe.thumbnailId)
+    ).toList();
 
     emit(
       state.copyWith(
