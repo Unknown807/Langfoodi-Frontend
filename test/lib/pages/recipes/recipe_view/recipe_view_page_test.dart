@@ -4,29 +4,44 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import '../../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late RecipeViewStateMock recipeViewStateMock;
   late RecipeViewBlocMock recipeViewBlocMock;
+  late ImageBuilderMock imageBuilderMock;
 
   setUp(() {
     recipeViewStateMock = RecipeViewStateMock();
     recipeViewBlocMock = RecipeViewBlocMock();
+    imageBuilderMock = ImageBuilderMock();
 
     when(() => recipeViewStateMock.pageLoading).thenReturn(false);
     when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
+    when(() => imageBuilderMock.decideOnAndDisplayImage(
+      isAsset: true,
+      imageUrl: any(named: "imageUrl"),
+      transformationType: ImageTransformationType.standard,
+      errorBuilder: any(named: "errorBuilder")
+    )).thenReturn(const Icon(Icons.image));
   });
 
   Widget createWidgetUnderTest() {
-    return RepositoryProvider(
-        create: (_) => RecipeRepositoryMock(),
-        child: BlocProvider<RecipeViewBloc>(
-            create: (recipeRepoContext) => recipeViewBlocMock,
-            child: const MaterialApp(
-              home: RecipeViewPage(key: Key("recipeViewPage")),
-            )));
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<RecipeRepository>(create: (_) => RecipeRepositoryMock()),
+        RepositoryProvider<ImageBuilder>(create: (_) => imageBuilderMock),
+      ],
+      child: BlocProvider<RecipeViewBloc>(
+        create: (recipeRepoContext) => recipeViewBlocMock,
+        child: const MaterialApp(
+          home: RecipeViewPage(key: Key("recipeViewPage")),
+        )
+      )
+    );
   }
 
   group("onLanding method tests", () {
@@ -69,13 +84,14 @@ void main() {
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.text("+ Filter"), findsOneWidget);
+    expect(find.byIcon(Icons.image), findsNothing);
   });
 
   testWidgets("Populated recipes to display list", (widgetTester) async {
     // Arrange
     when(() => recipeViewStateMock.recipesToDisplay).thenReturn(const [
-      ScrollItem("1", "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", "title1", subtitle: "subtitle1"),
-      ScrollItem("2", "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", "title2")
+      ScrollItem("1", "title1", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", subtitle: "subtitle1"),
+      ScrollItem("2", "title2", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg")
     ]);
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
@@ -86,5 +102,6 @@ void main() {
     expect(find.text("title1"), findsOneWidget);
     expect(find.text("subtitle1"), findsOneWidget);
     expect(find.text("title2"), findsOneWidget);
+    expect(find.byIcon(Icons.image), findsNWidgets(2));
   });
 }
