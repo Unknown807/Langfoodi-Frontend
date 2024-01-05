@@ -1,5 +1,7 @@
 part of 'package:recipe_social_media/pages/home/home_page.dart';
 
+// TODO: Because of the easy_search_bar theres no need to use this widget
+// Also because app bars are usually fairly unique so this widget doesn't need to exist really
 class TopAppBar extends StatelessWidget {
   const TopAppBar({
     super.key,

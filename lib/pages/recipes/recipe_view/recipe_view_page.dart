@@ -15,20 +15,6 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
         .add(const ChangeRecipesToDisplay());
   }
 
-  SuggestionsBuilder searchBarSuggestionsBuilder() {
-    return (BuildContext context, SearchController controller) {
-      return List<ListTile>.generate(5, (int index) {
-        final String item = 'item $index';
-        return ListTile(
-          title: Text(item),
-          onTap: () {
-            print("thing tapped ???");
-          },
-        );
-      });
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RecipeViewBloc, RecipeViewState>(
@@ -68,9 +54,14 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                 child: Text(suggestion, style: const TextStyle(fontSize: 18)),
               );
             },
-            suggestions: ["suggestion1", "suggestion2", "suggestion3","suggestion1", "suggestion2", "suggestion3","suggestion1", "suggestion2", "suggestion3"],
-            onSearch: (value) => print(value),
-            onSuggestionTap: (suggestion) => print(suggestion),
+            suggestions: state.searchSuggestions,
+            // onSuggestionTap: (suggestion) => context
+            //   .read<RecipeViewBloc>()
+            //   .add(const ResetSearchSuggestions()),
+            onSearch: (value) => context
+              .read<RecipeViewBloc>()
+              .add(SearchTermChanged(value)),
+            //onSuggestionTap: (suggestion) => print(suggestion),
           ),
           floatingActionButton: CustomFloatingButton(
             key: const Key("recipeViewPage"),
@@ -86,7 +77,6 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
           body: state.pageLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
-                //physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -107,7 +97,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                   titleFontSize: 22,
                                   hasButton: true,
                                   buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
-                                  items: state.recipesToDisplay.where((r) => r.show).toList(),
+                                  items: state.recipesToDisplay.where((r) => r.show == true).toList(),
                                   scrollDirection: Axis.vertical,
                                   imageAspectRatio: 3/4,
                                   onTapButton: (ScrollItem item) => showDialog(

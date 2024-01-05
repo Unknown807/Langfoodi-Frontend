@@ -19,6 +19,7 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
     on<RemoveRecipe>(_removeRecipe);
+    on<SearchTermChanged>(_searchTermChanged);
   }
 
   final NavigationRepository _navigationRepo;
@@ -57,6 +58,29 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
         dialogMessage: result.dialogMessage)
       );
     }
+  }
+
+  void _searchTermChanged(SearchTermChanged event, Emitter<RecipeViewState> emit) async {
+    List<ScrollItem> scrollableRecipes = List.from(state.recipesToDisplay);
+    final searchTerm = event.searchTerm.toLowerCase();
+    List<String> newSuggestions = [];
+
+    for (var recipe in scrollableRecipes) {
+      if (searchTerm.isEmpty) {
+        recipe.show = true;
+      } else if (!recipe.title.toLowerCase().contains(searchTerm)) {
+        recipe.show = false;
+      } else {
+        if (newSuggestions.length < 5) {
+          newSuggestions.add(recipe.title);
+        }
+      }
+    }
+
+    emit(state.copyWith(
+      recipesToDisplay: scrollableRecipes,
+      searchSuggestions: newSuggestions
+    ));
   }
 
   void _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
