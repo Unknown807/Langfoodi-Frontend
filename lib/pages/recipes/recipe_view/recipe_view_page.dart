@@ -4,6 +4,7 @@ import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_b
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
+import 'package:recipe_social_media/widgets/custom_floating_button.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeViewPage extends StatelessWidget implements PageLander {
@@ -55,6 +56,17 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
+          floatingActionButton: CustomFloatingButton(
+            key: const Key("recipeViewPage"),
+            icon: Icons.add,
+            eventFunc: () => context
+              .read<RecipeViewBloc>()
+              .add(GoToInteractionPageAndExpectResult(
+              context, RecipeInteractionPageArguments(
+              pageType: RecipeInteractionType.create))
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: state.pageLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
@@ -67,19 +79,8 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                       CustomSearchBar(
                         onChangedFunc: (_) {},
                         hintText: "Search Your Recipes",
-                        suggestionsBuilder: searchBarSuggestionsBuilder()),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 5.0),
-                      //   child: CustomTextButton(
-                      //     text: "Create", fontSize: 20,
-                      //     eventFunc: () => context
-                      //       .read<RecipeViewBloc>()
-                      //       .add(GoToInteractionPageAndExpectResult(
-                      //         context, RecipeInteractionPageArguments(
-                      //           pageType: RecipeInteractionType.create))
-                      //       ),
-                      //     )
-                      // ),
+                        suggestionsBuilder: searchBarSuggestionsBuilder()
+                      ),
                       BlocBuilder<RecipeViewBloc, RecipeViewState>(
                         builder: (context, state) {
                           return state.recipesToDisplay.isEmpty

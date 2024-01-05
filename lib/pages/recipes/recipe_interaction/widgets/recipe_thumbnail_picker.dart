@@ -28,7 +28,7 @@ class RecipeThumbnailPicker extends StatelessWidget {
                               transformationType: ImageTransformationType.standard,
                               errorBuilder: (context, obj1, obj2) {
                                 return const CustomIconTile(
-                                  icon: Icons.close,
+                                  icon: Icons.error,
                                   iconColor: Colors.red,
                                   tileColor: Colors.red,
                                 );

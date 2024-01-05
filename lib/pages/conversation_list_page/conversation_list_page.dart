@@ -4,7 +4,7 @@ import 'package:recipe_social_media/pages/conversation_list_page/bloc/conversati
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_list.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_sortby_section.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/plus_floating_button.dart';
+import 'package:recipe_social_media/widgets/custom_floating_button.dart';
 
 class ConversationListPage extends StatelessWidget implements PageLander  {
   const ConversationListPage({super.key});
@@ -19,6 +19,11 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
+      floatingActionButton: CustomFloatingButton(
+        key: const Key("conversationListPage"),
+        icon: Icons.add,
+        eventFunc: () {}),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: BlocProvider<ConversationListBloc>(
           create: (conversationListContext) =>
           ConversationListBloc()
@@ -45,8 +50,6 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               }
           )
       ),
-      floatingActionButton: const PlusFloatingButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
