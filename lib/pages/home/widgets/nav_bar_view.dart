@@ -4,11 +4,11 @@ class NavBarView extends StatefulWidget {
   const NavBarView({
     super.key,
     required this.widgetPages,
-    required this.pageTitles
+    required this.onLandOnce
   });
 
   final List<Widget> widgetPages;
-  final List<String> pageTitles;
+  final List<bool> onLandOnce;
 
   @override
   State<StatefulWidget> createState() => NavBarViewState();
@@ -16,22 +16,27 @@ class NavBarView extends StatefulWidget {
 
 class NavBarViewState extends State<NavBarView> {
   int _selectedIndex = 0;
-  String _selectedTitle = "";
-
+  List<bool> _landed = [];
   List<Widget> get _widgetPages => widget.widgetPages;
-  List<String> get _pageTitles => widget.pageTitles;
+  List<bool> get _onLandOnce => widget.onLandOnce;
 
   @override
   void initState() {
+    _landed = List.generate(widget.widgetPages.length, (index) => false);
     _onItemTapped(_selectedIndex);
     super.initState();
   }
 
   void _onItemTapped(int index) {
-    (_widgetPages[index] as PageLander).onLanding(context);
+    if (_onLandOnce[index] && !_landed[index]) {
+      (_widgetPages[index] as PageLander).onLanding(context);
+    } else if (!_onLandOnce[index]) {
+      (_widgetPages[index] as PageLander).onLanding(context);
+    }
+
     setState(() {
       _selectedIndex = index;
-      _selectedTitle = _pageTitles[_selectedIndex];
+      _landed[index] = true;
     });
   }
 
