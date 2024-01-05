@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_list.dart';
 import 'package:recipe_social_media/pages/conversation_list_page/widgets/conversation_sortby_section.dart';
+import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/custom_floating_button.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationListPage extends StatelessWidget implements PageLander  {
   const ConversationListPage({super.key});
@@ -19,6 +20,10 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: TopAppBar(title: "Conversations")
+      ),
       floatingActionButton: CustomFloatingButton(
         key: const Key("conversationListPage"),
         icon: Icons.add,

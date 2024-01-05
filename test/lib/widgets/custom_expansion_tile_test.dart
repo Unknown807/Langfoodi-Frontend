@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 void main() {
   Widget createWidgetUnderTest() {

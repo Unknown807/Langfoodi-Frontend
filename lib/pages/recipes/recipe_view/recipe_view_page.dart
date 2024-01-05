@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
-import 'package:recipe_social_media/widgets/custom_floating_button.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeViewPage extends StatelessWidget implements PageLander {

@@ -13,27 +13,27 @@ class TopAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: Text(title, style: const TextStyle(color: Colors.white),),
+      title: Text(title, style: const TextStyle(color: Colors.white)),
       backgroundColor: backgroundColor,
       actions: <Widget>[
         Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                Icons.search,
-                size: 26.0,
-                color: Colors.white
-              ),
-            )),
+          padding: const EdgeInsets.only(right: 20.0),
+          child: GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              Icons.search,
+              size: 26.0,
+              color: Colors.white
+            ),
+          )),
         Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: const Icon(
-                  Icons.more_vert,
-                  color: Colors.white),
-            )),
+          padding: const EdgeInsets.only(right: 20.0),
+          child: GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              Icons.more_vert,
+              color: Colors.white),
+          )),
       ],
     );
   }

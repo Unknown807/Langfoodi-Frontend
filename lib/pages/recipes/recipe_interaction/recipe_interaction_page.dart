@@ -10,8 +10,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
-import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
-import 'package:recipe_social_media/widgets/custom_expansion_tile.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
   const RecipeInteractionPage({super.key});

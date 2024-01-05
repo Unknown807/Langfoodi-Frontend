@@ -38,40 +38,37 @@ class NavBarViewState extends State<NavBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(56),
-              child: TopAppBar(title: _selectedTitle)),
-          body: Center(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: _widgetPages,
-            ),
+      body: Center(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetPages,
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Conversations',
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Conversations',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.fastfood),
-                label: 'My Recipes',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: 'Notifications',
-              )
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.purple,
-            unselectedItemColor: Colors.black,
-            onTap: _onItemTapped,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.fastfood),
+            label: 'My Recipes',
           ),
-        );
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notifications',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.black,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

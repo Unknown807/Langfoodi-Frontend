@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+part of 'shared_widgets.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog({
