@@ -32,7 +32,7 @@ class ItemScrollPanel extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         scrollDirection: scrollDirection,
         itemBuilder: (context, index) => buildScrollItem(context, items[index]),
-        separatorBuilder: (context, _) => const SizedBox(width: 12),
+        separatorBuilder: (context, _) => const SizedBox(height: 10),
         itemCount: items.length));
   }
 
@@ -46,7 +46,12 @@ class ItemScrollPanel extends StatelessWidget {
             onTap: () => onTap?.call(item),
             child: Column(
               children: <Widget>[
-                AspectRatio(
+                Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
+                if (item.subtitle != null)
+                  Text(item.subtitle!, style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: AspectRatio(
                   aspectRatio: imageAspectRatio,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(imageBorderRadius),
@@ -64,16 +69,14 @@ class ItemScrollPanel extends StatelessWidget {
                       },
                     )
                   )),
-                const SizedBox(height: 4),
-                Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
-                Text(item.subtitle ?? "", style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
+                )
               ],
             ),
           ),
           if (hasButton)
             Positioned(
-            top: 0,
-            right: 0,
+            top: 35,
+            right: 5,
             child: IconButton(
               iconSize: 30,
               icon: buttonIcon!,
