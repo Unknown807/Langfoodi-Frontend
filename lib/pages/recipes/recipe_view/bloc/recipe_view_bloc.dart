@@ -61,8 +61,13 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   }
 
   void _searchTermChanged(SearchTermChanged event, Emitter<RecipeViewState> emit) async {
-    List<ScrollItem> scrollableRecipes = List.from(state.recipesToDisplay);
     final searchTerm = event.searchTerm.toLowerCase();
+
+    if (searchTerm == state.prevSearchTerm) {
+      return emit(state.copyWith(searchSuggestions: []));
+    }
+
+    List<ScrollItem> scrollableRecipes = List.from(state.recipesToDisplay);
     List<String> newSuggestions = [];
 
     for (var recipe in scrollableRecipes) {
@@ -71,6 +76,7 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
       } else if (!recipe.title.toLowerCase().contains(searchTerm)) {
         recipe.show = false;
       } else {
+        recipe.show = true;
         if (newSuggestions.length < 5) {
           newSuggestions.add(recipe.title);
         }
@@ -79,7 +85,8 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
 
     emit(state.copyWith(
       recipesToDisplay: scrollableRecipes,
-      searchSuggestions: newSuggestions
+      searchSuggestions: newSuggestions,
+      prevSearchTerm: searchTerm
     ));
   }
 
