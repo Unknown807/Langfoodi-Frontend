@@ -1,3 +1,4 @@
+import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
@@ -54,6 +55,23 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
+          appBar: EasySearchBar(
+            backgroundColor: const Color(0xFF02A713),
+            iconTheme: const IconThemeData(color: Colors.white, size: 25),
+            title: const Text("My Recipes", style: TextStyle(color: Colors.white)),
+            searchHintText: "Search Your Recipes",
+            searchHintStyle: const TextStyle(fontSize: 20),
+            searchTextStyle: const TextStyle(fontSize: 20),
+            suggestionBuilder: (suggestion) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(suggestion, style: const TextStyle(fontSize: 18)),
+              );
+            },
+            suggestions: ["suggestion1", "suggestion2", "suggestion3","suggestion1", "suggestion2", "suggestion3","suggestion1", "suggestion2", "suggestion3"],
+            onSearch: (value) => print(value),
+            onSuggestionTap: (suggestion) => print(suggestion),
+          ),
           floatingActionButton: CustomFloatingButton(
             key: const Key("recipeViewPage"),
             icon: Icons.add,
@@ -74,11 +92,6 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CustomSearchBar(
-                        onChangedFunc: (_) {},
-                        hintText: "Search Your Recipes",
-                        suggestionsBuilder: searchBarSuggestionsBuilder()
-                      ),
                       BlocBuilder<RecipeViewBloc, RecipeViewState>(
                         builder: (context, state) {
                           return state.recipesToDisplay.isEmpty
@@ -91,6 +104,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                   ),
                                 )
                               : ItemScrollPanel(
+                                  titleFontSize: 22,
                                   hasButton: true,
                                   buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
                                   items: state.recipesToDisplay.where((r) => r.show).toList(),

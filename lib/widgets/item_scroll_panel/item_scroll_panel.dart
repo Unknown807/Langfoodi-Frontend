@@ -11,12 +11,10 @@ class ItemScrollPanel extends StatelessWidget {
     this.buttonIcon,
     this.hasButton = false,
     this.titleFontSize = 18,
-    this.subtitleFontSize = 16,
     this.imageBorderRadius = 20});
 
   final bool hasButton;
   final double titleFontSize;
-  final double subtitleFontSize;
   final double imageBorderRadius;
   final double imageAspectRatio;
   final List<ScrollItem> items;
@@ -29,7 +27,7 @@ class ItemScrollPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 150),
         scrollDirection: scrollDirection,
         itemBuilder: (context, index) => buildScrollItem(context, items[index]),
         separatorBuilder: (context, _) => const SizedBox(height: 10),
@@ -46,9 +44,10 @@ class ItemScrollPanel extends StatelessWidget {
             onTap: () => onTap?.call(item),
             child: Column(
               children: <Widget>[
-                Text(item.title, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal)),
-                if (item.subtitle != null)
-                  Text(item.subtitle!, style: TextStyle(fontSize: subtitleFontSize, color: Colors.grey)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(item.title, softWrap: false, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal))
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   child: AspectRatio(
