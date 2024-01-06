@@ -126,7 +126,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                                 children: [
                                                   Flexible(flex: 2, child: riw.IngredientNameInput()),
                                                   Flexible(flex: 1, child: riw.IngredientQuantityInput()),
-                                                  Flexible(flex: 2, child: riw.IngredientMeasurementInput())
+                                                  Flexible(flex: 2, child: riw.IngredientMeasurementInput()),
+                                                  Flexible(flex: 0, child: riw.IngredientSubmitButton())
                                                 ],
                                               )
                                           ),

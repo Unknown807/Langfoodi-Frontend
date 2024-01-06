@@ -41,14 +41,16 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
-          appBar: CustomSearchAppBar(
-            title: "My Recipes",
-            hintText: "Search Your Recipes",
-            suggestions: state.searchSuggestions,
-            onSearchFunc: (value) => context
-              .read<RecipeViewBloc>()
-              .add(SearchTermChanged(value)),
-          ),
+          appBar: state.recipesToDisplay.isEmpty
+            ? AppBar(title: const Text("My Recipes"), backgroundColor: const Color(0xFF02A713))
+            : CustomSearchAppBar(
+                title: "My Recipes",
+                hintText: "Search Your Recipes",
+                suggestions: state.searchSuggestions,
+                onSearchFunc: (value) => context
+                  .read<RecipeViewBloc>()
+                  .add(SearchTermChanged(value)),
+              ),
           floatingActionButton: CustomFloatingButton(
             key: const Key("recipeViewPage"),
             icon: Icons.add,

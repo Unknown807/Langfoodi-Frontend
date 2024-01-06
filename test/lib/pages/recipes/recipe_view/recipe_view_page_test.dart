@@ -74,6 +74,7 @@ void main() {
   testWidgets("Page is loading", (widgetTester) async {
     // Arrange
     when(() => recipeViewStateMock.pageLoading).thenReturn(true);
+    when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
     // Assert
@@ -98,9 +99,11 @@ void main() {
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
     // Assert
-    expect(find.byType(CustomSearchAppBar), findsOneWidget);
-    expect(find.text("Search Your Recipes"), findsOneWidget);
-    expect(find.byIcon(Icons.search), findsOneWidget);
+    expect(find.byType(CustomSearchAppBar), findsNothing);
+    expect(find.byIcon(Icons.search), findsNothing);
+    expect(find.text("Search Your Recipes"), findsNothing);
+    expect(find.byType(AppBar), findsOneWidget);
+    expect(find.text("My Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNothing);
     expect(find.byType(CustomFloatingButton), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget);
@@ -117,6 +120,8 @@ void main() {
     expect(find.byType(CustomSearchAppBar), findsOneWidget);
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
+    expect(find.byType(AppBar), findsNothing);
+    expect(find.text("My Recipes"), findsOneWidget);
     expect(find.text("title1"), findsOneWidget);
     expect(find.byType(CustomFloatingButton), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget);

@@ -54,6 +54,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
+    on<AddNewIngredientFromButton>(_addNewIngredientFromButton);
     on<RecipeFormSubmission>(_recipeFormSubmission);
     on<EnableRecipeEditing>(_enableRecipeEditing);
     on<ResetFormStatus>(_resetFormStatus);
@@ -667,8 +668,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final quantity = IngredientQuantity.dirty(event.quantity);
 
     emit(state.copyWith(
-        ingredientQuantity: quantity,
-        ingredientQuantityValid: Formz.validate([quantity])
+      ingredientQuantity: quantity,
+      ingredientQuantityValid: Formz.validate([quantity])
     ));
   }
 
@@ -676,30 +677,37 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final measurement = IngredientMeasurement.dirty(event.measurement);
 
     emit(state.copyWith(
-        ingredientMeasurement: measurement,
-        ingredientMeasurementValid: Formz.validate([measurement])
+      ingredientMeasurement: measurement,
+      ingredientMeasurementValid: Formz.validate([measurement])
     ));
   }
 
   void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        event.name,
-        state.ingredientQuantity.value,
-        state.ingredientMeasurement.value);
+      event.name,
+      state.ingredientQuantity.value,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredientFromQuantity(AddNewIngredientFromQuantity event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        state.ingredientName.value,
-        event.quantity,
-        state.ingredientMeasurement.value);
+      state.ingredientName.value,
+      event.quantity,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredientFromMeasurement(AddNewIngredientFromMeasurement event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        state.ingredientName.value,
-        state.ingredientQuantity.value,
-        event.measurement);
+      state.ingredientName.value,
+      state.ingredientQuantity.value,
+      event.measurement);
+  }
+
+  void _addNewIngredientFromButton(AddNewIngredientFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewIngredient(
+      state.ingredientName.value,
+      state.ingredientQuantity.value,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredient(String ingredientName, String ingredientQuantity, String ingredientMeasurement) {
