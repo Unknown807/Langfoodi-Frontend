@@ -23,11 +23,9 @@ class IngredientSubmitButton extends StatelessWidget {
                 ),
               ),
               child: const Icon(Icons.add, size: 20),
-              onPressed: () {
-                // context
-                //   .read<RecipeInteractionBloc>()
-                //   .add(const AddNewRecipeStepFromButton());
-              },
+              onPressed: () => context
+                .read<RecipeInteractionBloc>()
+                .add(const AddNewIngredientFromButton())
             ),
           ));
       },
