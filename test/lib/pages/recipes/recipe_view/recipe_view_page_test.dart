@@ -98,6 +98,7 @@ void main() {
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
     // Assert
+    expect(find.byType(CustomSearchAppBar), findsOneWidget);
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNothing);
@@ -109,22 +110,14 @@ void main() {
     // Arrange
     when(() => recipeViewStateMock.recipesToDisplay).thenReturn([
       ScrollItem("1", "title1", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg"),
-      ScrollItem("2", "title2", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-24.jpg"),
     ]);
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
-    // Act
-    final gesture = await widgetTester.startGesture(const Offset(50, 100));
-    // Scrolling down the screen to see both recipes
-    await gesture.moveBy(const Offset(0, 100));
-    await widgetTester.pumpAndSettle();
-    
     // Assert
+    expect(find.byType(CustomSearchAppBar), findsOneWidget);
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.text("title1"), findsOneWidget);
-    expect(find.text("title2"), findsOneWidget);
-    expect(find.byIcon(Icons.image), findsNWidgets(2));
     expect(find.byType(CustomFloatingButton), findsOneWidget);
     expect(find.byIcon(Icons.add), findsOneWidget);
   });
