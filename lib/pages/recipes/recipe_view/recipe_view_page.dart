@@ -93,7 +93,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                                 hasButton: true,
                                 buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
                                 items: state.recipesToDisplay.where((r) => r.show).toList(),
-                                scrollDirection: Axis.horizontal,
+                                scrollDirection: Axis.vertical,
                                 imageAspectRatio: 3/4,
                                 onTapButton: (ScrollItem item) => showDialog(
                                   context: context,
