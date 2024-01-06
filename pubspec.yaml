@@ -46,6 +46,7 @@ dependencies:
   image_picker: ^1.0.4
   intl: ^0.18.0
   file: ^6.0.0
+  easy_search_bar: ^2.5.0
 
 dev_dependencies:
   integration_test:

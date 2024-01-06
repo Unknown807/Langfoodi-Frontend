@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
-import 'package:recipe_social_media/widgets/sorting_options_button.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:equatable/equatable.dart';
 
+export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 

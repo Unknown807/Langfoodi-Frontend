@@ -12,7 +12,6 @@ import 'package:recipe_social_media/repositories/navigation/args/image_view/imag
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'recipe_interaction_widgets.dart';

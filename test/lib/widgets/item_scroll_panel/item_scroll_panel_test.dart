@@ -8,16 +8,14 @@ import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   final List<ScrollItem> items = [
-    const ScrollItem(
+    ScrollItem(
       "id1",
       "recipe1",
-      urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg",
-      subtitle: "subtitle1"),
-    const ScrollItem(
+      urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg"),
+    ScrollItem(
       "id2",
       "recipe2",
-      urlImage: "https://anitalianinmykitchen.com/wp-content/uploads/2018/04/vertical-cake-sq-1-of-1.jpg",
-      subtitle: "subtitle2"),
+      urlImage: "https://anitalianinmykitchen.com/wp-content/uploads/2018/04/vertical-cake-sq-1-of-1.jpg"),
   ];
 
   late ImageBuilderMock imageBuilderMock;
@@ -65,9 +63,7 @@ void main() {
 
     // Assert
     expect(find.text("recipe1"), findsOneWidget);
-    expect(find.text("subtitle1"), findsOneWidget);
     expect(find.text("recipe2"), findsOneWidget);
-    expect(find.text("subtitle2"), findsOneWidget);
     expect(find.byIcon(Icons.close_rounded), findsNothing);
     expect(find.byIcon(Icons.image), findsNWidgets(2));
   });
@@ -78,9 +74,7 @@ void main() {
 
     // Assert
     expect(find.text("recipe1"), findsOneWidget);
-    expect(find.text("subtitle1"), findsOneWidget);
     expect(find.text("recipe2"), findsOneWidget);
-    expect(find.text("subtitle2"), findsOneWidget);
     expect(find.byIcon(Icons.close_rounded), findsNWidgets(2));
     expect(find.byIcon(Icons.image), findsNWidgets(2));
   });
