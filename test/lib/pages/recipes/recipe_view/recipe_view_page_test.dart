@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
@@ -28,6 +29,13 @@ void main() {
       transformationType: ImageTransformationType.standard,
       errorBuilder: any(named: "errorBuilder")
     )).thenReturn(const Icon(Icons.image));
+
+    registerFallbackValue(
+      GoToInteractionPageAndExpectResult(
+        BuildContextMock(),
+        RecipeInteractionPageArguments(pageType: RecipeInteractionType.create)
+      )
+    );
   });
 
   Widget createWidgetUnderTest() {
@@ -72,6 +80,18 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
+  testWidgets("Floating button (create recipe) works", (widgetTester) async {
+    // Arrange
+    when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
+    await widgetTester.pumpWidget(createWidgetUnderTest());
+
+    // Act
+    await widgetTester.tap(find.byType(CustomFloatingButton));
+
+    // Assert
+    verify(() => recipeViewBlocMock.add(any<RecipeViewEvent>())).called(1);
+  });
+
   testWidgets("Empty recipes to display list", (widgetTester) async {
     // Arrange
     when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
@@ -81,6 +101,8 @@ void main() {
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNothing);
+    expect(find.byType(CustomFloatingButton), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsOneWidget);
   });
 
   testWidgets("Populated recipes to display list", (widgetTester) async {
@@ -103,5 +125,7 @@ void main() {
     expect(find.text("title1"), findsOneWidget);
     expect(find.text("title2"), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNWidgets(2));
+    expect(find.byType(CustomFloatingButton), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsOneWidget);
   });
 }
