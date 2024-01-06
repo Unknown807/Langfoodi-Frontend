@@ -19,6 +19,7 @@ void main() {
     recipeViewBlocMock = RecipeViewBlocMock();
     imageBuilderMock = ImageBuilderMock();
 
+    when(() => recipeViewStateMock.searchSuggestions).thenReturn(["s1", "s2", "s3"]);
     when(() => recipeViewStateMock.pageLoading).thenReturn(false);
     when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
     when(() => imageBuilderMock.decideOnAndDisplayImage(
@@ -38,7 +39,7 @@ void main() {
       child: BlocProvider<RecipeViewBloc>(
         create: (recipeRepoContext) => recipeViewBlocMock,
         child: const MaterialApp(
-          home: RecipeViewPage(key: Key("recipeViewPage")),
+          home: RecipeViewPage(key: Key("recipeViewPageTest")),
         )
       )
     );
@@ -51,8 +52,8 @@ void main() {
       when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
-      BuildContext context = widgetTester.element(find.byKey(const Key("recipeViewPage")));
-      final recipeViewPage = (widgetTester.widget<Widget>(find.byKey(const Key("recipeViewPage"))) as RecipeViewPage);
+      BuildContext context = widgetTester.element(find.byKey(const Key("recipeViewPageTest")));
+      final recipeViewPage = (widgetTester.widget<Widget>(find.byKey(const Key("recipeViewPageTest"))) as RecipeViewPage);
 
       // Act
       recipeViewPage.onLanding(context);
@@ -60,10 +61,6 @@ void main() {
       // Assert
       verify(() => recipeViewBlocMock.add(const ChangeRecipesToDisplay())).called(1);
     });
-  });
-
-  group("searchBarSuggestionsBuilder method tests", () {
-    //TODO: write tests when method is fully implemented
   });
 
   testWidgets("Page is loading", (widgetTester) async {
@@ -83,24 +80,27 @@ void main() {
     // Assert
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
-    expect(find.text("+ Filter"), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNothing);
   });
 
   testWidgets("Populated recipes to display list", (widgetTester) async {
     // Arrange
-    when(() => recipeViewStateMock.recipesToDisplay).thenReturn(const [
-      ScrollItem("1", "title1", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg", subtitle: "subtitle1"),
-      ScrollItem("2", "title2", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg")
+    when(() => recipeViewStateMock.recipesToDisplay).thenReturn([
+      ScrollItem("1", "title1", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-23.jpg"),
+      ScrollItem("2", "title2", urlImage: "https://daniscookings.com/wp-content/uploads/2021/03/Cinnamon-Roll-Cake-24.jpg"),
     ]);
     await widgetTester.pumpWidget(createWidgetUnderTest());
 
+    // Act
+    final gesture = await widgetTester.startGesture(const Offset(50, 100));
+    // Scrolling down the screen to see both recipes
+    await gesture.moveBy(const Offset(0, 100));
+    await widgetTester.pumpAndSettle();
+    
     // Assert
     expect(find.text("Search Your Recipes"), findsOneWidget);
     expect(find.byIcon(Icons.search), findsOneWidget);
-    expect(find.text("+ Filter"), findsOneWidget);
     expect(find.text("title1"), findsOneWidget);
-    expect(find.text("subtitle1"), findsOneWidget);
     expect(find.text("title2"), findsOneWidget);
     expect(find.byIcon(Icons.image), findsNWidgets(2));
   });

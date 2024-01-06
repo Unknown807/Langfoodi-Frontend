@@ -27,7 +27,7 @@ class ItemScrollPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 150),
+        padding: const EdgeInsets.all(8),
         scrollDirection: scrollDirection,
         itemBuilder: (context, index) => buildScrollItem(context, items[index]),
         separatorBuilder: (context, _) => const SizedBox(height: 10),

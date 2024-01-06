@@ -55,13 +55,9 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
               );
             },
             suggestions: state.searchSuggestions,
-            // onSuggestionTap: (suggestion) => context
-            //   .read<RecipeViewBloc>()
-            //   .add(const ResetSearchSuggestions()),
             onSearch: (value) => context
               .read<RecipeViewBloc>()
               .add(SearchTermChanged(value)),
-            //onSuggestionTap: (suggestion) => print(suggestion),
           ),
           floatingActionButton: CustomFloatingButton(
             key: const Key("recipeViewPage"),
@@ -76,58 +72,56 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: state.pageLoading
             ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      BlocBuilder<RecipeViewBloc, RecipeViewState>(
-                        builder: (context, state) {
-                          return state.recipesToDisplay.isEmpty
-                              ? SizedBox(
-                                  height: MediaQuery.of(context).size.height - 200,
-                                  child: const Align(
-                                    alignment: Alignment.center,
-                                    child: Text("No Recipes Yet",
-                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                  ),
-                                )
-                              : ItemScrollPanel(
-                                  titleFontSize: 22,
-                                  hasButton: true,
-                                  buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
-                                  items: state.recipesToDisplay.where((r) => r.show == true).toList(),
-                                  scrollDirection: Axis.vertical,
-                                  imageAspectRatio: 3/4,
-                                  onTapButton: (ScrollItem item) => showDialog(
-                                    context: context,
-                                    builder: (_) => BlocProvider<RecipeViewBloc>.value(
-                                      value: BlocProvider.of<RecipeViewBloc>(context),
-                                      child: CustomAlertDialog(
-                                        title: const Text("Remove Recipe"),
-                                        content: Text("Are you sure you want to remove ${item.title}"),
-                                        rightButtonText: "Remove",
-                                        rightButtonCallback: () => context
-                                          .read<RecipeViewBloc>()
-                                          .add(RemoveRecipe(item.id)),
-                                      )
+            : Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    BlocBuilder<RecipeViewBloc, RecipeViewState>(
+                      builder: (context, state) {
+                        return state.recipesToDisplay.isEmpty
+                            ? SizedBox(
+                                height: MediaQuery.of(context).size.height - 200,
+                                child: const Align(
+                                  alignment: Alignment.center,
+                                  child: Text("No Recipes Yet",
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                ),
+                              )
+                            : ItemScrollPanel(
+                                titleFontSize: 22,
+                                hasButton: true,
+                                buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
+                                items: state.recipesToDisplay.where((r) => r.show).toList(),
+                                scrollDirection: Axis.horizontal,
+                                imageAspectRatio: 3/4,
+                                onTapButton: (ScrollItem item) => showDialog(
+                                  context: context,
+                                  builder: (_) => BlocProvider<RecipeViewBloc>.value(
+                                    value: BlocProvider.of<RecipeViewBloc>(context),
+                                    child: CustomAlertDialog(
+                                      title: const Text("Remove Recipe"),
+                                      content: Text("Are you sure you want to remove ${item.title}"),
+                                      rightButtonText: "Remove",
+                                      rightButtonCallback: () => context
+                                        .read<RecipeViewBloc>()
+                                        .add(RemoveRecipe(item.id)),
                                     )
-                                  ),
-                                  onTap: (ScrollItem item) => context
-                                    .read<RecipeViewBloc>()
-                                    .add(GoToInteractionPageAndExpectResult(
-                                      context, RecipeInteractionPageArguments(
-                                        pageType: RecipeInteractionType.readonly,
-                                        recipeId: item.id)
-                                    ))
-                                );
-                      })
-                    ],
-                  ),
-                )
-            )
-        );
+                                  )
+                                ),
+                                onTap: (ScrollItem item) => context
+                                  .read<RecipeViewBloc>()
+                                  .add(GoToInteractionPageAndExpectResult(
+                                    context, RecipeInteractionPageArguments(
+                                      pageType: RecipeInteractionType.readonly,
+                                      recipeId: item.id)
+                                  ))
+                              );
+                    })
+                  ],
+                ),
+              )
+          );
       }
     );
   }
