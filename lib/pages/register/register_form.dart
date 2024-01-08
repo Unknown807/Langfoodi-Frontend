@@ -33,7 +33,21 @@ class RegisterForm extends StatelessWidget {
               ConfirmPasswordInput(),
             ])),
         const SizedBox(height: 20),
-        const RegisterButton()
+        const RegisterButton(),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text("Already got an account?    ",
+              style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1))),
+            CustomTextButton(
+              eventFunc: () => context
+                .read<NavigationRepository>()
+                .goTo(context, "/login", routeType: RouteType.backLink),
+              text: "Sign In",
+              fontSize: 16),
+          ],
+        ),
       ]),
     );
   }
