@@ -33,6 +33,9 @@ void main() {
       final BoxDecoration boxDeco = imgContainer.decoration! as BoxDecoration;
       expect(boxDeco.image!.image, const AssetImage("assets/images/background.png"));
       expect(find.text("Welcome"), findsOneWidget);
+      expect(find.text("Sign Up"), findsOneWidget);
+      expect(find.text("Already got an account?    "), findsOneWidget);
+      expect(find.text("Sign In"), findsOneWidget);
       expect(find.byType(RegisterForm), findsOneWidget);
     });
   });
