@@ -46,7 +46,9 @@ class LoginForm extends StatelessWidget {
                     color: Color.fromRGBO(143, 148, 251, 1),
                   )),
               CustomTextButton(
-                  eventFunc: () { context.read<NavigationRepository>().goTo(context, "/register"); },
+                  eventFunc: () => context
+                    .read<NavigationRepository>()
+                    .goTo(context, "/register"),
                   text: "Sign Up",
                   fontSize: 16),
             ],
