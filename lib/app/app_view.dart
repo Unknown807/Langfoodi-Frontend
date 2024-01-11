@@ -5,6 +5,8 @@ class App extends StatelessWidget {
     super.key,
     required this.authRepo,
     required this.navigationRepo,
+    required this.imageRepo,
+    required this.recipeRepo,
     required this.imageTransformationBuilder,
     required this.imageBuilder
   });
@@ -12,6 +14,8 @@ class App extends StatelessWidget {
   // Repositories
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
+  final ImageRepository imageRepo;
+  final RecipeRepository recipeRepo;
 
   // Widget Utilities
   final ImageTransformationBuilder imageTransformationBuilder;
@@ -23,6 +27,8 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (_) => authRepo),
           RepositoryProvider(create: (_) => navigationRepo),
+          RepositoryProvider(create: (_) => imageRepo),
+          RepositoryProvider(create: (_) => recipeRepo),
           RepositoryProvider(create: (_) => imageTransformationBuilder),
           RepositoryProvider(create: (_) => imageBuilder)
         ],

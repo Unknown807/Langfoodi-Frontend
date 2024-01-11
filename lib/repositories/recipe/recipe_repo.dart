@@ -7,18 +7,10 @@ part 'contracts/new_recipe_contract.dart';
 part 'contracts/update_recipe_contract.dart';
 
 class RecipeRepository {
-  static final RecipeRepository _instance = RecipeRepository._internal();
+  RecipeRepository(this.request, this.jsonWrapper);
 
   late Request request;
   late JsonWrapper jsonWrapper;
-
-  RecipeRepository._internal();
-
-  factory RecipeRepository([Request? request, JsonWrapper? jsonWrapper]) {
-    _instance.request = request ?? _instance.request;
-    _instance.jsonWrapper = jsonWrapper ?? _instance.jsonWrapper;
-    return _instance;
-  }
 
   Future<RecipeDetailed?> getRecipeById(String id) async {
     final response = await request.postWithoutBody("/recipe/get/id?id=$id");

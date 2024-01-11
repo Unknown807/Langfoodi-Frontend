@@ -9,9 +9,9 @@ import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   Widget createWidgetUnderTest() {
-    RecipeRepository(RequestMock(), JsonWrapperMock());
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<RecipeRepository>(create: (_) => RecipeRepositoryMock()),
         RepositoryProvider<AuthenticationRepository>(create: (_) => AuthenticationRepositoryMock()),
         RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock())
       ],

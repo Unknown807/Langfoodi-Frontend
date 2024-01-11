@@ -13,6 +13,7 @@ import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -29,6 +30,7 @@ class FunctionMock extends Mock { void call([dynamic parameter]); }
 class FileSystemMock extends Mock implements FileSystem {}
 class FileMock extends Mock implements File {}
 class InputStateMock extends Mock implements InputState {}
+class ImageRepositoryMock extends Mock implements ImageRepository {}
 class ImageBuilderMock extends Mock implements ImageBuilder {}
 class ImageTransformationBuilderMock extends Mock implements ImageTransformationBuilder {}
 class JsonWrapperMock extends Mock implements JsonWrapper {}
