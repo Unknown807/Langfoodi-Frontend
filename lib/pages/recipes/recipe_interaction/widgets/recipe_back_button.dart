@@ -11,20 +11,29 @@ class RecipeBackButton extends StatelessWidget {
         color: Colors.indigoAccent,
         size: 30,
       ),
-      onPressed: () => showDialog(
-        context: context,
-        builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
-          value: BlocProvider.of<RecipeInteractionBloc>(context),
-          child: CustomAlertDialog(
-            title: const Text("Go Back"),
-            content: const Text("Are you sure you want to go back?"),
-            rightButtonText: "Back",
-            rightButtonCallback: () => context
-              .read<NavigationRepository>()
-              .goTo(context, "home", routeType: RouteType.backLink),
-          )
-        )
-      ),
+      onPressed: () {
+        final bloc = BlocProvider.of<RecipeInteractionBloc>(context);
+        if (bloc.state.pageType == RecipeInteractionType.readonly) {
+          context
+            .read<NavigationRepository>()
+            .goTo(context, "home", routeType: RouteType.backLink);
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
+              value: bloc,
+              child: CustomAlertDialog(
+                title: const Text("Go Back"),
+                content: const Text("Are you sure you want to go back?"),
+                rightButtonText: "Back",
+                rightButtonCallback: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "home", routeType: RouteType.backLink),
+              )
+            )
+          );
+        }
+      }
     );
   }
 }
