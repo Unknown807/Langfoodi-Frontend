@@ -46,13 +46,11 @@ Future<void> main() async {
   final imageTransformationBuilder = ImageTransformationBuilder();
   final imageBuilder = ImageBuilder(imageTransformationBuilder, localFileSystem);
 
-  // Singleton Repositories
-  RecipeRepository(request, jsonWrapper);
-  ImageRepository(request, jsonWrapper, cloudinaryConfig);
-
-  // Top-level Repositories
-  final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
+  // Repositories
   final navigationRepo = NavigationRepository();
+  final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
+  final imageRepo = ImageRepository(request, jsonWrapper, cloudinaryConfig);
+  final recipeRepo = RecipeRepository(request, jsonWrapper);
 
   // The below 2 lines are used for manual testing purposes:
   // localStore.deleteKey("loggedInUser");
@@ -63,6 +61,8 @@ Future<void> main() async {
   runApp(App(
     authRepo: authRepo,
     navigationRepo: navigationRepo,
+    imageRepo: imageRepo,
+    recipeRepo: recipeRepo,
     imageTransformationBuilder: imageTransformationBuilder,
     imageBuilder: imageBuilder
   ));

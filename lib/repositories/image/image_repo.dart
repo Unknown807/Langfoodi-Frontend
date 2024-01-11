@@ -9,22 +9,13 @@ part 'models/hosted_image.dart';
 part 'models/signature.dart';
 
 class ImageRepository {
-  static final ImageRepository _instance = ImageRepository._internal();
+  ImageRepository(this.request, this.jsonWrapper, this.cloudinaryConfig);
+
   final String baseUrl = "https://api.cloudinary.com";
 
   late Request request;
   late Cloudinary cloudinaryConfig;
   late JsonWrapper jsonWrapper;
-
-  ImageRepository._internal();
-
-  factory ImageRepository([Request? request, JsonWrapper? jsonWrapper, Cloudinary? cloudinaryConfig]) {
-    _instance.request = request ?? _instance.request;
-    _instance.jsonWrapper = jsonWrapper ?? _instance.jsonWrapper;
-    _instance.cloudinaryConfig = cloudinaryConfig ?? _instance.cloudinaryConfig;
-
-    return _instance;
-  }
 
   Future<Signature?> getSignature() async {
     final response = await request.postWithoutBody("/image/get/cloudinary-signature");
