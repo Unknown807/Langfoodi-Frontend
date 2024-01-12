@@ -10,6 +10,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class RecipeInteractionPage extends StatelessWidget {
@@ -30,9 +31,10 @@ class RecipeInteractionPage extends StatelessWidget {
 
     return BlocProvider<RecipeInteractionBloc>(
       create: (_) => RecipeInteractionBloc(
-          context.read<AuthenticationRepository>(),
-          context.read<RecipeRepository>(),
-          context.read<ImageRepository>())
+        context.read<AuthenticationRepository>(),
+        context.read<RecipeRepository>(),
+        context.read<ImageRepository>(),
+        context.read<NetworkManager>())
       ..add(InitState(pageType, recipeId)),
       child: BlocConsumer<RecipeInteractionBloc, RecipeInteractionState>(
           listener: (context, state) {

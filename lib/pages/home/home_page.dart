@@ -21,7 +21,8 @@ class HomePage extends StatelessWidget {
       create: (recipeRepoContext) => RecipeViewBloc(
         context.read<AuthenticationRepository>(),
         context.read<NavigationRepository>(),
-        context.read<RecipeRepository>()),
+        context.read<RecipeRepository>(),
+        context.read<NetworkManager>()),
       child: const NavBarView(
         widgetPages: [
           ConversationListPage(),

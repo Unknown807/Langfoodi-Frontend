@@ -73,10 +73,10 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                         return state.recipesToDisplay.isEmpty
                             ? SizedBox(
                                 height: MediaQuery.of(context).size.height - 200,
-                                child: const Align(
+                                child: Align(
                                   alignment: Alignment.center,
-                                  child: Text("No Recipes Yet",
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                  child: Text(state.networkIssue ? "Network Issue! Can't Get Recipes" : "No Recipes Yet",
+                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                                 ),
                               )
                             : ItemScrollPanel(
