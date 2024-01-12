@@ -42,7 +42,7 @@ Future<void> main() async {
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 
-  // Widget Utilities
+  final networkManager = NetworkManager();
   final imageTransformationBuilder = ImageTransformationBuilder();
   final imageBuilder = ImageBuilder(imageTransformationBuilder, localFileSystem);
 
@@ -64,7 +64,8 @@ Future<void> main() async {
     imageRepo: imageRepo,
     recipeRepo: recipeRepo,
     imageTransformationBuilder: imageTransformationBuilder,
-    imageBuilder: imageBuilder
+    imageBuilder: imageBuilder,
+    networkManager: networkManager,
   ));
 
   //localStore.deleteKey("loggedInUser");

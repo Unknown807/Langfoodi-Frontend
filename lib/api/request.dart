@@ -9,8 +9,8 @@ class Request {
   //final String baseUrl = "https://10.0.2.2:7120";
 
   final Duration timeoutDuration = const Duration(seconds: 10);
-  final http.Response generalExceptionResponse = http.Response("unknown error", 500);
-  final http.Response timeoutExceptionResponse = http.Response("timeout error", 408);
+  final http.Response generalExceptionResponse = http.Response("Unknown Error", 500);
+  final http.Response timeoutExceptionResponse = http.Response("Timeout Error", 408);
 
   final String baseUrl = "https://localhost:7120";
   final Map<String, String> baseHeaders = {
