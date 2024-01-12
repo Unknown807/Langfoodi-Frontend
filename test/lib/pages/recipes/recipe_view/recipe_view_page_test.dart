@@ -22,6 +22,7 @@ void main() {
 
     when(() => recipeViewStateMock.searchSuggestions).thenReturn(["s1", "s2", "s3"]);
     when(() => recipeViewStateMock.pageLoading).thenReturn(false);
+    when(() => recipeViewStateMock.networkIssue).thenReturn(false);
     when(() => recipeViewBlocMock.state).thenReturn(recipeViewStateMock);
     when(() => imageBuilderMock.decideOnAndDisplayImage(
       isAsset: true,
@@ -69,6 +70,16 @@ void main() {
       // Assert
       verify(() => recipeViewBlocMock.add(const ChangeRecipesToDisplay())).called(1);
     });
+  });
+
+  testWidgets("Page is loading", (widgetTester) async {
+    // Arrange
+    when(() => recipeViewStateMock.networkIssue).thenReturn(true);
+    when(() => recipeViewStateMock.recipesToDisplay).thenReturn([]);
+    await widgetTester.pumpWidget(createWidgetUnderTest());
+
+    // Assert
+    expect(find.text("Network Issue! Can't Get Recipes"), findsOneWidget);
   });
 
   testWidgets("Page is loading", (widgetTester) async {

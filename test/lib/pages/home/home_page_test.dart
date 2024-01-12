@@ -5,6 +5,7 @@ import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
@@ -13,7 +14,8 @@ void main() {
       providers: [
         RepositoryProvider<RecipeRepository>(create: (_) => RecipeRepositoryMock()),
         RepositoryProvider<AuthenticationRepository>(create: (_) => AuthenticationRepositoryMock()),
-        RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock())
+        RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock()),
+        RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock())
       ],
       child: const MaterialApp(
         home: HomePage(),

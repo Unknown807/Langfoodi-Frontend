@@ -13,6 +13,7 @@ void main() {
   late NavigationRepositoryMock navigationRepositoryMock;
   late AuthenticationRepositoryMock authRepoMock;
   late RecipeRepositoryMock recipeRepoMock;
+  late NetworkManagerMock networkManagerMock;
 
   final recipes = [
     Recipe("1", "title1", "desc1", "thumbnailId1", "user1",
@@ -41,9 +42,11 @@ void main() {
     navigationRepositoryMock = NavigationRepositoryMock();
     authRepoMock = AuthenticationRepositoryMock();
     recipeRepoMock = RecipeRepositoryMock();
+    networkManagerMock = NetworkManagerMock();
 
     when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(user));
     when(() => recipeRepoMock.getRecipesFromUserId(any())).thenAnswer((invocation) => Future.value(recipes));
+    when(() => networkManagerMock.isNetworkConnected()).thenAnswer((invocation) => Future.value(true));
 
     registerFallbackValue(BuildContextMock());
   });
@@ -52,7 +55,7 @@ void main() {
     blocTest("recipe removal success",
       build: () {
         when(() => recipeRepoMock.removeRecipe("recipeId1")).thenAnswer((invocation) => Future.value(true));
-        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock);
+        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock);
       },
       act: (bloc) => bloc.add(const RemoveRecipe("recipeId1")),
       expect: () => [
@@ -64,7 +67,7 @@ void main() {
     blocTest("recipe removal failure",
       build: () {
         when(() => recipeRepoMock.removeRecipe("recipeId1")).thenAnswer((invocation) => Future.value(false));
-        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock);
+        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock);
       },
       act: (bloc) => bloc.add(const RemoveRecipe("recipeId1")),
       expect: () => [
@@ -76,11 +79,18 @@ void main() {
 
   group("_searchTermChanged method tests", () {
     blocTest("same search term as previously, so ignore",
-        build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock)
-          ..add(const ChangeRecipesToDisplay())
-          ..add(const SearchTermChanged("title")),
-        act: (bloc) => bloc.add(const SearchTermChanged("t")),
+        build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock),
+        act: (bloc) {
+          bloc.add(const ChangeRecipesToDisplay());
+          Future.delayed(const Duration(milliseconds: 100), () {
+            bloc.add(const SearchTermChanged("title"));
+            Future.delayed(const Duration(milliseconds: 100), () {
+              bloc.add(const SearchTermChanged("t"));
+            });
+          });
+        },
         skip: 3,
+        wait: const Duration(milliseconds: 400),
         expect: () => [
           RecipeViewState(
             prevSearchTerm: "t",
@@ -98,7 +108,7 @@ void main() {
     );
 
     blocTest("empty search term, so show=true on all recipes",
-      build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock)
+      build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock)
         ..add(const ChangeRecipesToDisplay())
         ..add(const SearchTermChanged("a")),
       act: (bloc) => bloc.add(const SearchTermChanged("")),
@@ -120,11 +130,18 @@ void main() {
     );
 
     blocTest("non-empty search term, so show=false on some recipes",
-        build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock)
-          ..add(const ChangeRecipesToDisplay())
-          ..add(const SearchTermChanged("t")),
-        act: (bloc) => bloc.add(const SearchTermChanged("title")),
+        build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock),
+        act: (bloc) {
+          bloc.add(const ChangeRecipesToDisplay());
+          Future.delayed(const Duration(milliseconds: 100), () {
+            bloc.add(const SearchTermChanged("t"));
+            Future.delayed(const Duration(milliseconds: 100), () {
+              bloc.add(const SearchTermChanged("title"));
+            });
+          });
+        },
         skip: 3,
+        wait: const Duration(milliseconds: 400),
         expect: () => [
           RecipeViewState(
             prevSearchTerm: "title",
@@ -150,7 +167,7 @@ void main() {
             routeType: RouteType.expect, arguments: any(named: "arguments")))
         .thenAnswer((invocation) => Future.value(null));
 
-        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock);
+        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock);
       },
       act: (bloc) => bloc.add(GoToInteractionPageAndExpectResult(
         BuildContextMock(), RecipeInteractionPageArguments(pageType: RecipeInteractionType.create))),
@@ -160,7 +177,7 @@ void main() {
 
   group("_changeRecipesToDisplay method tests", () {
     blocTest("list of scrollable recipes is emitted",
-      build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock),
+      build: () => RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock),
       act: (bloc) => bloc.add(const ChangeRecipesToDisplay()),
       expect: () => [
         const RecipeViewState(pageLoading: true, dialogTitle: "", dialogMessage: "", recipesToDisplay: []),
@@ -176,6 +193,18 @@ void main() {
             ScrollItem("5", "recipe5", urlImage: "thumbnailId5"),
             ScrollItem("6", "recipe6", urlImage: "thumbnailId6")
         ])
+      ]
+    );
+
+    blocTest("network connectivity issue, no recipes retrieved",
+      build: () {
+        when(() => networkManagerMock.isNetworkConnected()).thenAnswer((invocation) => Future.value(false));
+        return RecipeViewBloc(authRepoMock, navigationRepositoryMock, recipeRepoMock, networkManagerMock);
+      },
+      skip: 1,
+      act: (bloc) => bloc.add(const ChangeRecipesToDisplay()),
+      expect: () => [
+        const RecipeViewState(pageLoading: false, networkIssue: true)
       ]
     );
   });
