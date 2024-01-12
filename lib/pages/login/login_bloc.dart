@@ -31,15 +31,14 @@ class LoginBloc extends FormBloc {
       errorMessage = "Fields can't be empty";
     } else {
       emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
-
       errorMessage = await _authRepo.loginWithHandlerOrEmail(
-          state.email.value, state.password.value);
+        state.email.value, state.password.value);
     }
 
     emit(state.copyWith(
-        errorMessage: errorMessage,
-        formStatus: errorMessage.isEmpty
-            ? FormzSubmissionStatus.success
-            : FormzSubmissionStatus.failure));
+      errorMessage: errorMessage,
+      formStatus: errorMessage.isEmpty
+          ? FormzSubmissionStatus.success
+          : FormzSubmissionStatus.failure));
   }
 }
