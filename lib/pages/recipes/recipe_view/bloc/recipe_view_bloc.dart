@@ -8,6 +8,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'recipe_view_bloc.dart';
@@ -15,13 +16,14 @@ part 'recipe_view_event.dart';
 part 'recipe_view_state.dart';
 
 class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
-  RecipeViewBloc(this._authRepo, this._navigationRepo, this._recipeRepo) : super(const RecipeViewState()) {
+  RecipeViewBloc(this._authRepo, this._navigationRepo, this._recipeRepo, this._networkManager) : super(const RecipeViewState()) {
     on<ChangeRecipesToDisplay>(_changeRecipesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
     on<RemoveRecipe>(_removeRecipe);
     on<SearchTermChanged>(_searchTermChanged);
   }
 
+  final NetworkManager _networkManager;
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
@@ -93,6 +95,11 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
   void _changeRecipesToDisplay(ChangeRecipesToDisplay event, Emitter<RecipeViewState> emit) async {
     emit(state.copyWith(pageLoading: true, dialogTitle: "", dialogMessage: ""));
 
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(pageLoading: false, networkIssue: true));
+    }
+
     String? userId = (await _authRepo.currentUser).id;
     List<Recipe> newRecipes = await _recipeRepo.getRecipesFromUserId(userId!);
     List<ScrollItem> scrollableRecipes = newRecipes.map(
@@ -102,6 +109,7 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
     emit(
       state.copyWith(
         pageLoading: false,
+        networkIssue: false,
         recipesToDisplay: scrollableRecipes,
       )
     );

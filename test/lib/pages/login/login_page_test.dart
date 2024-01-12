@@ -4,19 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
-  late AuthenticationRepositoryMock authRepoMock;
-
-  setUp(() {
-    authRepoMock = AuthenticationRepositoryMock();
-  });
-
   Widget createWidgetUnderTest() {
     return MaterialApp(
-      home: RepositoryProvider<AuthenticationRepository>(
-        create: (context) => authRepoMock,
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthenticationRepository>(create: (_) => AuthenticationRepositoryMock()),
+          RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock())
+        ],
         child: const LoginPage(),
       ),
     );

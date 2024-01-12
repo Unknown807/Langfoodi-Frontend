@@ -8,9 +8,11 @@ class RecipeViewState extends Equatable {
     this.recipesToDisplay = const [],
     this.searchSuggestions = const [],
     this.prevSearchTerm = "",
+    this.networkIssue = false,
   });
 
   final bool pageLoading;
+  final bool networkIssue;
   final String dialogTitle;
   final String dialogMessage;
   final String prevSearchTerm;
@@ -21,7 +23,8 @@ class RecipeViewState extends Equatable {
   List<Object?> get props => [
     recipesToDisplay, dialogTitle,
     pageLoading, dialogMessage,
-    searchSuggestions, prevSearchTerm
+    searchSuggestions, prevSearchTerm,
+    networkIssue,
   ];
 
   RecipeViewState copyWith({
@@ -30,7 +33,8 @@ class RecipeViewState extends Equatable {
     String? dialogMessage,
     List<ScrollItem>? recipesToDisplay,
     List<String>? searchSuggestions,
-    String? prevSearchTerm
+    String? prevSearchTerm,
+    bool? networkIssue
   }) {
     return RecipeViewState(
       pageLoading: pageLoading ?? this.pageLoading,
@@ -38,7 +42,8 @@ class RecipeViewState extends Equatable {
       dialogMessage: dialogMessage ?? this.dialogMessage,
       recipesToDisplay: recipesToDisplay ?? this.recipesToDisplay,
       searchSuggestions: searchSuggestions ?? this.searchSuggestions,
-      prevSearchTerm: prevSearchTerm ?? this.prevSearchTerm
+      prevSearchTerm: prevSearchTerm ?? this.prevSearchTerm,
+      networkIssue: networkIssue ?? this.networkIssue
     );
   }
 }

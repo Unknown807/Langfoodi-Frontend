@@ -14,6 +14,7 @@ void main() {
   late ImageRepositoryMock imageRepoMock;
   late ImageTransformationBuilderMock imageTransformationBuilderMock;
   late ImageBuilderMock imageBuilderMock;
+  late NetworkManagerMock networkManagerMock;
 
   setUp(() {
     recipeRepoMock = RecipeRepositoryMock();
@@ -22,6 +23,7 @@ void main() {
     navigRepoMock = NavigationRepositoryMock();
     imageBuilderMock = ImageBuilderMock();
     imageTransformationBuilderMock = ImageTransformationBuilderMock();
+    networkManagerMock = NetworkManagerMock();
   });
 
   Widget createWidgetUnderTest() {
@@ -32,6 +34,7 @@ void main() {
       recipeRepo: recipeRepoMock,
       imageBuilder: imageBuilderMock,
       imageTransformationBuilder: imageTransformationBuilderMock,
+      networkManager: networkManagerMock,
     );
   }
 

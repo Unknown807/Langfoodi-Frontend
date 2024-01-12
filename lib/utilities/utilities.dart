@@ -7,6 +7,7 @@ import 'package:file/file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 export 'utilities.dart';
 
@@ -19,3 +20,4 @@ part 'multipart_file_provider.dart';
 part 'image_builder/image_builder.dart';
 part 'image_builder/image_transformation_builder.dart';
 part 'image_builder/image_transformation_type.dart';
+part 'network_manager.dart';

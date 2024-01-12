@@ -8,7 +8,8 @@ class App extends StatelessWidget {
     required this.imageRepo,
     required this.recipeRepo,
     required this.imageTransformationBuilder,
-    required this.imageBuilder
+    required this.imageBuilder,
+    required this.networkManager
   });
 
   // Repositories
@@ -17,9 +18,10 @@ class App extends StatelessWidget {
   final ImageRepository imageRepo;
   final RecipeRepository recipeRepo;
 
-  // Widget Utilities
+  // Utilities
   final ImageTransformationBuilder imageTransformationBuilder;
   final ImageBuilder imageBuilder;
+  final NetworkManager networkManager;
   
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,8 @@ class App extends StatelessWidget {
           RepositoryProvider(create: (_) => imageRepo),
           RepositoryProvider(create: (_) => recipeRepo),
           RepositoryProvider(create: (_) => imageTransformationBuilder),
-          RepositoryProvider(create: (_) => imageBuilder)
+          RepositoryProvider(create: (_) => imageBuilder),
+          RepositoryProvider(create: (_) => networkManager)
         ],
         child: BlocProvider(
           create: (_) => AppBloc(authRepo: authRepo),
