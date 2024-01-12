@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -42,7 +43,10 @@ class LoginPage extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: BlocProvider<LoginBloc>(
-                        create: (_) => LoginBloc(authRepo: context.read<AuthenticationRepository>()),
+                        create: (_) => LoginBloc(
+                          authRepo: context.read<AuthenticationRepository>(),
+                          networkManager: context.read<NetworkManager>()
+                        ),
                         child: const LoginForm(),
                       ))
                 ]))));

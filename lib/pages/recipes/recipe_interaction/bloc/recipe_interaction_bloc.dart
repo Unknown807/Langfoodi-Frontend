@@ -124,9 +124,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       ingredientList: recipe.ingredients,
       recipeStepList: recipe.recipeSteps,
       currentRecipeStepImageIds: recipe.recipeSteps
-          .where((rs) => rs.imageUrl != null)
-          .map((rs) => rs.imageUrl as String)
-          .toList(),
+        .where((rs) => rs.imageUrl != null)
+        .map((rs) => rs.imageUrl as String)
+        .toList(),
       servingNumber: ServingNumber.dirty(recipe.numberOfServings?.toString() ?? ""),
       servingQuantity: ServingQuantity.dirty(recipe.servingQuantity?.toString() ?? ""),
       servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
