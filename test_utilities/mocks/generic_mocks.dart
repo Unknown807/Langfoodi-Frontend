@@ -41,6 +41,7 @@ class MultipartFileMock extends Mock implements http.MultipartFile {}
 class MultipartFileProviderMock extends Mock implements MultipartFileProvider {}
 class NavigationRepositoryMock extends Mock implements NavigationRepository {}
 class NavigatorObserverMock extends Mock implements NavigatorObserver {}
+class NetworkManagerMock extends Mock implements NetworkManager {}
 class ResponseMock extends Mock implements http.Response {}
 class RequestMock extends Mock implements Request {}
 class RegisterBlocMock extends MockBloc<InputEvent, InputState> implements RegisterBloc {}
