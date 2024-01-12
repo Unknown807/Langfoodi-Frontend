@@ -52,8 +52,8 @@ Future<void> main() async {
   final imageRepo = ImageRepository(request, jsonWrapper, cloudinaryConfig);
   final recipeRepo = RecipeRepository(request, jsonWrapper);
 
-  // The below 2 lines are used for manual testing purposes:
-  // localStore.deleteKey("loggedInUser");
+  // The below 2 (commented out) lines are used for manual testing purposes:
+
   //HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +66,8 @@ Future<void> main() async {
     imageTransformationBuilder: imageTransformationBuilder,
     imageBuilder: imageBuilder
   ));
+
+  //localStore.deleteKey("loggedInUser");
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
 }
