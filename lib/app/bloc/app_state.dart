@@ -9,10 +9,6 @@ final class AppState extends Equatable {
   final AppStatus status;
   final ThemeMode themeMode;
 
-  // const AppState.loading() : this._(status: AppStatus.loading);
-  // const AppState.authenticated() : this._(status: AppStatus.authenticated);
-  // const AppState.unauthenticated() : this._(status: AppStatus.unauthenticated);
-
   @override
   List<Object> get props => [status, themeMode];
 

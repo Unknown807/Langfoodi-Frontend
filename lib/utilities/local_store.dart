@@ -9,8 +9,8 @@ class LocalStore {
     return await _storage.containsKey(key: key);
   }
 
-  Future<String> getKey(String key) async {
-    return await _storage.read(key: key) ?? "";
+  Future<String?> getKey(String key) async {
+    return await _storage.read(key: key);
   }
 
   void setKey(String key, String value) async {
