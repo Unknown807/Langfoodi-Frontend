@@ -66,6 +66,7 @@ Future<void> main() async {
     imageTransformationBuilder: imageTransformationBuilder,
     imageBuilder: imageBuilder,
     networkManager: networkManager,
+    localStore: localStore,
   ));
 
   //localStore.deleteKey("loggedInUser");
