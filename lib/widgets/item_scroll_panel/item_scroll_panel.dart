@@ -46,7 +46,13 @@ class ItemScrollPanel extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text(item.title, softWrap: false, style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.normal))
+                  child: Text(item.title,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onBackground
+                    ))
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),

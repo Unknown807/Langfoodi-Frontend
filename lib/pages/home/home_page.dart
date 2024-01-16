@@ -28,9 +28,8 @@ class HomePage extends StatelessWidget {
           ConversationListPage(),
           RecipeViewPage(),
           PlaceholderPage(),
-          PlaceholderPage()
         ],
-        onLandOnce: [false, true, false, false],
+        onLandOnce: [false, true, false],
       ));
   }
 }

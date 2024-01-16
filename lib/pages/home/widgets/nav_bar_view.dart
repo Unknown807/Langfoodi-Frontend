@@ -28,9 +28,7 @@ class NavBarViewState extends State<NavBarView> {
   }
 
   void _onItemTapped(int index) {
-    if (_onLandOnce[index] && !_landed[index]) {
-      (_widgetPages[index] as PageLander).onLanding(context);
-    } else if (!_onLandOnce[index]) {
+    if ((_onLandOnce[index] && !_landed[index]) || !_onLandOnce[index]) {
       (_widgetPages[index] as PageLander).onLanding(context);
     }
 
@@ -64,14 +62,11 @@ class NavBarViewState extends State<NavBarView> {
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          )
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple,
-        unselectedItemColor: Colors.black,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.background,
         onTap: _onItemTapped,
       ),
     );
