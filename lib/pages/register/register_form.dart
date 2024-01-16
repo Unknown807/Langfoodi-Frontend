@@ -19,11 +19,11 @@ class RegisterForm extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                      color: Color.fromRGBO(143, 148, 251, .2),
+                      color: Theme.of(context).colorScheme.primary.withAlpha(50),
                       blurRadius: 20.0,
-                      offset: Offset(0, 10))
+                      offset: const Offset(0, 10))
                 ]),
             child: const Column(children: <Widget>[
               HandlerInput(),
@@ -39,7 +39,7 @@ class RegisterForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Already got an account?    ",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+              style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
             CustomTextButton(
               eventFunc: () => context
                 .read<NavigationRepository>()

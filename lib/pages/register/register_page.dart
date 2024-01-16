@@ -11,7 +11,6 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
             reverse: true,
             child: Padding(
