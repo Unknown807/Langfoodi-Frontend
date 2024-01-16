@@ -87,7 +87,7 @@ class FormInput extends StatelessWidget {
               onChanged: (value) => eventFunc(value),
               style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
               decoration: InputDecoration(
-                focusColor: Colors.red,
+                //focusColor: Colors.red,
                 border: InputBorder.none,
                 hintText: hintText,
                 labelText: labelText,

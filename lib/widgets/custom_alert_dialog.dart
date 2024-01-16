@@ -34,6 +34,11 @@ class CustomAlertDialog extends StatelessWidget {
     return AlertDialog(
       title: title,
       content: content,
+      titleTextStyle: TextStyle(
+        fontSize: 20, color: Theme.of(context).colorScheme.onSurface),
+      contentTextStyle: TextStyle(
+        fontSize:16, color: Theme.of(context).colorScheme.onSurface),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       actions: [
         leftButtonText == null
             ? const SizedBox()
@@ -43,15 +48,14 @@ class CustomAlertDialog extends StatelessWidget {
                   context.read<NavigationRepository>().dismissDialog(context);
                 },
                 style: btnStyle,
-                child: Text(leftButtonText!),
-        ),
+                child: Text(leftButtonText!)),
         TextButton(
-            onPressed: () {
-              rightButtonCallback?.call();
-              context.read<NavigationRepository>().dismissDialog(context);
-            },
-            style: btnStyle,
-            child: Text(rightButtonText))
+          onPressed: () {
+            rightButtonCallback?.call();
+            context.read<NavigationRepository>().dismissDialog(context);
+          },
+          style: btnStyle,
+          child: Text(rightButtonText))
       ],
     );
   }

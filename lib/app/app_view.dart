@@ -74,9 +74,9 @@ class _AppView extends StatelessWidget {
               onBackground: Colors.black,
               surface: Colors.white,
               onSurface: Colors.black,
-              surfaceVariant: Colors.grey,
               shadow: Colors.green.withAlpha(50)
             ),
+            hintColor: Colors.grey,
             textTheme: const TextTheme(
               displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
             ),

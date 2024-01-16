@@ -74,19 +74,18 @@ class RecipeInteractionPage extends StatelessWidget {
                 ? const Scaffold(body: Center(child: CircularProgressIndicator()))
                 : Scaffold(
                     appBar: AppBar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.background,
                       elevation: 0.5,
                       title: const riw.RecipeTitleInput(),
                       leading: const riw.RecipeBackButton(),
                       actions: readonly
-                          ? <Widget>[
-                              state.recipeOwned
-                                ? const riw.RecipeEnableEditButton()
-                                : const SizedBox(width: 50)]
-                          : const <Widget>[riw.RecipeSubmitButton()],
+                        ? <Widget>[
+                            state.recipeOwned
+                              ? const riw.RecipeEnableEditButton()
+                              : const SizedBox(width: 50)]
+                        : const <Widget>[riw.RecipeSubmitButton()],
                     ),
                     resizeToAvoidBottomInset: false,
-                    backgroundColor: Colors.white,
                     body: SingleChildScrollView(
                         reverse: true,
                         child: Padding(

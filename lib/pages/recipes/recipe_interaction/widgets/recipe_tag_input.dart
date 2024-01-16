@@ -36,12 +36,13 @@ class RecipeTagInput extends StatelessWidget {
                   child: IconButton(
                     padding: const EdgeInsets.only(right: 1),
                     splashRadius: 20,
-                    icon: const Icon(Icons.add_circle_outline_rounded, size: 25, color: Colors.blue,),
-                    onPressed: () {
-                      context
-                          .read<RecipeInteractionBloc>()
-                          .add(const AddNewRecipeTagFromButton());
-                    },
+                    icon: Icon(
+                      Icons.add_circle_outline_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                      size: 25),
+                    onPressed: () => context
+                      .read<RecipeInteractionBloc>()
+                      .add(const AddNewRecipeTagFromButton()),
                   ),
                 ),
               ]

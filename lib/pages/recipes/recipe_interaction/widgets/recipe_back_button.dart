@@ -6,9 +6,9 @@ class RecipeBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
+      icon: Icon(
         Icons.arrow_circle_left_outlined,
-        color: Colors.indigoAccent,
+        color: Theme.of(context).colorScheme.tertiary,
         size: 30,
       ),
       onPressed: () {

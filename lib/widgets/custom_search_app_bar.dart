@@ -21,8 +21,8 @@ class CustomSearchAppBar extends StatelessWidget implements PreferredSizeWidget 
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onPrimary, size: 25),
       title: Text(title, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
       searchHintText: hintText,
-      searchBackgroundColor: Theme.of(context).colorScheme.surface,
-      searchHintStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.surfaceVariant),
+      searchBackgroundColor: Theme.of(context).colorScheme.background,
+      searchHintStyle: TextStyle(fontSize: 20, color: Theme.of(context).hintColor),
       searchTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onSurface),
       searchClearIconTheme: IconThemeData(color: Theme.of(context).colorScheme.tertiary),
       searchBackIconTheme: IconThemeData(color: Theme.of(context).colorScheme.tertiary),
@@ -30,7 +30,10 @@ class CustomSearchAppBar extends StatelessWidget implements PreferredSizeWidget 
       suggestionBuilder: (suggestion) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Text(suggestion, style: const TextStyle(fontSize: 18)),
+          child: Text(suggestion,
+            style: TextStyle(
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.onBackground)),
         );
       },
       suggestions: suggestions,
