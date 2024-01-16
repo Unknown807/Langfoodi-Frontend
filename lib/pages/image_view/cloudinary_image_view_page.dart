@@ -15,11 +15,11 @@ class CloudinaryImageViewPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_circle_left_outlined,
-            color: Colors.indigoAccent,
+            color: Theme.of(context).colorScheme.tertiary,
             size: 30,
           ),
           onPressed: () => context.read<NavigationRepository>()
@@ -37,11 +37,11 @@ class CloudinaryImageViewPage extends StatelessWidget {
                 imageUrl: imageUrl,
                 transformationType: ImageTransformationType.high,
                 errorBuilder: (context, obj1, obj2) {
-                  return const CustomIconTile(
+                  return CustomIconTile(
                     icon: Icons.close,
                     iconSize: 100,
-                    iconColor: Colors.red,
-                    tileColor: Colors.white,
+                    iconColor: Theme.of(context).colorScheme.error,
+                    tileColor: Theme.of(context).colorScheme.background,
                   );
                 },
               ),

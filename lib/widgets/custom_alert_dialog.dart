@@ -20,6 +20,17 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final btnStyle = ButtonStyle(
+      overlayColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Theme.of(context).colorScheme.secondary.withAlpha(30);
+        }
+        else if (states.contains(MaterialState.pressed)) {
+          return Theme.of(context).colorScheme.secondary;
+        }
+      }),
+      foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary));
+
     return AlertDialog(
       title: title,
       content: content,
@@ -31,7 +42,7 @@ class CustomAlertDialog extends StatelessWidget {
                   leftButtonCallback?.call();
                   context.read<NavigationRepository>().dismissDialog(context);
                 },
-                style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+                style: btnStyle,
                 child: Text(leftButtonText!),
         ),
         TextButton(
@@ -39,7 +50,7 @@ class CustomAlertDialog extends StatelessWidget {
               rightButtonCallback?.call();
               context.read<NavigationRepository>().dismissDialog(context);
             },
-            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
+            style: btnStyle,
             child: Text(rightButtonText))
       ],
     );
