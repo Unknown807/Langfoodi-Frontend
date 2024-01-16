@@ -39,9 +39,8 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
           appBar: state.recipesToDisplay.isEmpty
-            ? AppBar(title: const Text("My Recipes"), backgroundColor: const Color(0xFF02A713))
+            ? AppBar(title: const Text("My Recipes"), backgroundColor: Theme.of(context).primaryColor)
             : CustomSearchAppBar(
                 title: "My Recipes",
                 hintText: "Search Your Recipes",
@@ -82,7 +81,10 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                             : ItemScrollPanel(
                                 titleFontSize: 22,
                                 hasButton: true,
-                                buttonIcon: const Icon(Icons.close_rounded, color: Colors.redAccent),
+                                buttonIcon: Icon(
+                                  Icons.close_rounded,
+                                  color: Theme.of(context).colorScheme.inversePrimary
+                                ),
                                 items: state.recipesToDisplay.where((r) => r.show).toList(),
                                 scrollDirection: Axis.vertical,
                                 imageAspectRatio: 3/4,

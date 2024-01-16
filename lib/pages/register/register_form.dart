@@ -21,9 +21,9 @@ class RegisterForm extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                      color: Theme.of(context).colorScheme.primary.withAlpha(50),
-                      blurRadius: 20.0,
-                      offset: const Offset(0, 10))
+                    color: Theme.of(context).colorScheme.shadow,
+                    blurRadius: 20.0,
+                    offset: const Offset(0, 10))
                 ]),
             child: const Column(children: <Widget>[
               HandlerInput(),
@@ -34,7 +34,7 @@ class RegisterForm extends StatelessWidget {
             ])),
         const SizedBox(height: 20),
         const RegisterButton(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 40),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

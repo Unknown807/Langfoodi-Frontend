@@ -21,7 +21,7 @@ class LoginForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withAlpha(50),
+                  color: Theme.of(context).colorScheme.shadow,
                   blurRadius: 20.0,
                   offset: const Offset(0, 10))
               ]),

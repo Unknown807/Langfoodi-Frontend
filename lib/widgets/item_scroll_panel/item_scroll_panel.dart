@@ -59,10 +59,10 @@ class ItemScrollPanel extends StatelessWidget {
                       imageUrl: item.urlImage ?? "assets/images/no_image.png",
                       transformationType: ImageTransformationType.standard,
                       errorBuilder: (context, obj1, obj2) {
-                        return const CustomIconTile(
+                        return CustomIconTile(
                           icon: Icons.error,
-                          iconColor: Colors.red,
-                          tileColor: Colors.red,
+                          iconColor: Theme.of(context).colorScheme.error,
+                          tileColor: Theme.of(context).colorScheme.error,
                           borderRadius: 20,
                         );
                       },
@@ -74,14 +74,14 @@ class ItemScrollPanel extends StatelessWidget {
           ),
           if (hasButton)
             Positioned(
-            top: 35,
-            right: 5,
-            child: IconButton(
-              iconSize: 30,
-              icon: buttonIcon!,
-              onPressed: () => onTapButton?.call(item),
+              top: 35,
+              right: 5,
+              child: IconButton(
+                iconSize: 30,
+                icon: buttonIcon!,
+                onPressed: () => onTapButton?.call(item),
+              ),
             ),
-          ),
         ]
       )
     );

@@ -58,20 +58,23 @@ class _AppView extends StatelessWidget {
           title: 'Recipe Social Media',
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
-            colorScheme: const ColorScheme(
+            primaryColor: const Color.fromRGBO(49, 183, 63, 1),
+            colorScheme: ColorScheme(
               brightness: Brightness.light,
-              primary: Colors.green,
+              primary: Colors.green.shade400,
               onPrimary: Colors.white,
               secondary: Colors.orange,
               tertiary: Colors.blueAccent,
               onTertiary: Colors.white,
               onSecondary: Colors.white,
-              error: Colors.redAccent,
+              inversePrimary: Colors.redAccent,
+              error: Colors.red,
               onError: Colors.white,
               background: Colors.white,
               onBackground: Colors.black,
               surface: Colors.white,
-              onSurface: Colors.black
+              onSurface: Colors.black,
+              shadow: Colors.green.withAlpha(50)
             ),
             textTheme: const TextTheme(
               displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
