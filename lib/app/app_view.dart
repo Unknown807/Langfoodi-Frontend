@@ -57,7 +57,23 @@ class _AppView extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Recipe Social Media',
           theme: ThemeData(
-            primarySwatch: Colors.green,
+            scaffoldBackgroundColor: Colors.white,
+            colorScheme: const ColorScheme(
+              brightness: Brightness.light,
+              primary: Colors.green,
+              onPrimary: Colors.white,
+              secondary: Colors.orangeAccent,
+              onSecondary: Colors.white,
+              error: Colors.redAccent,
+              onError: Colors.white,
+              background: Colors.white,
+              onBackground: Colors.black,
+              surface: Colors.white,
+              onSurface: Colors.black
+            ),
+            textTheme: const TextTheme(
+              displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
+            ),
           ),
           themeMode: state.themeMode,
           routes: {

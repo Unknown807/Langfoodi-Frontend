@@ -11,7 +11,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
             reverse: true,
             child: Padding(
@@ -26,15 +25,11 @@ class LoginPage extends StatelessWidget {
                           image: AssetImage("assets/images/background.png"),
                           fit: BoxFit.fill),
                     ),
-                    child: const Stack(
+                    child: Stack(
                       children: <Widget>[
                         Positioned(
                           child: Center(
-                            child: Text("Welcome",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold)),
+                            child: Text("Welcome", style: Theme.of(context).textTheme.displayLarge),
                           ),
                         ),
                       ],

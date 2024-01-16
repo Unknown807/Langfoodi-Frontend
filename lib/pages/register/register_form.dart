@@ -38,14 +38,13 @@ class RegisterForm extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Already got an account?    ",
-              style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1))),
+            Text("Already got an account?    ",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary)),
             CustomTextButton(
               eventFunc: () => context
                 .read<NavigationRepository>()
                 .goTo(context, "/login", routeType: RouteType.backLink),
-              text: "Sign In",
-              fontSize: 16),
+              text: "Sign In"),
           ],
         ),
       ]),
@@ -62,9 +61,7 @@ class FormErrorLabel extends StatelessWidget {
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
         return Text(state.errorMessage,
-            style: const TextStyle(
-              color: Color.fromRGBO(244, 113, 116, 1),
-            ));
+          style: TextStyle(color: Theme.of(context).colorScheme.error));
       },
     );
   }
@@ -79,12 +76,12 @@ class HandlerInput extends StatelessWidget {
       buildWhen: (p, c) => p.handler != c.handler,
       builder: (context, state) {
         return FormInput(
-            boxDecorationType: FormInputBoxDecorationType.underlined,
-            errorText: FormValidationError.getErrorMessage(state.handler.displayError),
-            hintText: "Handler",
-            eventFunc: (handler) {
-              context.read<RegisterBloc>().add(HandlerChanged(handler));
-            });
+          boxDecorationType: FormInputBoxDecorationType.underlined,
+          errorText: FormValidationError.getErrorMessage(state.handler.displayError),
+          hintText: "Handler",
+          eventFunc: (handler) {
+            context.read<RegisterBloc>().add(HandlerChanged(handler));
+          });
       },
     );
   }
@@ -99,12 +96,12 @@ class UserNameInput extends StatelessWidget {
       buildWhen: (p, c) => p.userName != c.userName,
       builder: (context, state) {
         return FormInput(
-            boxDecorationType: FormInputBoxDecorationType.underlined,
-            errorText: FormValidationError.getErrorMessage(state.userName.displayError),
-            hintText: "Username",
-            eventFunc: (userName) {
-              context.read<RegisterBloc>().add(UserNameChanged(userName));
-            });
+          boxDecorationType: FormInputBoxDecorationType.underlined,
+          errorText: FormValidationError.getErrorMessage(state.userName.displayError),
+          hintText: "Username",
+          eventFunc: (userName) {
+            context.read<RegisterBloc>().add(UserNameChanged(userName));
+          });
       },
     );
   }
@@ -119,12 +116,12 @@ class EmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
-            boxDecorationType: FormInputBoxDecorationType.underlined,
-            errorText: FormValidationError.getErrorMessage(state.email.displayError),
-            hintText: "Email",
-            eventFunc: (email) {
-              context.read<RegisterBloc>().add(EmailChanged(email));
-            });
+          boxDecorationType: FormInputBoxDecorationType.underlined,
+          errorText: FormValidationError.getErrorMessage(state.email.displayError),
+          hintText: "Email",
+          eventFunc: (email) {
+            context.read<RegisterBloc>().add(EmailChanged(email));
+          });
       },
     );
   }

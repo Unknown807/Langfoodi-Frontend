@@ -33,7 +33,10 @@ class LoginForm extends StatelessWidget {
           Row(
             children: <Widget>[
               const Spacer(),
-              CustomTextButton(eventFunc: () {}, text: "Forgot Password?"),
+              CustomTextButton(
+                text: "Forgot Password?",
+                fontSize: 14,
+                eventFunc: () {}),
             ],
           ),
           const LoginButton(),
@@ -41,16 +44,15 @@ class LoginForm extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("Don't have an account?    ",
-                  style: TextStyle(
-                    color: Color.fromRGBO(143, 148, 251, 1),
-                  )),
+              Text("Don't have an account?    ",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                )),
               CustomTextButton(
-                  eventFunc: () => context
-                    .read<NavigationRepository>()
-                    .goTo(context, "/register"),
-                  text: "Sign Up",
-                  fontSize: 16),
+                eventFunc: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "/register"),
+                text: "Sign Up"),
             ],
           ),
         ]));
