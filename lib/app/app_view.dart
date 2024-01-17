@@ -80,8 +80,8 @@ class _AppView extends StatelessWidget {
             expansionTileTheme: const ExpansionTileThemeData(
               backgroundColor: Colors.transparent,
               collapsedBackgroundColor: Colors.transparent,
-              iconColor: Colors.black54,
-              collapsedIconColor: Colors.black54,
+              iconColor: Colors.orange,
+              collapsedIconColor: Colors.blueAccent,
             ),
             hintColor: Colors.grey,
             textTheme: const TextTheme(
@@ -104,23 +104,23 @@ class _AppView extends StatelessWidget {
               onError: Colors.white,
               background: const Color.fromRGBO(70, 75, 78, 1),
               onBackground: Colors.white,
-              surface: Colors.white,
-              onSurface: Colors.black,
+              surface: const Color.fromRGBO(70, 75, 78, 1),
+              onSurface: Colors.white,
               shadow: Colors.green.withAlpha(50)
             ),
             dividerColor: Colors.transparent,
             expansionTileTheme: const ExpansionTileThemeData(
               backgroundColor: Colors.transparent,
               collapsedBackgroundColor: Colors.transparent,
-              iconColor: Colors.black54,
-              collapsedIconColor: Colors.black54,
+              iconColor: Colors.orange,
+              collapsedIconColor: Colors.blueAccent,
             ),
             hintColor: Colors.grey,
             textTheme: const TextTheme(
               displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
             ),
           ),
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           routes: {
             "/splash": (context) => const SplashPage(),
             "/home": (context) => const HomePage(),

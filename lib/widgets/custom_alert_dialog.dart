@@ -26,7 +26,7 @@ class CustomAlertDialog extends StatelessWidget {
           return Theme.of(context).colorScheme.secondary.withAlpha(30);
         }
         else if (states.contains(MaterialState.pressed)) {
-          return Theme.of(context).colorScheme.secondary;
+          return Theme.of(context).colorScheme.secondary.withAlpha(30);
         }
       }),
       foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary));

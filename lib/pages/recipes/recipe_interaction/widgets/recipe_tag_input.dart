@@ -15,10 +15,12 @@ class RecipeTagInput extends StatelessWidget {
                       textController: state.recipeTagTextController,
                       hintText: "Type Tags Here",
                       boxDecorationType: state.recipeTagValid
-                          ? FormInputBoxDecorationType.underlined
-                          : FormInputBoxDecorationType.underlinedError,
+                          ? FormInputBoxDecorationType.textArea
+                          : FormInputBoxDecorationType.error,
                       fontSize: RecipeInteractionPageConstants.inputFormFontSize,
                       maxLines: 1,
+                      outerPadding: const EdgeInsets.only(top: 10),
+                      innerPadding: const EdgeInsets.only(left: 8),
                       eventFunc: (value) {
                         context
                             .read<RecipeInteractionBloc>()
