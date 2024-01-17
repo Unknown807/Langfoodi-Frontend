@@ -76,6 +76,13 @@ class _AppView extends StatelessWidget {
               onSurface: Colors.black,
               shadow: Colors.green.withAlpha(50)
             ),
+            dividerColor: Colors.transparent,
+            expansionTileTheme: const ExpansionTileThemeData(
+              backgroundColor: Colors.transparent,
+              collapsedBackgroundColor: Colors.transparent,
+              iconColor: Colors.black54,
+              collapsedIconColor: Colors.black54,
+            ),
             hintColor: Colors.grey,
             textTheme: const TextTheme(
               displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)

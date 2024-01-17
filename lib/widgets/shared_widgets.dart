@@ -16,5 +16,4 @@ part 'custom_avatar.dart';
 part 'custom_icon_tile.dart';
 part 'custom_floating_button.dart';
 part 'sorting_options_button.dart';
-part 'custom_expansion_tile.dart';
 part 'custom_alert_dialog.dart';
