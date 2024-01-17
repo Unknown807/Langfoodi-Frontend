@@ -9,7 +9,6 @@ class FormInput extends StatelessWidget {
       this.errorText,
       this.width,
       this.height,
-      this.textColor,
       this.fontWeight,
       this.fontSize,
       this.boxDecorationType,
@@ -28,7 +27,6 @@ class FormInput extends StatelessWidget {
   String? errorText;
   double? width;
   double? height;
-  Color? textColor;
   FontWeight? fontWeight;
   double? fontSize;
   FormInputBoxDecorationType? boxDecorationType;
@@ -45,22 +43,31 @@ class FormInput extends StatelessWidget {
   TextAlign textAlign;
   final Function eventFunc;
 
-  Decoration? getBoxDecoration(FormInputBoxDecorationType? type) {
+  Decoration? getBoxDecoration(ThemeData themeData, FormInputBoxDecorationType? type) {
     switch (type) {
       case FormInputBoxDecorationType.underlined:
-        return BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade100)));
+        return BoxDecoration(
+          color: themeData.colorScheme.background,
+          border: Border(bottom: BorderSide(color: themeData.hintColor.withAlpha(70))));
       case FormInputBoxDecorationType.underlinedError:
-        return const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.redAccent)));
+        return BoxDecoration(
+          color: themeData.colorScheme.background,
+          border: Border(bottom: BorderSide(color: themeData.colorScheme.inversePrimary)));
       case FormInputBoxDecorationType.textArea:
         return BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.grey.shade200));
+          color: themeData.colorScheme.background,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: themeData.hintColor.withAlpha(70)),
+        );
       case FormInputBoxDecorationType.error:
         return BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.redAccent));
+          color: themeData.colorScheme.background,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: themeData.colorScheme.inversePrimary));
       case FormInputBoxDecorationType.minimal:
-        return BoxDecoration(border: Border.all(color: Colors.white));
+        return BoxDecoration(
+          color: themeData.colorScheme.background,
+          border: Border.all(color: themeData.colorScheme.background));
       default:
         return null;
     }
@@ -68,33 +75,37 @@ class FormInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return Padding(
-        padding: outerPadding,
-        child: Container(
-            height: height,
-            width: width,
-            padding: innerPadding,
-            decoration: getBoxDecoration(boxDecorationType),
-            child: TextField(
-              readOnly: readonly,
-              keyboardType: keyboardType,
-              controller: textController,
-              onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
-              textInputAction: TextInputAction.done,
-              maxLines: maxLines,
-              textAlign: textAlign,
-              obscureText: isConfidential,
-              onChanged: (value) => eventFunc(value),
-              style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
-              decoration: InputDecoration(
-                //focusColor: Colors.red,
-                border: InputBorder.none,
-                hintText: hintText,
-                labelText: labelText,
-                errorText: errorText,
-                hintStyle: TextStyle(color: Colors.grey.shade400),
-                labelStyle: TextStyle(color: Colors.grey.shade400),
-                floatingLabelStyle: const TextStyle(color: Colors.blue)),
-            )));
+      padding: outerPadding,
+      child: Container(
+        height: height,
+        width: width,
+        padding: innerPadding,
+        decoration: getBoxDecoration(themeData, boxDecorationType),
+        child: TextField(
+          cursorColor: themeData.colorScheme.tertiary,
+          readOnly: readonly,
+          keyboardType: keyboardType,
+          controller: textController,
+          onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
+          textInputAction: TextInputAction.done,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          obscureText: isConfidential,
+          onChanged: (value) => eventFunc(value),
+          style: TextStyle(
+            color: themeData.colorScheme.onBackground,
+            fontWeight: fontWeight,
+            fontSize: fontSize),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            labelText: labelText,
+            errorText: errorText,
+            hintStyle: TextStyle(color: themeData.hintColor),
+            labelStyle: TextStyle(color: themeData.hintColor),
+            floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary)),
+        )));
   }
 }
