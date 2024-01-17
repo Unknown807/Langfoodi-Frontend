@@ -11,9 +11,7 @@ class ReadonlyIngredientList extends StatelessWidget {
         return ListView.separated(
           shrinkWrap: true,
           itemCount: state.ingredientList.length,
-          separatorBuilder: (context, _) {
-            return const SizedBox(height: 20);
-          },
+          separatorBuilder: (context, _) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
             final ing = state.ingredientList[index];
             return Padding(
@@ -22,13 +20,17 @@ class ReadonlyIngredientList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                 Text(
-                  ing.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ing.name,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20),
                 ),
                 Text(
                   "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w400),
                 ),
               ]));

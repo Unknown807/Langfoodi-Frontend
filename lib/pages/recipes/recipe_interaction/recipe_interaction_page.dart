@@ -112,9 +112,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ),
                                 ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
-                                  title: const Text(
+                                  title: Text(
                                     'Ingredients',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -134,9 +134,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ),
                                 ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
-                                  title: const Text(
+                                  title: Text(
                                     'Recipe Steps',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -150,13 +150,13 @@ class RecipeInteractionPage extends StatelessWidget {
                                     readonly ? const riw.ReadonlyRecipeStepList() : const riw.RecipeStepList()
                                   ],
                                 ),
-                                const ExpansionTile(
+                                ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
                                     'Extra Information',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
-                                  children: [
+                                  children: const [
                                     SizedBox(
                                         height: RecipeInteractionPageConstants.sizedBoxHeight,
                                         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
