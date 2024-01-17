@@ -9,6 +9,7 @@ class IngredientList extends StatelessWidget {
       buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
       builder: (context, state) {
         return ListView.builder(
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: state.ingredientList.length,
           itemBuilder: (context, index) {

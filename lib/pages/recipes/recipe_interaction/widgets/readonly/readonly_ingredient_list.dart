@@ -9,6 +9,7 @@ class ReadonlyIngredientList extends StatelessWidget {
       buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
       builder: (context, state) {
         return ListView.separated(
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: state.ingredientList.length,
           separatorBuilder: (context, _) => const SizedBox(height: 20),
@@ -29,9 +30,9 @@ class ReadonlyIngredientList extends StatelessWidget {
                 Text(
                   "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
                   style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).hintColor,
-                      fontWeight: FontWeight.w400),
+                    color: Theme.of(context).hintColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16),
                 ),
               ]));
           });
