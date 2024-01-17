@@ -25,10 +25,10 @@ void main() {
     test("status code is 200", () async {
       // Arrange
       const recipeId = "1";
-      const jsonStr = '{"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"labels":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"}';
+      const jsonStr = '{"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"tags":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"}';
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(jsonStr);
-      when(() => jsonWrapperMock.decodeData(any())).thenReturn({"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"labels":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"});
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn({"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"tags":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"});
 
       // Act
       var result = await sut.getRecipeById(recipeId);
@@ -55,10 +55,10 @@ void main() {
     test("status code is 200", () async {
       // Arrange
       const userId = "1";
-      const jsonStr = '[{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","labels":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","labels":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]';
+      const jsonStr = '[{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","tags":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","tags":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]';
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(jsonStr);
-      when(() => jsonWrapperMock.decodeData(any())).thenReturn([{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","labels":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","labels":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]);
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn([{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","tags":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","tags":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]);
 
       // Act
       var result = await sut.getRecipesFromUserId(userId);
@@ -85,10 +85,10 @@ void main() {
     test("status code is 200", () async {
       // Arrange
       const username = "user1";
-      const jsonStr = '[{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","labels":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","labels":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]';
+      const jsonStr = '[{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","tags":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","tags":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]';
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(jsonStr);
-      when(() => jsonWrapperMock.decodeData(any())).thenReturn([{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","labels":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","labels":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]);
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn([{"id":"1","title":"recipe1","description":"recipe 1 desc","chefUsername":"test4","tags":["string"],"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"},{"id":"2","title":"title here","description":"desc here","chefUsername":"test4","tags":["lbl1","lbl2"],"numberOfServings":1,"cookingTime":1000,"kiloCalories":null,"creationDate":"2023-09-26T21:16:00.2696909+00:00","lastUpdatedDate":"2023-09-26T21:16:00.2696909+00:00"}]);
 
       // Act
       var result = await sut.getRecipesFromUsername(username);
@@ -116,12 +116,12 @@ void main() {
       // Arrange
       final contract = NewRecipeContract(
           title: "recipe1", description: "recipe 1 desc", chefId: "1",
-          labels: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
-          recipeSteps: [const RecipeStep("step 1", "url")]);
-      const jsonStr = '{"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"labels":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"}';
+          tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
+          recipeSteps: [RecipeStep("step 1", "url")]);
+      const jsonStr = '{"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"tags":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"}';
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(jsonStr);
-      when(() => jsonWrapperMock.decodeData(any())).thenReturn({"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"labels":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"});
+      when(() => jsonWrapperMock.decodeData(any())).thenReturn({"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","accountCreationDate":"2023-11-08"},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"tags":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"});
       when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
@@ -136,8 +136,8 @@ void main() {
       // Arrange
       final contract = NewRecipeContract(
           title: "recipe1", description: "recipe 1 desc", chefId: "1",
-          labels: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
-          recipeSteps: [const RecipeStep("step 1", "url")]);
+          tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
+          recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(404);
       when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
@@ -154,10 +154,10 @@ void main() {
       // Arrange
       final contract = UpdateRecipeContract(
           title: "recipe1", description: "recipe 1 desc", id: "1",
-          labels: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
-          recipeSteps: [const RecipeStep("step 1", "url")]);
+          tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
+          recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);
@@ -171,10 +171,10 @@ void main() {
       // Arrange
       final contract = UpdateRecipeContract(
           title: "recipe1", description: "recipe 1 desc", id: "1",
-          labels: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
-          recipeSteps: [const RecipeStep("step 1", "url")]);
+          tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
+          recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(404);
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);

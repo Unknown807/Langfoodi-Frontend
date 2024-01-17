@@ -37,12 +37,12 @@ void main() {
   group("login integration tests", () {
     testWidgets("valid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
+      when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
-      final userNameOrEmailInput = find.byType(UserNameEmailInput);
-      final userNameOrEmailTextField = find.descendant(
-          of: userNameOrEmailInput,
+      final handlerOrEmailInput = find.byType(HandlerEmailInput);
+      final handlerOrEmailTextField = find.descendant(
+          of: handlerOrEmailInput,
           matching: find.byType(TextField)
       );
 
@@ -53,7 +53,7 @@ void main() {
       );
 
       // Act
-      await widgetTester.enterText(userNameOrEmailTextField, "username1");
+      await widgetTester.enterText(handlerOrEmailTextField, "handler1");
       await widgetTester.enterText(passwordTextField, "Password123!");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(find.byType(LoginButton));
@@ -72,12 +72,12 @@ void main() {
 
     testWidgets("invalid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithUserNameOrEmail(any(), any())).thenAnswer((invocation) => Future.value("Issue Signing In"));
+      when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value("Issue Signing In"));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
-      final userNameOrEmailInput = find.byType(UserNameEmailInput);
-      final userNameOrEmailTextField = find.descendant(
-          of: userNameOrEmailInput,
+      final handlerOrEmailInput = find.byType(HandlerEmailInput);
+      final handlerOrEmailTextField = find.descendant(
+          of: handlerOrEmailInput,
           matching: find.byType(TextField)
       );
 
@@ -88,7 +88,7 @@ void main() {
       );
 
       // Act
-      await widgetTester.enterText(userNameOrEmailTextField, "username1");
+      await widgetTester.enterText(handlerOrEmailTextField, "handler1");
       await widgetTester.enterText(passwordTextField, "Password123!");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(find.byType(LoginButton));

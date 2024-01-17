@@ -5,21 +5,37 @@ import 'package:recipe_social_media/app/app.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';
-import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   late AuthenticationRepositoryMock authRepoMock;
   late NavigationRepositoryMock navigRepoMock;
+  late RecipeRepositoryMock recipeRepoMock;
+  late ImageRepositoryMock imageRepoMock;
+  late ImageTransformationBuilderMock imageTransformationBuilderMock;
+  late ImageBuilderMock imageBuilderMock;
+  late NetworkManagerMock networkManagerMock;
 
   setUp(() {
-    RecipeRepository(RequestMock(), JsonWrapperMock());
+    recipeRepoMock = RecipeRepositoryMock();
+    imageRepoMock = ImageRepositoryMock();
     authRepoMock = AuthenticationRepositoryMock();
     navigRepoMock = NavigationRepositoryMock();
+    imageBuilderMock = ImageBuilderMock();
+    imageTransformationBuilderMock = ImageTransformationBuilderMock();
+    networkManagerMock = NetworkManagerMock();
   });
 
   Widget createWidgetUnderTest() {
-    return App(authRepo: authRepoMock, navigationRepo: navigRepoMock);
+    return App(
+      authRepo: authRepoMock,
+      navigationRepo: navigRepoMock,
+      imageRepo: imageRepoMock,
+      recipeRepo: recipeRepoMock,
+      imageBuilder: imageBuilderMock,
+      imageTransformationBuilder: imageTransformationBuilderMock,
+      networkManager: networkManagerMock,
+    );
   }
 
   group("app and app view tests", () {

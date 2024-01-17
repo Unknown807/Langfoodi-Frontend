@@ -5,9 +5,12 @@ enum RecipeFormValidationError {
   ingredientQuantityInvalid,
   ingredientMeasurementInvalid,
   servingNumberInvalid,
-  servingSizeInvalid,
+  servingQuantityInvalid,
+  servingMeasurementInvalid,
   cookingTimeInvalid,
   kilocaloriesInvalid,
   recipeStepDescriptionInvalid,
+  recipeDescriptionInvalid,
+  recipeTitleInvalid,
   recipeTagInvalid
 }

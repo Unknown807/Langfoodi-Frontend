@@ -16,7 +16,7 @@ void main() {
       home: Scaffold(
         body: FormInput(
           errorText: errorText,
-          hint: hint,
+          hintText: hint,
           eventFunc: eventFunc,
           boxDecorationType: boxDeco,
           isConfidential: isConfidential,

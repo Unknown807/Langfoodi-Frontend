@@ -5,10 +5,23 @@ class App extends StatelessWidget {
     super.key,
     required this.authRepo,
     required this.navigationRepo,
+    required this.imageRepo,
+    required this.recipeRepo,
+    required this.imageTransformationBuilder,
+    required this.imageBuilder,
+    required this.networkManager
   });
 
+  // Repositories
   final AuthenticationRepository authRepo;
   final NavigationRepository navigationRepo;
+  final ImageRepository imageRepo;
+  final RecipeRepository recipeRepo;
+
+  // Utilities
+  final ImageTransformationBuilder imageTransformationBuilder;
+  final ImageBuilder imageBuilder;
+  final NetworkManager networkManager;
   
   @override
   Widget build(BuildContext context) {
@@ -16,6 +29,11 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (_) => authRepo),
           RepositoryProvider(create: (_) => navigationRepo),
+          RepositoryProvider(create: (_) => imageRepo),
+          RepositoryProvider(create: (_) => recipeRepo),
+          RepositoryProvider(create: (_) => imageTransformationBuilder),
+          RepositoryProvider(create: (_) => imageBuilder),
+          RepositoryProvider(create: (_) => networkManager)
         ],
         child: BlocProvider(
           create: (_) => AppBloc(authRepo: authRepo),
@@ -43,7 +61,8 @@ class _AppView extends StatelessWidget {
         "/register": (context) => const RegisterPage(),
         "/recipe-view": (context) => const RecipeViewPage(),
         "/recipe-interaction": (context) => const RecipeInteractionPage(),
-        "/profile-settings": (context) => const ProfileSettingsPage()
+        "/profile-settings": (context) => const ProfileSettingsPage(),
+        "/cloudinary-image-view": (context) => const CloudinaryImageViewPage()
       },
       home: BlocBuilder<AppBloc, AppState>(
         buildWhen: (p, c) => p.status != c.status,

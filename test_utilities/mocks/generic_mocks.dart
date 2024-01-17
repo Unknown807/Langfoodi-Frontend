@@ -1,7 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cloudinary_url_gen/asset/cld_image.dart';
 import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:cloudinary_url_gen/config/cloud_config.dart';
 import 'package:cloudinary_url_gen/config/cloudinary_config.dart';
+import 'package:file/file.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -11,6 +13,7 @@ import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -22,8 +25,14 @@ class ClientMock extends Mock implements http.Client {}
 class CloudinaryMock extends Mock implements Cloudinary {}
 class CloudinaryConfigMock extends Mock implements CloudinaryConfig {}
 class CloudConfigMock extends Mock implements CloudConfig {}
+class CldImageMock extends Mock implements CldImage {}
 class FunctionMock extends Mock { void call([dynamic parameter]); }
+class FileSystemMock extends Mock implements FileSystem {}
+class FileMock extends Mock implements File {}
 class InputStateMock extends Mock implements InputState {}
+class ImageRepositoryMock extends Mock implements ImageRepository {}
+class ImageBuilderMock extends Mock implements ImageBuilder {}
+class ImageTransformationBuilderMock extends Mock implements ImageTransformationBuilder {}
 class JsonWrapperMock extends Mock implements JsonWrapper {}
 class JsonConvertibleMock extends Mock implements JsonConvertible {}
 class LocalStoreMock extends Mock implements LocalStore {}
@@ -32,6 +41,7 @@ class MultipartFileMock extends Mock implements http.MultipartFile {}
 class MultipartFileProviderMock extends Mock implements MultipartFileProvider {}
 class NavigationRepositoryMock extends Mock implements NavigationRepository {}
 class NavigatorObserverMock extends Mock implements NavigatorObserver {}
+class NetworkManagerMock extends Mock implements NetworkManager {}
 class ResponseMock extends Mock implements http.Response {}
 class RequestMock extends Mock implements Request {}
 class RegisterBlocMock extends MockBloc<InputEvent, InputState> implements RegisterBloc {}

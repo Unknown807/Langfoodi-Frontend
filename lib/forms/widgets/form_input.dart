@@ -1,10 +1,11 @@
 part of 'form_widgets.dart';
 
-enum FormInputBoxDecorationType { underlined, textArea, error, underlinedError }
+enum FormInputBoxDecorationType { underlined, textArea, error, underlinedError, minimal }
 
 class FormInput extends StatelessWidget {
-  FormInput(
-      {super.key,
+  FormInput({
+      super.key,
+      required this.eventFunc,
       this.errorText,
       this.width,
       this.height,
@@ -15,8 +16,9 @@ class FormInput extends StatelessWidget {
       this.onSubmittedEventFunc,
       this.textController,
       this.keyboardType,
-      required this.hint,
-      required this.eventFunc,
+      this.hintText,
+      this.labelText,
+      this.readonly = false,
       this.isConfidential = false,
       this.textAlign = TextAlign.left,
       this.maxLines = 1,
@@ -33,12 +35,14 @@ class FormInput extends StatelessWidget {
   Function? onSubmittedEventFunc;
   TextEditingController? textController;
   TextInputType? keyboardType;
+  String? hintText;
+  String? labelText;
+  bool readonly;
   bool isConfidential;
   int maxLines;
   EdgeInsets innerPadding;
   EdgeInsets outerPadding;
   TextAlign textAlign;
-  final String hint;
   final Function eventFunc;
 
   Decoration? getBoxDecoration(FormInputBoxDecorationType? type) {
@@ -55,6 +59,8 @@ class FormInput extends StatelessWidget {
         return BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.redAccent));
+      case FormInputBoxDecorationType.minimal:
+        return BoxDecoration(border: Border.all(color: Colors.white));
       default:
         return null;
     }
@@ -70,6 +76,7 @@ class FormInput extends StatelessWidget {
             padding: innerPadding,
             decoration: getBoxDecoration(boxDecorationType),
             child: TextField(
+              readOnly: readonly,
               keyboardType: keyboardType,
               controller: textController,
               onSubmitted: (value) => onSubmittedEventFunc == null ? null : onSubmittedEventFunc!(value),
@@ -80,10 +87,14 @@ class FormInput extends StatelessWidget {
               onChanged: (value) => eventFunc(value),
               style: TextStyle(color: textColor, fontWeight: fontWeight, fontSize: fontSize),
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: hint,
-                  errorText: errorText,
-                  hintStyle: TextStyle(color: Colors.grey.shade400)),
+                focusColor: Colors.red,
+                border: InputBorder.none,
+                hintText: hintText,
+                labelText: labelText,
+                errorText: errorText,
+                hintStyle: TextStyle(color: Colors.grey.shade400),
+                labelStyle: TextStyle(color: Colors.grey.shade400),
+                floatingLabelStyle: const TextStyle(color: Colors.blue)),
             )));
   }
 }

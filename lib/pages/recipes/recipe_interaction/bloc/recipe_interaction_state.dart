@@ -6,71 +6,101 @@ class RecipeInteractionState extends Equatable {
     required this.ingredientQuantityTextController,
     required this.ingredientMeasurementTextController,
     required this.servingNumberTextController,
-    required this.servingSizeTextController,
+    required this.servingQuantityTextController,
+    required this.servingMeasurementTextController,
     required this.kilocaloriesTextController,
     required this.cookingTimeTextController,
     required this.cookingTimeHiddenTextController,
     required this.recipeStepDescriptionTextController,
+    required this.recipeDescriptionTextController,
+    required this.recipeTitleTextController,
     required this.recipeTagTextController,
     this.ingredientList = const [],
     this.recipeStepList = const [],
+    this.currentRecipeStepImageIds = const [],
     this.recipeTagList = const [],
     this.ingredientName = const IngredientName.pure(),
     this.ingredientQuantity = const IngredientQuantity.pure(),
     this.ingredientMeasurement = const IngredientMeasurement.pure(),
     this.servingNumber = const ServingNumber.pure(),
-    this.servingSize = const ServingSize.pure(),
+    this.servingQuantity = const ServingQuantity.pure(),
+    this.servingMeasurement = const ServingMeasurement.pure(),
     this.kilocalories = const Kilocalories.pure(),
     this.cookingTime = const CookingTime.pure(),
     this.recipeStepDescription = const RecipeStepDescription.pure(),
+    this.recipeDescription = const RecipeDescription.pure(),
+    this.recipeTitle = const RecipeTitle.pure(),
     this.recipeTag = const RecipeTag.pure(),
     this.ingredientNameValid = true,
     this.ingredientQuantityValid = true,
     this.ingredientMeasurementValid = true,
     this.servingNumberValid = true,
-    this.servingSizeValid = true,
+    this.servingQuantityValid = true,
+    this.servingMeasurementValid = true,
     this.kilocaloriesValid = true,
     this.cookingTimeValid = true,
     this.recipeStepDescriptionValid = true,
+    this.recipeDescriptionValid = true,
+    this.recipeTitleValid = true,
     this.recipeTagValid = true,
+    this.recipeOwned = false,
     this.recipeThumbnailPath = "",
+    this.currentRecipeThumbnailId = "",
     this.recipeStepImagePath = "",
-    this.formStatus = FormzSubmissionStatus.initial
+    this.formStatus = FormzSubmissionStatus.initial,
+    this.pageType = RecipeInteractionType.create,
+    this.currentRecipeId = "",
+    this.formErrorMessage = "",
   });
 
+  final String currentRecipeId;
+  final String formErrorMessage;
+  final RecipeInteractionType pageType;
   final TextEditingController ingredientNameTextController;
   final TextEditingController ingredientQuantityTextController;
   final TextEditingController ingredientMeasurementTextController;
   final TextEditingController servingNumberTextController;
-  final TextEditingController servingSizeTextController;
+  final TextEditingController servingQuantityTextController;
+  final TextEditingController servingMeasurementTextController;
   final TextEditingController kilocaloriesTextController;
   final TextEditingController cookingTimeTextController;
   final TextEditingController cookingTimeHiddenTextController;
   final TextEditingController recipeStepDescriptionTextController;
+  final TextEditingController recipeDescriptionTextController;
+  final TextEditingController recipeTitleTextController;
   final TextEditingController recipeTagTextController;
   final FormzSubmissionStatus formStatus;
   final List<Ingredient> ingredientList;
   final List<RecipeStep> recipeStepList;
+  final List<String> currentRecipeStepImageIds;
   final List<String> recipeTagList;
   final IngredientName ingredientName;
   final IngredientQuantity ingredientQuantity;
   final IngredientMeasurement ingredientMeasurement;
   final ServingNumber servingNumber;
-  final ServingSize servingSize;
+  final ServingQuantity servingQuantity;
+  final ServingMeasurement servingMeasurement;
   final Kilocalories kilocalories;
   final CookingTime cookingTime;
   final RecipeStepDescription recipeStepDescription;
+  final RecipeDescription recipeDescription;
+  final RecipeTitle recipeTitle;
   final RecipeTag recipeTag;
   final bool ingredientNameValid;
   final bool ingredientQuantityValid;
   final bool ingredientMeasurementValid;
   final bool servingNumberValid;
-  final bool servingSizeValid;
+  final bool servingQuantityValid;
+  final bool servingMeasurementValid;
   final bool kilocaloriesValid;
   final bool cookingTimeValid;
   final bool recipeStepDescriptionValid;
+  final bool recipeDescriptionValid;
+  final bool recipeTitleValid;
   final bool recipeTagValid;
+  final bool recipeOwned;
   final String recipeThumbnailPath;
+  final String currentRecipeThumbnailId;
   final String recipeStepImagePath;
 
   @override
@@ -79,16 +109,22 @@ class RecipeInteractionState extends Equatable {
     ingredientMeasurement, ingredientNameValid,
     ingredientQuantityValid, ingredientMeasurementValid,
     formStatus, recipeThumbnailPath, servingNumber,
-    servingNumberValid, servingSize, servingSizeValid,
+    servingNumberValid, servingQuantity,
+    servingMeasurement, servingQuantityValid, servingMeasurementValid,
     kilocalories, kilocaloriesValid, cookingTime,
     cookingTimeValid, ingredientMeasurementTextController,
     ingredientNameTextController, ingredientQuantityTextController,
     cookingTimeTextController, cookingTimeHiddenTextController,
-    servingNumberTextController, servingSizeTextController,
+    servingNumberTextController, servingQuantityTextController,
+    servingMeasurementTextController,
     kilocaloriesTextController, recipeStepImagePath, recipeStepList,
     recipeStepDescription, recipeStepDescriptionValid,
-    recipeStepDescriptionTextController, recipeTagList,
-    recipeTagValid, recipeTagTextController, recipeTag
+    recipeStepDescriptionTextController, recipeDescription,
+    recipeDescriptionValid, recipeTitle, recipeTitleValid,
+    recipeDescriptionTextController, recipeTitleTextController,
+    recipeTagList, recipeTagValid, recipeTagTextController, recipeTag,
+    pageType, currentRecipeId, currentRecipeStepImageIds,
+    currentRecipeThumbnailId, recipeOwned, formErrorMessage
   ];
 
   RecipeInteractionState copyWith({
@@ -96,72 +132,102 @@ class RecipeInteractionState extends Equatable {
     TextEditingController? ingredientQuantityTextController,
     TextEditingController? ingredientMeasurementTextController,
     TextEditingController? servingNumberTextController,
-    TextEditingController? servingSizeTextController,
+    TextEditingController? servingQuantityTextController,
+    TextEditingController? servingMeasurementTextController,
     TextEditingController? kilocaloriesTextController,
     TextEditingController? cookingTimeTextController,
     TextEditingController? cookingTimeHiddenTextController,
     TextEditingController? recipeStepDescriptionTextController,
+    TextEditingController? recipeDescriptionTextController,
+    TextEditingController? recipeTitleTextController,
     TextEditingController? recipeTagTextController,
     FormzSubmissionStatus? formStatus,
     List<Ingredient>? ingredientList,
     List<RecipeStep>? recipeStepList,
     List<String>? recipeTagList,
+    List<String>? currentRecipeStepImageIds,
     IngredientName? ingredientName,
     IngredientQuantity? ingredientQuantity,
     IngredientMeasurement? ingredientMeasurement,
     ServingNumber? servingNumber,
-    ServingSize? servingSize,
+    ServingQuantity? servingQuantity,
+    ServingMeasurement? servingMeasurement,
     Kilocalories? kilocalories,
     CookingTime? cookingTime,
     RecipeStepDescription? recipeStepDescription,
+    RecipeDescription? recipeDescription,
+    RecipeTitle? recipeTitle,
     RecipeTag? recipeTag,
     bool? ingredientNameValid,
     bool? ingredientQuantityValid,
     bool? ingredientMeasurementValid,
     bool? servingNumberValid,
-    bool? servingSizeValid,
+    bool? servingQuantityValid,
+    bool? servingMeasurementValid,
     bool? kilocaloriesValid,
     bool? cookingTimeValid,
     bool? recipeStepDescriptionValid,
+    bool? recipeDescriptionValid,
+    bool? recipeTitleValid,
     bool? recipeTagValid,
+    bool? recipeOwned,
     String? recipeThumbnailPath,
-    String? recipeStepImagePath
+    String? currentRecipeThumbnailId,
+    String? recipeStepImagePath,
+    RecipeInteractionType? pageType,
+    String? currentRecipeId,
+    String? formErrorMessage
   }) {
     return RecipeInteractionState(
       ingredientNameTextController: ingredientNameTextController ?? this.ingredientNameTextController,
       ingredientQuantityTextController: ingredientQuantityTextController ?? this.ingredientQuantityTextController,
       ingredientMeasurementTextController: ingredientMeasurementTextController ?? this.ingredientMeasurementTextController,
       servingNumberTextController: servingNumberTextController ?? this.servingNumberTextController,
-      servingSizeTextController: servingSizeTextController ?? this.servingSizeTextController,
+      servingQuantityTextController: servingQuantityTextController ?? this.servingQuantityTextController,
+      servingMeasurementTextController: servingMeasurementTextController ?? this.servingMeasurementTextController,
       kilocaloriesTextController: kilocaloriesTextController ?? this.kilocaloriesTextController,
       cookingTimeTextController: cookingTimeTextController ?? this.cookingTimeTextController,
       cookingTimeHiddenTextController: cookingTimeHiddenTextController ?? this.cookingTimeHiddenTextController,
       recipeStepDescriptionTextController: recipeStepDescriptionTextController ?? this.recipeStepDescriptionTextController,
+      recipeDescriptionTextController: recipeDescriptionTextController ?? this.recipeDescriptionTextController,
+      recipeTitleTextController: recipeTitleTextController ?? this.recipeTitleTextController,
       recipeTagTextController: recipeTagTextController ?? this.recipeTagTextController,
       ingredientList: ingredientList ?? this.ingredientList,
       recipeStepList: recipeStepList ?? this.recipeStepList,
+      currentRecipeStepImageIds: currentRecipeStepImageIds ?? this.currentRecipeStepImageIds,
       recipeTagList: recipeTagList ?? this.recipeTagList,
       ingredientName: ingredientName ?? this.ingredientName,
       ingredientQuantity: ingredientQuantity ?? this.ingredientQuantity,
       ingredientMeasurement: ingredientMeasurement ?? this.ingredientMeasurement,
       servingNumber: servingNumber ?? this.servingNumber,
-      servingSize: servingSize ?? this.servingSize,
+      servingQuantity: servingQuantity ?? this.servingQuantity,
+      servingMeasurement: servingMeasurement ?? this.servingMeasurement,
       kilocalories: kilocalories ?? this.kilocalories,
       cookingTime: cookingTime ?? this.cookingTime,
       recipeStepDescription: recipeStepDescription ?? this.recipeStepDescription,
+      recipeTitle: recipeTitle ?? this.recipeTitle,
+      recipeDescription: recipeDescription ?? this.recipeDescription,
       recipeTag: recipeTag ?? this.recipeTag,
       ingredientNameValid: ingredientNameValid ?? this.ingredientNameValid,
       ingredientQuantityValid: ingredientQuantityValid ?? this.ingredientQuantityValid,
       ingredientMeasurementValid: ingredientMeasurementValid ?? this.ingredientMeasurementValid,
       servingNumberValid: servingNumberValid ?? this.servingNumberValid,
-      servingSizeValid: servingSizeValid ?? this.servingSizeValid,
+      servingQuantityValid: servingQuantityValid ?? this.servingQuantityValid,
+      servingMeasurementValid: servingMeasurementValid ?? this.servingMeasurementValid,
       kilocaloriesValid: kilocaloriesValid ?? this.kilocaloriesValid,
       cookingTimeValid: cookingTimeValid ?? this.cookingTimeValid,
       recipeStepDescriptionValid: recipeStepDescriptionValid ?? this.recipeStepDescriptionValid,
+      recipeDescriptionValid: recipeDescriptionValid ?? this.recipeDescriptionValid,
+      recipeTitleValid: recipeTitleValid ?? this.recipeTitleValid,
       recipeTagValid: recipeTagValid ?? this.recipeTagValid,
       recipeThumbnailPath: recipeThumbnailPath ?? this.recipeThumbnailPath,
+      currentRecipeThumbnailId: currentRecipeThumbnailId ?? this.currentRecipeThumbnailId,
       recipeStepImagePath: recipeStepImagePath ?? this.recipeStepImagePath,
       formStatus: formStatus ?? this.formStatus,
+      currentRecipeId: currentRecipeId ?? this.currentRecipeId,
+      pageType: pageType ?? this.pageType,
+      recipeOwned: recipeOwned ?? this.recipeOwned,
+      formErrorMessage: formErrorMessage ?? this.formErrorMessage
     );
   }
 }

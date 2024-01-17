@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list_page/conversation_list_page.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
@@ -15,20 +17,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-        create: (_) => RecipeRepository(),
-        child: BlocProvider<RecipeViewBloc>(
-            create: (recipeRepoContext) => RecipeViewBloc(
-                context.read<AuthenticationRepository>(),
-                recipeRepoContext.read<RecipeRepository>()),
-            child: const NavBarView(
-              widgetPages: [
-                PlaceholderPage(),
-                RecipeViewPage(),
-                PlaceholderPage(),
-                PlaceholderPage()
-              ],
-              pageTitles: ["Welcome", "Your Recipes", "Chats", "Notifications"],
-            )));
+    return BlocProvider<RecipeViewBloc>(
+      create: (recipeRepoContext) => RecipeViewBloc(
+        context.read<AuthenticationRepository>(),
+        context.read<NavigationRepository>(),
+        context.read<RecipeRepository>(),
+        context.read<NetworkManager>()),
+      child: const NavBarView(
+        widgetPages: [
+          ConversationListPage(),
+          RecipeViewPage(),
+          PlaceholderPage(),
+          PlaceholderPage()
+        ],
+        onLandOnce: [false, true, false, false],
+      ));
   }
 }
