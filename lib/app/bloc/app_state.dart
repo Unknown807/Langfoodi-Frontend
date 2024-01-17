@@ -4,7 +4,6 @@ enum AppStatus { loading, authenticated, unauthenticated }
 
 final class AppState extends Equatable {
   const AppState({this.status = AppStatus.loading, this.themeMode = ThemeMode.light});
-  const AppState._({required this.status, this.themeMode = ThemeMode.light});
 
   final AppStatus status;
   final ThemeMode themeMode;

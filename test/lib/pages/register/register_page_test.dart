@@ -29,7 +29,7 @@ void main() {
       // Assert
       final Container imgContainer = widgetTester.widget(find.byKey(const Key("registerPageBgImg")).first);
       final BoxDecoration boxDeco = imgContainer.decoration! as BoxDecoration;
-      expect(boxDeco.image!.image, const AssetImage("assets/images/background.png"));
+      expect(boxDeco.image!.image, const AssetImage("assets/images/light_auth_bg.png"));
       expect(find.text("Welcome"), findsOneWidget);
       expect(find.text("Sign Up"), findsOneWidget);
       expect(find.text("Already got an account?    "), findsOneWidget);

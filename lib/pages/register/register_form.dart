@@ -17,7 +17,7 @@ class RegisterForm extends StatelessWidget {
         Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -161,6 +161,7 @@ class ConfirmPasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
+          boxDecorationType: FormInputBoxDecorationType.minimal,
           errorText: FormValidationError.getErrorMessage(state.confirmedPassword.displayError),
           hintText: "Confirm Password",
           eventFunc: (confirmedPassword) {

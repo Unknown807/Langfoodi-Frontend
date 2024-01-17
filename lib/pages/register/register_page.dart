@@ -20,11 +20,13 @@ class RegisterPage extends StatelessWidget {
                   Container(
                     key: const Key("registerPageBgImg"),
                     height: 350,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/images/background.png"),
-                          fit: BoxFit.fill),
-                    ),
+                        fit: BoxFit.fill,
+                        image: context.read<ImageBuilder>().getAssetImage(
+                          "assets/images/${Theme.of(context).brightness == Brightness.light ? "light": "dark"}_auth_bg.png"
+                        ),
+                    )),
                     child: Stack(
                       children: <Widget>[
                         Positioned(
