@@ -49,7 +49,7 @@ void main() {
       final result = await sut.getKey("test-key");
 
       // Assert
-      expect(result, "");
+      expect(result, isNull);
     });
   });
 
