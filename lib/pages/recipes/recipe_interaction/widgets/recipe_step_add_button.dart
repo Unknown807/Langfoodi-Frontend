@@ -15,7 +15,8 @@ class RecipeStepAddButton extends StatelessWidget {
             child: ElevatedButton(
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(EdgeInsets.zero),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.secondary),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),

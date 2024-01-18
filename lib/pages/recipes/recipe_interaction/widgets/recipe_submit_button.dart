@@ -10,9 +10,9 @@ class RecipeSubmitButton extends StatelessWidget {
           final String formType = state.pageType == RecipeInteractionType.edit ? "update" : "create";
           return IconButton(
             padding: const EdgeInsets.only(right: 20),
-            icon: const Icon(
+            icon: Icon(
               Icons.check_circle_outline,
-              color: Colors.lightGreenAccent,
+              color: Theme.of(context).colorScheme.primary,
               size: 30,
             ),
             onPressed: () => showDialog(

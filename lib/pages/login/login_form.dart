@@ -15,25 +15,28 @@ class LoginForm extends StatelessWidget {
           const FormErrorLabel(),
           const SizedBox(height: 5),
           Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Color.fromRGBO(143, 148, 251, .2),
-                        blurRadius: 20.0,
-                        offset: Offset(0, 10))
-                  ]),
-              child: const Column(children: <Widget>[
-                HandlerEmailInput(),
-                PasswordInput(),
-              ])),
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow,
+                  blurRadius: 20.0,
+                  offset: const Offset(0, 10))
+              ]),
+            child: const Column(children: <Widget>[
+              HandlerEmailInput(),
+              PasswordInput(),
+            ])),
           const SizedBox(height: 5),
           Row(
             children: <Widget>[
               const Spacer(),
-              CustomTextButton(eventFunc: () {}, text: "Forgot Password?"),
+              CustomTextButton(
+                text: "Forgot Password?",
+                fontSize: 14,
+                eventFunc: () {}),
             ],
           ),
           const LoginButton(),
@@ -41,16 +44,15 @@ class LoginForm extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("Don't have an account?    ",
-                  style: TextStyle(
-                    color: Color.fromRGBO(143, 148, 251, 1),
-                  )),
+              Text("Don't have an account?    ",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                )),
               CustomTextButton(
-                  eventFunc: () => context
-                    .read<NavigationRepository>()
-                    .goTo(context, "/register"),
-                  text: "Sign Up",
-                  fontSize: 16),
+                eventFunc: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "/register"),
+                text: "Sign Up"),
             ],
           ),
         ]));
@@ -66,9 +68,7 @@ class FormErrorLabel extends StatelessWidget {
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
         return Text(state.errorMessage,
-            style: const TextStyle(
-              color: Color.fromRGBO(244, 113, 116, 1),
-            ));
+          style: TextStyle(color: Theme.of(context).colorScheme.error));
       },
     );
   }
@@ -83,11 +83,11 @@ class HandlerEmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return FormInput(
-            boxDecorationType: FormInputBoxDecorationType.underlined,
-            hintText: "Handler or Email",
-            eventFunc: (value) {
-              context.read<LoginBloc>().add(EmailChanged(value));
-            });
+          boxDecorationType: FormInputBoxDecorationType.underlined,
+          hintText: "Handler or Email",
+          eventFunc: (value) {
+            context.read<LoginBloc>().add(EmailChanged(value));
+          });
       },
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:cloudinary_flutter/image/cld_image.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +89,17 @@ void main() {
       // Assert
       expect(result, isNotNull);
       expect(result, isA<CldImageWidget>());
+    });
+  });
+
+  group("getAssetImage method tests", () {
+    test("AssetImage is returned", () async {
+      // Act
+      final result = sut.getAssetImage("./image.png");
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<AssetImage>());
     });
   });
 
