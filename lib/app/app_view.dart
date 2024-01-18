@@ -120,7 +120,7 @@ class _AppView extends StatelessWidget {
               displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
             ),
           ),
-          themeMode: ThemeMode.light,
+          themeMode: state.themeMode,
           routes: {
             "/splash": (context) => const SplashPage(),
             "/home": (context) => const HomePage(),
