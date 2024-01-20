@@ -20,7 +20,7 @@ class RecipeTagInput extends StatelessWidget {
                       fontSize: RecipeInteractionPageConstants.inputFormFontSize,
                       maxLines: 1,
                       outerPadding: const EdgeInsets.only(top: 10),
-                      innerPadding: const EdgeInsets.only(left: 8),
+                      innerPadding: const EdgeInsets.symmetric(horizontal: 8),
                       eventFunc: (value) {
                         context
                             .read<RecipeInteractionBloc>()
