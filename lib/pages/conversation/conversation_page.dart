@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/message_input.dart';
+import 'package:recipe_social_media/pages/conversation/widgets/message_list.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -36,11 +37,35 @@ class ConversationPage extends StatelessWidget {
         ],
         onSearchFunc: (term) {print(term);},
       ),
-      body: const Column (
+      body: Column (
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO: list view for messages
-          MessageInput()
+          const Expanded(flex: 8, child: MessageList()),
+          Flexible(
+            flex: 1,
+            child: Row(
+            children: [
+              const Flexible(flex: 7, child: MessageInput()),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  splashRadius: 25,
+                  color: Theme.of(context).colorScheme.secondary,
+                  icon: const Icon(Icons.fastfood),
+                  onPressed: () {},
+                )
+              ),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  splashRadius: 25,
+                  color: Theme.of(context).colorScheme.tertiary,
+                  icon: const Icon(Icons.image_rounded),
+                  onPressed: () {},
+                )
+              )
+            ],
+          ))
         ]
       )
     );
