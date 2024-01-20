@@ -13,7 +13,7 @@ void main() {
             PageLanderFake(pageText: "profile page"),
             PageLanderFake(pageText: "notifications page"),
           ],
-          pageTitles: ["Conversations", "My Recipes", "Profile", "Notifications"],),
+          onLandOnce: [false, true, false, false]),
         )
     );
   }
@@ -25,13 +25,11 @@ void main() {
 
       // Assert
       expect(find.byIcon(Icons.chat), findsOneWidget);
-      expect(find.text("Conversations"), findsNWidgets(2));
+      expect(find.text("Conversations"), findsOneWidget);
       expect(find.byIcon(Icons.fastfood), findsOneWidget);
       expect(find.text("My Recipes"), findsOneWidget);
       expect(find.byIcon(Icons.person), findsOneWidget);
       expect(find.text("Profile"), findsOneWidget);
-      expect(find.byIcon(Icons.notifications), findsOneWidget);
-      expect(find.text("Notifications"), findsOneWidget);
     });
 
     testWidgets("on 'Conversations' page", (widgetTester) async {
@@ -39,7 +37,6 @@ void main() {
       await widgetTester.pumpWidget(createWidgetUnderTest());
 
       // Assert
-      expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.text("conversations page"), findsOneWidget);
     });
 
@@ -52,7 +49,6 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
-      expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.text("recipes page"), findsOneWidget);
     });
 
@@ -65,21 +61,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       // Assert
-      expect(find.byType(TopAppBar), findsOneWidget);
       expect(find.text("profile page"), findsOneWidget);
-    });
-
-    testWidgets("on 'Notifications' page", (widgetTester) async {
-      // Arrange
-      await widgetTester.pumpWidget(createWidgetUnderTest());
-
-      // Act
-      await widgetTester.tap(find.text("Notifications"));
-      await widgetTester.pumpAndSettle();
-
-      // Assert
-      expect(find.byType(TopAppBar), findsOneWidget);
-      expect(find.text("notifications page"), findsOneWidget);
     });
   });
 }

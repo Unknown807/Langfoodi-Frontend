@@ -38,7 +38,7 @@ void main() {
   });
 
   group("decideOnAndDisplayImage method tests", () {
-    test("imageUrl is a local file, so return standard Image widget", () async {
+    test("imageUrl is a local file, so return FileImage widget", () async {
       // Arrange
       when(() => fileSystemMock.isFileSync(any())).thenReturn(true);
 
@@ -48,6 +48,24 @@ void main() {
       // Assert
       expect(result, isNotNull);
       expect(result, isA<Image>());
+      expect((result as Image).image, isA<FileImage>());
+    });
+
+    test("imageUrl is a local asset file, isAsset is true, so return AssetImage widget", () async {
+      // Arrange
+      when(() => fileSystemMock.isFileSync(any())).thenReturn(true);
+
+      // Act
+      final result = sut.decideOnAndDisplayImage(
+        isAsset: true,
+        imageUrl: "./image.png",
+        errorBuilder: errorBuilderStub
+      );
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Image>());
+      expect((result as Image).image, isA<AssetImage>());
     });
 
     test("imageUrl is a cloudinary id, so return CldImageWidget", () async {
@@ -55,7 +73,7 @@ void main() {
       when(() => fileSystemMock.isFileSync(any())).thenReturn(false);
 
       // Act
-      final result = sut.decideOnAndDisplayImage(imageUrl: "./image.png", errorBuilder: errorBuilderStub);
+      final result = sut.decideOnAndDisplayImage(imageUrl: "id12345", errorBuilder: errorBuilderStub);
 
       // Assert
       expect(result, isNotNull);
@@ -74,6 +92,29 @@ void main() {
     });
   });
 
+  group("getAssetImage method tests", () {
+    test("AssetImage is returned", () async {
+      // Act
+      final result = sut.getAssetImage("./image.png");
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<AssetImage>());
+    });
+  });
+
+  group("displayAssetImage method tests", () {
+    test("Image is returned", () async {
+      // Act
+      final result = sut.displayAssetImage(imagePath: "./image.png", errorBuilder: errorBuilderStub);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Image>());
+      expect((result as Image).image, isA<AssetImage>());
+    });
+  });
+
   group("displayLocalImage method tests", () {
     test("Image is returned", () async {
       // Act
@@ -82,6 +123,7 @@ void main() {
       // Assert
       expect(result, isNotNull);
       expect(result, isA<Image>());
+      expect((result as Image).image, isA<FileImage>());
     });
   });
 }

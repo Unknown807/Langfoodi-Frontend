@@ -16,12 +16,12 @@ class AuthenticationRepository {
   final userKey = "loggedInUser";
 
   Future<User> get currentUser async {
-    String userStr = await localStore.getKey(userKey);
+    String userStr = (await localStore.getKey(userKey))!;
     return User.fromJsonStr(userStr, jsonWrapper);
   }
 
   Future<bool> isAuthenticated() async {
-    String userStr = await localStore.getKey(userKey);
+    String userStr = await localStore.getKey(userKey) ?? "";
     if (userStr.isNotEmpty) {
       User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
 

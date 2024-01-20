@@ -20,17 +20,20 @@ class RecipeThumbnailPicker extends StatelessWidget {
                 child: AspectRatio(
                     aspectRatio: 4 / 3,
                     child: state.recipeThumbnailPath.isEmpty
-                        ? const CustomIconTile(icon: Icons.image, iconColor: Colors.blue, tileColor: Colors.blue)
+                        ? CustomIconTile(
+                            icon: Icons.image,
+                            iconColor: Theme.of(context).colorScheme.tertiary,
+                            tileColor: Theme.of(context).colorScheme.tertiary)
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                               imageUrl: state.recipeThumbnailPath,
                               transformationType: ImageTransformationType.standard,
                               errorBuilder: (context, obj1, obj2) {
-                                return const CustomIconTile(
-                                  icon: Icons.close,
-                                  iconColor: Colors.red,
-                                  tileColor: Colors.red,
+                                return CustomIconTile(
+                                  icon: Icons.error,
+                                  iconColor: Theme.of(context).colorScheme.error,
+                                  tileColor: Theme.of(context).colorScheme.error,
                                 );
                               },
                             ),

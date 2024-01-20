@@ -21,12 +21,12 @@ class CustomIconTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DottedBorder(
-        strokeWidth: borderStrokeWidth,
-        color: tileColor,
-        borderType: BorderType.RRect,
-        radius: Radius.circular(borderRadius),
-        padding: const EdgeInsets.all(25),
-        child: Center(child: Icon(icon, size: iconSize, color: iconColor))
+      strokeWidth: borderStrokeWidth,
+      color: tileColor,
+      borderType: BorderType.RRect,
+      radius: Radius.circular(borderRadius),
+      padding: const EdgeInsets.all(25),
+      child: Center(child: Icon(icon, size: iconSize, color: iconColor))
     );
   }
 }

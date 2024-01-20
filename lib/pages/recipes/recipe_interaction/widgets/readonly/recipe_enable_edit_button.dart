@@ -9,9 +9,9 @@ class RecipeEnableEditButton extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
           padding: const EdgeInsets.only(right: 20),
-          icon: const Icon(
+          icon: Icon(
             Icons.edit,
-            color: Colors.blue,
+            color: Theme.of(context).colorScheme.secondary,
             size: 30
           ),
           onPressed: () => showDialog(

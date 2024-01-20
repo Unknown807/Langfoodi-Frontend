@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+part of 'shared_widgets.dart';
 
 enum SortingOption { lastMessage, alphabeticalOrder, dateAdded }
 
@@ -15,7 +14,6 @@ class SortingOptionButton extends StatefulWidget {
 }
 
 class _SortingOptionButtonState extends State<SortingOptionButton> {
-
   bool isHovered = false;
 
   @override

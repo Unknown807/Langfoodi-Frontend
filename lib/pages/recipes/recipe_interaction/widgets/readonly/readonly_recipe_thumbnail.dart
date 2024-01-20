@@ -7,31 +7,31 @@ class ReadonlyRecipeThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
       builder: (context, state) {
+        bool noImage = state.recipeThumbnailPath.isEmpty;
         return Padding(
             padding: const EdgeInsets.only(top: 5, right: 5),
             child: AspectRatio(
                 aspectRatio: 4 / 3,
-                child: state.recipeThumbnailPath.isEmpty
-                    ? const SizedBox()
-                    : GestureDetector(
-                        onTap: () => context
-                          .read<NavigationRepository>()
-                          .goTo(context, "/cloudinary-image-view",
-                            arguments: ImageViewPageArguments(imageUrl: state.recipeThumbnailPath)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: context.read<ImageBuilder>().decideOnAndDisplayImage(
-                                imageUrl: state.recipeThumbnailPath,
-                                transformationType: ImageTransformationType.standard,
-                                errorBuilder: (context, obj1, obj2) {
-                                  return const CustomIconTile(
-                                    icon: Icons.close,
-                                    iconColor: Colors.red,
-                                    tileColor: Colors.red,
-                                  );
-                                },
-                              ),
-                      ))));
+                child: GestureDetector(
+                  onTap: noImage ? null : () => context
+                    .read<NavigationRepository>()
+                    .goTo(context, "/cloudinary-image-view",
+                      arguments: ImageViewPageArguments(imageUrl: state.recipeThumbnailPath)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                      isAsset: true,
+                      imageUrl: noImage ? "assets/images/no_image.png" : state.recipeThumbnailPath,
+                      transformationType: ImageTransformationType.standard,
+                      errorBuilder: (context, obj1, obj2) {
+                        return CustomIconTile(
+                          icon: Icons.error,
+                          iconColor: Theme.of(context).colorScheme.error,
+                          tileColor: Theme.of(context).colorScheme.error,
+                        );
+                      },
+                    ),
+                ))));
       },
     );
   }

@@ -1,5 +1,6 @@
 class RecipeViewPageArguments {
-  RecipeViewPageArguments({required this.formType});
+  RecipeViewPageArguments({required this.dialogTitle, required this.dialogMessage});
 
-  final String formType;
+  final String dialogTitle;
+  final String dialogMessage;
 }

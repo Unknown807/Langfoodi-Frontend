@@ -174,6 +174,10 @@ final class AddNewRecipeStepFromButton extends RecipeInteractionEvent {
   const AddNewRecipeStepFromButton();
 }
 
+final class AddNewIngredientFromButton extends RecipeInteractionEvent {
+  const AddNewIngredientFromButton();
+}
+
 final class AddNewRecipeStepFromDescription extends RecipeInteractionEvent {
   const AddNewRecipeStepFromDescription(this.description);
 

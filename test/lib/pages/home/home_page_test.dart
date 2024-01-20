@@ -5,15 +5,17 @@ import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import '../../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
   Widget createWidgetUnderTest() {
-    RecipeRepository(RequestMock(), JsonWrapperMock());
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<RecipeRepository>(create: (_) => RecipeRepositoryMock()),
         RepositoryProvider<AuthenticationRepository>(create: (_) => AuthenticationRepositoryMock()),
-        RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock())
+        RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock()),
+        RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock())
       ],
       child: const MaterialApp(
         home: HomePage(),
@@ -32,8 +34,6 @@ void main() {
       expect(find.text("My Recipes"), findsOneWidget);
       expect(find.byIcon(Icons.person), findsAtLeastNWidgets(1));
       expect(find.text("Profile"), findsOneWidget);
-      expect(find.byIcon(Icons.notifications), findsOneWidget);
-      expect(find.text("Notifications"), findsOneWidget);
     });
   });
 }

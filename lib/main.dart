@@ -42,20 +42,18 @@ Future<void> main() async {
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 
-  // Widget Utilities
+  final networkManager = NetworkManager();
   final imageTransformationBuilder = ImageTransformationBuilder();
   final imageBuilder = ImageBuilder(imageTransformationBuilder, localFileSystem);
 
-  // Singleton Repositories
-  RecipeRepository(request, jsonWrapper);
-  ImageRepository(request, jsonWrapper, cloudinaryConfig);
-
-  // Top-level Repositories
-  final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
+  // Repositories
   final navigationRepo = NavigationRepository();
+  final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
+  final imageRepo = ImageRepository(request, jsonWrapper, cloudinaryConfig);
+  final recipeRepo = RecipeRepository(request, jsonWrapper);
 
-  // The below 2 lines are used for manual testing purposes:
-  // localStore.deleteKey("loggedInUser");
+  // The below 2 (commented out) lines are used for manual testing purposes:
+
   //HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,9 +61,15 @@ Future<void> main() async {
   runApp(App(
     authRepo: authRepo,
     navigationRepo: navigationRepo,
+    imageRepo: imageRepo,
+    recipeRepo: recipeRepo,
     imageTransformationBuilder: imageTransformationBuilder,
-    imageBuilder: imageBuilder
+    imageBuilder: imageBuilder,
+    networkManager: networkManager,
+    localStore: localStore,
   ));
+
+  //localStore.deleteKey("loggedInUser");
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
 }

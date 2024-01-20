@@ -39,10 +39,10 @@ void main() {
   testWidgets("UI defined and working, image (placeholder) displayed", (widgetTester) async {
     // Arrange
     when(() => imageBuilderMock.displayCloudinaryImage(
-        imageUrl: any(named: "imageUrl"),
-        transformationType: ImageTransformationType.high,
-        errorBuilder: any(named: "errorBuilder")))
-        .thenReturn(const Icon(Icons.image));
+      imageUrl: any(named: "imageUrl"),
+      transformationType: ImageTransformationType.high,
+      errorBuilder: any(named: "errorBuilder")))
+    .thenReturn(const Icon(Icons.image));
 
     await widgetTester.pumpWidget(createWidgetUnderTest(ImageViewPageArguments(imageUrl: "mock_image_url")));
     await widgetTester.pumpAndSettle();

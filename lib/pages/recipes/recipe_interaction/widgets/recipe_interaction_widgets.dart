@@ -12,7 +12,6 @@ import 'package:recipe_social_media/repositories/navigation/args/image_view/imag
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/custom_alert_dialog.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'recipe_interaction_widgets.dart';
@@ -40,3 +39,4 @@ part 'readonly/readonly_recipe_step_list.dart';
 part 'readonly/readonly_ingredient_list.dart';
 part 'readonly/recipe_enable_edit_button.dart';
 part 'readonly/readonly_recipe_thumbnail.dart';
+part 'ingredient_submit_button.dart';

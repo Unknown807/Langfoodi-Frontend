@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
-import 'package:recipe_social_media/widgets/sorting_options_button.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:equatable/equatable.dart';
 
 part 'conversation_list_event.dart';

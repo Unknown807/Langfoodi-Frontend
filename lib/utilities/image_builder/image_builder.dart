@@ -8,25 +8,33 @@ class ImageBuilder {
 
   Widget decideOnAndDisplayImage({required String imageUrl,
     required Widget Function(BuildContext context, dynamic obj1, dynamic obj2) errorBuilder,
-    BoxFit? imageFit = BoxFit.cover, ImageTransformationType transformationType = ImageTransformationType.none})
+    BoxFit imageFit = BoxFit.cover, bool isAsset = false,
+    ImageTransformationType transformationType = ImageTransformationType.none})
   {
-    if (fileSystem.isFileSync(imageUrl)) {
-      return displayLocalImage(
+    if (fileSystem.isFileSync(imageUrl) || imageUrl.endsWith(".png")) {
+      if (isAsset) {
+        return displayAssetImage(
           imagePath: imageUrl,
           errorBuilder: errorBuilder,
           imageFit: imageFit);
+      } else {
+        return displayLocalImage(
+          imagePath: imageUrl,
+          errorBuilder: errorBuilder,
+          imageFit: imageFit);
+      }
     }
 
     return displayCloudinaryImage(
-        imageUrl: imageUrl,
-        errorBuilder: errorBuilder,
-        imageFit: imageFit,
-        transformationType: transformationType);
+      imageUrl: imageUrl,
+      errorBuilder: errorBuilder,
+      imageFit: imageFit,
+      transformationType: transformationType);
   }
 
   Widget displayCloudinaryImage({required String imageUrl,
-      required Widget Function(BuildContext context, String url, Object error) errorBuilder,
-      BoxFit? imageFit = BoxFit.cover, ImageTransformationType transformationType = ImageTransformationType.none})
+    required Widget Function(BuildContext context, String url, Object error) errorBuilder,
+    BoxFit imageFit = BoxFit.cover, ImageTransformationType transformationType = ImageTransformationType.none})
   {
     return CldImageWidget(
       publicId: imageUrl,
@@ -38,13 +46,27 @@ class ImageBuilder {
     );
   }
 
+  Widget displayAssetImage({required String imagePath,
+    required Widget Function(BuildContext context, Object exception, StackTrace? stackTrace) errorBuilder,
+    BoxFit imageFit = BoxFit.cover})
+  {
+    return Image.asset(
+      imagePath,
+      fit: imageFit,
+      errorBuilder: errorBuilder);
+  }
+
+  AssetImage getAssetImage(String imagePath) {
+    return AssetImage(imagePath);
+  }
+
   Widget displayLocalImage({required String imagePath,
-      required Widget Function(BuildContext context, Object exception, StackTrace? stackTrace) errorBuilder,
-      BoxFit? imageFit = BoxFit.cover})
+    required Widget Function(BuildContext context, Object exception, StackTrace? stackTrace) errorBuilder,
+    BoxFit imageFit = BoxFit.cover})
   {
     return Image.file(
-        fileSystem.file(imagePath),
-        fit: imageFit,
-        errorBuilder: errorBuilder);
+      fileSystem.file(imagePath),
+      fit: imageFit,
+      errorBuilder: errorBuilder);
   }
 }

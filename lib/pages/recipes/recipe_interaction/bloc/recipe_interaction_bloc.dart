@@ -8,13 +8,14 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'recipe_interaction_bloc.dart';
 part 'recipe_interaction_event.dart';
 part 'recipe_interaction_state.dart';
 
 class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteractionState> {
-  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo) : super(RecipeInteractionState(
+  RecipeInteractionBloc(this._authRepo, this._recipeRepo, this._imageRepo, this._networkManager) : super(RecipeInteractionState(
     ingredientNameTextController: TextEditingController(),
     ingredientQuantityTextController: TextEditingController(),
     ingredientMeasurementTextController: TextEditingController(),
@@ -54,6 +55,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     on<AddNewRecipeTagFromButton>(_addNewTagFromButton);
     on<RecipeTagChanged>(_recipeTagChanged);
     on<RemoveRecipeTag>(_removeRecipeTag);
+    on<AddNewIngredientFromButton>(_addNewIngredientFromButton);
     on<RecipeFormSubmission>(_recipeFormSubmission);
     on<EnableRecipeEditing>(_enableRecipeEditing);
     on<ResetFormStatus>(_resetFormStatus);
@@ -63,6 +65,7 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final ImageRepository _imageRepo;
+  final NetworkManager _networkManager;
 
   void _resetFormStatus(ResetFormStatus event, Emitter<RecipeInteractionState> emit) async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.initial));
@@ -76,9 +79,20 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     if (event.pageType == RecipeInteractionType.create) return;
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
     RecipeDetailed? recipe = await _recipeRepo.getRecipeById(event.recipeId!);
     if (recipe == null) {
-      return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Problem getting recipe to view"
+      ));
     }
 
     state.recipeTitleTextController.text = recipe.title;
@@ -110,9 +124,9 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       ingredientList: recipe.ingredients,
       recipeStepList: recipe.recipeSteps,
       currentRecipeStepImageIds: recipe.recipeSteps
-          .where((rs) => rs.imageUrl != null)
-          .map((rs) => rs.imageUrl as String)
-          .toList(),
+        .where((rs) => rs.imageUrl != null)
+        .map((rs) => rs.imageUrl as String)
+        .toList(),
       servingNumber: ServingNumber.dirty(recipe.numberOfServings?.toString() ?? ""),
       servingQuantity: ServingQuantity.dirty(recipe.servingQuantity?.toString() ?? ""),
       servingMeasurement: ServingMeasurement.dirty(recipe.servingUnitOfMeasurement ?? ""),
@@ -316,6 +330,14 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   void _recipeEditFormSubmission() async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
 
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
     if (!validateAllRelevantFields()) {
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
     }
@@ -375,6 +397,14 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
 
   void _recipeCreateFormSubmission() async {
     emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        formErrorMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
 
     if (!validateAllRelevantFields()) {
       return emit(state.copyWith(formStatus: FormzSubmissionStatus.failure));
@@ -667,8 +697,8 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final quantity = IngredientQuantity.dirty(event.quantity);
 
     emit(state.copyWith(
-        ingredientQuantity: quantity,
-        ingredientQuantityValid: Formz.validate([quantity])
+      ingredientQuantity: quantity,
+      ingredientQuantityValid: Formz.validate([quantity])
     ));
   }
 
@@ -676,30 +706,37 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
     final measurement = IngredientMeasurement.dirty(event.measurement);
 
     emit(state.copyWith(
-        ingredientMeasurement: measurement,
-        ingredientMeasurementValid: Formz.validate([measurement])
+      ingredientMeasurement: measurement,
+      ingredientMeasurementValid: Formz.validate([measurement])
     ));
   }
 
   void _addNewIngredientFromName(AddNewIngredientFromName event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        event.name,
-        state.ingredientQuantity.value,
-        state.ingredientMeasurement.value);
+      event.name,
+      state.ingredientQuantity.value,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredientFromQuantity(AddNewIngredientFromQuantity event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        state.ingredientName.value,
-        event.quantity,
-        state.ingredientMeasurement.value);
+      state.ingredientName.value,
+      event.quantity,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredientFromMeasurement(AddNewIngredientFromMeasurement event, Emitter<RecipeInteractionState> emit) {
     _addNewIngredient(
-        state.ingredientName.value,
-        state.ingredientQuantity.value,
-        event.measurement);
+      state.ingredientName.value,
+      state.ingredientQuantity.value,
+      event.measurement);
+  }
+
+  void _addNewIngredientFromButton(AddNewIngredientFromButton event, Emitter<RecipeInteractionState> emit) {
+    _addNewIngredient(
+      state.ingredientName.value,
+      state.ingredientQuantity.value,
+      state.ingredientMeasurement.value);
   }
 
   void _addNewIngredient(String ingredientName, String ingredientQuantity, String ingredientMeasurement) {

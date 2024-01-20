@@ -17,21 +17,19 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-        create: (_) => RecipeRepository(),
-        child: BlocProvider<RecipeViewBloc>(
-            create: (recipeRepoContext) => RecipeViewBloc(
-              context.read<AuthenticationRepository>(),
-              context.read<NavigationRepository>(),
-              recipeRepoContext.read<RecipeRepository>()),
-            child: const NavBarView(
-              widgetPages: [
-                ConversationListPage(),
-                RecipeViewPage(),
-                PlaceholderPage(),
-                PlaceholderPage()
-              ],
-              pageTitles: ["Conversations", "My Recipes", "Profile", "Notifications"],
-            )));
+    return BlocProvider<RecipeViewBloc>(
+      create: (recipeRepoContext) => RecipeViewBloc(
+        context.read<AuthenticationRepository>(),
+        context.read<NavigationRepository>(),
+        context.read<RecipeRepository>(),
+        context.read<NetworkManager>()),
+      child: const NavBarView(
+        widgetPages: [
+          ConversationListPage(),
+          RecipeViewPage(),
+          PlaceholderPage(),
+        ],
+        onLandOnce: [false, true, false],
+      ));
   }
 }

@@ -12,6 +12,24 @@ final class ChangeRecipesToDisplay extends RecipeViewEvent {
   const ChangeRecipesToDisplay();
 }
 
+final class SearchTermChanged extends RecipeViewEvent {
+  const SearchTermChanged(this.searchTerm);
+
+  final String searchTerm;
+
+  @override
+  List<Object> get props => [searchTerm];
+}
+
+final class RemoveRecipe extends RecipeViewEvent {
+  const RemoveRecipe(this.recipeId);
+
+  final String recipeId;
+
+  @override
+  List<Object> get props => [recipeId];
+}
+
 final class GoToInteractionPageAndExpectResult extends RecipeViewEvent {
   const GoToInteractionPageAndExpectResult(this.context, this.arguments);
 
