@@ -6,20 +6,25 @@ class CustomSearchAppBar extends StatelessWidget implements PreferredSizeWidget 
     required this.title,
     required this.onSearchFunc,
     this.suggestions,
-    this.hintText = ""
+    this.hintText = "",
+    this.actions = const []
   });
 
-  final String title;
+  final Widget title;
   final String hintText;
+  final List<Widget> actions;
   final Function(String) onSearchFunc;
   final List<String>? suggestions;
 
   @override
   Widget build(BuildContext context) {
     return EasySearchBar(
+      title: title,
+      actions: actions,
+      putActionsOnRight: true,
       backgroundColor: Theme.of(context).primaryColor,
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onPrimary, size: 25),
-      title: Text(title, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+      titleTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onPrimary),
       searchHintText: hintText,
       searchBackgroundColor: Theme.of(context).colorScheme.background,
       searchHintStyle: TextStyle(fontSize: 20, color: Theme.of(context).hintColor),
