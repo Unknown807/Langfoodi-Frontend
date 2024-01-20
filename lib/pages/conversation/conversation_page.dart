@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
+import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
+import 'package:recipe_social_media/pages/conversation/widgets/message_input.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -37,6 +39,8 @@ class ConversationPage extends StatelessWidget {
       body: const Column (
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //TODO: list view for messages
+          MessageInput()
         ]
       )
     );
