@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
+import 'package:recipe_social_media/entities/messaging/conversation_page_arguments.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/message_input.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/message_list.dart';

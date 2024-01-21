@@ -2,10 +2,10 @@ part of 'user_entities.dart';
 
 class UserAccount extends Equatable with JsonConvertible {
   const UserAccount(
-      this.id,
-      this.handler,
-      this.username,
-      this.creationDate
+    this.id,
+    this.handler,
+    this.username,
+    this.creationDate
   );
 
   final String id;

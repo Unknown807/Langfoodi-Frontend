@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
+part of 'conversation_entities.dart';
 
 enum ConversationStatus { connected, blocked, pending }
 
@@ -11,7 +10,7 @@ class ConversationCardContent extends Equatable {
     this.lastMessageSentDate,
   });
 
-  final ConversationDetails details;
+  final Conversation details;
   final String lastMessage;
   final String lastMessageSender;
   final DateTime? lastMessageSentDate;

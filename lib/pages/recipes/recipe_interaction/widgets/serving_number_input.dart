@@ -20,13 +20,13 @@ class ServingNumberInput extends StatelessWidget {
           labelText: (readonly && isEmpty) ? null : 'Number Of Servings',
           hintText: (readonly && isEmpty) ? 'Number of Servings' : null,
           boxDecorationType: state.servingNumberValid
-              ? FormInputBoxDecorationType.textArea
-              : FormInputBoxDecorationType.error,
+            ? FormInputBoxDecorationType.textArea
+            : FormInputBoxDecorationType.error,
           fontSize: RecipeInteractionPageConstants.inputFormFontSize,
           eventFunc: (value) {
             context
-                .read<RecipeInteractionBloc>()
-                .add(ServingNumberChanged(value));
+              .read<RecipeInteractionBloc>()
+              .add(ServingNumberChanged(value));
           },
         );
       },

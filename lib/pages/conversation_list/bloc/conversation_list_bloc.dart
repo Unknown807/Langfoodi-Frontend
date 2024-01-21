@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
-import 'package:recipe_social_media/entities/messaging/conversation_details.dart';
+import 'package:recipe_social_media/entities/messaging/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:equatable/equatable.dart';
