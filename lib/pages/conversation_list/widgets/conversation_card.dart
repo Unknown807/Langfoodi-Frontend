@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
+import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 
 class ConversationCard extends StatelessWidget {
@@ -23,7 +24,10 @@ class ConversationCard extends StatelessWidget {
           return GestureDetector(
             onTap: () => context
               .read<NavigationRepository>()
-              .goTo(context, "/conversation", arguments: conversationCardContent.details),
+              .goTo(context, "/conversation",
+                arguments: ConversationPageArguments(
+                  conversationName: conversationCardContent.details.conversationName,
+                  isGroup: conversationCardContent.details.isGroup)),
             child: Center(
               child: Card(
               elevation: 0,

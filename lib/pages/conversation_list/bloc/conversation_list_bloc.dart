@@ -27,13 +27,13 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     const ConversationCardContent(details: ConversationListPageArguments(isGroup: false, conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)),
   ];
 
-  Future<void> _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
+  void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
     emit(state.copyWith(
       conversationsToDisplay: conversationCards
     ));
   }
 
-  Future<void> _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {
+  void _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {
     emit(state.copyWith(
       selectedSortingOption: event.selectedSortingOption
     ));
