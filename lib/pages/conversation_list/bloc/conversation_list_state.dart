@@ -17,8 +17,8 @@ class ConversationListState extends Equatable {
     SortingOption? selectedSortingOption
   }) {
     return ConversationListState (
-        conversationCards: conversationsToDisplay ?? conversationCards,
-        selectedSortingOption: selectedSortingOption ?? this.selectedSortingOption
+      conversationCards: conversationsToDisplay ?? conversationCards,
+      selectedSortingOption: selectedSortingOption ?? this.selectedSortingOption
     );
   }
 }
