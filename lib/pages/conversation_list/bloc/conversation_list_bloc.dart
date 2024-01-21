@@ -5,6 +5,7 @@ import 'package:recipe_social_media/repositories/navigation/args/conversation/co
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:equatable/equatable.dart';
 
+export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
@@ -12,7 +13,6 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   ConversationListBloc() : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<ChangeSelectedSortingOption>(_changeSelectedSortingOption);
-    on<InitState>(_initState);
   }
 
   List<ConversationCardContent> conversationCards = [
@@ -25,12 +25,6 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     ConversationCardContent.withDefaultImage(details: const ConversationPageArguments(isGroup: true, conversationName: "Group3", conversationStatus: ConversationStatus.connected, isPinned: false), lastMessage: "Last message sent...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 01, 19)),
     ConversationCardContent.withDefaultImage(details: const ConversationPageArguments(isGroup: false, conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)),
   ];
-
-  void _initState(InitState event, Emitter<ConversationListState> emit) async {
-    emit (state.copyWith(
-      conversationsToDisplay: conversationCards
-    ));
-  }
 
   Future<void> _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
     emit(state.copyWith(

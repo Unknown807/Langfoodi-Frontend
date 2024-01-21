@@ -40,23 +40,25 @@ class ConversationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Expanded(flex: 8, child: MessageList()),
-          Flexible(
+          Expanded(
             flex: 1,
             child: Row(
             children: [
-              const Flexible(flex: 7, child: MessageInput()),
-              Flexible(
+              const Expanded(flex: 6, child: MessageInput()),
+              Expanded(
                 flex: 1,
                 child: IconButton(
+                  padding: const EdgeInsets.only(left: 5),
                   splashRadius: 25,
                   color: Theme.of(context).colorScheme.tertiary,
                   icon: const Icon(Icons.fastfood),
                   onPressed: () {},
                 )
               ),
-              Flexible(
+              Expanded(
                 flex: 1,
                 child: IconButton(
+                  padding: const EdgeInsets.only(right: 5),
                   splashRadius: 25,
                   color: Theme.of(context).colorScheme.tertiary,
                   icon: const Icon(Icons.image_rounded),

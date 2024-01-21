@@ -8,22 +8,18 @@ class ConversationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConversationListBloc, ConversationListState> (builder: (BuildContext context, state) {
+    return BlocBuilder<ConversationListBloc, ConversationListState>(
+      builder: (BuildContext context, state) {
       return Expanded(
-          child:
-          ListView.separated(
-              itemBuilder: (context, index) {
-                bool isAtListEnd = index == 0 || index == state.conversationCards.length + 1;
-                if (isAtListEnd) {
-                  return const SizedBox.shrink();
-                }
-                return ConversationCard(conversationCardContent: state.conversationCards[index - 1]);
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(height:1, color: Color(0xFFeaeaea));
-              },
-              itemCount: 2 + state.conversationCards.length
-          )
+        child: ListView.separated(
+          itemCount: state.conversationCards.length ,
+          itemBuilder: (context, index) {
+            return ConversationCard(conversationCardContent: state.conversationCards[index]);
+          },
+          separatorBuilder: (context, index) {
+            return Divider(height:1, color: Theme.of(context).hintColor.withAlpha(40));
+          },
+        )
       );
     });
   }

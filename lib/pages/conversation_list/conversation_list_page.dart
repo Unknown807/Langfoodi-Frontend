@@ -11,10 +11,8 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
 
   @override
   void onLanding(BuildContext context) {
-    //TODO: get conversations here
-    // Example
-    // BlocProvider.of<RecipeViewBloc>(context)
-    //  .add(const ChangeRecipesToDisplay());
+    BlocProvider.of<ConversationListBloc>(context)
+     .add(const ChangeConversationsToDisplay());
   }
 
   @override
@@ -37,30 +35,28 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
         eventFunc: () {print("float button pressed");}
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: BlocProvider<ConversationListBloc>(
-          create: (conversationListContext) => ConversationListBloc()..add(const InitState()),
-          child: BlocConsumer<ConversationListBloc, ConversationListState>(
-              listener: (BuildContext context, ConversationListState state) {},
-              builder: (context, state) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ConversationSortBySection(
-                          selectedSortingOption: state.selectedSortingOption),
-                      state.conversationCards.isNotEmpty
-                          ? const ConversationList()
-                          : Container(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: const Center(
-                            child: Text("You have no conversations yet!",
-                              style: TextStyle(fontSize: 20)),
-                          )
+      body: BlocBuilder<ConversationListBloc, ConversationListState>(
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
+              state.conversationCards.isNotEmpty
+                ? const ConversationList()
+                : Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Center(
+                      child: Text("You have no conversations yet!",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground, fontSize: 20
+                        ),
                       )
-                    ]
-                );
-              }
-          )
-      ),
+                    )
+                )
+            ]
+          );
+        }
+      )
     );
   }
 }

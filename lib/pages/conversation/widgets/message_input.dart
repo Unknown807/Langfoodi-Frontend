@@ -9,7 +9,7 @@ class MessageInput extends StatelessWidget {
     return FormInput(
       //textController: state.ingredientNameTextController,
       innerPadding: const EdgeInsets.symmetric(horizontal: 10),
-      outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      outerPadding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
       hintText: "Message...",
       boxDecorationType: FormInputBoxDecorationType.roundedTextArea,
       fontSize: 14,

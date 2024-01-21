@@ -6,7 +6,6 @@ class ConversationListState extends Equatable {
     this.selectedSortingOption = SortingOption.lastMessage
   });
 
-  final int numberOfConversations = 10;
   final List<ConversationCardContent> conversationCards;
   final SortingOption selectedSortingOption;
 
