@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
-
-enum ConversationStatus { connected, blocked, pending }
+import 'package:recipe_social_media/repositories/navigation/args/conversation_list/conversation_list_page_arguments.dart';
 
 class ConversationCardContent extends Equatable {
   const ConversationCardContent({
@@ -11,24 +9,10 @@ class ConversationCardContent extends Equatable {
     this.lastMessageSentDate,
   });
 
-  final ConversationPageArguments details;
+  final ConversationListPageArguments details;
   final String lastMessage;
   final String lastMessageSender;
   final DateTime? lastMessageSentDate;
-
-  factory ConversationCardContent.withDefaultImage({
-    required ConversationPageArguments details,
-    String lastMessage = "",
-    String lastMessageSender = "",
-    DateTime? lastMessageSentDate,
-  }) {
-    return ConversationCardContent(
-      details: details,
-      lastMessage: lastMessage,
-      lastMessageSender: lastMessageSender,
-      lastMessageSentDate: lastMessageSentDate,
-    );
-  }
 
   @override
   List<Object?> get props => [
