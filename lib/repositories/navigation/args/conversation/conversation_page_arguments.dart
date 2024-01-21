@@ -1,4 +1,4 @@
-import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
+import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
 
 class ConversationPageArguments {
   const ConversationPageArguments({

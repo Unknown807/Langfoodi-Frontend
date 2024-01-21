@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_social_media/entities/messaging/conversation_page_arguments.dart';
-import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/message_input.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/message_list.dart';
+import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -10,7 +9,7 @@ class ConversationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationDetails;
+    var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
 
     return Scaffold(
       appBar: CustomSearchAppBar(
@@ -50,7 +49,7 @@ class ConversationPage extends StatelessWidget {
                 flex: 1,
                 child: IconButton(
                   splashRadius: 25,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.tertiary,
                   icon: const Icon(Icons.fastfood),
                   onPressed: () {},
                 )

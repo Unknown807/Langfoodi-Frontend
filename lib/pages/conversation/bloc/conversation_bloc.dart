@@ -7,6 +7,6 @@ export 'conversation_bloc.dart';
 part 'conversation_event.dart';
 part 'conversation_state.dart';
 
-class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-
-}
+// class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
+//
+// }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/conversation_list_page.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
@@ -17,19 +18,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RecipeViewBloc>(
-      create: (recipeRepoContext) => RecipeViewBloc(
-        context.read<AuthenticationRepository>(),
-        context.read<NavigationRepository>(),
-        context.read<RecipeRepository>(),
-        context.read<NetworkManager>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ConversationListBloc()),
+        BlocProvider(create: (_) => RecipeViewBloc(
+          context.read<AuthenticationRepository>(),
+          context.read<NavigationRepository>(),
+          context.read<RecipeRepository>(),
+          context.read<NetworkManager>()),
+        ),
+      ],
       child: const NavBarView(
         widgetPages: [
           ConversationListPage(),
           RecipeViewPage(),
-          PlaceholderPage(),
+          PlaceholderPage()
         ],
-        onLandOnce: [false, true, false],
-      ));
+        onLandOnce: [false, true, false]
+      )
+    );
   }
 }

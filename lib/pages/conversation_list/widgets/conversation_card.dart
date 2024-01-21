@@ -2,8 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:recipe_social_media/entities/messaging/conversation_card_content.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
+import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 
 class ConversationCard extends StatelessWidget {
   const ConversationCard({super.key, required this.conversationCardContent});
@@ -24,8 +25,8 @@ class ConversationCard extends StatelessWidget {
             builder: (context, state) {
               return GestureDetector(
                 onTap: () => context
-                  .read<ConversationListBloc>()
-                  .add(NavigateToConversation(conversationCardContent.details, context)),
+                  .read<NavigationRepository>()
+                  .goTo(context, "/conversation", arguments: conversationCardContent.details),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

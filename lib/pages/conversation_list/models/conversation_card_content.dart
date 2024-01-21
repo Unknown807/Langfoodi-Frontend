@@ -1,4 +1,5 @@
-part of 'conversation_entities.dart';
+import 'package:equatable/equatable.dart';
+import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 
 enum ConversationStatus { connected, blocked, pending }
 
@@ -10,13 +11,13 @@ class ConversationCardContent extends Equatable {
     this.lastMessageSentDate,
   });
 
-  final Conversation details;
+  final ConversationPageArguments details;
   final String lastMessage;
   final String lastMessageSender;
   final DateTime? lastMessageSentDate;
 
   factory ConversationCardContent.withDefaultImage({
-    required ConversationDetails details,
+    required ConversationPageArguments details,
     String lastMessage = "",
     String lastMessageSender = "",
     DateTime? lastMessageSentDate,
