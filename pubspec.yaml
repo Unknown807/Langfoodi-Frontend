@@ -48,6 +48,8 @@ dependencies:
   file: ^6.0.0
   easy_search_bar: ^2.5.0
   internet_connection_checker: ^1.0.0+1
+  grouped_list: ^5.1.2
+  bubble: ^1.2.1
 
 dev_dependencies:
   integration_test:
