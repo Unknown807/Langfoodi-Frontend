@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +14,33 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
   }
 
+  Map<String, Color> _generateNameColours(List<Message> messages) {
+    Map<String, Color> nameColours = {};
+    for (var msg in messages) {
+      nameColours.putIfAbsent(
+        msg.senderId,
+        () {
+          final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
+          return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
+        }
+      );
+    }
+
+    return nameColours;
+  }
+
   void _initState(InitState event, Emitter<ConversationState> emit) {
     final messages = _getMessagesFromConversation();
     // TODO: get senderId from currentUser in auth repo
+
+    final nameColours = _generateNameColours(messages);
 
     emit(state.copyWith(
       conversationName: event.conversationName,
       conversationStatus: event.conversationStatus,
       isGroup: event.isGroup,
       messages: messages,
+      nameColours: nameColours,
       senderId: "1"
     ));
   }

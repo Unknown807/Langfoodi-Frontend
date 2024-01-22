@@ -7,6 +7,7 @@ class ConversationState extends Equatable {
     this.isGroup = false,
     this.messages = const [],
     this.senderId = "",
+    this.nameColours = const {}
   });
 
   final ConversationStatus conversationStatus;
@@ -14,11 +15,12 @@ class ConversationState extends Equatable {
   final String conversationName;
   final bool isGroup;
   final List<Message> messages;
+  final Map<String, Color> nameColours;
 
   @override
   List<Object> get props => [
     conversationName, messages, isGroup,
-    senderId, conversationStatus
+    senderId, conversationStatus, nameColours
   ];
 
   ConversationState copyWith({
@@ -26,14 +28,16 @@ class ConversationState extends Equatable {
     List<Message>? messages,
     bool? isGroup,
     String? senderId,
-    ConversationStatus? conversationStatus
+    ConversationStatus? conversationStatus,
+    Map<String, Color>? nameColours,
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
       messages: messages ?? this.messages,
       isGroup: isGroup ?? this.isGroup,
       senderId: senderId ?? this.senderId,
-      conversationStatus: conversationStatus ?? this.conversationStatus
+      conversationStatus: conversationStatus ?? this.conversationStatus,
+      nameColours: nameColours ?? this.nameColours
     );
   }
 }

@@ -4,11 +4,13 @@ class ChatBubbleContent extends StatelessWidget {
   const ChatBubbleContent({
     super.key,
     required this.isSentByMe,
-    required this.message
+    required this.message,
+    this.nameColour
   });
 
   final bool isSentByMe;
   final Message message;
+  final Color? nameColour;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ChatBubbleContent extends StatelessWidget {
           if (!isSentByMe)
             Text("Username 1",
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSecondary,
+                color: nameColour,
                 fontWeight: FontWeight.bold,
                 fontSize: 12
               )
@@ -28,7 +30,6 @@ class ChatBubbleContent extends StatelessWidget {
           Flexible(child: Text(message.textContent ?? "",
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 15
             )
           )),
           const SizedBox(height: 4),

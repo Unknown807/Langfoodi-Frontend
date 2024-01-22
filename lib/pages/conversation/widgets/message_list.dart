@@ -59,7 +59,7 @@ class MessageList extends StatelessWidget {
                     const CustomCircleAvatar(
                       avatarIcon: Icons.person,
                       avatarIconSize: 16,
-                        circleRadiusSize: 13
+                      circleRadiusSize: 13
                     ),
                     Flexible(child: Bubble(
                       nipWidth: 3,
@@ -69,6 +69,7 @@ class MessageList extends StatelessWidget {
                       color: Theme.of(context).colorScheme.secondary.withRed(240),
                       nip: BubbleNip.leftTop,
                       child: ChatBubbleContent(
+                        nameColour: state.nameColours[message.senderId],
                         isSentByMe: isSentByMe,
                         message: message),
                     )),
