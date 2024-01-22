@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
-import 'package:recipe_social_media/pages/conversation/widgets/message_input.dart';
-import 'package:recipe_social_media/pages/conversation/widgets/message_list.dart';
+import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 

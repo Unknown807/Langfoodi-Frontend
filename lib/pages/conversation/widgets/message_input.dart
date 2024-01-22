@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
+part of 'conversation_widgets.dart';
 
 class MessageInput extends StatelessWidget {
   const MessageInput({super.key});
