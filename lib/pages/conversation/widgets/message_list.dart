@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class MessageList extends StatelessWidget {
   const MessageList({super.key});
@@ -30,7 +31,7 @@ class MessageList extends StatelessWidget {
               child: Card(
                 color: Theme.of(context).colorScheme.tertiary.withBlue(200),
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(5),
                   child: Text(
                     DateFormat.yMMMd().format(message.sentDate!),
                     style: TextStyle(
@@ -44,27 +45,40 @@ class MessageList extends StatelessWidget {
           ),
           itemBuilder: (context, message) {
             bool isSentByMe = message.senderId == state.senderId;
-            return Bubble(
-              elevation: 5,
-              margin: const BubbleEdges.only(top: 10),
-              padding: const BubbleEdges.all(12),
-              color: isSentByMe
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.secondary.withRed(245),
-              nip: isSentByMe
-                ? BubbleNip.rightTop
-                : BubbleNip.leftTop,
-              alignment: isSentByMe
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-              child: Text(
-                message.textContent ?? "no text",
-                style: TextStyle(color: isSentByMe
-                  ? Theme.of(context).colorScheme.onBackground
-                  : Theme.of(context).colorScheme.onBackground
-                ),
-              )
-            );
+            return isSentByMe
+              ? Row(
+                  children: [
+                    const CustomCircleAvatar(
+                      avatarIcon: Icons.person,
+                      avatarIconSize: 16,
+                        circleRadiusSize: 13
+                    ),
+                    Flexible(flex: 1, child: Bubble(
+                      elevation: 5,
+                      margin: const BubbleEdges.only(top: 10),
+                      padding: const BubbleEdges.all(12),
+                      color: Theme.of(context).colorScheme.secondary.withRed(245),
+                      nip: BubbleNip.leftTop,
+                      child: Text(
+                        message.textContent ?? "no text",
+                        style: TextStyle(color: Theme.of(context).colorScheme.onBackground
+                        ),
+                      )
+                    )),
+                  ]
+                )
+              : Bubble(
+                  elevation: 5,
+                  margin: const BubbleEdges.only(top: 10),
+                  padding: const BubbleEdges.all(12),
+                  color: Theme.of(context).colorScheme.primary,
+                  nip: BubbleNip.rightTop,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    message.textContent ?? "no text",
+                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                  )
+                );
           },
         );
       },

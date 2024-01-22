@@ -4,6 +4,7 @@ class CustomCircleAvatar extends StatelessWidget {
   const CustomCircleAvatar({
     super.key,
     required this.avatarIcon,
+    this.circleRadiusSize = 20,
     this.avatarIconSize = 30,
     this.statusIconSize = 20,
     this.conversationStatus,
@@ -11,6 +12,7 @@ class CustomCircleAvatar extends StatelessWidget {
   });
 
   final IconData avatarIcon;
+  final double circleRadiusSize;
   final double avatarIconSize;
   final double statusIconSize;
   final Icon? statusIcon;
@@ -40,29 +42,30 @@ class CustomCircleAvatar extends StatelessWidget {
     return Stack(
       children: [
         CircleAvatar(
-            backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
-            child: Icon(
-              avatarIcon,
-              color: const Color.fromRGBO(207, 212, 214, 1),
-              size: avatarIconSize,
-            )
+          backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
+          radius: circleRadiusSize,
+          child: Icon(
+            avatarIcon,
+            color: const Color.fromRGBO(207, 212, 214, 1),
+            size: avatarIconSize,
+          )
         ),
         Positioned(
           bottom: 0,
           right: 0,
           child: Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: Container(
-                    margin: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(width: 8, color: Colors.white, style: BorderStyle.solid),
-                    ),
+            children: <Widget>[
+              Positioned.fill(
+                child: Container(
+                  margin: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(width: 8, color: Colors.white, style: BorderStyle.solid),
                   ),
                 ),
-                statusIcon ?? getStatusIcon(conversationStatus, Theme.of(context))
-              ]
+              ),
+              statusIcon ?? getStatusIcon(conversationStatus, Theme.of(context))
+            ]
           ),
         )
       ],
