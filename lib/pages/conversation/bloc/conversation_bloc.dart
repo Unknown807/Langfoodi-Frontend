@@ -56,7 +56,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sentDate: DateTime(2024, 01, 21, 9, 0),
       ),
       Message(id: "2", senderId: "1",
-        textContent: "good, here's pictures of my morning!",
+        textContent: "good, here's pictures of my morning! Pretty cool right? Anyways lemme send something else as well :D",
         sentDate: DateTime(2024, 01, 21, 11, 30),
         imageURLs: ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"]
       ),

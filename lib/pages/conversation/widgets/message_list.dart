@@ -43,7 +43,10 @@ class MessageList extends StatelessWidget {
               ? Bubble(
                   nipWidth: 3,
                   elevation: 5,
-                  margin: const BubbleEdges.only(top: 10),
+                  margin: BubbleEdges.only(
+                    left: MediaQuery.of(context).size.width*0.25,
+                    top: 10,
+                  ),
                   padding: const BubbleEdges.all(12),
                   color: Theme.of(context).colorScheme.primary,
                   nip: BubbleNip.rightTop,
@@ -64,7 +67,11 @@ class MessageList extends StatelessWidget {
                     Flexible(child: Bubble(
                       nipWidth: 3,
                       elevation: 5,
-                      margin: const BubbleEdges.only(left: 5, top: 10),
+                      margin: BubbleEdges.only(
+                        right: MediaQuery.of(context).size.width*0.25,
+                        top: 10,
+                        left: 5,
+                      ),
                       padding: const BubbleEdges.all(12),
                       color: Theme.of(context).colorScheme.secondary.withRed(240),
                       nip: BubbleNip.leftTop,
