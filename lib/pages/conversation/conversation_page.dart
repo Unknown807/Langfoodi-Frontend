@@ -17,23 +17,26 @@ class ConversationPage extends StatelessWidget {
       create: (_) => ConversationBloc()
         ..add(InitState(
           convoDetails.conversationName,
+          convoDetails.conversationStatus,
           convoDetails.isGroup
         )),
       child: Scaffold(
         appBar: CustomSearchAppBar(
           title: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
-                child: Icon(
-                  convoDetails.isGroup ? Icons.group : Icons.person,
-                  color: const Color.fromRGBO(207, 212, 214, 1),
-                  size: 25,
-                )
+              CustomCircleAvatar(
+                avatarIcon: convoDetails.isGroup ? Icons.group : Icons.person,
+                conversationStatus: convoDetails.conversationStatus,
+                avatarIconSize: 25,
               ),
               const SizedBox(width: 10),
-              Text(convoDetails.conversationName,
-                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+              Flexible(
+                child: Text(convoDetails.conversationName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)
+                )
+              ),
             ],
           ),
           actions: [

@@ -19,6 +19,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
     emit(state.copyWith(
       conversationName: event.conversationName,
+      conversationStatus: event.conversationStatus,
       isGroup: event.isGroup,
       messages: messages,
       senderId: "1"

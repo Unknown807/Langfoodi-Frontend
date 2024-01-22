@@ -7,6 +7,7 @@ import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_li
 import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
 import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationCard extends StatelessWidget {
   const ConversationCard({super.key, required this.conversationCardContent});
@@ -26,6 +27,7 @@ class ConversationCard extends StatelessWidget {
               .read<NavigationRepository>()
               .goTo(context, "/conversation",
                 arguments: ConversationPageArguments(
+                  conversationStatus: conversationCardContent.details.conversationStatus,
                   conversationName: conversationCardContent.details.conversationName,
                   isGroup: conversationCardContent.details.isGroup)),
             child: Center(
@@ -34,35 +36,9 @@ class ConversationCard extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   ListTile(
-                    leading: Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color.fromRGBO(106, 113, 117, 1),
-                          child: Icon(
-                            conversationCardContent.details.isGroup ? Icons.group : Icons.person,
-                            color: const Color.fromRGBO(207, 212, 214, 1),
-                            size: conversationIconSize,
-                          )
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned.fill(
-                                child: Container(
-                                  margin: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                    border: Border.all(width: 8, color: Colors.white, style: BorderStyle.solid),
-                                  ),
-                                ),
-                              ),
-                              getStatusIcon(conversationCardContent.details.conversationStatus, Theme.of(context))
-                            ]
-                          ),
-                        )
-                      ],
+                    leading: CustomCircleAvatar(
+                      avatarIcon: conversationCardContent.details.isGroup ? Icons.group : Icons.person,
+                      conversationStatus: conversationCardContent.details.conversationStatus,
                     ),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
