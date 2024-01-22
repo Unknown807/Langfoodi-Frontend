@@ -27,6 +27,23 @@ class ChatBubbleContent extends StatelessWidget {
                 fontSize: 12
               )
             ),
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+            width: 150,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: 250
+              ),
+              items: [1,2,3,4,5].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Text('text $i', style: const TextStyle(fontSize: 16.0));
+                  },
+                );
+              }).toList(),
+            ),
+          )),
           Flexible(child: Text(message.textContent ?? "",
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
@@ -34,15 +51,15 @@ class ChatBubbleContent extends StatelessWidget {
           )),
           const SizedBox(height: 4),
           IntrinsicHeight(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Text(DateFormat("HH:mm").format(message.sentDate!),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      fontSize: 10,
-                    )
-                ),
-              )
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Text(DateFormat("HH:mm").format(message.sentDate!),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 10,
+                )
+              ),
+            )
           )
         ],
       ));

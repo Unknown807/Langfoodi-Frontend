@@ -50,6 +50,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   grouped_list: ^5.1.2
   bubble: ^1.2.1
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   integration_test:
