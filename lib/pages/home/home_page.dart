@@ -11,7 +11,6 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'home_page.dart';
 part 'widgets/nav_bar_view.dart';
-part 'widgets/top_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -47,27 +47,50 @@ class MessageList extends StatelessWidget {
             bool isSentByMe = message.senderId == state.senderId;
             return isSentByMe
               ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const CustomCircleAvatar(
                       avatarIcon: Icons.person,
                       avatarIconSize: 16,
                         circleRadiusSize: 13
                     ),
-                    Flexible(flex: 1, child: Bubble(
+                    Flexible(child: Bubble(
+                      nipWidth: 3,
                       elevation: 5,
-                      margin: const BubbleEdges.only(top: 10),
+                      margin: const BubbleEdges.only(left: 5, top: 10),
                       padding: const BubbleEdges.all(12),
-                      color: Theme.of(context).colorScheme.secondary.withRed(245),
+                      color: Theme.of(context).colorScheme.secondary.withRed(240),
                       nip: BubbleNip.leftTop,
-                      child: Text(
-                        message.textContent ?? "no text",
-                        style: TextStyle(color: Theme.of(context).colorScheme.onBackground
-                        ),
-                      )
+                      child: IntrinsicWidth(
+                        child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Username 1",
+                            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)
+                          ),
+                          Flexible(child: Text(message.textContent ?? "",
+                            style: TextStyle(color: Theme.of(context).colorScheme.onBackground)
+                          )),
+                          const SizedBox(height: 4),
+                          IntrinsicHeight(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(DateFormat("HH:mm").format(message.sentDate!),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onSecondary,
+                                  fontSize: 11,
+                                )
+                              ),
+                            )
+                          )
+                        ],
+                      )),
                     )),
                   ]
                 )
               : Bubble(
+                  nipWidth: 3,
                   elevation: 5,
                   margin: const BubbleEdges.only(top: 10),
                   padding: const BubbleEdges.all(12),
@@ -75,7 +98,7 @@ class MessageList extends StatelessWidget {
                   nip: BubbleNip.rightTop,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    message.textContent ?? "no text",
+                    message.textContent ?? "",
                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                   )
                 );
