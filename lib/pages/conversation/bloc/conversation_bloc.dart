@@ -10,7 +10,9 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc() : super(const ConversationState()) {
+  ConversationBloc() : super(ConversationState(
+    messageTextController: TextEditingController()
+  )) {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
   }

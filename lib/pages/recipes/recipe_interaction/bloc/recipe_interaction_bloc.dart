@@ -766,12 +766,12 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
       state.ingredientMeasurementTextController.clear();
     } else {
       emit(state.copyWith(
-          ingredientName: name,
-          ingredientQuantity: quantity,
-          ingredientMeasurement: measurement,
-          ingredientNameValid: nameValid,
-          ingredientQuantityValid: quantityValid,
-          ingredientMeasurementValid: measurementValid));
+        ingredientName: name,
+        ingredientQuantity: quantity,
+        ingredientMeasurement: measurement,
+        ingredientNameValid: nameValid,
+        ingredientQuantityValid: quantityValid,
+        ingredientMeasurementValid: measurementValid));
     }
   }
 }

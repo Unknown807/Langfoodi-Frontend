@@ -59,11 +59,12 @@ class MessageList extends StatelessWidget {
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomCircleAvatar(
-                      avatarIcon: Icons.person,
-                      avatarIconSize: 16,
-                      circleRadiusSize: 13
-                    ),
+                    if (state.isGroup)
+                      const CustomCircleAvatar(
+                        avatarIcon: Icons.person,
+                        avatarIconSize: 16,
+                        circleRadiusSize: 13
+                      ),
                     Flexible(child: Bubble(
                       nipWidth: 3,
                       elevation: 5,

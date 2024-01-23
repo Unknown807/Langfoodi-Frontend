@@ -5,19 +5,24 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormInput(
-      //textController: state.ingredientNameTextController,
-      innerPadding: const EdgeInsets.symmetric(horizontal: 10),
-      outerPadding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
-      hintText: "Message...",
-      boxDecorationType: FormInputBoxDecorationType.roundedTextArea,
-      fontSize: 14,
-      maxLines: 1,
-      onSubmittedEventFunc: (value) {
-        print(value);
-      },
-      eventFunc: (value) {
-        print(value);
-      });
+    return BlocBuilder<ConversationBloc, ConversationState>(
+      builder: (context, state) {
+        return FormInput(
+          textController: state.messageTextController,
+          innerPadding: const EdgeInsets.symmetric(horizontal: 10),
+          outerPadding: const EdgeInsets.fromLTRB(8, 5, 10, 5),
+          hintText: "Message...",
+          boxDecorationType: FormInputBoxDecorationType.roundedTextArea,
+          fontSize: 14,
+          maxLines: 1,
+          onSubmittedEventFunc: (value) {
+            print("submitted");
+          },
+          eventFunc: (value) {
+            print(value);
+          }
+        );
+      }
+    );
   }
 }
