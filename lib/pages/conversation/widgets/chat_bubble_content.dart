@@ -27,23 +27,47 @@ class ChatBubbleContent extends StatelessWidget {
                 fontSize: 12
               )
             ),
-          Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-            width: 150,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 250
-              ),
-              items: [1,2,3,4,5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Text('text $i', style: const TextStyle(fontSize: 16.0));
-                  },
-                );
-              }).toList(),
-            ),
-          )),
+          if (!isSentByMe) const SizedBox(height: 4),
+          if (message.imageURLs != null)
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 250,
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(
+                    enlargeFactor: 0.2,
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                    height: 300,
+                  ),
+                  itemCount: message.imageURLs!.length,
+                  itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+                    return GestureDetector(
+                      onTap: () => context
+                        .read<NavigationRepository>()
+                        .goTo(context, "/cloudinary-image-view",
+                        arguments: ImageViewPageArguments(imageUrl: message.imageURLs![itemIndex])),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: context.read<ImageBuilder>().displayCloudinaryImage(
+                          imageUrl: message.imageURLs![itemIndex],
+                          transformationType: ImageTransformationType.low,
+                          errorBuilder: (context, obj1, obj2) {
+                            return CustomIconTile(
+                              padding: null,
+                              icon: Icons.error,
+                              backgroundColor: Theme.of(context).colorScheme.background,
+                              iconColor: Theme.of(context).colorScheme.error,
+                              tileColor: Theme.of(context).colorScheme.error,
+                            );
+                          },
+                        ),
+                      )
+                    );
+                  }
+                ),
+            )),
+          if (message.imageURLs != null) const SizedBox(height: 4),
           Flexible(child: Text(message.textContent ?? "",
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,

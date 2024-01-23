@@ -3,6 +3,8 @@ part of 'package:recipe_social_media/utilities/utilities.dart';
 class ImageTransformationBuilder {
   Transformation? getImageTransformation(ImageTransformationType type) {
     switch (type) {
+      case ImageTransformationType.low:
+        return _getLowQualityTransformation();
       case ImageTransformationType.standard:
         return _getStandardTransformation();
       case ImageTransformationType.high:
@@ -10,6 +12,13 @@ class ImageTransformationBuilder {
       default:
         return null;
     }
+  }
+  
+  Transformation _getLowQualityTransformation() {
+    return Transformation()
+      ..delivery(Quality(Quality.autoLow()))
+      ..resize(Resize.thumbnail()..width(200)..height(300))
+      ..delivery(Dpr(Dpr.auto));
   }
 
   Transformation _getStandardTransformation() {
