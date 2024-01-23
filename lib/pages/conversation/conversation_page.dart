@@ -53,29 +53,40 @@ class ConversationPage extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Row(
-              children: [
-                const Expanded(flex: 6, child: MessageInput()),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(left: 5),
-                    splashRadius: 25,
-                    color: Theme.of(context).colorScheme.tertiary,
-                    icon: const Icon(Icons.fastfood),
-                    onPressed: () {},
-                  )
-                ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(right: 5),
-                    splashRadius: 25,
-                    color: Theme.of(context).colorScheme.tertiary,
-                    icon: const Icon(Icons.image_rounded),
-                    onPressed: () {},
-                  )
-                )
-              ],
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      padding: const EdgeInsets.only(left: 5),
+                      iconSize: 22,
+                      splashRadius: 20,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      icon: const Icon(Icons.fastfood),
+                      onPressed: () {},
+                    )
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      iconSize: 22,
+                      splashRadius: 20,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      icon: const Icon(Icons.image_rounded),
+                      onPressed: () {},
+                    )
+                  ),
+                  const Expanded(flex: 5, child: MessageInput()),
+                  Flexible(
+                    flex: 0,
+                    child: IconButton(
+                      splashRadius: 20,
+                      color: Theme.of(context).colorScheme.secondary,
+                      icon: const Icon(Icons.send),
+                      onPressed: () {},
+                    )
+                  ),
+                ],
             ))
           ]
         )
