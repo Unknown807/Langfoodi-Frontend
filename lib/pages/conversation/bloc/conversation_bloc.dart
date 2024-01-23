@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
+import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 
 export 'conversation_bloc.dart';
 part 'conversation_event.dart';
@@ -66,14 +67,19 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         imageURLs: ["q8jjeukocprdiblv25tf"]
       ),
       Message(id: "4", senderId: "1",
-        textContent: "You seen my recipes, check 'em out!",
+        textContent: "You seen my recipes, check 'em out! They're pretty neat my guy. Anyways...lemme see your recipes",
         sentDate: DateTime(2024, 10, 25, 12, 20),
-        recipeIds: ["6586f5660423a34d151f4424", "658447bb717f5f37d4f32104"]
+        recipePreviews: const [
+          RecipePreview("6586f5660423a34d151f4424", "Long ass recipe name ain't this a cool name no?", "q8jjeukocprdiblv25tf"),
+          RecipePreview("658447bb717f5f37d4f32104", "recipe2",  "ag3pi6mfvqnzaknnmqri")
+        ],
       ),
       Message(id: "5", senderId: "2",
         textContent: "Nice, its similar to what I made yesterday -",
         sentDate: DateTime(2024, 10, 25, 13, 45),
-        recipeIds: ["65885d44cf28ab4f72179f11"]
+        recipePreviews: const [
+          RecipePreview("65885d44cf28ab4f72179f11", "recipe3", "d3uwdc4ekb4z9dkgqc9f")
+        ]
       ),
       Message(id: "6", senderId: "2",
         repliedToMessageId: "5",

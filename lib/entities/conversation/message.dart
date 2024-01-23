@@ -9,7 +9,7 @@ class Message extends Equatable {
     this.repliedToMessageId,
     this.textContent,
     this.imageURLs,
-    this.recipeIds
+    this.recipePreviews
   });
 
   final String id;
@@ -19,12 +19,12 @@ class Message extends Equatable {
   final String? repliedToMessageId;
   final String? textContent;
   final List<String>? imageURLs;
-  final List<String>? recipeIds;
+  final List<RecipePreview>? recipePreviews;
 
   @override
   List<Object?> get props => [
     id, senderId, sentDate, updatedDate,
     repliedToMessageId, textContent, imageURLs,
-    recipeIds
+    recipePreviews
   ];
 }
