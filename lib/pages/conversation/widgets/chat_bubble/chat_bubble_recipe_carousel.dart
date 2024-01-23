@@ -10,21 +10,28 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Align(
-        alignment: Alignment.center,
-        child: SizedBox(
-          width: 250,
-          child: CarouselSlider.builder(
-            options: CarouselOptions(
-              enlargeFactor: 0.3,
-              enableInfiniteScroll: false,
-              enlargeCenterPage: true,
-              height: 300,
-            ),
-            itemCount: recipePreviews.length,
-            itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-              return Container(
+    return Align(
+      alignment: Alignment.center,
+      child: SizedBox(
+        width: 250,
+        child: CarouselSlider.builder(
+          options: CarouselOptions(
+            enlargeFactor: 0.3,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: true,
+            height: 300,
+          ),
+          itemCount: recipePreviews.length,
+          itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+            return GestureDetector(
+              onTap: () => context
+                .read<NavigationRepository>()
+                .goTo(context, "/recipe-interaction",
+                arguments: RecipeInteractionPageArguments(
+                  pageType: RecipeInteractionType.readonly,
+                  recipeId: recipePreviews[itemIndex].id
+                )),
+              child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   color: Theme.of(context).colorScheme.background,
@@ -79,10 +86,11 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
                     ),
                     const SizedBox(height: 2)
                   ],
-              ));
-            }
-          ),
-        )
+                )
+              )
+            );
+          }
+        ),
       )
     );
   }

@@ -70,7 +70,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         textContent: "You seen my recipes, check 'em out! They're pretty neat my guy. Anyways...lemme see your recipes",
         sentDate: DateTime(2024, 10, 25, 12, 20),
         recipePreviews: const [
-          RecipePreview("6586f5660423a34d151f4424", "Long ass recipe name ain't this a cool name no?", "q8jjeukocprdiblv25tf"),
+          RecipePreview("6586f5660423a34d151f4424", "Long ass recipe name ain't this a cool name no?", null),
           RecipePreview("658447bb717f5f37d4f32104", "recipe2",  "ag3pi6mfvqnzaknnmqri")
         ],
       ),
