@@ -13,6 +13,8 @@ import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'conversation_widgets.dart';
-part 'chat_bubble_content.dart';
+part 'chat_bubble/chat_bubble_content.dart';
+part 'chat_bubble/chat_bubble_image_carousel.dart';
+part 'chat_bubble/chat_bubble_recipe_carousel.dart';
 part 'message_input.dart';
 part 'message_list.dart';
