@@ -47,47 +47,44 @@ class ConversationPage extends StatelessWidget {
           onSearchFunc: (term) {print(term);},
         ),
         body: Column (
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Expanded(flex: 8, child: MessageList()),
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(left: 5),
-                      iconSize: 22,
-                      splashRadius: 20,
-                      color: Theme.of(context).colorScheme.tertiary,
-                      icon: const Icon(Icons.fastfood),
-                      onPressed: () {},
-                    )
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      iconSize: 22,
-                      splashRadius: 20,
-                      color: Theme.of(context).colorScheme.tertiary,
-                      icon: const Icon(Icons.image_rounded),
-                      onPressed: () {},
-                    )
-                  ),
-                  const Expanded(flex: 5, child: MessageInput()),
-                  Flexible(
-                    flex: 0,
-                    child: IconButton(
-                      splashRadius: 20,
-                      color: Theme.of(context).colorScheme.secondary,
-                      icon: const Icon(Icons.send),
-                      onPressed: () {},
-                    )
-                  ),
-                ],
-            ))
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    padding: const EdgeInsets.only(left: 5),
+                    iconSize: 22,
+                    splashRadius: 20,
+                    color: Theme.of(context).colorScheme.tertiary,
+                    icon: const Icon(Icons.fastfood),
+                    onPressed: () {},
+                  )
+                ),
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    iconSize: 22,
+                    splashRadius: 20,
+                    color: Theme.of(context).colorScheme.tertiary,
+                    icon: const Icon(Icons.image_rounded),
+                    onPressed: () {},
+                  )
+                ),
+                const Expanded(flex: 5, child: MessageInput()),
+                Flexible(
+                  flex: 0,
+                  child: IconButton(
+                    splashRadius: 20,
+                    color: Theme.of(context).colorScheme.secondary,
+                    icon: const Icon(Icons.send),
+                    onPressed: () {},
+                  )
+                ),
+              ],
+            )
           ]
         )
       )
