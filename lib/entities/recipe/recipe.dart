@@ -2,17 +2,18 @@ part of 'recipe_entities.dart';
 
 class Recipe extends Equatable with JsonConvertible {
   const Recipe(
-      this.id,
-      this.title,
-      this.description,
-      this.thumbnailId,
-      this.chefUsername,
-      this.tags,
-      this.cookingTime,
-      this.kiloCalories,
-      this.numberOfServings,
-      this.creationDate,
-      this.lastUpdatedDate,);
+    this.id,
+    this.title,
+    this.description,
+    this.thumbnailId,
+    this.chefUsername,
+    this.tags,
+    this.cookingTime,
+    this.kiloCalories,
+    this.numberOfServings,
+    this.creationDate,
+    this.lastUpdatedDate
+  );
 
   final String id;
   final String title;
