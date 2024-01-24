@@ -581,19 +581,15 @@ class RecipeInteractionBloc extends Bloc<RecipeInteractionEvent, RecipeInteracti
   }
 
   void _recipeStepImagePicked(RecipeStepImagePicked event, Emitter<RecipeInteractionState> emit) {
-    emit(
-      state.copyWith(
-        recipeStepImagePath: event.imagePath
-      )
-    );
+    emit(state.copyWith(
+      recipeStepImagePath: event.imagePath
+    ));
   }
 
   void _recipeThumbnailPicked(RecipeThumbnailPicked event, Emitter<RecipeInteractionState> emit) {
-    emit(
-        state.copyWith(
-            recipeThumbnailPath: event.imagePath
-        )
-    );
+    emit(state.copyWith(
+      recipeThumbnailPath: event.imagePath
+    ));
   }
 
   void _cookingTimeChanged(CookingTimeChanged event, Emitter<RecipeInteractionState> emit) {

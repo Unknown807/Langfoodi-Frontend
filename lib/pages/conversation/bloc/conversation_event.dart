@@ -29,6 +29,15 @@ final class GoToInteractionPageAndExpectResult extends ConversationEvent {
   List<Object> get props => [context, arguments];
 }
 
+final class AttachImages extends ConversationEvent {
+  const AttachImages(this.imageFiles);
+
+  final List<XFile> imageFiles;
+
+  @override
+  List<Object> get props => [imageFiles];
+}
+
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
 }

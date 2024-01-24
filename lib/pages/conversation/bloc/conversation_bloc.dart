@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
@@ -19,6 +20,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
+    on<AttachImages>(_attachImagesToMessage);
   }
 
   final NavigationRepository _navigationRepo;
@@ -39,6 +41,12 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     }
 
     return nameColours;
+  }
+
+  void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
+    for (var img in event.imageFiles) {
+      print(img.path);
+    }
   }
 
   void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<ConversationState> emit) async {
