@@ -5,7 +5,26 @@ class MessageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConversationBloc, ConversationState>(
+    return BlocConsumer<ConversationBloc, ConversationState>(
+      listener: (context, state) {
+        if (state.dialogMessage.isNotEmpty) {
+          showDialog(
+            context: context,
+            builder: (_) => BlocProvider<ConversationBloc>.value(
+              value: BlocProvider.of<ConversationBloc>(context),
+              child: CustomAlertDialog(
+                title: Text(state.dialogTitle),
+                content: Text(state.dialogMessage),
+                leftButtonText: null,
+                rightButtonText: "Ok",
+                rightButtonCallback: () => context
+                  .read<ConversationBloc>()
+                  .add(const ChangeMessagesToDisplay())
+              )
+            )
+          );
+        }
+      },
       builder: (context, state) {
         return GroupedListView(
           padding: const EdgeInsets.all(8),

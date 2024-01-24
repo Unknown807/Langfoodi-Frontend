@@ -10,27 +10,7 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ConversationBloc, ConversationState>(
-      listener: (context, state) {
-        if (state.dialogMessage.isNotEmpty) {
-          showDialog(
-            context: context,
-            builder: (_) => BlocProvider<ConversationBloc>.value(
-              value: BlocProvider.of<ConversationBloc>(context),
-              child: CustomAlertDialog(
-                title: Text(state.dialogTitle),
-                content: Text(state.dialogMessage),
-                leftButtonText: null,
-                rightButtonText: "Ok",
-                rightButtonCallback: () => context
-                  .read<ConversationBloc>()
-                  .add(const ChangeMessagesToDisplay())
-              )
-            )
-          );
-        }
-      },
-      child: Align(
+    return Align(
       alignment: Alignment.center,
       child: SizedBox(
         width: 250,
@@ -112,6 +92,6 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
           }
         ),
       )
-    ));
+    );
   }
 }
