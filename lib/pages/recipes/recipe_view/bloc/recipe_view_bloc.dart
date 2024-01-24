@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
-import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -48,11 +48,11 @@ class RecipeViewBloc extends Bloc<RecipeViewEvent, RecipeViewState> {
 
   void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<RecipeViewState> emit) async {
     BuildContext eventContext = event.context;
-    RecipeViewPageArguments? result = await _navigationRepo.goTo(
+    RecipeInteractionPageResponseArguments? result = await _navigationRepo.goTo(
       eventContext,
       "/recipe-interaction",
       routeType: RouteType.expect,
-      arguments: event.arguments) as RecipeViewPageArguments?;
+      arguments: event.arguments) as RecipeInteractionPageResponseArguments?;
 
     if (result != null) {
       emit(state.copyWith(

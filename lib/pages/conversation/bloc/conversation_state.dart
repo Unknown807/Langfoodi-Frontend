@@ -9,6 +9,8 @@ class ConversationState extends Equatable {
     this.messages = const [],
     this.senderId = "",
     this.nameColours = const {},
+    this.dialogTitle = "",
+    this.dialogMessage = ""
   });
 
   final TextEditingController messageTextController;
@@ -18,12 +20,14 @@ class ConversationState extends Equatable {
   final bool isGroup;
   final List<Message> messages;
   final Map<String, Color> nameColours;
+  final String dialogTitle;
+  final String dialogMessage;
 
   @override
   List<Object> get props => [
     conversationName, messages, isGroup,
     senderId, conversationStatus, nameColours,
-    messageTextController
+    messageTextController, dialogTitle, dialogMessage
   ];
 
   ConversationState copyWith({
@@ -34,6 +38,8 @@ class ConversationState extends Equatable {
     ConversationStatus? conversationStatus,
     Map<String, Color>? nameColours,
     TextEditingController? messageTextController,
+    String? dialogTitle,
+    String? dialogMessage
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -43,6 +49,8 @@ class ConversationState extends Equatable {
       conversationStatus: conversationStatus ?? this.conversationStatus,
       nameColours: nameColours ?? this.nameColours,
       messageTextController: messageTextController ?? this.messageTextController,
+      dialogTitle: dialogTitle ?? this.dialogTitle,
+      dialogMessage: dialogMessage ?? this.dialogMessage
     );
   }
 }

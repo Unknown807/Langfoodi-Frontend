@@ -4,18 +4,24 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 
 export 'conversation_bloc.dart';
 part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc() : super(ConversationState(
+  ConversationBloc(this._navigationRepo) : super(ConversationState(
     messageTextController: TextEditingController()
   )) {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
+    on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
   }
+
+  final NavigationRepository _navigationRepo;
 
   //TODO: if you update recipe after going from message page, add bloc
   // listener to have success or error popup or smth
@@ -35,6 +41,22 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     return nameColours;
   }
 
+  void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<ConversationState> emit) async {
+    BuildContext eventContext = event.context;
+    RecipeInteractionPageResponseArguments? result = await _navigationRepo.goTo(
+      eventContext,
+      "/recipe-interaction",
+      routeType: RouteType.expect,
+      arguments: event.arguments) as RecipeInteractionPageResponseArguments?;
+
+    if (result != null) {
+      emit(state.copyWith(
+        dialogTitle: result.dialogTitle,
+        dialogMessage: result.dialogMessage
+      ));
+    }
+  }
+
   void _initState(InitState event, Emitter<ConversationState> emit) {
     final messages = _getMessagesFromConversation();
     // TODO: get senderId from currentUser in auth repo
@@ -52,6 +74,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
+    emit(state.copyWith(dialogMessage: "", dialogTitle: ""));
     // TODO: get messages from API
   }
 

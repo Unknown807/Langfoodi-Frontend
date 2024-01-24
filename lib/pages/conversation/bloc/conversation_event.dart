@@ -19,6 +19,16 @@ final class InitState extends ConversationEvent {
   List<Object> get props => [conversationName, conversationStatus, isGroup];
 }
 
+final class GoToInteractionPageAndExpectResult extends ConversationEvent {
+  const GoToInteractionPageAndExpectResult(this.context, this.arguments);
+
+  final BuildContext context;
+  final RecipeInteractionPageArguments arguments;
+
+  @override
+  List<Object> get props => [context, arguments];
+}
+
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
 }
