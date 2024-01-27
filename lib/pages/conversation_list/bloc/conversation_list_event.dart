@@ -20,7 +20,3 @@ final class ChangeSelectedSortingOption extends ConversationListEvent {
   @override
   List<Object> get props => [selectedSortingOption];
 }
-
-final class InitState extends ConversationListEvent {
-  const InitState();
-}

@@ -17,7 +17,7 @@ void main() {
         appBar: CustomSearchAppBar(
           onSearchFunc: funcMock,
           hintText: "hint text here",
-          title: 'title here'
+          title: const Text('title here')
         ),
       )
     );

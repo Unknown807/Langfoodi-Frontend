@@ -18,7 +18,7 @@ class CloudinaryImageViewPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
+            Icons.arrow_back_rounded,
             color: Theme.of(context).colorScheme.tertiary,
             size: 30,
           ),

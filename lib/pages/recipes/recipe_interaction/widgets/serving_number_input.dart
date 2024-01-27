@@ -15,18 +15,18 @@ class ServingNumberInput extends StatelessWidget {
           readonly: readonly,
           textController: state.servingNumberTextController,
           keyboardType: TextInputType.number,
-          innerPadding: const EdgeInsets.only(left: 5),
+          innerPadding: const EdgeInsets.symmetric(horizontal: 5),
           outerPadding: const EdgeInsets.symmetric(horizontal: 10),
           labelText: (readonly && isEmpty) ? null : 'Number Of Servings',
           hintText: (readonly && isEmpty) ? 'Number of Servings' : null,
           boxDecorationType: state.servingNumberValid
-              ? FormInputBoxDecorationType.textArea
-              : FormInputBoxDecorationType.error,
+            ? FormInputBoxDecorationType.textArea
+            : FormInputBoxDecorationType.error,
           fontSize: RecipeInteractionPageConstants.inputFormFontSize,
           eventFunc: (value) {
             context
-                .read<RecipeInteractionBloc>()
-                .add(ServingNumberChanged(value));
+              .read<RecipeInteractionBloc>()
+              .add(ServingNumberChanged(value));
           },
         );
       },

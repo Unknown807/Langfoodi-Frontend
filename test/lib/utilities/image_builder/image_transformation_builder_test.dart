@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:cloudinary_url_gen/transformation/delivery/delivery_actions.dart';
 import 'package:cloudinary_url_gen/transformation/resize/crop.dart';
+import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -20,6 +23,38 @@ void main() {
       expect(result, isNull);
     });
 
+    test("transformation type is tiny", () async {
+      // Act
+      final result = sut.getImageTransformation(ImageTransformationType.tiny);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Transformation>());
+      expect(result!.components, [
+        isA<Quality>(),
+        isA<Thumbnail>(),
+        isA<Dpr>()
+      ]);
+      expect((result!.components[1] as Thumbnail).dimensions.width, 50);
+      expect((result!.components[1] as Thumbnail).dimensions.height, 50);
+    });
+
+    test("transformation type is low", () async {
+      // Act
+      final result = sut.getImageTransformation(ImageTransformationType.low);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Transformation>());
+      expect(result!.components, [
+        isA<Quality>(),
+        isA<Thumbnail>(),
+        isA<Dpr>()
+      ]);
+      expect((result!.components[1] as Thumbnail).dimensions.width, 200);
+      expect((result!.components[1] as Thumbnail).dimensions.height, 300);
+    });
+
     test("transformation type is standard", () async {
       // Act
       final result = sut.getImageTransformation(ImageTransformationType.standard);
@@ -31,6 +66,18 @@ void main() {
         isA<Quality>(),
         isA<Thumbnail>(),
         isA<Dpr>()
+      ]);
+    });
+
+    test("transformation type is high", () async {
+      // Act
+      final result = sut.getImageTransformation(ImageTransformationType.high);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Transformation>());
+      expect(result!.components, [
+        isA<Quality>(),
       ]);
     });
   });

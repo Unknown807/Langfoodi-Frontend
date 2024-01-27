@@ -27,7 +27,6 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                 title: Text(state.dialogTitle),
                 content: Text(state.dialogMessage),
                 leftButtonText: null,
-                rightButtonText: "Ok",
                 rightButtonCallback: () => context
                   .read<RecipeViewBloc>()
                   .add(const ChangeRecipesToDisplay()),
@@ -42,7 +41,7 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
           appBar: state.recipesToDisplay.isEmpty
             ? AppBar(title: const Text("My Recipes"), backgroundColor: Theme.of(context).primaryColor)
             : CustomSearchAppBar(
-                title: "My Recipes",
+                title: const Text("My Recipes"),
                 hintText: "Search Your Recipes",
                 suggestions: state.searchSuggestions,
                 onSearchFunc: (value) => context

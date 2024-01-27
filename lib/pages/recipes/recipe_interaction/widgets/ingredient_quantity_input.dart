@@ -12,7 +12,7 @@ class IngredientQuantityInput extends StatelessWidget {
           return FormInput(
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               textController: state.ingredientQuantityTextController,
-              innerPadding: const EdgeInsets.only(left: 5),
+              innerPadding: const EdgeInsets.symmetric(horizontal: 5),
               outerPadding: const EdgeInsets.symmetric(vertical: 5),
               hintText: "1",
               boxDecorationType: state.ingredientQuantityValid

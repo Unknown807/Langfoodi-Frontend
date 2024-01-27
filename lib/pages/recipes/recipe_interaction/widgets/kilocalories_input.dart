@@ -15,7 +15,7 @@ class KilocaloriesInput extends StatelessWidget {
             readonly: readonly,
             textController: state.kilocaloriesTextController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            innerPadding: const EdgeInsets.only(left: 5),
+            innerPadding: const EdgeInsets.symmetric(horizontal: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
             labelText: (readonly && isEmpty) ? null : 'Kilocalories',
             hintText: (readonly && isEmpty) ? 'Kilocalories' : null,

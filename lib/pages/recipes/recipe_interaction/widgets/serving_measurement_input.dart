@@ -14,7 +14,7 @@ class ServingMeasurementInput extends StatelessWidget {
           return FormInput(
             readonly: readonly,
             textController: state.servingMeasurementTextController,
-            innerPadding: const EdgeInsets.only(left: 5),
+            innerPadding: const EdgeInsets.symmetric(horizontal: 5),
             outerPadding: const EdgeInsets.fromLTRB(0, 0, 10, 5),
             labelText: (readonly && isEmpty) ? null : 'Serving Unit',
             hintText: (readonly && isEmpty) ? 'Serving Unit' : null,
