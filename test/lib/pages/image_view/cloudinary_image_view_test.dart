@@ -48,7 +48,7 @@ void main() {
     await widgetTester.pumpAndSettle();
 
     // Act & Assert
-    expect(find.byIcon(Icons.arrow_circle_left_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     await widgetTester.tap(find.byType(IconButton));
     await widgetTester.pumpAndSettle();
 
