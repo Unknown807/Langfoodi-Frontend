@@ -19,15 +19,14 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: CustomSearchAppBar(
         title: const Text("Conversations"),
+        onSearchFunc: (term) {print(term);},
         actions: [
           IconButton(
           icon: const Icon(Icons.more_vert_rounded),
           onPressed: () {print("more options pressed");})
         ],
-        onSearchFunc: (term) {print(term);}
       ),
       floatingActionButton: CustomFloatingButton(
         key: const Key("conversationListPage"),

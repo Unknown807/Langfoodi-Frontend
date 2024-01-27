@@ -87,7 +87,7 @@ class MessageList extends StatelessWidget {
                       nipWidth: 3,
                       elevation: 5,
                       margin: BubbleEdges.only(
-                        right: MediaQuery.of(context).size.width*0.25,
+                        right: MediaQuery.of(context).size.width*0.20,
                         top: 10,
                         left: 5,
                       ),

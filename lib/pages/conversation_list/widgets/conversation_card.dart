@@ -32,52 +32,54 @@ class ConversationCard extends StatelessWidget {
                   isGroup: conversationCardContent.details.isGroup)),
             child: Center(
               child: Card(
-              elevation: 0,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: CustomCircleAvatar(
-                      avatarIcon: conversationCardContent.details.isGroup ? Icons.group : Icons.person,
-                      conversationStatus: conversationCardContent.details.conversationStatus,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(flex: 1, child: Text(conversationCardContent.details.conversationName,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                        )),
-                        Text(conversationCardContent.lastMessageSentDate != null
-                          ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!) : "",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 12)
-                        )
-                      ]
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(flex: 1, child: Text(conversationCardContent.lastMessage.isNotEmpty
-                          ? "${conversationCardContent.lastMessageSender}: ${conversationCardContent.lastMessage}" : "",
-                          style: TextStyle(color: Theme.of(context).hintColor, fontSize: 16),
-                          maxLines: 1, overflow: TextOverflow.ellipsis,
-                        )),
-                        if (conversationCardContent.details.isPinned)
-                          Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
-                      ]
-                    )
-                ),
-              ],
-            ),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                elevation: 0,
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: CustomCircleAvatar(
+                        avatarIcon: conversationCardContent.details.isGroup ? Icons.group : Icons.person,
+                        conversationStatus: conversationCardContent.details.conversationStatus,
+                      ),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(flex: 1, child: Text(conversationCardContent.details.conversationName,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                          )),
+                          Text(conversationCardContent.lastMessageSentDate != null
+                            ? DateFormat("dd/MM/yyyy").format(conversationCardContent.lastMessageSentDate!) : "",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 12)
+                          )
+                        ]
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(flex: 1, child: Text(conversationCardContent.lastMessage.isNotEmpty
+                            ? "${conversationCardContent.lastMessageSender}: ${conversationCardContent.lastMessage}" : "",
+                            style: TextStyle(color: Theme.of(context).hintColor, fontSize: 16),
+                            maxLines: 1, overflow: TextOverflow.ellipsis,
+                          )),
+                          if (conversationCardContent.details.isPinned)
+                            Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
+                        ]
+                      )
+                  ),
+                ],
+              ),
+            )
           )
-        )
-      );
-    });
+        );
+      }
+    );
   }
 
   Widget getStatusIcon(ConversationStatus conversationStatus, ThemeData themeData) {

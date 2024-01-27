@@ -63,7 +63,7 @@ class ConversationPage extends StatelessWidget {
                 const Expanded(flex: 5, child: MessageInput()),
                 IconButton(
                   splashRadius: 20,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   icon: const Icon(Icons.send),
                   onPressed: () {},
                 )
