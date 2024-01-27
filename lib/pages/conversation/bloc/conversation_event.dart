@@ -38,6 +38,16 @@ final class AttachImages extends ConversationEvent {
   List<Object> get props => [imageFiles];
 }
 
+final class SetCheckboxValue extends ConversationEvent {
+  const SetCheckboxValue(this.index, this.value);
+
+  final int index;
+  final bool value;
+
+  @override
+  List<Object> get props => [index, value];
+}
+
 final class GetCurrentUserRecipes extends ConversationEvent {
   const GetCurrentUserRecipes();
 }

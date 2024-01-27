@@ -60,9 +60,22 @@ class AttachRecipeButton extends StatelessWidget {
                                   recipe.title,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onSurface
+                                  ),
                                 ))
                             ),
-                            Checkbox(value: false, onChanged: (value) => print(value))
+                            BlocBuilder<ConversationBloc, ConversationState>(
+                              buildWhen: (p, c) => p.checkboxValues[index] != c.checkboxValues[index],
+                              builder: (context, state) {
+                                return Checkbox(
+                                  value: state.checkboxValues[index],
+                                  onChanged: (value) => context
+                                    .read<ConversationBloc>()
+                                    .add(SetCheckboxValue(index, value!))
+                                );
+                              },
+                            )
                           ],
                         );
                       },

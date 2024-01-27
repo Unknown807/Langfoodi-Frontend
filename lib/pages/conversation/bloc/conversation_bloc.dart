@@ -24,25 +24,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
     on<AttachImages>(_attachImagesToMessage);
     on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
+    on<SetCheckboxValue>(_setCheckboxValue);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
 
-  Map<String, Color> _generateNameColours(List<Message> messages) {
-    Map<String, Color> nameColours = {};
-    for (var msg in messages) {
-      nameColours.putIfAbsent(
-        msg.senderId,
-        () {
-          final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
-          return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
-        }
-      );
-    }
+  void _setCheckboxValue(SetCheckboxValue event, Emitter<ConversationState> emit) {
+    List<bool> newCheckboxValues = List.from(state.checkboxValues);
+    newCheckboxValues[event.index] = event.value;
 
-    return nameColours;
+    emit(state.copyWith(
+      checkboxValues: newCheckboxValues
+    ));
   }
 
   void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
@@ -98,7 +93,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       nameColours: nameColours,
       senderId: "1",
       fetchRecipes: false,
-      currentRecipes: currentRecipes
+      currentRecipes: currentRecipes,
+      checkboxValues: List.generate(currentRecipes.length, (_) => false)
     ));
   }
 
@@ -179,5 +175,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
     ];
+  }
+
+  Map<String, Color> _generateNameColours(List<Message> messages) {
+    Map<String, Color> nameColours = {};
+    for (var msg in messages) {
+      nameColours.putIfAbsent(
+          msg.senderId,
+              () {
+            final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
+            return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
+          }
+      );
+    }
+
+    return nameColours;
   }
 }

@@ -12,7 +12,8 @@ class ConversationState extends Equatable {
     this.nameColours = const {},
     this.dialogTitle = "",
     this.dialogMessage = "",
-    this.currentRecipes = const []
+    this.currentRecipes = const [],
+    this.checkboxValues = const []
   });
 
   final TextEditingController messageTextController;
@@ -23,6 +24,7 @@ class ConversationState extends Equatable {
   final bool fetchRecipes;
   final List<Message> messages;
   final List<Recipe> currentRecipes;
+  final List<bool> checkboxValues;
   final Map<String, Color> nameColours;
   final String dialogTitle;
   final String dialogMessage;
@@ -32,7 +34,7 @@ class ConversationState extends Equatable {
     conversationName, messages, isGroup,
     senderId, conversationStatus, nameColours,
     messageTextController, dialogTitle, dialogMessage,
-    fetchRecipes, currentRecipes
+    fetchRecipes, currentRecipes, checkboxValues
   ];
 
   ConversationState copyWith({
@@ -46,7 +48,8 @@ class ConversationState extends Equatable {
     String? dialogTitle,
     String? dialogMessage,
     bool? fetchRecipes,
-    List<Recipe>? currentRecipes
+    List<Recipe>? currentRecipes,
+    List<bool>? checkboxValues
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -59,7 +62,8 @@ class ConversationState extends Equatable {
       dialogTitle: dialogTitle ?? this.dialogTitle,
       dialogMessage: dialogMessage ?? this.dialogMessage,
       currentRecipes: currentRecipes ?? this.currentRecipes,
-      fetchRecipes: fetchRecipes ?? this.fetchRecipes
+      fetchRecipes: fetchRecipes ?? this.fetchRecipes,
+      checkboxValues: checkboxValues ?? this.checkboxValues
     );
   }
 }
