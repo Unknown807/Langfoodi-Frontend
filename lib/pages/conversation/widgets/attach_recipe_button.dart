@@ -23,23 +23,51 @@ class AttachRecipeButton extends StatelessWidget {
                   title: const Text("Attach Recipes"),
                   content: SizedBox(
                     height: 150,
-                  width: 300,
-                  child: ListView.builder(
-                    itemCount: state.currentRecipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = state.currentRecipes[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Row(
+                    width: 300,
+                    child: ListView.separated(
+                      itemCount: state.currentRecipes.length,
+                      separatorBuilder: (context, state) => const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final recipe = state.currentRecipes[index];
+                        return Row(
                           children: [
-                            //Flexible(flex: 0, child: Text(recipe.thumbnailId ?? "img id")),
-                            Expanded(flex: 2, child: Text(recipe.title)),
-                            Flexible(flex: 0, child: Checkbox(value: false, onChanged: (value) => print(value)))
+                            SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: context.read<ImageBuilder>().decideOnAndDisplayImage(
+                                  isAsset: true,
+                                  imageUrl: recipe.thumbnailId ?? "assets/images/no_image.png",
+                                  transformationType: ImageTransformationType.tiny,
+                                  errorBuilder: (context, obj1, obj2) {
+                                    return CustomIconTile(
+                                      padding: null,
+                                      icon: Icons.error,
+                                      backgroundColor: Theme.of(context).colorScheme.background,
+                                      iconColor: Theme.of(context).colorScheme.error,
+                                      tileColor: Theme.of(context).colorScheme.error,
+                                    );
+                                  },
+                                ),
+                              )
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  recipe.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ))
+                            ),
+                            Checkbox(value: false, onChanged: (value) => print(value))
                           ],
-                        )
-                      );
-                    },
-                  )),
+                        );
+                      },
+                    )
+                  ),
                   rightButtonText: "Attach",
                   rightButtonCallback: () => print("Attached"),
                 )

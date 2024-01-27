@@ -4,5 +4,6 @@ enum ImageTransformationType {
   none,
   standard,
   high,
-  low
+  low,
+  tiny
 }
