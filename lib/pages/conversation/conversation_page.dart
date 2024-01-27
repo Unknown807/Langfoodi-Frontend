@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -14,12 +16,16 @@ class ConversationPage extends StatelessWidget {
     var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
 
     return BlocProvider(
-      create: (_) => ConversationBloc(context.read<NavigationRepository>())
-        ..add(InitState(
-          convoDetails.conversationName,
-          convoDetails.conversationStatus,
-          convoDetails.isGroup
-        )),
+      create: (_) => ConversationBloc(
+        context.read<NavigationRepository>(),
+        context.read<AuthenticationRepository>(),
+        context.read<RecipeRepository>()
+      )
+      ..add(InitState(
+        convoDetails.conversationName,
+        convoDetails.conversationStatus,
+        convoDetails.isGroup
+      )),
       child: Scaffold(
         appBar: CustomSearchAppBar(
           title: Row(

@@ -16,7 +16,6 @@ class MessageList extends StatelessWidget {
                 title: Text(state.dialogTitle),
                 content: Text(state.dialogMessage),
                 leftButtonText: null,
-                rightButtonText: "Ok",
                 rightButtonCallback: () => context
                   .read<ConversationBloc>()
                   .add(const ChangeMessagesToDisplay())

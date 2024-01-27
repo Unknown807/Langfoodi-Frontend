@@ -27,7 +27,6 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                 title: Text(state.dialogTitle),
                 content: Text(state.dialogMessage),
                 leftButtonText: null,
-                rightButtonText: "Ok",
                 rightButtonCallback: () => context
                   .read<RecipeViewBloc>()
                   .add(const ChangeRecipesToDisplay()),

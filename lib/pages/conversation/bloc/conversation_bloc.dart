@@ -5,25 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 
 export 'conversation_bloc.dart';
 part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc(this._navigationRepo) : super(ConversationState(
+  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo) : super(ConversationState(
     messageTextController: TextEditingController()
   )) {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
     on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
     on<AttachImages>(_attachImagesToMessage);
+    on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
   }
 
   final NavigationRepository _navigationRepo;
+  final AuthenticationRepository _authRepo;
+  final RecipeRepository _recipeRepo;
 
   Map<String, Color> _generateNameColours(List<Message> messages) {
     Map<String, Color> nameColours = {};
@@ -62,11 +67,28 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     }
   }
 
-  void _initState(InitState event, Emitter<ConversationState> emit) {
+  Future<List<Recipe>> _getCurrentUserRecipesAndReturn() async {
+    String? userId = (await _authRepo.currentUser).id;
+    return await _recipeRepo.getRecipesFromUserId(userId);
+  }
+
+  void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
+    if (!state.fetchRecipes) return;
+
+    List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
+
+    emit(state.copyWith(
+        fetchRecipes: false,
+        currentRecipes: currentRecipes
+    ));
+  }
+
+  void _initState(InitState event, Emitter<ConversationState> emit) async {
     final messages = _getMessagesFromConversation();
     // TODO: get senderId from currentUser in auth repo
-
     final nameColours = _generateNameColours(messages);
+
+    List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
     emit(state.copyWith(
       conversationName: event.conversationName,
@@ -74,7 +96,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       isGroup: event.isGroup,
       messages: messages,
       nameColours: nameColours,
-      senderId: "1"
+      senderId: "1",
+      fetchRecipes: false,
+      currentRecipes: currentRecipes
     ));
   }
 

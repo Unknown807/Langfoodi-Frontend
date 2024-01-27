@@ -47,7 +47,6 @@ class RecipeInteractionPage extends StatelessWidget {
                     title: const Text("Oops!"),
                     content: Text(state.formErrorMessage),
                     leftButtonText: null,
-                    rightButtonText: "Ok",
                     rightButtonCallback: () => context
                       .read<RecipeInteractionBloc>()
                       .add(const ResetFormStatus())

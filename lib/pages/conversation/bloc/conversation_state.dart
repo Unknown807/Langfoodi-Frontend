@@ -6,11 +6,13 @@ class ConversationState extends Equatable {
     this.conversationName = "",
     this.conversationStatus = ConversationStatus.connected,
     this.isGroup = false,
+    this.fetchRecipes = true,
     this.messages = const [],
     this.senderId = "",
     this.nameColours = const {},
     this.dialogTitle = "",
-    this.dialogMessage = ""
+    this.dialogMessage = "",
+    this.currentRecipes = const []
   });
 
   final TextEditingController messageTextController;
@@ -18,7 +20,9 @@ class ConversationState extends Equatable {
   final String senderId;
   final String conversationName;
   final bool isGroup;
+  final bool fetchRecipes;
   final List<Message> messages;
+  final List<Recipe> currentRecipes;
   final Map<String, Color> nameColours;
   final String dialogTitle;
   final String dialogMessage;
@@ -27,7 +31,8 @@ class ConversationState extends Equatable {
   List<Object> get props => [
     conversationName, messages, isGroup,
     senderId, conversationStatus, nameColours,
-    messageTextController, dialogTitle, dialogMessage
+    messageTextController, dialogTitle, dialogMessage,
+    fetchRecipes, currentRecipes
   ];
 
   ConversationState copyWith({
@@ -39,7 +44,9 @@ class ConversationState extends Equatable {
     Map<String, Color>? nameColours,
     TextEditingController? messageTextController,
     String? dialogTitle,
-    String? dialogMessage
+    String? dialogMessage,
+    bool? fetchRecipes,
+    List<Recipe>? currentRecipes
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -50,7 +57,9 @@ class ConversationState extends Equatable {
       nameColours: nameColours ?? this.nameColours,
       messageTextController: messageTextController ?? this.messageTextController,
       dialogTitle: dialogTitle ?? this.dialogTitle,
-      dialogMessage: dialogMessage ?? this.dialogMessage
+      dialogMessage: dialogMessage ?? this.dialogMessage,
+      currentRecipes: currentRecipes ?? this.currentRecipes,
+      fetchRecipes: fetchRecipes ?? this.fetchRecipes
     );
   }
 }

@@ -38,6 +38,10 @@ final class AttachImages extends ConversationEvent {
   List<Object> get props => [imageFiles];
 }
 
+final class GetCurrentUserRecipes extends ConversationEvent {
+  const GetCurrentUserRecipes();
+}
+
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
 }
