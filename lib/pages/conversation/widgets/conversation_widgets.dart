@@ -23,3 +23,4 @@ part 'chat_bubble/chat_bubble_recipe_carousel.dart';
 part 'message_input.dart';
 part 'message_list.dart';
 part 'attach_image_button.dart';
+part 'attach_recipe_button.dart';

@@ -52,17 +52,7 @@ class ConversationPage extends StatelessWidget {
             const Expanded(flex: 8, child: MessageList()),
             Row(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    padding: const EdgeInsets.only(left: 5),
-                    iconSize: 22,
-                    splashRadius: 20,
-                    color: Theme.of(context).colorScheme.tertiary,
-                    icon: const Icon(Icons.fastfood),
-                    onPressed: () {},
-                  )
-                ),
+                const Expanded(flex: 1, child: AttachRecipeButton()),
                 const Expanded(flex: 1, child: AttachImageButton()),
                 const Expanded(flex: 5, child: MessageInput()),
                 IconButton(

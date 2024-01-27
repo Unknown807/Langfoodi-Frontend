@@ -25,9 +25,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   final NavigationRepository _navigationRepo;
 
-  //TODO: if you update recipe after going from message page, add bloc
-  // listener to have success or error popup or smth
-
   Map<String, Color> _generateNameColours(List<Message> messages) {
     Map<String, Color> nameColours = {};
     for (var msg in messages) {
