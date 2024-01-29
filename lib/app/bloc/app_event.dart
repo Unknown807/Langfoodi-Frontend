@@ -10,10 +10,5 @@ final class InitState extends AppEvent {
 }
 
 final class ChangeAppTheme extends AppEvent {
-  const ChangeAppTheme(this.themeMode);
-
-  final ThemeMode themeMode;
-
-  @override
-  List<Object> get props => [themeMode];
+  const ChangeAppTheme();
 }

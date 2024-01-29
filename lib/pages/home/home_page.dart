@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/conversation_list_page.dart';
+import 'package:recipe_social_media/pages/profile_settings/profile_settings_page.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
         widgetPages: [
           ConversationListPage(),
           RecipeViewPage(),
-          PlaceholderPage()
+          ProfileSettingsPage()
         ],
         onLandOnce: [false, true, false]
       )

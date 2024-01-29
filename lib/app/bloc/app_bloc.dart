@@ -25,9 +25,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _changeAppTheme(ChangeAppTheme event, Emitter<AppState> emit) async {
-    String newTheme = event.themeMode == ThemeMode.light ? "light" : "dark";
+    String currentTheme = await localStore.getKey(themeKey) ?? "light";
+    String newTheme = currentTheme == "light" ? "dark" : "light";
+    ThemeMode newMode = currentTheme == "light" ? ThemeMode.dark : ThemeMode.light;
     localStore.setKey(themeKey, newTheme);
 
-    emit(state.copyWith(themeMode: event.themeMode));
+    emit(state.copyWith(themeMode: newMode));
   }
 }
