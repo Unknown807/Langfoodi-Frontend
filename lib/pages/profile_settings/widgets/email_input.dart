@@ -7,7 +7,9 @@ class EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
-      buildWhen: (p, c) => p.editingEmail != c.editingEmail,
+      buildWhen: (p, c) =>
+        p.editingEmail != c.editingEmail
+        || p.email != c.email,
       builder: (context, state) {
         return state.editingEmail
           ? const SizedBox.shrink()

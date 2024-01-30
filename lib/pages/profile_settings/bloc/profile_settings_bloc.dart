@@ -23,7 +23,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       handler: user.handler,
       username: user.username,
       email: user.email,
-      thumbnailId: "some id"
+      thumbnailId: "q8jjeukocprdiblv25tf"
     ));
   }
 }

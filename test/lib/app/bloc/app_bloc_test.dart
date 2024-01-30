@@ -16,8 +16,11 @@ void main() {
 
   group("_changeAppTheme method tests", () {
     blocTest("new theme is set and emitted",
-      build: () => AppBloc(localStoreMock, authRepoMock),
-      act: (bloc) => bloc.add(const ChangeAppTheme(ThemeMode.dark)),
+      build: () {
+        when(() => localStoreMock.getKey("currentTheme")).thenAnswer((invocation) => Future.value("light"));
+        return AppBloc(localStoreMock, authRepoMock);
+      },
+      act: (bloc) => bloc.add(const ChangeAppTheme()),
       expect: () => [
         const AppState(themeMode: ThemeMode.dark)
       ],

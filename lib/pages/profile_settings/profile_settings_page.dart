@@ -44,13 +44,7 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 15),
-            child: Center(
-              child: CustomCircleAvatar(
-                avatarIcon: Icons.person,
-                avatarIconSize: 120,
-                circleRadiusSize: 80,
-              )
-            ),
+            child: ProfileThumbnailPicker(),
           ),
           const UsernameInput(),
           const HandleInput(),
