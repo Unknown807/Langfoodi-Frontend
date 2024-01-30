@@ -12,3 +12,4 @@ part 'handle_input.dart';
 part 'email_input.dart';
 part 'password_input.dart';
 part 'profile_thumbnail_picker.dart';
+part 'creation_date_field.dart';

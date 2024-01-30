@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
@@ -19,7 +20,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
     User user = await _authRepo.currentUser;
     emit(state.copyWith(
-      creationDate: user.creationDate.toString(),
+      creationDate: DateFormat('dd-MM-yyyy').format(user.creationDate),
       handler: user.handler,
       username: user.username,
       email: user.email,

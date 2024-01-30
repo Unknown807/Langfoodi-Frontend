@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/app/app.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_bloc.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 import 'widgets/profile_settings_widgets.dart';
 
@@ -53,7 +52,9 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Divider(color: Theme.of(context).colorScheme.tertiary)
           ),
-          const PasswordInput()
+          const PasswordInput(),
+          const Spacer(),
+          const CreationDateField()
         ],
       ),
     );
