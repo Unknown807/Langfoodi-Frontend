@@ -1,6 +1,6 @@
 part of 'profile_settings_widgets.dart';
 
-// TODO: to be implemented in the next ticket, but can remain for now
+// TODO: to be fully implemented in the next ticket, but can remain for now
 class UsernameInput extends StatelessWidget {
   const UsernameInput({super.key});
 
