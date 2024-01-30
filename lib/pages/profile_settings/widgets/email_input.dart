@@ -7,14 +7,15 @@ class EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
+      buildWhen: (p, c) => p.editingEmail != c.editingEmail,
       builder: (context, state) {
         return state.editingEmail
-            ? const SizedBox.shrink()
-            : ReadonlyProfileTile(
-                titleText: "Email",
-                subtitleText: state.email,
-                eventFunc: () {},
-              );
+          ? const SizedBox.shrink()
+          : ReadonlyProfileTile(
+              titleText: "Email",
+              subtitleText: state.email,
+              eventFunc: () {},
+            );
       },
     );
   }

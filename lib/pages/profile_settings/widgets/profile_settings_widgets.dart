@@ -9,3 +9,4 @@ part 'username_input.dart';
 part 'handle_input.dart';
 part 'email_input.dart';
 part 'password_input.dart';
+part 'profile_thumbnail_picker.dart';

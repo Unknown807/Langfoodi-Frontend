@@ -7,6 +7,7 @@ class UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
+      buildWhen: (p, c) => p.editingUsername != c.editingUsername,
       builder: (context, state) {
         return state.editingUsername
           ? const SizedBox.shrink()

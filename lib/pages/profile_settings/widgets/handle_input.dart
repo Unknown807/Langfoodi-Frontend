@@ -7,14 +7,15 @@ class HandleInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
+      buildWhen: (p, c) => p.editingHandler != c.editingHandler,
       builder: (context, state) {
         return state.editingHandler
-            ? const SizedBox.shrink()
-            : ReadonlyProfileTile(
-                titleText: "Handle",
-                subtitleText: state.handler,
-                eventFunc: () {},
-              );
+          ? const SizedBox.shrink()
+          : ReadonlyProfileTile(
+              titleText: "Handle",
+              subtitleText: state.handler,
+              eventFunc: () {},
+            );
       },
     );
   }
