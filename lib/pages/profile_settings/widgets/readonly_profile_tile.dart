@@ -14,24 +14,32 @@ class ReadonlyProfileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        titleText,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.tertiary,
-          fontSize: 14
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: ListTile(
+        visualDensity: VisualDensity.standard,
+        title: Text(
+          titleText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.tertiary,
+            fontSize: 14
+          ),
         ),
-      ),
-      subtitle: Text(
-        subtitleText,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
-          fontSize: 18
+        subtitle: Text(
+          subtitleText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 20
+          ),
         ),
-      ),
-      trailing: CustomTextButton(
-        text: "Edit",
-        eventFunc: eventFunc,
+        trailing: CustomTextButton(
+          text: "Edit",
+          eventFunc: eventFunc,
+        ),
       ),
     );
   }

@@ -52,40 +52,10 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               )
             ),
           ),
-          UsernameInput()
+          UsernameInput(),
+          HandleInput()
         ],
       ),
-      // body: Column(children:<Widget>[
-      //   const Padding(padding:EdgeInsets.all(16.0),
-      //       child:CustomAvatar(size:70)),
-      //   Expanded(child:ListView(
-      //     children:  const [
-      //       CustomItemTile(
-      //         titleWidget: Text("Username"),
-      //         subtitleWidget: Text("Cool Guy"),
-      //         trailingWidget: Text("Edit"),
-      //       ),
-      //       CustomItemTile(
-      //         titleWidget: Text("Handle"),
-      //         subtitleWidget: Text("@realcoolguy"),
-      //         trailingWidget: Text("Edit"),
-      //       ),
-      //       CustomItemTile(
-      //         titleWidget: Text("Bio"),
-      //         subtitleWidget: Text("I like cooking"),
-      //         trailingWidget: Text("Edit"),
-      //       ),
-      //       CustomItemTile(
-      //         titleWidget: Text("Email"),
-      //         subtitleWidget: Text("me@cooldude.com"),
-      //         trailingWidget: Text("Edit"),
-      //       ),
-      //       CustomItemTile(
-      //         titleWidget: Text("Password"),
-      //         trailingWidget: Text("Edit"),
-      //       )
-      //     ]
-      // ))]),
     );
   }
 }
