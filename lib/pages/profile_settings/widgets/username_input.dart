@@ -6,6 +6,16 @@ class UsernameInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.shrink();
+    return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
+      builder: (context, state) {
+        return state.editingUsername
+          ? const SizedBox.shrink()
+          : ReadonlyProfileTile(
+              titleText: "Username",
+              subtitleText: state.username,
+              eventFunc: () {},
+            );
+      },
+    );
   }
 }

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/app/app.dart';
+import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_bloc.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
+
+import 'widgets/profile_settings_widgets.dart';
 
 class ProfileSettingsPage extends StatelessWidget implements PageLander {
   const ProfileSettingsPage({super.key});
 
   @override
   void onLanding(BuildContext context) {
-    // TODO: implement onLanding
+    BlocProvider.of<ProfileSettingsBloc>(context)
+        .add(const DisplayProfileInformation());
   }
 
   @override
@@ -48,9 +52,7 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               )
             ),
           ),
-          ListTile(
-            title: Text("Title"),
-          )
+          UsernameInput()
         ],
       ),
       // body: Column(children:<Widget>[
