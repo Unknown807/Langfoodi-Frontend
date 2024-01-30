@@ -17,10 +17,10 @@ class CustomItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: titleWidget,
-        subtitle: subtitleWidget,
-        onTap: tapFunc?.call(),
-        trailing: trailingWidget
+      title: titleWidget,
+      subtitle: subtitleWidget,
+      onTap: tapFunc?.call(),
+      trailing: trailingWidget
     );
 
   }
