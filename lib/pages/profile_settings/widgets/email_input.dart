@@ -11,10 +11,10 @@ class EmailInput extends StatelessWidget {
         return state.editingEmail
             ? const SizedBox.shrink()
             : ReadonlyProfileTile(
-          titleText: "Email",
-          subtitleText: state.email,
-          eventFunc: () {},
-        );
+                titleText: "Email",
+                subtitleText: state.email,
+                eventFunc: () {},
+              );
       },
     );
   }

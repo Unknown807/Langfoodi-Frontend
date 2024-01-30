@@ -40,9 +40,9 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
           ],
         )
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(vertical: 15),
             child: Center(
               child: CustomCircleAvatar(
@@ -52,9 +52,14 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               )
             ),
           ),
-          UsernameInput(),
-          HandleInput(),
-          EmailInput(),
+          const UsernameInput(),
+          const HandleInput(),
+          const EmailInput(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Divider(color: Theme.of(context).colorScheme.tertiary)
+          ),
+          const PasswordInput()
         ],
       ),
     );

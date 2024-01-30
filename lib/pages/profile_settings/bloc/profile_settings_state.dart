@@ -10,6 +10,7 @@ class ProfileSettingsState extends Equatable {
     this.editingHandler = false,
     this.editingUsername = false,
     this.editingEmail = false,
+    this.editingPassword = false
   });
 
   final String handler;
@@ -20,12 +21,13 @@ class ProfileSettingsState extends Equatable {
   final bool editingHandler;
   final bool editingUsername;
   final bool editingEmail;
+  final bool editingPassword;
 
   @override
   List<Object> get props => [
     handler, username, email, thumbnailId,
     creationDate, editingHandler, editingUsername,
-    editingEmail
+    editingEmail, editingPassword
   ];
 
   ProfileSettingsState copyWith({
@@ -36,7 +38,8 @@ class ProfileSettingsState extends Equatable {
     String? creationDate,
     bool? editingHandler,
     bool? editingUsername,
-    bool? editingEmail
+    bool? editingEmail,
+    bool? editingPassword
   }) {
     return ProfileSettingsState(
       handler: handler ?? this.handler,
@@ -46,7 +49,8 @@ class ProfileSettingsState extends Equatable {
       creationDate: creationDate ?? this.creationDate,
       editingHandler: editingHandler ?? this.editingHandler,
       editingUsername: editingUsername ?? this.editingUsername,
-      editingEmail: editingEmail ?? this.editingEmail
+      editingEmail: editingEmail ?? this.editingEmail,
+      editingPassword: editingPassword ?? this.editingPassword
     );
   }
 }

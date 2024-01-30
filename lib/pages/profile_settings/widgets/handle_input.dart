@@ -11,10 +11,10 @@ class HandleInput extends StatelessWidget {
         return state.editingHandler
             ? const SizedBox.shrink()
             : ReadonlyProfileTile(
-          titleText: "Handle",
-          subtitleText: state.handler,
-          eventFunc: () {},
-        );
+                titleText: "Handle",
+                subtitleText: state.handler,
+                eventFunc: () {},
+              );
       },
     );
   }
