@@ -53,7 +53,8 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
             ),
           ),
           UsernameInput(),
-          HandleInput()
+          HandleInput(),
+          EmailInput(),
         ],
       ),
     );

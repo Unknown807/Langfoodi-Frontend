@@ -7,3 +7,4 @@ export "profile_settings_widgets.dart";
 part 'readonly_profile_tile.dart';
 part 'username_input.dart';
 part 'handle_input.dart';
+part 'email_input.dart';

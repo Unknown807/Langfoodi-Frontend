@@ -33,7 +33,7 @@ class ReadonlyProfileTile extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
-            fontSize: 20
+            fontSize: 18
           ),
         ),
         trailing: CustomTextButton(
