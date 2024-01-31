@@ -11,7 +11,7 @@ class RecipeStepDescriptionInput extends StatelessWidget {
         builder: (context, state) {
           return FormInput(
             textController: state.recipeStepDescriptionTextController,
-            innerPadding: const EdgeInsets.only(left: 5),
+            innerPadding: const EdgeInsets.symmetric(horizontal: 5),
             outerPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             hintText: "Write step here and enter to submit",
             boxDecorationType: state.recipeStepDescriptionValid

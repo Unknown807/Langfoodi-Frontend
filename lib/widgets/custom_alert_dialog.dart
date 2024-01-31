@@ -20,9 +20,25 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final btnStyle = ButtonStyle(
+      overlayColor: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Theme.of(context).colorScheme.secondary.withAlpha(30);
+        }
+        else if (states.contains(MaterialState.pressed)) {
+          return Theme.of(context).colorScheme.secondary.withAlpha(30);
+        }
+      }),
+      foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondary));
+
     return AlertDialog(
       title: title,
       content: content,
+      titleTextStyle: TextStyle(
+        fontSize: 20, color: Theme.of(context).colorScheme.onSurface),
+      contentTextStyle: TextStyle(
+        fontSize:16, color: Theme.of(context).colorScheme.onSurface),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       actions: [
         leftButtonText == null
             ? const SizedBox()
@@ -31,16 +47,15 @@ class CustomAlertDialog extends StatelessWidget {
                   leftButtonCallback?.call();
                   context.read<NavigationRepository>().dismissDialog(context);
                 },
-                style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
-                child: Text(leftButtonText!),
-        ),
+                style: btnStyle,
+                child: Text(leftButtonText!)),
         TextButton(
-            onPressed: () {
-              rightButtonCallback?.call();
-              context.read<NavigationRepository>().dismissDialog(context);
-            },
-            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
-            child: Text(rightButtonText))
+          onPressed: () {
+            rightButtonCallback?.call();
+            context.read<NavigationRepository>().dismissDialog(context);
+          },
+          style: btnStyle,
+          child: Text(rightButtonText))
       ],
     );
   }

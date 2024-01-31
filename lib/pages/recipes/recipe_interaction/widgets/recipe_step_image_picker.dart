@@ -20,18 +20,27 @@ class RecipeStepImagePicker extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.only(top: 5, left: 5, bottom: 5),
                   child: state.recipeStepImagePath.isEmpty
-                      ? DottedBorder(
-                      strokeWidth: 1.5,
-                      color: Colors.blue,
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(10),
-                      padding: const EdgeInsets.all(25),
-                      child: const Center(child: Icon(Icons.image, size: 40, color: Colors.blue,)))
+                      ? CustomIconTile(
+                          icon: Icons.image,
+                          borderStrokeWidth: 1.5,
+                          iconColor: Theme.of(context).colorScheme.tertiary,
+                          tileColor: Theme.of(context).colorScheme.tertiary)
                       : AspectRatio(
-                      aspectRatio: 1/1,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: Image.file(File(state.recipeStepImagePath), fit: BoxFit.cover,))
+                          aspectRatio: 1/1,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: context
+                                .read<ImageBuilder>()
+                                .displayLocalImage(
+                                  imagePath: state.recipeStepImagePath,
+                                  errorBuilder: (context, obj1, obj2) {
+                                    return CustomIconTile(
+                                      icon: Icons.error,
+                                      iconColor: Theme.of(context).colorScheme.error,
+                                      tileColor: Theme.of(context).colorScheme.error,
+                                    );
+                                  })
+                          )
                   ))
           );
         }

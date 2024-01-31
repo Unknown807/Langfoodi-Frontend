@@ -56,6 +56,10 @@ class ImageBuilder {
       errorBuilder: errorBuilder);
   }
 
+  AssetImage getAssetImage(String imagePath) {
+    return AssetImage(imagePath);
+  }
+
   Widget displayLocalImage({required String imagePath,
     required Widget Function(BuildContext context, Object exception, StackTrace? stackTrace) errorBuilder,
     BoxFit imageFit = BoxFit.cover})

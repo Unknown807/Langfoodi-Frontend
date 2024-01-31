@@ -15,7 +15,7 @@ class ServingQuantityInput extends StatelessWidget {
           readonly: readonly,
           textController: state.servingQuantityTextController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          innerPadding: const EdgeInsets.only(left: 5),
+          innerPadding: const EdgeInsets.symmetric(horizontal: 5),
           outerPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
           labelText: (readonly && isEmpty) ? null : 'Serving Quantity',
           hintText: (readonly && isEmpty) ? 'Serving Quantity' : null,

@@ -7,3 +7,4 @@ part 'ingredient.dart';
 part 'recipe_step.dart';
 part 'recipe_detailed.dart';
 part 'recipe.dart';
+part 'recipe_preview.dart';

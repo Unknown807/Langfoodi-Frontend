@@ -24,10 +24,10 @@ class ReadonlyRecipeThumbnail extends StatelessWidget {
                       imageUrl: noImage ? "assets/images/no_image.png" : state.recipeThumbnailPath,
                       transformationType: ImageTransformationType.standard,
                       errorBuilder: (context, obj1, obj2) {
-                        return const CustomIconTile(
+                        return CustomIconTile(
                           icon: Icons.error,
-                          iconColor: Colors.red,
-                          tileColor: Colors.red,
+                          iconColor: Theme.of(context).colorScheme.error,
+                          tileColor: Theme.of(context).colorScheme.error,
                         );
                       },
                     ),

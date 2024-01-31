@@ -7,7 +7,7 @@ import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/rec
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
-import 'package:recipe_social_media/repositories/navigation/args/recipe_view/recipe_view_page_arguments.dart';
+import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -47,7 +47,6 @@ class RecipeInteractionPage extends StatelessWidget {
                     title: const Text("Oops!"),
                     content: Text(state.formErrorMessage),
                     leftButtonText: null,
-                    rightButtonText: "Ok",
                     rightButtonCallback: () => context
                       .read<RecipeInteractionBloc>()
                       .add(const ResetFormStatus())
@@ -56,11 +55,12 @@ class RecipeInteractionPage extends StatelessWidget {
               );
             } else if (state.formStatus.isSuccess) {
               final formType = state.pageType == RecipeInteractionType.create ? "created" : "updated";
+
               context
                 .read<NavigationRepository>()
                 .goTo(context, "/recipe-view",
                   routeType: RouteType.backLink,
-                  arguments: RecipeViewPageArguments(
+                  arguments: RecipeInteractionPageResponseArguments(
                     dialogTitle: "Success!",
                     dialogMessage: "${state.recipeTitle.value} successfully $formType"
                   )
@@ -74,19 +74,18 @@ class RecipeInteractionPage extends StatelessWidget {
                 ? const Scaffold(body: Center(child: CircularProgressIndicator()))
                 : Scaffold(
                     appBar: AppBar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.background,
                       elevation: 0.5,
                       title: const riw.RecipeTitleInput(),
                       leading: const riw.RecipeBackButton(),
                       actions: readonly
-                          ? <Widget>[
-                              state.recipeOwned
-                                ? const riw.RecipeEnableEditButton()
-                                : const SizedBox(width: 50)]
-                          : const <Widget>[riw.RecipeSubmitButton()],
+                        ? <Widget>[
+                            state.recipeOwned
+                              ? const riw.RecipeEnableEditButton()
+                              : const SizedBox(width: 50)]
+                        : const <Widget>[riw.RecipeSubmitButton()],
                     ),
                     resizeToAvoidBottomInset: false,
-                    backgroundColor: Colors.white,
                     body: SingleChildScrollView(
                         reverse: true,
                         child: Padding(
@@ -103,17 +102,19 @@ class RecipeInteractionPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                      children: <Widget>[
-                                        readonly ? const SizedBox() : const riw.RecipeTagInput(),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 10),
-                                            child: riw.RecipeTagList())
-                                      ])),
-                                CustomExpansionTile(
-                                  title: const Text(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      readonly ? const SizedBox() : const riw.RecipeTagInput(),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: riw.RecipeTagList())
+                                    ])
+                                ),
+                                ExpansionTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(
                                     'Ingredients',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -131,10 +132,11 @@ class RecipeInteractionPage extends StatelessWidget {
                                     readonly ? const riw.ReadonlyIngredientList() : const riw.IngredientList()
                                   ],
                                 ),
-                                CustomExpansionTile(
-                                  title: const Text(
+                                ExpansionTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(
                                     'Recipe Steps',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -148,10 +150,11 @@ class RecipeInteractionPage extends StatelessWidget {
                                     readonly ? const riw.ReadonlyRecipeStepList() : const riw.RecipeStepList()
                                   ],
                                 ),
-                                CustomExpansionTile(
-                                  title: const Text(
+                                ExpansionTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(
                                     'Extra Information',
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   children: const [
                                     SizedBox(

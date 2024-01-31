@@ -15,6 +15,7 @@ void main() {
   late ImageTransformationBuilderMock imageTransformationBuilderMock;
   late ImageBuilderMock imageBuilderMock;
   late NetworkManagerMock networkManagerMock;
+  late LocalStoreMock localStoreMock;
 
   setUp(() {
     recipeRepoMock = RecipeRepositoryMock();
@@ -24,6 +25,10 @@ void main() {
     imageBuilderMock = ImageBuilderMock();
     imageTransformationBuilderMock = ImageTransformationBuilderMock();
     networkManagerMock = NetworkManagerMock();
+    localStoreMock = LocalStoreMock();
+
+    when(() => localStoreMock.getKey("currentTheme")).thenAnswer((invocation) => Future.value("light"));
+    when(() => imageBuilderMock.getAssetImage(any())).thenReturn(const AssetImage("assets/images/light_auth_bg.png"));
   });
 
   Widget createWidgetUnderTest() {
@@ -35,6 +40,7 @@ void main() {
       imageBuilder: imageBuilderMock,
       imageTransformationBuilder: imageTransformationBuilderMock,
       networkManager: networkManagerMock,
+      localStore: localStoreMock,
     );
   }
 

@@ -57,30 +57,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bubble:
+    dependency: "direct main"
+    description:
+      name: bubble
+      sha256: "65b992b8f8ba2e7e2871190cbdfaa0818b6de2f340bef37cb5ee1b61debe0226"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   cached_network_image:
     dependency: transitive
     description:
       name: cached_network_image
-      sha256: f98972704692ba679db144261172a8e20feb145636c617af0eb4022132a6797f
+      sha256: "28ea9690a8207179c319965c13cd8df184d5ee721ae2ce60f398ced1219cea1f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.1"
   cached_network_image_platform_interface:
     dependency: transitive
     description:
       name: cached_network_image_platform_interface
-      sha256: "56aa42a7a01e3c9db8456d9f3f999931f1e05535b5a424271e9a38cabf066613"
+      sha256: "9e90e78ae72caa874a323d78fa6301b3fb8fa7ea76a8f96dc5b5bf79f283bf2f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "4.0.0"
   cached_network_image_web:
     dependency: transitive
     description:
       name: cached_network_image_web
-      sha256: "759b9a9f8f6ccbb66c185df805fac107f05730b1dab9c64626d1008cca532257"
+      sha256: "42a835caa27c220d1294311ac409a43361088625a4f23c820b006dd9bffb3316"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      sha256: "9c695cc963bf1d04a47bd6021f68befce8970bcd61d24938e1fb0918cf5d9c42"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
   characters:
     dependency: transitive
     description:
@@ -370,6 +386,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  grouped_list:
+    dependency: "direct main"
+    description:
+      name: grouped_list
+      sha256: fef106470186081c32636aa055492eee7fc7fe8bf0921a48d31ded24821af19f
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.2"
   http:
     dependency: "direct main"
     description:

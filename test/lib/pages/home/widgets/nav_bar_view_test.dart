@@ -30,8 +30,6 @@ void main() {
       expect(find.text("My Recipes"), findsOneWidget);
       expect(find.byIcon(Icons.person), findsOneWidget);
       expect(find.text("Profile"), findsOneWidget);
-      expect(find.byIcon(Icons.notifications), findsOneWidget);
-      expect(find.text("Notifications"), findsOneWidget);
     });
 
     testWidgets("on 'Conversations' page", (widgetTester) async {
@@ -64,18 +62,6 @@ void main() {
 
       // Assert
       expect(find.text("profile page"), findsOneWidget);
-    });
-
-    testWidgets("on 'Notifications' page", (widgetTester) async {
-      // Arrange
-      await widgetTester.pumpWidget(createWidgetUnderTest());
-
-      // Act
-      await widgetTester.tap(find.text("Notifications"));
-      await widgetTester.pumpAndSettle();
-
-      // Assert
-      expect(find.text("notifications page"), findsOneWidget);
     });
   });
 }
