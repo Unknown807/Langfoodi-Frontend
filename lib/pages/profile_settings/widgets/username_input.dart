@@ -29,11 +29,7 @@ class UsernameInput extends StatelessWidget {
                             .add(UserNameChanged(username))
                         ),
                       ),
-                      IconButton(
-                        iconSize: 30,
-                        splashRadius: 20,
-                        icon: const Icon(Icons.cancel_rounded),
-                        color: Theme.of(context).colorScheme.inversePrimary,
+                      EditFieldCancelButton(
                         onPressed: () {
                           context.read<ProfileSettingsFormBloc>().add(const UserNameChanged(""));
                           context.read<ProfileSettingsBloc>().add(const StopEditingUsername());
@@ -56,7 +52,6 @@ class UsernameInput extends StatelessWidget {
                                 .add(const UpdateUsername())
                             ),
                           ),
-
                         ),
                       )
                     ],
