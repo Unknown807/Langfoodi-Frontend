@@ -18,3 +18,4 @@ part 'password_input.dart';
 part 'profile_thumbnail_picker.dart';
 part 'creation_date_field.dart';
 part 'edit_field_cancel_button.dart';
+part 'edit_field_submit_button.dart';

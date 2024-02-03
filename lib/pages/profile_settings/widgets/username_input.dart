@@ -35,11 +35,7 @@ class UsernameInput extends StatelessWidget {
                           context.read<ProfileSettingsBloc>().add(const StopEditingUsername());
                         },
                       ),
-                      IconButton(
-                        iconSize: 30,
-                        splashRadius: 20,
-                        icon: const Icon(Icons.check_circle),
-                        color: Theme.of(context).colorScheme.primary,
+                      EditFieldSubmitButton(
                         onPressed: () => showDialog(
                           context: context,
                           builder: (_) => BlocProvider<ProfileSettingsFormBloc>.value(
