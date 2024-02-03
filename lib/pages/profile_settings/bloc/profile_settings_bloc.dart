@@ -14,11 +14,18 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
   ProfileSettingsBloc(this._authRepo) : super(const ProfileSettingsState()) {
     on<DisplayProfileInformation>(_displayProfileInformation);
     on<StartEditingUsername>(_startEditingUsername);
+    on<StopEditingUsername>(_stopEditingUsername);
   }
 
   final AuthenticationRepository _authRepo;
 
-  void _startEditingUsername(StartEditingUsername event, Emitter<ProfileSettingsState> emit) async {
+  void _stopEditingUsername(StopEditingUsername event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingUsername: false
+    ));
+  }
+
+  void _startEditingUsername(StartEditingUsername event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(
       editingUsername: true
     ));
