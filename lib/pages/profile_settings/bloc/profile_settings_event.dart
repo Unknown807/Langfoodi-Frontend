@@ -12,6 +12,14 @@ final class DisplayProfileInformation extends ProfileSettingsEvent {
   const DisplayProfileInformation();
 }
 
+final class StartEditingHandle extends ProfileSettingsEvent {
+  const StartEditingHandle();
+}
+
+final class StopEditingHandle extends ProfileSettingsEvent {
+  const StopEditingHandle();
+}
+
 final class StartEditingUsername extends ProfileSettingsEvent {
   const StartEditingUsername();
 }
