@@ -14,9 +14,23 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     on<DisplayProfileInformation>(_displayProfileInformation);
     on<StartEditingUsername>(_startEditingUsername);
     on<StopEditingUsername>(_stopEditingUsername);
+    on<StartEditingEmail>(_startEditingEmail);
+    on<StopEditingEmail>(_stopEditingEmail);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _stopEditingEmail(StopEditingEmail event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingEmail: false
+    ));
+  }
+
+  void _startEditingEmail(StartEditingEmail event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingEmail: true
+    ));
+  }
 
   void _stopEditingUsername(StopEditingUsername event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(

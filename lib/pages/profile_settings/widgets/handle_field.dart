@@ -6,9 +6,7 @@ class HandleField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
-      buildWhen: (p, c) =>
-        p.editingHandler != c.editingHandler
-        || p.handler != c.handler,
+      buildWhen: (p, c) => p.handler != c.handler,
       builder: (context, state) {
         return ReadonlyProfileTile(
           titleText: "Handle",
