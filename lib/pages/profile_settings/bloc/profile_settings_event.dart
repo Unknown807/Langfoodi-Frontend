@@ -11,3 +11,19 @@ sealed class ProfileSettingsEvent extends Equatable {
 final class DisplayProfileInformation extends ProfileSettingsEvent {
   const DisplayProfileInformation();
 }
+
+final class StartEditingEmail extends ProfileSettingsEvent {
+  const StartEditingEmail();
+}
+
+final class StopEditingEmail extends ProfileSettingsEvent {
+  const StopEditingEmail();
+}
+
+final class StartEditingUsername extends ProfileSettingsEvent {
+  const StartEditingUsername();
+}
+
+final class StopEditingUsername extends ProfileSettingsEvent {
+  const StopEditingUsername();
+}

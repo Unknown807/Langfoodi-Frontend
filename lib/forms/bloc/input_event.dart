@@ -1,7 +1,7 @@
 part of 'base_form.dart';
 
 @immutable
-sealed class InputEvent extends Equatable {
+class InputEvent extends Equatable {
   const InputEvent();
 
   @override

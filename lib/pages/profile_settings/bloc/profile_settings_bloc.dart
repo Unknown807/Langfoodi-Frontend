@@ -9,13 +9,40 @@ export 'profile_settings_bloc.dart';
 part 'profile_settings_event.dart';
 part 'profile_settings_state.dart';
 
-// TODO: need another bloc for editing called ProfileSettingsFormBloc
 class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsState> {
   ProfileSettingsBloc(this._authRepo) : super(const ProfileSettingsState()) {
     on<DisplayProfileInformation>(_displayProfileInformation);
+    on<StartEditingUsername>(_startEditingUsername);
+    on<StopEditingUsername>(_stopEditingUsername);
+    on<StartEditingEmail>(_startEditingEmail);
+    on<StopEditingEmail>(_stopEditingEmail);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _stopEditingEmail(StopEditingEmail event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingEmail: false
+    ));
+  }
+
+  void _startEditingEmail(StartEditingEmail event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingEmail: true
+    ));
+  }
+
+  void _stopEditingUsername(StopEditingUsername event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingUsername: false
+    ));
+  }
+
+  void _startEditingUsername(StartEditingUsername event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      editingUsername: true
+    ));
+  }
 
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
     User user = await _authRepo.currentUser;

@@ -45,8 +45,8 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
             padding: EdgeInsets.symmetric(vertical: 15),
             child: ProfileThumbnailPicker(),
           ),
+          const HandleField(),
           const UsernameInput(),
-          const HandleInput(),
           const EmailInput(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),

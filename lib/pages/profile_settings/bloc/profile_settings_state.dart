@@ -6,7 +6,6 @@ class ProfileSettingsState extends Equatable {
     this.username = "",
     this.email = "",
     this.creationDate = "",
-    this.editingHandler = false,
     this.editingUsername = false,
     this.editingEmail = false,
     this.editingPassword = false,
@@ -18,7 +17,6 @@ class ProfileSettingsState extends Equatable {
   final String email;
   final String? thumbnailId;
   final String creationDate;
-  final bool editingHandler;
   final bool editingUsername;
   final bool editingEmail;
   final bool editingPassword;
@@ -26,7 +24,7 @@ class ProfileSettingsState extends Equatable {
   @override
   List<Object?> get props => [
     handler, username, email, thumbnailId,
-    creationDate, editingHandler, editingUsername,
+    creationDate, editingUsername,
     editingEmail, editingPassword
   ];
 
@@ -36,7 +34,6 @@ class ProfileSettingsState extends Equatable {
     String? email,
     String? thumbnailId,
     String? creationDate,
-    bool? editingHandler,
     bool? editingUsername,
     bool? editingEmail,
     bool? editingPassword
@@ -47,7 +44,6 @@ class ProfileSettingsState extends Equatable {
       email: email ?? this.email,
       thumbnailId: thumbnailId ?? this.thumbnailId,
       creationDate: creationDate ?? this.creationDate,
-      editingHandler: editingHandler ?? this.editingHandler,
       editingUsername: editingUsername ?? this.editingUsername,
       editingEmail: editingEmail ?? this.editingEmail,
       editingPassword: editingPassword ?? this.editingPassword
