@@ -5,12 +5,14 @@ class ReadonlyProfileTile extends StatelessWidget {
     super.key,
     required this.titleText,
     required this.subtitleText,
-    required this.eventFunc
+    required this.eventFunc,
+    this.editable = true,
   });
 
   final String titleText;
   final String subtitleText;
   final VoidCallback eventFunc;
+  final bool editable;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,12 @@ class ReadonlyProfileTile extends StatelessWidget {
             fontSize: 18
           ),
         ),
-        trailing: CustomTextButton(
-          text: "Edit",
-          eventFunc: eventFunc,
-        ),
+        trailing: editable
+          ? CustomTextButton(
+              text: "Edit",
+              eventFunc: eventFunc,
+            )
+          : const SizedBox.shrink()
       ),
     );
   }

@@ -18,5 +18,4 @@ class EditFieldSubmitButton extends StatelessWidget {
       onPressed: onPressed,
     );
   }
-
 }

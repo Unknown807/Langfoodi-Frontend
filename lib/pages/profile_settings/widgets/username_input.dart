@@ -1,6 +1,5 @@
 part of 'profile_settings_widgets.dart';
 
-// TODO: to be fully implemented in the next ticket, but can remain for now
 class UsernameInput extends StatelessWidget {
   const UsernameInput({super.key});
 
@@ -11,8 +10,15 @@ class UsernameInput extends StatelessWidget {
         p.editingUsername != c.editingUsername
         || p.username != c.username,
       builder: (context, state) {
-        return state.editingUsername
-          ? BlocBuilder<ProfileSettingsFormBloc, InputState>(
+        return !state.editingUsername
+          ? ReadonlyProfileTile(
+            titleText: "Username",
+            subtitleText: state.username,
+            eventFunc: () => context
+              .read<ProfileSettingsBloc>()
+              .add(const StartEditingUsername())
+            )
+          : BlocBuilder<ProfileSettingsFormBloc, InputState>(
               builder: (context, formState) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20, right: 15),
@@ -54,13 +60,6 @@ class UsernameInput extends StatelessWidget {
                   )
                 );
               },
-            )
-          : ReadonlyProfileTile(
-              titleText: "Username",
-              subtitleText: state.username,
-              eventFunc: () => context
-                .read<ProfileSettingsBloc>()
-                .add(const StartEditingUsername())
             );
       },
     );

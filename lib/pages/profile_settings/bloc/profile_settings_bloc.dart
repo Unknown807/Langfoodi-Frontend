@@ -14,23 +14,9 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     on<DisplayProfileInformation>(_displayProfileInformation);
     on<StartEditingUsername>(_startEditingUsername);
     on<StopEditingUsername>(_stopEditingUsername);
-    on<StartEditingHandle>(_startEditingHandle);
-    on<StopEditingHandle>(_stopEditingHandle);
   }
 
   final AuthenticationRepository _authRepo;
-
-  void _startEditingHandle(StartEditingHandle event, Emitter<ProfileSettingsState> emit) {
-    emit(state.copyWith(
-      editingHandler: true
-    ));
-  }
-
-  void _stopEditingHandle(StopEditingHandle event, Emitter<ProfileSettingsState> emit) {
-    emit(state.copyWith(
-      editingHandler: false
-    ));
-  }
 
   void _stopEditingUsername(StopEditingUsername event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(
