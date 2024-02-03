@@ -13,9 +13,16 @@ part 'profile_settings_state.dart';
 class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsState> {
   ProfileSettingsBloc(this._authRepo) : super(const ProfileSettingsState()) {
     on<DisplayProfileInformation>(_displayProfileInformation);
+    on<StartEditingUsername>(_startEditingUsername);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _startEditingUsername(StartEditingUsername event, Emitter<ProfileSettingsState> emit) async {
+    emit(state.copyWith(
+      editingUsername: true
+    ));
+  }
 
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
     User user = await _authRepo.currentUser;

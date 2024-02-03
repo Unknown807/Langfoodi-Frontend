@@ -12,11 +12,24 @@ class UsernameInput extends StatelessWidget {
         || p.username != c.username,
       builder: (context, state) {
         return state.editingUsername
-          ? const SizedBox.shrink()
+          ? BlocBuilder<ProfileSettingsFormBloc, InputState>(
+              builder: (context, formState) {
+                return FormInput(
+                  boxDecorationType: FormInputBoxDecorationType.textArea,
+                  errorText: FormValidationError.getErrorMessage(formState.userName.displayError),
+                  hintText: state.username,
+                  eventFunc: (username) {
+                    print("username changed");
+                  },
+                );
+              },
+            )
           : ReadonlyProfileTile(
               titleText: "Username",
               subtitleText: state.username,
-              eventFunc: () {},
+              eventFunc: () => context
+                .read<ProfileSettingsBloc>()
+                .add(const StartEditingUsername())
             );
       },
     );
