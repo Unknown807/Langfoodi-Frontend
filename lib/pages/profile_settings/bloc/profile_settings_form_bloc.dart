@@ -8,6 +8,13 @@ class ProfileSettingsFormBloc extends FormBloc {
   ProfileSettingsFormBloc(): super() {
     on<UpdateUsername>(_updateUsername);
     on<UpdateEmail>(_updateEmail);
+    on<UpdatePassword>(_updatePassword);
+  }
+
+  void _updatePassword(UpdatePassword event, Emitter<InputState> emit) {
+    print("updating password");
+    print(state.password.value);
+    print(state.confirmedPassword.value);
   }
 
   void _updateEmail(UpdateEmail event, Emitter<InputState> emit) {

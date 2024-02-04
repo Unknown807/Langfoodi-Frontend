@@ -7,3 +7,7 @@ final class UpdateUsername extends InputEvent {
 final class UpdateEmail extends InputEvent {
   const UpdateEmail();
 }
+
+final class UpdatePassword extends InputEvent {
+  const UpdatePassword();
+}

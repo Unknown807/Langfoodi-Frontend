@@ -12,6 +12,14 @@ final class DisplayProfileInformation extends ProfileSettingsEvent {
   const DisplayProfileInformation();
 }
 
+final class StartEditingPassword extends ProfileSettingsEvent {
+  const StartEditingPassword();
+}
+
+final class StopEditingPassword extends ProfileSettingsEvent {
+  const StopEditingPassword();
+}
+
 final class StartEditingEmail extends ProfileSettingsEvent {
   const StartEditingEmail();
 }

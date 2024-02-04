@@ -18,6 +18,7 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: AppBar(
@@ -39,24 +40,23 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
           ],
         )
       ),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            child: ProfileThumbnailPicker(),
-          ),
-          const HandleField(),
-          const UsernameInput(),
-          const EmailInput(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Divider(color: Theme.of(context).colorScheme.tertiary)
-          ),
-          const PasswordInput(),
-          const Spacer(),
-          const CreationDateField()
-        ],
-      ),
+      body: SingleChildScrollView(
+        reverse: true,
+        child: Column(
+          children: [
+            const CreationDateField(),
+            const ProfileThumbnailPicker(),
+            const HandleField(),
+            const UsernameInput(),
+            const EmailInput(),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Divider(color: Theme.of(context).colorScheme.tertiary)
+            ),
+            const PasswordInput(),
+          ],
+        ),
+      )
     );
   }
 }
