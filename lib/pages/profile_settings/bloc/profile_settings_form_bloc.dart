@@ -20,10 +20,37 @@ class ProfileSettingsFormBloc extends FormBloc {
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
 
-  void _updateProfileImage(UpdateProfileImage event, Emitter<InputState> emit) {
-    //TODO: upload image to cloudinary
+  void _updateProfileImage(UpdateProfileImage event, Emitter<InputState> emit) async {
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        errorMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
 
-    //_updateUser(profileImageId: "id here");
+    emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
+    Signature? uploadSignature = await _imageRepo.getSignature();
+    if (uploadSignature == null) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        errorMessage: "issue uploading image, please check and try again"
+      ));
+    }
+
+    HostedImage? profileImage = await _imageRepo.uploadImage(
+      event.imagePath,
+      SignedUploadContract(uploadSignature.signature, uploadSignature.timeStamp)
+    );
+
+    if (profileImage == null) {
+      return emit(state.copyWith(
+        formStatus: FormzSubmissionStatus.failure,
+        errorMessage: "issue uploading image, please check and try again"
+      ));
+    }
+
+    _updateUser(profileImageId: profileImage.publicId);
   }
 
   void _updatePassword(UpdatePassword event, Emitter<InputState> emit) {
