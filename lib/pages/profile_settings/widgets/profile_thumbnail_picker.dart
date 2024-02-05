@@ -56,7 +56,19 @@ class ProfileThumbnailPicker extends StatelessWidget {
                       .add(const StopEditingProfileImage())
                   ),
                   EditFieldSubmitButton(
-                    onPressed: () {},
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (_) => BlocProvider<ProfileSettingsFormBloc>.value(
+                        value: BlocProvider.of<ProfileSettingsFormBloc>(context),
+                        child: CustomAlertDialog(
+                          title: const Text("Update Profile Image"),
+                          content: const Text("Are you sure you want to update your profile image?"),
+                          rightButtonCallback: () => context
+                            .read<ProfileSettingsFormBloc>()
+                            .add(UpdateProfileImage(state.newThumbnailPath!))
+                        ),
+                      )
+                    ),
                   )
                 ],
               )

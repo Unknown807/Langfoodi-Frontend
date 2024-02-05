@@ -41,7 +41,8 @@ class AuthenticationRepository {
       id: id,
       username: username,
       email: email,
-      password: password
+      password: password,
+      profileImageId: profileImageId
     );
     
     var response = await request.put("/user/update", data, jsonWrapper);
