@@ -12,6 +12,19 @@ final class DisplayProfileInformation extends ProfileSettingsEvent {
   const DisplayProfileInformation();
 }
 
+final class StartEditingProfileImage extends ProfileSettingsEvent {
+  const StartEditingProfileImage(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  get props => [imagePath];
+}
+
+final class StopEditingProfileImage extends ProfileSettingsEvent {
+  const StopEditingProfileImage();
+}
+
 final class StartEditingPassword extends ProfileSettingsEvent {
   const StartEditingPassword();
 }

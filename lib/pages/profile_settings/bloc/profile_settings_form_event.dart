@@ -1,5 +1,14 @@
 part of 'profile_settings_form_bloc.dart';
 
+final class UpdateProfileImage extends InputEvent {
+  const UpdateProfileImage(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  get props => [imagePath];
+}
+
 final class UpdateUsername extends InputEvent {
   const UpdateUsername();
 }

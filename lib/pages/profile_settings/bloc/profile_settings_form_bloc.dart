@@ -10,9 +10,14 @@ class ProfileSettingsFormBloc extends FormBloc {
     on<UpdateUsername>(_updateUsername);
     on<UpdateEmail>(_updateEmail);
     on<UpdatePassword>(_updatePassword);
+    on<UpdateProfileImage>(_updateProfileImage);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _updateProfileImage(UpdateProfileImage event, Emitter<InputState> emit) {
+    print(event.imagePath);
+  }
 
   void _updatePassword(UpdatePassword event, Emitter<InputState> emit) {
     print("updating password");
@@ -28,6 +33,6 @@ class ProfileSettingsFormBloc extends FormBloc {
   void _updateUsername(UpdateUsername event, Emitter<InputState> emit) {
     if (!state.userNameValid) return;
 
-    
+
   }
 }

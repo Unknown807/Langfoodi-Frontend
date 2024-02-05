@@ -18,9 +18,23 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     on<StopEditingEmail>(_stopEditingEmail);
     on<StartEditingPassword>(_startEditingPassword);
     on<StopEditingPassword>(_stopEditingPassword);
+    on<StartEditingProfileImage>(_startEditingProfileImage);
+    on<StopEditingProfileImage>(_stopEditingProfileImage);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _stopEditingProfileImage(StopEditingProfileImage event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      newThumbnailPath: null
+    ));
+  }
+
+  void _startEditingProfileImage(StartEditingProfileImage event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      newThumbnailPath: event.imagePath
+    ));
+  }
 
   void _startEditingPassword(StartEditingPassword event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(
@@ -65,7 +79,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       handler: user.handler,
       username: user.username,
       email: user.email,
-      thumbnailId: "q8jjeukocprdiblv25tf"
+      currentThumbnailId: "q8jjeukocprdiblv25tf"
     ));
   }
 }
