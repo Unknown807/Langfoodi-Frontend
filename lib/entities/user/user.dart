@@ -2,18 +2,21 @@ part of 'user_entities.dart';
 
 class User extends Equatable with JsonConvertible {
   const User(
-      this.id,
-      this.handler,
-      this.username,
-      this.email,
-      this.password,
-      this.creationDate);
+    this.id,
+    this.handler,
+    this.username,
+    this.email,
+    this.password,
+    this.creationDate,
+    this.profileImageId
+  );
 
   final String id;
   final String handler;
   final String username;
   final String email;
   final String password;
+  final String? profileImageId;
   final DateTime creationDate;
   // TODO: Add expiry date for login?
 
@@ -25,7 +28,8 @@ class User extends Equatable with JsonConvertible {
       "userName": username,
       "email": email,
       "password": password,
-      "accountCreationDate": creationDate.toString()
+      "accountCreationDate": creationDate.toString(),
+      "profileImageId": profileImageId
     };
   }
 
@@ -40,13 +44,14 @@ class User extends Equatable with JsonConvertible {
       jsonData["userName"],
       jsonData["email"],
       jsonData["password"],
-      DateTime.parse(jsonData["accountCreationDate"])
+      DateTime.parse(jsonData["accountCreationDate"]),
+      jsonData["profileImageId"]
     );
   }
 
   @override
   List<Object?> get props => [
     id, handler, username, email,
-    password, creationDate
+    password, creationDate, profileImageId
   ];
 }
