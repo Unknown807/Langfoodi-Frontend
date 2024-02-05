@@ -23,7 +23,9 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ConversationListBloc()),
-        BlocProvider(create: (_) => ProfileSettingsFormBloc()),
+        BlocProvider(create: (_) => ProfileSettingsFormBloc(
+          context.read<AuthenticationRepository>()
+        )),
         BlocProvider(create: (_) => ProfileSettingsBloc(
           context.read<AuthenticationRepository>()
         )),
