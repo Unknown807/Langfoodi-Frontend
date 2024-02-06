@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
+import 'package:recipe_social_media/forms/models/form_models.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -14,11 +15,27 @@ class ProfileSettingsFormBloc extends FormBloc {
     on<UpdateEmail>(_updateEmail);
     on<UpdatePassword>(_updatePassword);
     on<UpdateProfileImage>(_updateProfileImage);
+    on<ResetForm>(_resetForm);
   }
 
   final AuthenticationRepository _authRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _resetForm(ResetForm event, Emitter<InputState> emit) {
+    emit(state.copyWith(
+      errorMessage: null,
+      email: const Email.pure(),
+      userName: const Username.pure(),
+      password: const Password.pure(),
+      confirmedPassword: const ConfirmedPassword.pure(),
+      emailValid: false,
+      userNameValid: false,
+      passwordValid: false,
+      confirmedPasswordValid: false,
+      formStatus: FormzSubmissionStatus.initial,
+    ));
+  }
 
   void _updateProfileImage(UpdateProfileImage event, Emitter<InputState> emit) async {
     bool hasNetwork = await _networkManager.isNetworkConnected();

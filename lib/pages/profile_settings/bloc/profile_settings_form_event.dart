@@ -9,6 +9,10 @@ final class UpdateProfileImage extends InputEvent {
   get props => [imagePath];
 }
 
+final class ResetForm extends InputEvent {
+  const ResetForm();
+}
+
 final class UpdateUsername extends InputEvent {
   const UpdateUsername();
 }

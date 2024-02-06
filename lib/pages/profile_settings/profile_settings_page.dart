@@ -32,12 +32,18 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               child: CustomAlertDialog(
                 title: const Text("Success!"),
                 content: const Text("Profile Updated"),
-                rightButtonCallback: () => context
-                  .read<ProfileSettingsBloc>()
-                  .add(ResetProfile(
-                    state.email.value,
-                    state.password.value
-                  ))
+                rightButtonCallback: () {
+                  context
+                    .read<ProfileSettingsBloc>()
+                    .add(ResetProfile(
+                      state.email.value,
+                      state.password.value
+                    ));
+
+                  context
+                    .read<ProfileSettingsFormBloc>()
+                    .add(const ResetForm());
+                }
               ),
             )
           );

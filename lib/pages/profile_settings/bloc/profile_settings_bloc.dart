@@ -83,10 +83,14 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       newEmail.isEmpty ? user.email : newEmail,
       newPassword.isEmpty ? user.password : newPassword
     );
-    emit(state.copyWith(pageLoading: false));
+    _getProfileInformation();
   }
 
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
+    _getProfileInformation();
+  }
+
+  void _getProfileInformation() async {
     User user = await _authRepo.currentUser;
     emit(state.copyWith(
       creationDate: DateFormat('dd-MM-yyyy').format(user.creationDate),
@@ -96,7 +100,9 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       currentThumbnailId: user.profileImageId,
       editingPassword: false,
       editingEmail: false,
-      editingUsername: false
+      editingUsername: false,
+      newThumbnailPath: null,
+      pageLoading: false
     ));
   }
 }
