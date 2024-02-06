@@ -12,6 +12,29 @@ final class DisplayProfileInformation extends ProfileSettingsEvent {
   const DisplayProfileInformation();
 }
 
+final class ResetProfile extends ProfileSettingsEvent {
+  const ResetProfile(this.newEmail, this.newPassword);
+
+  final String newEmail;
+  final String newPassword;
+
+  @override
+  get props => [newEmail, newPassword];
+}
+
+final class StartEditingProfileImage extends ProfileSettingsEvent {
+  const StartEditingProfileImage(this.imagePath);
+
+  final String imagePath;
+
+  @override
+  get props => [imagePath];
+}
+
+final class StopEditingProfileImage extends ProfileSettingsEvent {
+  const StopEditingProfileImage();
+}
+
 final class StartEditingPassword extends ProfileSettingsEvent {
   const StartEditingPassword();
 }

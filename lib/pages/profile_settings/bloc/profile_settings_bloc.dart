@@ -18,9 +18,24 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     on<StopEditingEmail>(_stopEditingEmail);
     on<StartEditingPassword>(_startEditingPassword);
     on<StopEditingPassword>(_stopEditingPassword);
+    on<StartEditingProfileImage>(_startEditingProfileImage);
+    on<StopEditingProfileImage>(_stopEditingProfileImage);
+    on<ResetProfile>(_resetProfile);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _stopEditingProfileImage(StopEditingProfileImage event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      newThumbnailPath: null
+    ));
+  }
+
+  void _startEditingProfileImage(StartEditingProfileImage event, Emitter<ProfileSettingsState> emit) {
+    emit(state.copyWith(
+      newThumbnailPath: event.imagePath
+    ));
+  }
 
   void _startEditingPassword(StartEditingPassword event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(
@@ -58,14 +73,36 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     ));
   }
 
+  void _resetProfile(ResetProfile event, Emitter<ProfileSettingsState> emit) async {
+    String newEmail = event.newEmail;
+    String newPassword = event.newPassword;
+
+    emit(state.copyWith(pageLoading: true));
+    User user = await _authRepo.currentUser;
+    await _authRepo.loginWithHandlerOrEmail(
+      newEmail.isEmpty ? user.email : newEmail,
+      newPassword.isEmpty ? user.password : newPassword
+    );
+    _getProfileInformation();
+  }
+
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
+    _getProfileInformation();
+  }
+
+  void _getProfileInformation() async {
     User user = await _authRepo.currentUser;
     emit(state.copyWith(
       creationDate: DateFormat('dd-MM-yyyy').format(user.creationDate),
       handler: user.handler,
       username: user.username,
       email: user.email,
-      thumbnailId: "q8jjeukocprdiblv25tf"
+      currentThumbnailId: user.profileImageId,
+      editingPassword: false,
+      editingEmail: false,
+      editingUsername: false,
+      newThumbnailPath: null,
+      pageLoading: false
     ));
   }
 }

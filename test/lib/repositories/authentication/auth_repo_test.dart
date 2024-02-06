@@ -11,9 +11,10 @@ void main() {
     "userName": "test1",
     "email": "test1@mail.com",
     "password": "Password123!",
-    "accountCreationDate": "2023-11-08 00:00:00.000"
+    "accountCreationDate": "2023-11-08 00:00:00.000",
+    "profileImageId": "imageId"
   };
-  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08"}';
+  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08","profileImageId":"imageId"}';
   late JsonConvertibleMock jsonConvertibleMock;
   late RequestMock requestMock;
   late ResponseMock responseMock;
@@ -48,7 +49,8 @@ void main() {
       expect(result, User(
         "id1", "testHandler",
         "test1", "test1@mail.com",
-        "Password123!", DateTime.parse("2023-11-08")
+        "Password123!", DateTime.parse("2023-11-08"),
+        "imageId"
       ));
     });
   });

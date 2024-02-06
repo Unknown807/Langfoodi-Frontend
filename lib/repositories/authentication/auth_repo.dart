@@ -36,6 +36,21 @@ class AuthenticationRepository {
     return false;
   }
 
+  Future<String> updateUser({required String id, String? profileImageId, String? username, String? email, String? password}) async {
+    var data = UpdateUserContract(
+      id: id,
+      username: username,
+      email: email,
+      password: password,
+      profileImageId: profileImageId
+    );
+    
+    var response = await request.put("/user/update", data, jsonWrapper);
+    if (response.isOk) return "";
+
+    return response.isBadRequest ? response.body : "Issue Updating Profile";
+  }
+
   Future<String> register(String handler, String username, String email, String password) async {
     var data = NewUserContract(
       handler: handler,

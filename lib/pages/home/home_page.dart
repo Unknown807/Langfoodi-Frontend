@@ -8,6 +8,7 @@ import 'package:recipe_social_media/pages/profile_settings/profile_settings_page
 import 'package:recipe_social_media/pages/recipes/recipe_view/bloc/recipe_view_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_view/recipe_view_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -23,7 +24,11 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ConversationListBloc()),
-        BlocProvider(create: (_) => ProfileSettingsFormBloc()),
+        BlocProvider(create: (_) => ProfileSettingsFormBloc(
+          context.read<AuthenticationRepository>(),
+          context.read<ImageRepository>(),
+          context.read<NetworkManager>()
+        )),
         BlocProvider(create: (_) => ProfileSettingsBloc(
           context.read<AuthenticationRepository>()
         )),

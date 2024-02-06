@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -15,7 +16,8 @@ void main() {
         RepositoryProvider<RecipeRepository>(create: (_) => RecipeRepositoryMock()),
         RepositoryProvider<AuthenticationRepository>(create: (_) => AuthenticationRepositoryMock()),
         RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock()),
-        RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock())
+        RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock()),
+        RepositoryProvider<ImageRepository>(create: (_) => ImageRepositoryMock())
       ],
       child: const MaterialApp(
         home: HomePage(),
