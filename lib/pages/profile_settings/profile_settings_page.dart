@@ -6,6 +6,7 @@ import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_bloc.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_form_bloc.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 import 'widgets/profile_settings_widgets.dart';
 
@@ -23,14 +24,31 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
     return BlocConsumer<ProfileSettingsFormBloc, InputState>(
       listener: (context, state) {
         if (state.formStatus.isSuccess) {
-          print("failure popup");
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (_) => BlocProvider<ProfileSettingsBloc>.value(
+              value: BlocProvider.of<ProfileSettingsBloc>(context),
+              child: CustomAlertDialog(
+                title: const Text("Success!"),
+                content: const Text("Profile Updated"),
+                rightButtonCallback: () => context
+                  .read<ProfileSettingsBloc>()
+                  .add(ResetProfile(
+                    state.email.value,
+                    state.password.value
+                  ))
+              ),
+            )
+          );
         } else if (state.formStatus.isFailure) {
-          print("success popup");
+          print("failure popup");
         }
       },
       buildWhen: (p, c) => p.formStatus != c.formStatus,
       builder: (context, state) {
-        return state.formStatus.isInProgress
+        final pageState = context.watch<ProfileSettingsBloc>().state;
+        return state.formStatus.isInProgress || pageState.pageLoading
           ? const Center(child: CircularProgressIndicator())
           : Scaffold(
               resizeToAvoidBottomInset: false,

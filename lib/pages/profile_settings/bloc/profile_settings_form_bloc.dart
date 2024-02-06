@@ -34,7 +34,7 @@ class ProfileSettingsFormBloc extends FormBloc {
     if (uploadSignature == null) {
       return emit(state.copyWith(
         formStatus: FormzSubmissionStatus.failure,
-        errorMessage: "issue uploading image, please check and try again"
+        errorMessage: "Issue uploading image, please check and try again"
       ));
     }
 
@@ -46,7 +46,7 @@ class ProfileSettingsFormBloc extends FormBloc {
     if (profileImage == null) {
       return emit(state.copyWith(
         formStatus: FormzSubmissionStatus.failure,
-        errorMessage: "issue uploading image, please check and try again"
+        errorMessage: "Issue uploading image, please check and try again"
       ));
     }
 
@@ -73,7 +73,7 @@ class ProfileSettingsFormBloc extends FormBloc {
     bool hasNetwork = await _networkManager.isNetworkConnected();
 
     if (!hasNetwork) {
-      errorMessage = "Network Issue Encountered";
+      errorMessage = "Network issue encountered, please check your internet connection";
     } else {
       emit(state.copyWith(formStatus: FormzSubmissionStatus.inProgress));
       final userId = (await _authRepo.currentUser).id;

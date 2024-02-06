@@ -10,7 +10,8 @@ class ProfileSettingsState extends Equatable {
     this.editingEmail = false,
     this.editingPassword = false,
     this.currentThumbnailId,
-    this.newThumbnailPath
+    this.newThumbnailPath,
+    this.pageLoading = false
   });
 
   final String handler;
@@ -22,13 +23,15 @@ class ProfileSettingsState extends Equatable {
   final bool editingUsername;
   final bool editingEmail;
   final bool editingPassword;
+  final bool pageLoading;
 
   @override
   List<Object?> get props => [
     handler, username, email,
     currentThumbnailId, newThumbnailPath,
     creationDate, editingUsername,
-    editingEmail, editingPassword
+    editingEmail, editingPassword,
+    pageLoading
   ];
 
   ProfileSettingsState copyWith({
@@ -40,7 +43,8 @@ class ProfileSettingsState extends Equatable {
     String? creationDate,
     bool? editingUsername,
     bool? editingEmail,
-    bool? editingPassword
+    bool? editingPassword,
+    bool? pageLoading
   }) {
     return ProfileSettingsState(
       handler: handler ?? this.handler,
@@ -51,7 +55,8 @@ class ProfileSettingsState extends Equatable {
       creationDate: creationDate ?? this.creationDate,
       editingUsername: editingUsername ?? this.editingUsername,
       editingEmail: editingEmail ?? this.editingEmail,
-      editingPassword: editingPassword ?? this.editingPassword
+      editingPassword: editingPassword ?? this.editingPassword,
+      pageLoading: pageLoading ?? this.pageLoading
     );
   }
 }

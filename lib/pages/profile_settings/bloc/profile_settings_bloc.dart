@@ -20,6 +20,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     on<StopEditingPassword>(_stopEditingPassword);
     on<StartEditingProfileImage>(_startEditingProfileImage);
     on<StopEditingProfileImage>(_stopEditingProfileImage);
+    on<ResetProfile>(_resetProfile);
   }
 
   final AuthenticationRepository _authRepo;
@@ -72,6 +73,19 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
     ));
   }
 
+  void _resetProfile(ResetProfile event, Emitter<ProfileSettingsState> emit) async {
+    String newEmail = event.newEmail;
+    String newPassword = event.newPassword;
+
+    emit(state.copyWith(pageLoading: true));
+    User user = await _authRepo.currentUser;
+    await _authRepo.loginWithHandlerOrEmail(
+      newEmail.isEmpty ? user.email : newEmail,
+      newPassword.isEmpty ? user.password : newPassword
+    );
+    emit(state.copyWith(pageLoading: false));
+  }
+
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
     User user = await _authRepo.currentUser;
     emit(state.copyWith(
@@ -79,7 +93,10 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       handler: user.handler,
       username: user.username,
       email: user.email,
-      currentThumbnailId: "q8jjeukocprdiblv25tf"
+      currentThumbnailId: user.profileImageId,
+      editingPassword: false,
+      editingEmail: false,
+      editingUsername: false
     ));
   }
 }
