@@ -65,7 +65,10 @@ class ProfileThumbnailPicker extends StatelessWidget {
                           content: const Text("Are you sure you want to update your profile image?"),
                           rightButtonCallback: () => context
                             .read<ProfileSettingsFormBloc>()
-                            .add(UpdateProfileImage(state.newThumbnailPath!))
+                            .add(UpdateProfileImage(
+                              state.newThumbnailPath!,
+                              state.currentThumbnailId
+                            ))
                         ),
                       )
                     ),

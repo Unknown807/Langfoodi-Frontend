@@ -89,8 +89,8 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
                     const UsernameInput(),
                     const EmailInput(),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Divider(color: Theme.of(context).colorScheme.tertiary)
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Divider(color: Theme.of(context).colorScheme.tertiary)
                     ),
                     const PasswordInput(),
                   ],

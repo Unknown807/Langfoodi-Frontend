@@ -80,7 +80,7 @@ class Request {
       .send(request)
       .timeout(
         timeoutDuration,
-        onTimeout: () => http.StreamedResponse(Stream.fromIterable([[1,],[2,]]), 408))
-      .catchError((error, stackTrace) { return generalExceptionResponse; });
+        onTimeout: () => IOStreamedResponse(Stream.fromIterable([[1,],[2,]]), 408))
+      .catchError((error, stackTrace) { return http.StreamedResponse(Stream.fromIterable([[1,],[2,]]), 500); });
   }
 }

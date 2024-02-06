@@ -5,7 +5,7 @@ class InputEvent extends Equatable {
   const InputEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class HandlerChanged extends InputEvent {

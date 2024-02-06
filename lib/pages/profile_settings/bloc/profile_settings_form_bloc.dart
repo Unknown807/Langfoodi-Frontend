@@ -67,7 +67,10 @@ class ProfileSettingsFormBloc extends FormBloc {
       ));
     }
 
-    _updateUser(profileImageId: profileImage.publicId);
+    _updateUser(
+      currentImageId: event.currentImageId,
+      profileImageId: profileImage.publicId
+    );
   }
 
   void _updatePassword(UpdatePassword event, Emitter<InputState> emit) {
@@ -85,7 +88,7 @@ class ProfileSettingsFormBloc extends FormBloc {
     _updateUser(username: state.userName.value);
   }
 
-  void _updateUser({String? profileImageId, String? username, String? email, String? password}) async {
+  void _updateUser({String? currentImageId, String? profileImageId, String? username, String? email, String? password}) async {
     String errorMessage = "";
     bool hasNetwork = await _networkManager.isNetworkConnected();
 
@@ -101,6 +104,16 @@ class ProfileSettingsFormBloc extends FormBloc {
         email: email,
         password: password
       );
+    }
+
+    if (profileImageId != null) {
+      if (errorMessage.isEmpty) {
+        if (currentImageId != null) {
+          await _imageRepo.removeImage(currentImageId);
+        }
+      } else {
+        await _imageRepo.removeImage(profileImageId);
+      }
     }
 
     emit(state.copyWith(
