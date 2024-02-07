@@ -27,7 +27,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
 
   void _stopEditingProfileImage(StopEditingProfileImage event, Emitter<ProfileSettingsState> emit) {
     emit(state.copyWith(
-      newThumbnailPath: null
+      newThumbnailPath: ""
     ));
   }
 
@@ -101,7 +101,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       editingPassword: false,
       editingEmail: false,
       editingUsername: false,
-      newThumbnailPath: null,
+      newThumbnailPath: "",
       pageLoading: false
     ));
   }
