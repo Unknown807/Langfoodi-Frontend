@@ -68,7 +68,7 @@ class MessageList extends StatelessWidget {
                         top: 10,
                       ),
                       padding: const BubbleEdges.all(12),
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.primary.withGreen(190),
                       nip: BubbleNip.rightTop,
                       alignment: Alignment.centerRight,
                       child: ChatBubbleContent(
@@ -100,7 +100,7 @@ class MessageList extends StatelessWidget {
                             left: 5,
                           ),
                           padding: const BubbleEdges.all(12),
-                          color: Theme.of(context).colorScheme.secondary.withRed(240),
+                          color: Theme.of(context).colorScheme.secondary.withRed(235),
                           nip: BubbleNip.leftTop,
                           child: ChatBubbleContent(
                             nameColour: state.nameColours[message.senderId],

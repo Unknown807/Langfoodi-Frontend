@@ -110,7 +110,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sentDate: DateTime(2024, 01, 21, 9, 0),
       ),
       Message(id: "2", senderId: "1", senderName: "Sender 1",
-        textContent: "good, here's pictures of my morning! Pretty cool right? Anyways lemme send something else as well :D",
         sentDate: DateTime(2024, 01, 21, 11, 30),
         imageURLs: ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"]
       ),
@@ -166,7 +165,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       ),
       Message(id: "12", senderId: "2", senderName: "Sender 2",
         repliedToMessageId: "2",
-        textContent: "Seeya later!",
+        textContent: "Seeya later! and make sure to call me when you're done!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
       Message(id: "13", senderId: "1", senderName: "Sender 1",
