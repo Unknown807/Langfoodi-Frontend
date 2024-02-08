@@ -10,6 +10,10 @@ final class UpdateProfileImage extends InputEvent {
   get props => [imagePath, currentImageId];
 }
 
+final class ResetErrorMessage extends InputEvent {
+  const ResetErrorMessage();
+}
+
 final class ResetForm extends InputEvent {
   const ResetForm();
 }

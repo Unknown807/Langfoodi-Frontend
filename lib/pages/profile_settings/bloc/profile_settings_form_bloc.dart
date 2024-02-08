@@ -16,11 +16,18 @@ class ProfileSettingsFormBloc extends FormBloc {
     on<UpdatePassword>(_updatePassword);
     on<UpdateProfileImage>(_updateProfileImage);
     on<ResetForm>(_resetForm);
+    on<ResetErrorMessage>(_resetErrorMessage);
   }
 
   final AuthenticationRepository _authRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _resetErrorMessage(ResetErrorMessage event, Emitter<InputState> emit) {
+    emit(state.copyWith(
+      errorMessage: ""
+    ));
+  }
 
   void _resetForm(ResetForm event, Emitter<InputState> emit) {
     emit(state.copyWith(
