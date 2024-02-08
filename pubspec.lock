@@ -386,14 +386,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  grouped_list:
-    dependency: "direct main"
-    description:
-      name: grouped_list
-      sha256: fef106470186081c32636aa055492eee7fc7fe8bf0921a48d31ded24821af19f
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.2"
   http:
     dependency: "direct main"
     description:
@@ -735,6 +727,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shelf:
     dependency: transitive
     description:
@@ -828,6 +828,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  sticky_grouped_list:
+    dependency: "direct main"
+    description:
+      name: sticky_grouped_list
+      sha256: "40398cb90321f07cbdbdd3049c27a5f048bd75a13abb19453b07a956f53a0eda"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   stream_channel:
     dependency: transitive
     description:
