@@ -5,11 +5,13 @@ class ChatBubbleContent extends StatelessWidget {
     super.key,
     required this.isSentByMe,
     required this.message,
+    this.repliedMessage,
     this.nameColour
   });
 
   final bool isSentByMe;
   final Message message;
+  final Message? repliedMessage;
   final Color? nameColour;
 
   @override
@@ -19,8 +21,10 @@ class ChatBubbleContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (repliedMessage != null)
+            Text(repliedMessage!.textContent ?? "..."),
           if (!isSentByMe)
-            Text("Username 1",
+            Text(message.senderName,
               style: TextStyle(
                 color: nameColour,
                 fontWeight: FontWeight.bold,

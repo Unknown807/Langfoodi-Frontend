@@ -74,6 +74,12 @@ class MessageList extends StatelessWidget {
                       child: ChatBubbleContent(
                         isSentByMe: isSentByMe,
                         message: message,
+                        repliedMessage: state.messages
+                          .cast<Message?>()
+                          .firstWhere(
+                            (msg) => msg!.id == message.repliedToMessageId,
+                            orElse: () => null
+                          )
                       )
                     )
                   : Row(
@@ -99,7 +105,14 @@ class MessageList extends StatelessWidget {
                           child: ChatBubbleContent(
                             nameColour: state.nameColours[message.senderId],
                             isSentByMe: isSentByMe,
-                            message: message),
+                            message: message,
+                            repliedMessage: state.messages
+                              .cast<Message?>()
+                              .firstWhere(
+                                (msg) => msg!.id == message.repliedToMessageId,
+                                orElse: () => null
+                              )
+                          ),
                         )),
                       ]
                     );
