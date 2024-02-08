@@ -1,7 +1,9 @@
 part of 'conversation_widgets.dart';
 
 class MessageList extends StatelessWidget {
-  const MessageList({super.key});
+  MessageList({super.key});
+
+  //final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class MessageList extends StatelessWidget {
       builder: (context, state) {
         return state.messages.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : GroupedListView(
+          : StickyGroupedListView<Message, DateTime>(
+              itemScrollController: state.messageListScrollController,
               padding: const EdgeInsets.all(8),
               reverse: true,
-              order: GroupedListOrder.DESC,
-              useStickyGroupSeparators: true,
+              order: StickyGroupedListOrder.DESC,
               floatingHeader: true,
               elements: state.messages,
               groupBy: (message) => DateTime(
@@ -39,7 +41,7 @@ class MessageList extends StatelessWidget {
                 message.sentDate!.month,
                 message.sentDate!.day
               ),
-              groupHeaderBuilder: (message) => SizedBox(
+              groupSeparatorBuilder: (message) => SizedBox(
                 height: 40,
                 child: Center(
                   child: Card(
@@ -68,12 +70,18 @@ class MessageList extends StatelessWidget {
                         top: 10,
                       ),
                       padding: const BubbleEdges.all(12),
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.primary.withGreen(190),
                       nip: BubbleNip.rightTop,
                       alignment: Alignment.centerRight,
                       child: ChatBubbleContent(
                         isSentByMe: isSentByMe,
                         message: message,
+                        repliedMessage: state.messages
+                          .cast<Message?>()
+                          .firstWhere(
+                            (msg) => msg!.id == message.repliedToMessageId,
+                            orElse: () => null
+                          )
                       )
                     )
                   : Row(
@@ -94,12 +102,19 @@ class MessageList extends StatelessWidget {
                             left: 5,
                           ),
                           padding: const BubbleEdges.all(12),
-                          color: Theme.of(context).colorScheme.secondary.withRed(240),
+                          color: Theme.of(context).colorScheme.secondary.withRed(235),
                           nip: BubbleNip.leftTop,
                           child: ChatBubbleContent(
                             nameColour: state.nameColours[message.senderId],
                             isSentByMe: isSentByMe,
-                            message: message),
+                            message: message,
+                            repliedMessage: state.messages
+                              .cast<Message?>()
+                              .firstWhere(
+                                (msg) => msg!.id == message.repliedToMessageId,
+                                orElse: () => null
+                              )
+                          ),
                         )),
                       ]
                     );

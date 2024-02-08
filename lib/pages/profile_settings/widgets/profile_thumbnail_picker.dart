@@ -18,7 +18,7 @@ class ProfileThumbnailPicker extends StatelessWidget {
                     .add(StartEditingProfileImage(selectedImage.path));
                 }
               },
-              child: state.currentThumbnailId == null && state.newThumbnailPath == null
+              child: state.currentThumbnailId == null && state.newThumbnailPath.isEmpty
                 ? const Center(
                     child: CustomCircleAvatar(
                       avatarIcon: Icons.person,
@@ -31,7 +31,7 @@ class ProfileThumbnailPicker extends StatelessWidget {
                     width: 160,
                     child: ClipOval(
                       child: context.read<ImageBuilder>().decideOnAndDisplayImage(
-                        imageUrl: state.newThumbnailPath ?? state.currentThumbnailId!,
+                        imageUrl: state.newThumbnailPath.isNotEmpty ? state.newThumbnailPath : state.currentThumbnailId!,
                         transformationType: ImageTransformationType.standard,
                         errorBuilder: (context, obj1, obj2) {
                           return CustomIconTile(
@@ -46,7 +46,7 @@ class ProfileThumbnailPicker extends StatelessWidget {
                     )
                   )
             ),
-            if (state.newThumbnailPath != null)
+            if (state.newThumbnailPath.isNotEmpty)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -66,7 +66,7 @@ class ProfileThumbnailPicker extends StatelessWidget {
                           rightButtonCallback: () => context
                             .read<ProfileSettingsFormBloc>()
                             .add(UpdateProfileImage(
-                              state.newThumbnailPath!,
+                              state.newThumbnailPath,
                               state.currentThumbnailId
                             ))
                         ),

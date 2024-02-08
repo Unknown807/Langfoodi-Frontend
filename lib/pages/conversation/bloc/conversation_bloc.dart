@@ -10,6 +10,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 export 'conversation_bloc.dart';
 part 'conversation_event.dart';
@@ -17,7 +18,8 @@ part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo) : super(ConversationState(
-    messageTextController: TextEditingController()
+    messageTextController: TextEditingController(),
+    messageListScrollController: GroupedItemScrollController()
   )) {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
@@ -25,11 +27,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<AttachImages>(_attachImagesToMessage);
     on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
     on<SetCheckboxValue>(_setCheckboxValue);
+    on<ScrollToMessage>(_scrollToMessage);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
+    int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
+    state.messageListScrollController.scrollTo(
+      duration: const Duration(milliseconds: 200),
+      index: index,
+    );
+  }
 
   void _setCheckboxValue(SetCheckboxValue event, Emitter<ConversationState> emit) {
     List<bool> newCheckboxValues = List.from(state.checkboxValues);
@@ -105,21 +116,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   List<Message> _getMessagesFromConversation() {
     return [
-      Message(id: "1", senderId: "2",
+      Message(id: "1", senderId: "2", senderName: "Sender 2",
         textContent: "Hey how are you doing?",
         sentDate: DateTime(2024, 01, 21, 9, 0),
       ),
-      Message(id: "2", senderId: "1",
-        textContent: "good, here's pictures of my morning! Pretty cool right? Anyways lemme send something else as well :D",
+      Message(id: "2", senderId: "1", senderName: "Sender 1",
         sentDate: DateTime(2024, 01, 21, 11, 30),
         imageURLs: ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"]
       ),
-      Message(id: "3", senderId: "2",
+      Message(id: "3", senderId: "2", senderName: "Sender 2",
         textContent: "here's a pic of me :)",
         sentDate: DateTime(2024, 02, 21, 12, 15),
         imageURLs: ["q8jjeukocprdiblv25tf"]
       ),
-      Message(id: "4", senderId: "1",
+      Message(id: "4", senderId: "1", senderName: "Sender 1",
         textContent: "You seen my recipes, check 'em out! They're pretty neat my guy. Anyways...lemme see your recipes",
         sentDate: DateTime(2024, 10, 25, 12, 20),
         recipePreviews: const [
@@ -127,50 +137,50 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
           RecipePreview("658447bb717f5f37d4f32104", "recipe2",  "ag3pi6mfvqnzaknnmqri")
         ],
       ),
-      Message(id: "5", senderId: "2",
+      Message(id: "5", senderId: "2", senderName: "Sender 2",
         textContent: "Nice, its similar to what I made yesterday -",
         sentDate: DateTime(2024, 10, 25, 13, 45),
         recipePreviews: const [
           RecipePreview("65885d44cf28ab4f72179f11", "recipe3", "d3uwdc4ekb4z9dkgqc9f")
         ]
       ),
-      Message(id: "6", senderId: "2",
+      Message(id: "6", senderId: "2", senderName: "Sender 2",
         repliedToMessageId: "5",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
-      Message(id: "7", senderId: "1",
+      Message(id: "7", senderId: "1", senderName: "Sender 2",
         repliedToMessageId: "5",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
-      Message(id: "8", senderId: "2",
+      Message(id: "8", senderId: "2", senderName: "Sender 2",
         repliedToMessageId: "5",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
-      Message(id: "9", senderId: "1",
+      Message(id: "9", senderId: "1", senderName: "Sender 1",
+        repliedToMessageId: "3",
+        textContent: "Seeya later!",
+        sentDate: DateTime(2024, 10, 25, 14, 55),
+      ),
+      Message(id: "10", senderId: "2", senderName: "Sender 2",
+        repliedToMessageId: "4",
+        textContent: "Seeya later!",
+        sentDate: DateTime(2024, 10, 25, 14, 55),
+      ),
+      Message(id: "11", senderId: "1", senderName: "Sender 1",
         repliedToMessageId: "5",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
-      Message(id: "10", senderId: "2",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
+      Message(id: "12", senderId: "2", senderName: "Sender 2",
+        repliedToMessageId: "2",
+        textContent: "Seeya later! and make sure to call me when you're done!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
-      Message(id: "11", senderId: "1",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "12", senderId: "2",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "13", senderId: "1",
-        repliedToMessageId: "5",
+      Message(id: "13", senderId: "1", senderName: "Sender 1",
+        repliedToMessageId: "12",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),

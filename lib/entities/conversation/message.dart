@@ -4,6 +4,7 @@ class Message extends Equatable {
   const Message({
     required this.id,
     required this.senderId,
+    required this.senderName,
     this.sentDate,
     this.updatedDate,
     this.repliedToMessageId,
@@ -14,6 +15,7 @@ class Message extends Equatable {
 
   final String id;
   final String senderId;
+  final String senderName;
   final DateTime? sentDate;
   final DateTime? updatedDate;
   final String? repliedToMessageId;
@@ -25,6 +27,6 @@ class Message extends Equatable {
   List<Object?> get props => [
     id, senderId, sentDate, updatedDate,
     repliedToMessageId, textContent, imageURLs,
-    recipePreviews
+    recipePreviews, senderName
   ];
 }

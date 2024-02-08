@@ -10,7 +10,7 @@ class ProfileSettingsState extends Equatable {
     this.editingEmail = false,
     this.editingPassword = false,
     this.currentThumbnailId,
-    this.newThumbnailPath,
+    this.newThumbnailPath = "",
     this.pageLoading = false
   });
 
@@ -18,7 +18,7 @@ class ProfileSettingsState extends Equatable {
   final String username;
   final String email;
   final String? currentThumbnailId;
-  final String? newThumbnailPath;
+  final String newThumbnailPath;
   final String creationDate;
   final bool editingUsername;
   final bool editingEmail;
@@ -51,7 +51,7 @@ class ProfileSettingsState extends Equatable {
       username: username ?? this.username,
       email: email ?? this.email,
       currentThumbnailId: currentThumbnailId ?? this.currentThumbnailId,
-      newThumbnailPath: newThumbnailPath,
+      newThumbnailPath: newThumbnailPath ?? this.newThumbnailPath,
       creationDate: creationDate ?? this.creationDate,
       editingUsername: editingUsername ?? this.editingUsername,
       editingEmail: editingEmail ?? this.editingEmail,

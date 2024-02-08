@@ -48,6 +48,15 @@ final class SetCheckboxValue extends ConversationEvent {
   List<Object> get props => [index, value];
 }
 
+final class ScrollToMessage extends ConversationEvent {
+  const ScrollToMessage(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}
+
 final class GetCurrentUserRecipes extends ConversationEvent {
   const GetCurrentUserRecipes();
 }

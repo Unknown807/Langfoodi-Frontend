@@ -32,6 +32,7 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               child: CustomAlertDialog(
                 title: const Text("Success!"),
                 content: const Text("Profile Updated"),
+                leftButtonText: null,
                 rightButtonCallback: () {
                   context
                     .read<ProfileSettingsBloc>()
@@ -47,11 +48,24 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
               ),
             )
           );
-        } else if (state.formStatus.isFailure) {
-          print("failure popup");
+        } else if (state.formStatus.isFailure && state.errorMessage.isNotEmpty) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (_) => BlocProvider<ProfileSettingsBloc>.value(
+              value: BlocProvider.of<ProfileSettingsBloc>(context),
+              child: CustomAlertDialog(
+                title: const Text("Oops!"),
+                content: Text(state.errorMessage),
+                leftButtonText: null,
+                rightButtonCallback: () => context
+                  .read<ProfileSettingsFormBloc>()
+                  .add(const ResetErrorMessage())
+              )
+            )
+          );
         }
       },
-      buildWhen: (p, c) => p.formStatus != c.formStatus,
       builder: (context, state) {
         final pageState = context.watch<ProfileSettingsBloc>().state;
         return state.formStatus.isInProgress || pageState.pageLoading

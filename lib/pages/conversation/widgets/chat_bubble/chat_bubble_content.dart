@@ -5,11 +5,13 @@ class ChatBubbleContent extends StatelessWidget {
     super.key,
     required this.isSentByMe,
     required this.message,
+    this.repliedMessage,
     this.nameColour
   });
 
   final bool isSentByMe;
   final Message message;
+  final Message? repliedMessage;
   final Color? nameColour;
 
   @override
@@ -19,8 +21,9 @@ class ChatBubbleContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (repliedMessage != null) ChatBubbleReplyBox(message: repliedMessage!),
           if (!isSentByMe)
-            Text("Username 1",
+            Text(message.senderName,
               style: TextStyle(
                 color: nameColour,
                 fontWeight: FontWeight.bold,
@@ -31,11 +34,12 @@ class ChatBubbleContent extends StatelessWidget {
           if (message.imageURLs != null) ChatBubbleImageCarousel(imageUrls: message.imageURLs!),
           if (message.recipePreviews != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipePreviews!),
           if (message.imageURLs != null || message.recipePreviews != null) const SizedBox(height: 4),
-          Flexible(child: Text(message.textContent ?? "",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onBackground,
-            )
-          )),
+          if (message.textContent != null)
+            Flexible(child: Text(message.textContent!,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              )
+            )),
           const SizedBox(height: 4),
           IntrinsicHeight(
             child: Align(
