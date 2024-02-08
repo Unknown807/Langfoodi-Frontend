@@ -25,3 +25,4 @@ part 'message_list.dart';
 part 'attach_image_button.dart';
 part 'attach_recipe_button.dart';
 part 'chat_bubble/chat_bubble_reply_box.dart';
+part 'chat_bubble/reply_box_attachment.dart';

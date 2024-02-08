@@ -25,16 +25,15 @@ class ChatBubbleReplyBox extends StatelessWidget {
             Text(
               "${message.textContent!.substring(0, 20)}...",
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground.withAlpha(150)
+                color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
               ),
             ),
 
-          Row(
-            children: <Widget>[
-              Icon(Icons.image_rounded),
-              Text(" Image")
-            ],
-          )
+          if (message.recipePreviews != null)
+            const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipe"),
+
+          if (message.imageURLs != null)
+            const ReplyBoxAttachment(icon: Icons.image_rounded, text: " Image"),
         ],
       )
     );
