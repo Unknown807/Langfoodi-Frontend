@@ -16,7 +16,7 @@ class ReplyBoxAttachment extends StatelessWidget {
       children: <Widget>[
         Icon(
           icon,
-          color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+          color: Theme.of(context).colorScheme.onBackground.withAlpha(150),
           size: 18
         ),
         Text(

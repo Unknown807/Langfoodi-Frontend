@@ -20,7 +20,6 @@ class ChatBubbleReplyBox extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Theme.of(context).colorScheme.background.withAlpha(150),
-          border: Border.all(color: Theme.of(context).colorScheme.tertiary)
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
