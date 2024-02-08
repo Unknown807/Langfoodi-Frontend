@@ -2,6 +2,7 @@ part of 'conversation_bloc.dart';
 
 class ConversationState extends Equatable {
   const ConversationState({
+    required this.messageListScrollController,
     required this.messageTextController,
     this.conversationName = "",
     this.conversationStatus = ConversationStatus.connected,
@@ -16,6 +17,7 @@ class ConversationState extends Equatable {
     this.checkboxValues = const []
   });
 
+  final GroupedItemScrollController messageListScrollController;
   final TextEditingController messageTextController;
   final ConversationStatus conversationStatus;
   final String senderId;
@@ -34,7 +36,8 @@ class ConversationState extends Equatable {
     conversationName, messages, isGroup,
     senderId, conversationStatus, nameColours,
     messageTextController, dialogTitle, dialogMessage,
-    fetchRecipes, currentRecipes, checkboxValues
+    fetchRecipes, currentRecipes, checkboxValues,
+    messageListScrollController
   ];
 
   ConversationState copyWith({
@@ -45,6 +48,7 @@ class ConversationState extends Equatable {
     ConversationStatus? conversationStatus,
     Map<String, Color>? nameColours,
     TextEditingController? messageTextController,
+    GroupedItemScrollController? messageListScrollController,
     String? dialogTitle,
     String? dialogMessage,
     bool? fetchRecipes,
@@ -59,11 +63,12 @@ class ConversationState extends Equatable {
       conversationStatus: conversationStatus ?? this.conversationStatus,
       nameColours: nameColours ?? this.nameColours,
       messageTextController: messageTextController ?? this.messageTextController,
+      messageListScrollController: messageListScrollController ?? this.messageListScrollController,
       dialogTitle: dialogTitle ?? this.dialogTitle,
       dialogMessage: dialogMessage ?? this.dialogMessage,
       currentRecipes: currentRecipes ?? this.currentRecipes,
       fetchRecipes: fetchRecipes ?? this.fetchRecipes,
-      checkboxValues: checkboxValues ?? this.checkboxValues
+      checkboxValues: checkboxValues ?? this.checkboxValues,
     );
   }
 }

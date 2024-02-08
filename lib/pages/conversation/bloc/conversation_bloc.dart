@@ -10,6 +10,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 export 'conversation_bloc.dart';
 part 'conversation_event.dart';
@@ -17,7 +18,8 @@ part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo) : super(ConversationState(
-    messageTextController: TextEditingController()
+    messageTextController: TextEditingController(),
+    messageListScrollController: GroupedItemScrollController()
   )) {
     on<InitState>(_initState);
     on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
@@ -25,11 +27,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<AttachImages>(_attachImagesToMessage);
     on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
     on<SetCheckboxValue>(_setCheckboxValue);
+    on<ScrollToMessage>(_scrollToMessage);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+
+  void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
+    int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
+    state.messageListScrollController.scrollTo(
+      duration: const Duration(milliseconds: 200),
+      index: index,
+    );
+  }
 
   void _setCheckboxValue(SetCheckboxValue event, Emitter<ConversationState> emit) {
     List<bool> newCheckboxValues = List.from(state.checkboxValues);
@@ -169,7 +180,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),
       Message(id: "13", senderId: "1", senderName: "Sender 1",
-        repliedToMessageId: "1",
+        repliedToMessageId: "12",
         textContent: "Seeya later!",
         sentDate: DateTime(2024, 10, 25, 14, 55),
       ),

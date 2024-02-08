@@ -3,7 +3,7 @@ part of 'conversation_widgets.dart';
 class MessageList extends StatelessWidget {
   MessageList({super.key});
 
-  final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
+  //final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class MessageList extends StatelessWidget {
         return state.messages.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : StickyGroupedListView<Message, DateTime>(
-              itemScrollController: itemScrollController,
+              itemScrollController: state.messageListScrollController,
               padding: const EdgeInsets.all(8),
               reverse: true,
               order: StickyGroupedListOrder.DESC,
@@ -41,7 +41,6 @@ class MessageList extends StatelessWidget {
                 message.sentDate!.month,
                 message.sentDate!.day
               ),
-              elementIdentifier: (message) => message.id,
               groupSeparatorBuilder: (message) => SizedBox(
                 height: 40,
                 child: Center(

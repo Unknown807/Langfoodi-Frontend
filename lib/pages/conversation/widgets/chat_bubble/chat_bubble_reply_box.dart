@@ -10,32 +10,37 @@ class ChatBubbleReplyBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Theme.of(context).colorScheme.background.withAlpha(150),
-        border: Border.all(color: Theme.of(context).colorScheme.tertiary)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (message.textContent != null)
-            Text(
-              "${message.textContent!.substring(0, 20)}...",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
+    return GestureDetector(
+      onTap: () => context
+        .read<ConversationBloc>()
+        .add(ScrollToMessage(message.id)),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4),
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Theme.of(context).colorScheme.background.withAlpha(150),
+          border: Border.all(color: Theme.of(context).colorScheme.tertiary)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (message.textContent != null)
+              Text(
+                "${message.textContent!.substring(0, 20)}...",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
+                ),
               ),
-            ),
 
-          if (message.recipePreviews != null)
-            const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipe"),
+            if (message.recipePreviews != null)
+              const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipes"),
 
-          if (message.imageURLs != null)
-            const ReplyBoxAttachment(icon: Icons.image_rounded, text: " Image"),
-        ],
-      )
+            if (message.imageURLs != null)
+              const ReplyBoxAttachment(icon: Icons.image_rounded, text: " Images"),
+          ],
+        )
+      ),
     );
   }
 }
