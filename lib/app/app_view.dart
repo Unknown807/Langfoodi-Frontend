@@ -7,6 +7,7 @@ class App extends StatelessWidget {
     required this.navigationRepo,
     required this.imageRepo,
     required this.recipeRepo,
+    required this.conversationRepo,
     required this.imageTransformationBuilder,
     required this.imageBuilder,
     required this.networkManager,
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
   final NavigationRepository navigationRepo;
   final ImageRepository imageRepo;
   final RecipeRepository recipeRepo;
+  final ConversationRepository conversationRepo;
 
   // Utilities
   final ImageTransformationBuilder imageTransformationBuilder;
@@ -33,6 +35,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => navigationRepo),
         RepositoryProvider(create: (_) => imageRepo),
         RepositoryProvider(create: (_) => recipeRepo),
+        RepositoryProvider(create: (_) => conversationRepo),
         RepositoryProvider(create: (_) => imageTransformationBuilder),
         RepositoryProvider(create: (_) => imageBuilder),
         RepositoryProvider(create: (_) => networkManager),
