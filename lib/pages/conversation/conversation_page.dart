@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
-import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
@@ -13,7 +13,17 @@ class ConversationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
+    //var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
+
+    Conversation convo = const Conversation(
+      "65c5317147169650f0d44687",
+      "connectionOrGroupId",
+      "test2",
+      null,
+      false,
+      null,
+      0
+    );
 
     return BlocProvider(
       create: (_) => ConversationBloc(
@@ -21,23 +31,20 @@ class ConversationPage extends StatelessWidget {
         context.read<AuthenticationRepository>(),
         context.read<RecipeRepository>()
       )
-      ..add(InitState(
-        convoDetails.conversationName,
-        convoDetails.conversationStatus,
-        convoDetails.isGroup
-      )),
+      ..add(InitState(convo)),
       child: Scaffold(
         appBar: CustomSearchAppBar(
           title: Row(
             children: [
               CustomCircleAvatar(
-                avatarIcon: convoDetails.isGroup ? Icons.group : Icons.person,
-                conversationStatus: convoDetails.conversationStatus,
+                avatarIcon: convo.isGroup ? Icons.group : Icons.person,
+                //TODO: status will be refactored eventually
+                //conversationStatus: convo.conversationStatus,
                 avatarIconSize: 25,
               ),
               const SizedBox(width: 10),
               Flexible(
-                child: Text(convoDetails.conversationName,
+                child: Text(convo.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)

@@ -80,32 +80,34 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
     if (!state.fetchRecipes) return;
-
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
     emit(state.copyWith(
-        fetchRecipes: false,
-        currentRecipes: currentRecipes
+      fetchRecipes: false,
+      currentRecipes: currentRecipes
     ));
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
-    final messages = _getMessagesFromConversation();
-    // TODO: get senderId from currentUser in auth repo
-    final nameColours = _generateNameColours(messages);
+    final senderId = (await _authRepo.currentUser).id;
+    emit(state.copyWith(messagesLoading: true, senderId: senderId));
 
+    final messages = _getMessagesFromConversation();
+    final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
     emit(state.copyWith(
-      conversationName: event.conversationName,
-      conversationStatus: event.conversationStatus,
-      isGroup: event.isGroup,
+      //TODO: status will be refactored eventually
+      //conversationStatus: event.conversationStatus,
+      conversationId: event.conversation.id,
+      conversationName: event.conversation.name,
+      isGroup: event.conversation.isGroup,
       messages: messages,
       nameColours: nameColours,
-      senderId: "1",
       fetchRecipes: false,
       currentRecipes: currentRecipes,
-      checkboxValues: List.generate(currentRecipes.length, (_) => false)
+      checkboxValues: List.generate(currentRecipes.length, (_) => false),
+      messagesLoading: false
     ));
   }
 
@@ -119,72 +121,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       Message("1", "2", "Sender 2", const [], DateTime(2024, 01, 21, 9, 0), null, null,
         "Hey how are you doing?", null, null
       ),
-      Message("2", "1", "Sender 1", const[], DateTime(2024, 01, 21, 11, 30), null, null,
+      Message("2", state.senderId, "Sender 1", const[], DateTime(2024, 01, 21, 11, 30), null, null,
         null,
         ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"], null
       )
     ];
-    //   Message(id: "3", senderId: "2", senderName: "Sender 2",
-    //     textContent: "here's a pic of me :)",
-    //     sentDate: DateTime(2024, 02, 21, 12, 15),
-    //     imageURLs: ["q8jjeukocprdiblv25tf"]
-    //   ),
-    //   Message(id: "4", senderId: "1", senderName: "Sender 1",
-    //     textContent: "You seen my recipes, check 'em out! They're pretty neat my guy. Anyways...lemme see your recipes",
-    //     sentDate: DateTime(2024, 10, 25, 12, 20),
-    //     recipePreviews: const [
-    //       RecipePreview("6586f5660423a34d151f4424", "Long ass recipe name ain't this a cool name no?", null),
-    //       RecipePreview("658447bb717f5f37d4f32104", "recipe2",  "ag3pi6mfvqnzaknnmqri")
-    //     ],
-    //   ),
-    //   Message(id: "5", senderId: "2", senderName: "Sender 2",
-    //     textContent: "Nice, its similar to what I made yesterday -",
-    //     sentDate: DateTime(2024, 10, 25, 13, 45),
-    //     recipePreviews: const [
-    //       RecipePreview("65885d44cf28ab4f72179f11", "recipe3", "d3uwdc4ekb4z9dkgqc9f")
-    //     ]
-    //   ),
-    //   Message(id: "6", senderId: "2", senderName: "Sender 2",
-    //     repliedToMessageId: "5",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "7", senderId: "1", senderName: "Sender 2",
-    //     repliedToMessageId: "5",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "8", senderId: "2", senderName: "Sender 2",
-    //     repliedToMessageId: "5",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "9", senderId: "1", senderName: "Sender 1",
-    //     repliedToMessageId: "3",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "10", senderId: "2", senderName: "Sender 2",
-    //     repliedToMessageId: "4",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "11", senderId: "1", senderName: "Sender 1",
-    //     repliedToMessageId: "5",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "12", senderId: "2", senderName: "Sender 2",
-    //     repliedToMessageId: "2",
-    //     textContent: "Seeya later! and make sure to call me when you're done!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    //   Message(id: "13", senderId: "1", senderName: "Sender 1",
-    //     repliedToMessageId: "12",
-    //     textContent: "Seeya later!",
-    //     sentDate: DateTime(2024, 10, 25, 14, 55),
-    //   ),
-    // ];
   }
 
   Map<String, Color> _generateNameColours(List<Message> messages) {

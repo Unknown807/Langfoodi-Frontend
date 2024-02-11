@@ -15,7 +15,7 @@ class Conversation extends Equatable with JsonConvertible {
   final String connectionOrGroupId;
   final String name;
   final bool isGroup;
-  final List<int> messagesUnseen;
+  final int messagesUnseen;
   final String? thumbnailId;
   final Message? lastMessage;
 
