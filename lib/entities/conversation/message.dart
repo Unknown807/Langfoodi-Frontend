@@ -11,7 +11,7 @@ class Message extends Equatable with JsonConvertible {
     this.repliedToMessageId,
     this.textContent,
     this.imageURLs,
-    this.recipePreviews
+    this.recipes
   );
 
   final String id;
@@ -23,7 +23,7 @@ class Message extends Equatable with JsonConvertible {
   final String? repliedToMessageId;
   final String? textContent;
   final List<String>? imageURLs;
-  final List<RecipePreview>? recipePreviews;
+  final List<RecipePreview>? recipes;
 
   static Message fromJson(Map jsonData) {
     return Message(
@@ -31,12 +31,12 @@ class Message extends Equatable with JsonConvertible {
       jsonData["senderId"],
       jsonData["senderName"],
       (jsonData["seenByUserIds"] as List).map((id) => id as String).toList(),
-      jsonData["sentData"] != null ? DateTime.parse(jsonData["sentData"]) : null,
+      jsonData["sentDate"] != null ? DateTime.parse(jsonData["sentDate"]) : null,
       jsonData["updatedDate"] != null ? DateTime.parse(jsonData["updatedDate"]) : null,
       jsonData["repliedToMessageId"],
       jsonData["textContent"],
-      (jsonData["imageURLs"] as List<String>?)?.map((url) => url).toList(),
-      jsonData["recipePreviews"]?.map<RecipePreview>((r) => RecipePreview.fromJson(r)).toList()
+      (jsonData["imageURLs"] as List?)?.map((url) => url as String).toList(),
+      jsonData["recipes"]?.map<RecipePreview>((r) => RecipePreview.fromJson(r)).toList()
     );
   }
 
@@ -44,6 +44,6 @@ class Message extends Equatable with JsonConvertible {
   List<Object?> get props => [
     id, senderId, sentDate, updatedDate,
     repliedToMessageId, textContent, imageURLs,
-    recipePreviews, senderName
+    recipes, senderName
   ];
 }

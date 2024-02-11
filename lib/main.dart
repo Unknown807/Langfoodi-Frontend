@@ -9,6 +9,7 @@ import 'package:http/io_client.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
+import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -53,6 +54,7 @@ Future<void> main() async {
   final imageRepo = ImageRepository(request, jsonWrapper, cloudinaryConfig);
   final recipeRepo = RecipeRepository(request, jsonWrapper);
   final conversationRepo = ConversationRepository(request, jsonWrapper);
+  final messageRepo = MessageRepository(request, jsonWrapper);
 
   // The below 2 (commented out) lines are used for manual testing purposes:
 
@@ -66,6 +68,7 @@ Future<void> main() async {
     imageRepo: imageRepo,
     recipeRepo: recipeRepo,
     conversationRepo: conversationRepo,
+    messageRepo: messageRepo,
     imageTransformationBuilder: imageTransformationBuilder,
     imageBuilder: imageBuilder,
     networkManager: networkManager,

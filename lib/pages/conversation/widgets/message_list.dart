@@ -27,7 +27,7 @@ class MessageList extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return state.messagesLoading
+        return state.pageLoading
           ? const Center(child: CircularProgressIndicator())
           : StickyGroupedListView<Message, DateTime>(
               itemScrollController: state.messageListScrollController,

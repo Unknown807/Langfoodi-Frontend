@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
@@ -17,7 +18,7 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo) : super(ConversationState(
+  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo, this._messageRepo) : super(ConversationState(
     messageTextController: TextEditingController(),
     messageListScrollController: GroupedItemScrollController()
   )) {
@@ -33,6 +34,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+  final MessageRepository _messageRepo;
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
@@ -90,9 +92,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
     final senderId = (await _authRepo.currentUser).id;
-    emit(state.copyWith(messagesLoading: true, senderId: senderId));
+    emit(state.copyWith(pageLoading: true, senderId: senderId));
 
-    final messages = _getMessagesFromConversation();
+    List<Message> messages = await _getMessagesFromConversationAndReturn(event.conversation.id);
     final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
@@ -107,25 +109,22 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       fetchRecipes: false,
       currentRecipes: currentRecipes,
       checkboxValues: List.generate(currentRecipes.length, (_) => false),
-      messagesLoading: false
+      pageLoading: false
     ));
   }
 
   void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogMessage: "", dialogTitle: ""));
-    // TODO: get messages from API
+    emit(state.copyWith(dialogMessage: "", dialogTitle: "", pageLoading: true));
+    List<Message> messages = await _getMessagesFromConversationAndReturn(state.conversationId);
+
+    emit(state.copyWith(
+      pageLoading: false,
+      messages: messages
+    ));
   }
 
-  List<Message> _getMessagesFromConversation() {
-    return [
-      Message("1", "2", "Sender 2", const [], DateTime(2024, 01, 21, 9, 0), null, null,
-        "Hey how are you doing?", null, null
-      ),
-      Message("2", state.senderId, "Sender 1", const[], DateTime(2024, 01, 21, 11, 30), null, null,
-        null,
-        ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"], null
-      )
-    ];
+  Future<List<Message>> _getMessagesFromConversationAndReturn(String conversationId) async {
+    return await _messageRepo.getMessagesFromConversation(conversationId);
   }
 
   Map<String, Color> _generateNameColours(List<Message> messages) {

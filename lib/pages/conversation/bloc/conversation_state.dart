@@ -15,7 +15,7 @@ class ConversationState extends Equatable {
     this.dialogMessage = "",
     this.currentRecipes = const [],
     this.checkboxValues = const [],
-    this.messagesLoading = false,
+    this.pageLoading = false,
     this.conversationId = ""
   });
 
@@ -26,7 +26,7 @@ class ConversationState extends Equatable {
   final String conversationName;
   final bool isGroup;
   final bool fetchRecipes;
-  final bool messagesLoading;
+  final bool pageLoading;
   final List<Message> messages;
   final List<Recipe> currentRecipes;
   final List<bool> checkboxValues;
@@ -41,7 +41,7 @@ class ConversationState extends Equatable {
     senderId, conversationStatus, nameColours,
     messageTextController, dialogTitle, dialogMessage,
     fetchRecipes, currentRecipes, checkboxValues,
-    messageListScrollController, messagesLoading,
+    messageListScrollController, pageLoading,
     conversationId
   ];
 
@@ -59,7 +59,7 @@ class ConversationState extends Equatable {
     bool? fetchRecipes,
     List<Recipe>? currentRecipes,
     List<bool>? checkboxValues,
-    bool? messagesLoading,
+    bool? pageLoading,
     String? conversationId
   }) {
     return ConversationState(
@@ -76,7 +76,7 @@ class ConversationState extends Equatable {
       currentRecipes: currentRecipes ?? this.currentRecipes,
       fetchRecipes: fetchRecipes ?? this.fetchRecipes,
       checkboxValues: checkboxValues ?? this.checkboxValues,
-      messagesLoading: messagesLoading ?? this.messagesLoading,
+      pageLoading: pageLoading ?? this.pageLoading,
       conversationId: conversationId ?? this.conversationId
     );
   }
