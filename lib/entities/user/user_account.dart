@@ -6,14 +6,16 @@ class UserAccount extends Equatable with JsonConvertible {
     this.handler,
     this.username,
     this.creationDate,
-    this.profileImageId
+    this.profileImageId,
+    this.pinnedConversationIds
   );
 
   final String id;
   final String handler;
   final String username;
-  final String? profileImageId;
   final DateTime creationDate;
+  final List<String> pinnedConversationIds;
+  final String? profileImageId;
 
   static UserAccount fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
     return UserAccount.fromJson(jsonWrapper.decodeData(jsonStr));
@@ -25,7 +27,8 @@ class UserAccount extends Equatable with JsonConvertible {
       jsonData["handler"],
       jsonData["userName"],
       DateTime.parse(jsonData["accountCreationDate"]),
-      jsonData["profileImageId"]
+      jsonData["profileImageId"],
+      (jsonData["pinnedConversationIds"] as List).map((id) => id as String).toList(),
     );
   }
 

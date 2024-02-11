@@ -24,7 +24,10 @@ class RecipeRepository {
     if (!response.isOk) return [];
 
     List<dynamic> jsonRecipes = jsonWrapper.decodeData(response.body);
-    List<Recipe> retrievedRecipes = jsonRecipes.map((jsonRecipe) => Recipe.fromJson(jsonRecipe)).toList();
+    List<Recipe> retrievedRecipes = jsonRecipes
+      .map((jsonRecipe) => Recipe.fromJson(jsonRecipe))
+      .toList();
+
     return retrievedRecipes;
   }
 

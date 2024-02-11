@@ -7,14 +7,15 @@ class ConversationState extends Equatable {
     this.conversationName = "",
     this.conversationStatus = ConversationStatus.connected,
     this.isGroup = false,
-    this.fetchRecipes = true,
     this.messages = const [],
     this.senderId = "",
     this.nameColours = const {},
     this.dialogTitle = "",
     this.dialogMessage = "",
     this.currentRecipes = const [],
-    this.checkboxValues = const []
+    this.checkboxValues = const [],
+    this.pageLoading = false,
+    this.conversationId = ""
   });
 
   final GroupedItemScrollController messageListScrollController;
@@ -23,21 +24,23 @@ class ConversationState extends Equatable {
   final String senderId;
   final String conversationName;
   final bool isGroup;
-  final bool fetchRecipes;
+  final bool pageLoading;
   final List<Message> messages;
   final List<Recipe> currentRecipes;
   final List<bool> checkboxValues;
   final Map<String, Color> nameColours;
   final String dialogTitle;
   final String dialogMessage;
+  final String conversationId;
 
   @override
   List<Object> get props => [
     conversationName, messages, isGroup,
     senderId, conversationStatus, nameColours,
     messageTextController, dialogTitle, dialogMessage,
-    fetchRecipes, currentRecipes, checkboxValues,
-    messageListScrollController
+    currentRecipes, checkboxValues,
+    messageListScrollController, pageLoading,
+    conversationId
   ];
 
   ConversationState copyWith({
@@ -51,9 +54,10 @@ class ConversationState extends Equatable {
     GroupedItemScrollController? messageListScrollController,
     String? dialogTitle,
     String? dialogMessage,
-    bool? fetchRecipes,
     List<Recipe>? currentRecipes,
-    List<bool>? checkboxValues
+    List<bool>? checkboxValues,
+    bool? pageLoading,
+    String? conversationId
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -67,8 +71,9 @@ class ConversationState extends Equatable {
       dialogTitle: dialogTitle ?? this.dialogTitle,
       dialogMessage: dialogMessage ?? this.dialogMessage,
       currentRecipes: currentRecipes ?? this.currentRecipes,
-      fetchRecipes: fetchRecipes ?? this.fetchRecipes,
       checkboxValues: checkboxValues ?? this.checkboxValues,
+      pageLoading: pageLoading ?? this.pageLoading,
+      conversationId: conversationId ?? this.conversationId
     );
   }
 }

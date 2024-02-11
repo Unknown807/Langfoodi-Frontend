@@ -32,8 +32,8 @@ class ChatBubbleContent extends StatelessWidget {
             ),
           if (!isSentByMe) const SizedBox(height: 4),
           if (message.imageURLs != null) ChatBubbleImageCarousel(imageUrls: message.imageURLs!),
-          if (message.recipePreviews != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipePreviews!),
-          if (message.imageURLs != null || message.recipePreviews != null) const SizedBox(height: 4),
+          if (message.recipes != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipes!),
+          if (message.imageURLs != null || message.recipes != null) const SizedBox(height: 4),
           if (message.textContent != null)
             Flexible(child: Text(message.textContent!,
               style: TextStyle(

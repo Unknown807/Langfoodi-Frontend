@@ -9,14 +9,12 @@ sealed class ConversationEvent extends Equatable {
 }
 
 final class InitState extends ConversationEvent {
-  const InitState(this.conversationName, this.conversationStatus, this.isGroup);
+  const InitState(this.conversation);
 
-  final String conversationName;
-  final ConversationStatus conversationStatus;
-  final bool isGroup;
+  final Conversation conversation;
 
   @override
-  List<Object> get props => [conversationName, conversationStatus, isGroup];
+  List<Object> get props => [conversation];
 }
 
 final class GoToInteractionPageAndExpectResult extends ConversationEvent {
@@ -63,4 +61,8 @@ final class GetCurrentUserRecipes extends ConversationEvent {
 
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
+}
+
+final class SendMessage extends ConversationEvent {
+  const SendMessage();
 }

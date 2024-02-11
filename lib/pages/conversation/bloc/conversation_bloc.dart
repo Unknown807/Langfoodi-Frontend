@@ -6,10 +6,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 export 'conversation_bloc.dart';
@@ -17,7 +19,7 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo) : super(ConversationState(
+  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo, this._messageRepo, this._networkManager) : super(ConversationState(
     messageTextController: TextEditingController(),
     messageListScrollController: GroupedItemScrollController()
   )) {
@@ -28,11 +30,51 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
     on<SetCheckboxValue>(_setCheckboxValue);
     on<ScrollToMessage>(_scrollToMessage);
+    on<SendMessage>(_sendMessage);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
+  final MessageRepository _messageRepo;
+  final NetworkManager _networkManager;
+
+  void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
+    //TODO: add checks for recipeIds and imageURLs in here as well, can't send an empty message
+    String textContent = state.messageTextController.text;
+    if (state.pageLoading || textContent.isEmpty) return;
+
+    NewMessageContract contract = NewMessageContract(
+      conversationId: state.conversationId,
+      senderId: state.senderId,
+      text: textContent.isNotEmpty ? textContent : null,
+      //TODO: recipeIds and imageURLs and replied message Id to be added here
+    );
+    Message? sentMessage = await _messageRepo.sendMessage(contract);
+
+    if (sentMessage != null) {
+      List<Message> newMessages = List.from(state.messages);
+      newMessages.add(sentMessage);
+      state.messageTextController.clear();
+
+      emit(state.copyWith(
+        messages: newMessages,
+      ));
+    } else {
+      emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "There as an issue sending your message, please check and try again.",
+      ));
+    }
+  }
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
@@ -68,7 +110,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     if (result != null) {
       emit(state.copyWith(
         dialogTitle: result.dialogTitle,
-        dialogMessage: result.dialogMessage
+        dialogMessage: result.dialogMessage,
       ));
     }
   }
@@ -79,112 +121,51 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
-    if (!state.fetchRecipes) return;
+    emit(state.copyWith(dialogTitle: "", dialogMessage: ""));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) return;
 
+    emit(state.copyWith(pageLoading: true));
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
-
-    emit(state.copyWith(
-        fetchRecipes: false,
-        currentRecipes: currentRecipes
-    ));
+    emit(state.copyWith(currentRecipes: currentRecipes, pageLoading: false));
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
-    final messages = _getMessagesFromConversation();
-    // TODO: get senderId from currentUser in auth repo
-    final nameColours = _generateNameColours(messages);
+    final senderId = (await _authRepo.currentUser).id;
+    emit(state.copyWith(pageLoading: true, senderId: senderId));
 
+    List<Message> messages = await _getMessagesFromConversationAndReturn(event.conversation.id);
+    final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
     emit(state.copyWith(
-      conversationName: event.conversationName,
-      conversationStatus: event.conversationStatus,
-      isGroup: event.isGroup,
+      //TODO: status will be refactored eventually
+      //conversationStatus: event.conversationStatus,
+      conversationId: event.conversation.id,
+      conversationName: event.conversation.name,
+      isGroup: event.conversation.isGroup,
       messages: messages,
       nameColours: nameColours,
-      senderId: "1",
-      fetchRecipes: false,
       currentRecipes: currentRecipes,
-      checkboxValues: List.generate(currentRecipes.length, (_) => false)
+      checkboxValues: List.generate(currentRecipes.length, (_) => false),
+      pageLoading: false
     ));
   }
 
   void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogMessage: "", dialogTitle: ""));
-    // TODO: get messages from API
+    emit(state.copyWith(dialogMessage: "", dialogTitle: "", pageLoading: true));
+    List<Message> messages = await _getMessagesFromConversationAndReturn(state.conversationId);
+    final nameColours = _generateNameColours(messages);
+
+    emit(state.copyWith(
+      pageLoading: false,
+      messages: messages,
+      nameColours: nameColours
+    ));
   }
 
-  List<Message> _getMessagesFromConversation() {
-    return [
-      Message(id: "1", senderId: "2", senderName: "Sender 2",
-        textContent: "Hey how are you doing?",
-        sentDate: DateTime(2024, 01, 21, 9, 0),
-      ),
-      Message(id: "2", senderId: "1", senderName: "Sender 1",
-        sentDate: DateTime(2024, 01, 21, 11, 30),
-        imageURLs: ["ag3pi6mfvqnzaknnmqri", "d3uwdc4ekb4z9dkgqc9f"]
-      ),
-      Message(id: "3", senderId: "2", senderName: "Sender 2",
-        textContent: "here's a pic of me :)",
-        sentDate: DateTime(2024, 02, 21, 12, 15),
-        imageURLs: ["q8jjeukocprdiblv25tf"]
-      ),
-      Message(id: "4", senderId: "1", senderName: "Sender 1",
-        textContent: "You seen my recipes, check 'em out! They're pretty neat my guy. Anyways...lemme see your recipes",
-        sentDate: DateTime(2024, 10, 25, 12, 20),
-        recipePreviews: const [
-          RecipePreview("6586f5660423a34d151f4424", "Long ass recipe name ain't this a cool name no?", null),
-          RecipePreview("658447bb717f5f37d4f32104", "recipe2",  "ag3pi6mfvqnzaknnmqri")
-        ],
-      ),
-      Message(id: "5", senderId: "2", senderName: "Sender 2",
-        textContent: "Nice, its similar to what I made yesterday -",
-        sentDate: DateTime(2024, 10, 25, 13, 45),
-        recipePreviews: const [
-          RecipePreview("65885d44cf28ab4f72179f11", "recipe3", "d3uwdc4ekb4z9dkgqc9f")
-        ]
-      ),
-      Message(id: "6", senderId: "2", senderName: "Sender 2",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "7", senderId: "1", senderName: "Sender 2",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "8", senderId: "2", senderName: "Sender 2",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "9", senderId: "1", senderName: "Sender 1",
-        repliedToMessageId: "3",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "10", senderId: "2", senderName: "Sender 2",
-        repliedToMessageId: "4",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "11", senderId: "1", senderName: "Sender 1",
-        repliedToMessageId: "5",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "12", senderId: "2", senderName: "Sender 2",
-        repliedToMessageId: "2",
-        textContent: "Seeya later! and make sure to call me when you're done!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-      Message(id: "13", senderId: "1", senderName: "Sender 1",
-        repliedToMessageId: "12",
-        textContent: "Seeya later!",
-        sentDate: DateTime(2024, 10, 25, 14, 55),
-      ),
-    ];
+  Future<List<Message>> _getMessagesFromConversationAndReturn(String conversationId) async {
+    return await _messageRepo.getMessagesFromConversation(conversationId);
   }
 
   Map<String, Color> _generateNameColours(List<Message> messages) {

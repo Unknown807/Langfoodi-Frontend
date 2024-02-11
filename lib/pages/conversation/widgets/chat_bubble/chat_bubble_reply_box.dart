@@ -15,6 +15,7 @@ class ChatBubbleReplyBox extends StatelessWidget {
         .read<ConversationBloc>()
         .add(ScrollToMessage(message.id)),
       child: Container(
+        width: double.infinity,
         margin: const EdgeInsets.only(bottom: 4),
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
@@ -26,13 +27,15 @@ class ChatBubbleReplyBox extends StatelessWidget {
           children: <Widget>[
             if (message.textContent != null)
               Text(
-                "${message.textContent!.substring(0, 20)}...",
+                "${message.textContent!.length >= 20
+                  ? message.textContent!.substring(0, 20)
+                  : message.textContent!}...",
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
+                  color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
                 ),
               ),
 
-            if (message.recipePreviews != null)
+            if (message.recipes != null)
               const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipes"),
 
             if (message.imageURLs != null)

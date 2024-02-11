@@ -36,7 +36,7 @@ void main() {
         DateTime.now(), DateTime.now()),
   ];
 
-  final user = User("01", "testHandler", "user1", "mail@example.com", "Pass123!", DateTime.parse("2023-11-08"), null);
+  final user = User("01", "testHandler", "user1", "mail@example.com", "Pass123!", DateTime.parse("2023-11-08"), null, const []);
 
   setUp(() {
     navigationRepositoryMock = NavigationRepositoryMock();
