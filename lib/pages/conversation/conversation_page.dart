@@ -74,7 +74,9 @@ class ConversationPage extends StatelessWidget {
                   splashRadius: 20,
                   color: Theme.of(context).colorScheme.primary,
                   icon: const Icon(Icons.send),
-                  onPressed: () {},
+                  onPressed: () => context
+                    .read<ConversationBloc>()
+                    .add(const SendMessage())
                 )
               ],
             )

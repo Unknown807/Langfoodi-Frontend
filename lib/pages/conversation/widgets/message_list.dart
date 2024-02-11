@@ -36,6 +36,7 @@ class MessageList extends StatelessWidget {
               order: StickyGroupedListOrder.DESC,
               floatingHeader: true,
               elements: state.messages,
+              itemComparator: (m1, m2) => m1.sentDate!.compareTo(m2.sentDate!),
               groupBy: (message) => DateTime(
                 message.sentDate!.year,
                 message.sentDate!.month,

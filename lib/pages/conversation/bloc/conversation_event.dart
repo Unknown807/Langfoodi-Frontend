@@ -62,3 +62,7 @@ final class GetCurrentUserRecipes extends ConversationEvent {
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
 }
+
+final class SendMessage extends ConversationEvent {
+  const SendMessage();
+}

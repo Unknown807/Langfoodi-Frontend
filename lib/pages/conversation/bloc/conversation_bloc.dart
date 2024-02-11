@@ -29,12 +29,17 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
     on<SetCheckboxValue>(_setCheckboxValue);
     on<ScrollToMessage>(_scrollToMessage);
+    on<SendMessage>(_sendMessage);
   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
+
+  void _sendMessage(SendMessage event, Emitter<ConversationState> emit) {
+    
+  }
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
