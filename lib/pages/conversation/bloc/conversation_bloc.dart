@@ -11,6 +11,7 @@ import 'package:recipe_social_media/repositories/navigation/args/recipe_interact
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 export 'conversation_bloc.dart';
@@ -18,7 +19,7 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo, this._messageRepo) : super(ConversationState(
+  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo, this._messageRepo, this._networkManager) : super(ConversationState(
     messageTextController: TextEditingController(),
     messageListScrollController: GroupedItemScrollController()
   )) {
@@ -36,11 +37,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
+  final NetworkManager _networkManager;
 
   void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
     //TODO: add checks for recipeIds and imageURLs in here as well, can't send an empty message
     String textContent = state.messageTextController.text;
-    if (textContent.isEmpty) return;
+    if (state.pageLoading || textContent.isEmpty) return;
 
     NewMessageContract contract = NewMessageContract(
       conversationId: state.conversationId,
@@ -111,6 +121,10 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
+    emit(state.copyWith(dialogTitle: "", dialogMessage: ""));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) return;
+
     emit(state.copyWith(pageLoading: true));
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
     emit(state.copyWith(currentRecipes: currentRecipes, pageLoading: false));

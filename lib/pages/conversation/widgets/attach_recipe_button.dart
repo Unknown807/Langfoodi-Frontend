@@ -14,6 +14,7 @@ class AttachRecipeButton extends StatelessWidget {
           color: Theme.of(context).colorScheme.tertiary,
           icon: const Icon(Icons.fastfood),
           onPressed: () {
+            if (state.currentRecipes.isEmpty) return;
             showDialog(
               barrierDismissible: false,
               context: context,

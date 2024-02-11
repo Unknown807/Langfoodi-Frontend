@@ -7,6 +7,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -31,7 +32,8 @@ class ConversationPage extends StatelessWidget {
         context.read<NavigationRepository>(),
         context.read<AuthenticationRepository>(),
         context.read<RecipeRepository>(),
-        context.read<MessageRepository>()
+        context.read<MessageRepository>(),
+        context.read<NetworkManager>()
       )..add(InitState(convo)),
       child: Scaffold(
         appBar: CustomSearchAppBar(
