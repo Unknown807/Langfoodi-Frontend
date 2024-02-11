@@ -32,8 +32,7 @@ class ConversationPage extends StatelessWidget {
         context.read<AuthenticationRepository>(),
         context.read<RecipeRepository>(),
         context.read<MessageRepository>()
-      )
-      ..add(InitState(convo)),
+      )..add(InitState(convo)),
       child: Scaffold(
         appBar: CustomSearchAppBar(
           title: Row(
@@ -62,22 +61,15 @@ class ConversationPage extends StatelessWidget {
           ],
           onSearchFunc: (term) {print(term);},
         ),
-        body: Column (
+        body: const Column (
           children: [
             Expanded(flex: 8, child: MessageList()),
             Row(
               children: [
-                const Expanded(flex: 1, child: AttachRecipeButton()),
-                const Expanded(flex: 1, child: AttachImageButton()),
-                const Expanded(flex: 5, child: MessageInput()),
-                IconButton(
-                  splashRadius: 20,
-                  color: Theme.of(context).colorScheme.primary,
-                  icon: const Icon(Icons.send),
-                  onPressed: () => context
-                    .read<ConversationBloc>()
-                    .add(const SendMessage())
-                )
+                Expanded(flex: 1, child: AttachRecipeButton()),
+                Expanded(flex: 1, child: AttachImageButton()),
+                Expanded(flex: 5, child: MessageInput()),
+                MessageSendButton()
               ],
             )
           ]

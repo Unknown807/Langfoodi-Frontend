@@ -1,9 +1,7 @@
 part of 'conversation_widgets.dart';
 
 class MessageList extends StatelessWidget {
-  MessageList({super.key});
-
-  //final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
+  const MessageList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class MessageList extends StatelessWidget {
                 leftButtonText: null,
                 rightButtonCallback: () => context
                   .read<ConversationBloc>()
-                  .add(const ChangeMessagesToDisplay())
+                  .add(const GetCurrentUserRecipes())
               )
             )
           );

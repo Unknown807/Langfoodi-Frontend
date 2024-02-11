@@ -37,8 +37,33 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
 
-  void _sendMessage(SendMessage event, Emitter<ConversationState> emit) {
-    
+  void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
+    //TODO: add checks for recipeIds and imageURLs in here as well, can't send an empty message
+    String textContent = state.messageTextController.text;
+    if (textContent.isEmpty) return;
+
+    NewMessageContract contract = NewMessageContract(
+      conversationId: state.conversationId,
+      senderId: state.senderId,
+      text: textContent.isNotEmpty ? textContent : null,
+      //TODO: recipeIds and imageURLs and replied message Id to be added here
+    );
+    Message? sentMessage = await _messageRepo.sendMessage(contract);
+
+    if (sentMessage != null) {
+      List<Message> newMessages = List.from(state.messages);
+      newMessages.add(sentMessage);
+      state.messageTextController.clear();
+
+      emit(state.copyWith(
+        messages: newMessages,
+      ));
+    } else {
+      emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "There as an issue sending your message, please check and try again.",
+      ));
+    }
   }
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
@@ -75,7 +100,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     if (result != null) {
       emit(state.copyWith(
         dialogTitle: result.dialogTitle,
-        dialogMessage: result.dialogMessage
+        dialogMessage: result.dialogMessage,
       ));
     }
   }
@@ -86,13 +111,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
-    if (!state.fetchRecipes) return;
+    emit(state.copyWith(pageLoading: true));
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
-
-    emit(state.copyWith(
-      fetchRecipes: false,
-      currentRecipes: currentRecipes
-    ));
+    emit(state.copyWith(currentRecipes: currentRecipes, pageLoading: false));
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
@@ -111,7 +132,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       isGroup: event.conversation.isGroup,
       messages: messages,
       nameColours: nameColours,
-      fetchRecipes: false,
       currentRecipes: currentRecipes,
       checkboxValues: List.generate(currentRecipes.length, (_) => false),
       pageLoading: false
@@ -121,10 +141,12 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
     emit(state.copyWith(dialogMessage: "", dialogTitle: "", pageLoading: true));
     List<Message> messages = await _getMessagesFromConversationAndReturn(state.conversationId);
+    final nameColours = _generateNameColours(messages);
 
     emit(state.copyWith(
       pageLoading: false,
-      messages: messages
+      messages: messages,
+      nameColours: nameColours
     ));
   }
 

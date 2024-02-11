@@ -25,6 +25,10 @@ class Message extends Equatable with JsonConvertible {
   final List<String>? imageURLs;
   final List<RecipePreview>? recipes;
 
+  static Message fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return Message.fromJson(jsonWrapper.decodeData(jsonStr));
+  }
+
   static Message fromJson(Map jsonData) {
     return Message(
       jsonData["id"],

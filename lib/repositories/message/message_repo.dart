@@ -23,7 +23,10 @@ class MessageRepository {
     return retrievedMessages;
   }
 
-  // Future<Message> sendMessage(NewMessageContract contract) {
-  //
-  // }
+  Future<Message?> sendMessage(NewMessageContract contract) async {
+    final response = await request.post("/message/send", contract, jsonWrapper);
+    if (!response.isOk) return null;
+
+    return Message.fromJsonStr(response.body, jsonWrapper);
+  }
 }
