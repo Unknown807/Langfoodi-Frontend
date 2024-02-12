@@ -6,6 +6,7 @@ class ImageAttachmentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ConversationBloc, ConversationState>(
+      buildWhen: (p, c) => p.attachedImagePaths != c.attachedImagePaths,
       builder: (context, state) {
         return state.attachedImagePaths.isEmpty
           ? const SizedBox.shrink()
@@ -56,13 +57,15 @@ class ImageAttachmentBox extends StatelessWidget {
                             bottom: 25,
                             right: 25,
                             child: IconButton(
-                              onPressed: () {},
-                              splashRadius: 5,
+                              splashRadius: 1,
                               icon: Icon(
                                 Icons.cancel_rounded,
                                 color: Theme.of(context).colorScheme.inversePrimary,
                                 size: 20,
                               ),
+                              onPressed: () => context
+                                .read<ConversationBloc>()
+                                .add(DetachImage(index))
                             ),
                           ),
                         ],

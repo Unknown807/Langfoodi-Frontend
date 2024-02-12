@@ -36,6 +36,15 @@ final class AttachImages extends ConversationEvent {
   List<Object> get props => [imageFiles];
 }
 
+final class DetachImage extends ConversationEvent {
+  const DetachImage(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+}
+
 final class SetCheckboxValue extends ConversationEvent {
   const SetCheckboxValue(this.index, this.value);
 

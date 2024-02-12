@@ -31,6 +31,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<SetCheckboxValue>(_setCheckboxValue);
     on<ScrollToMessage>(_scrollToMessage);
     on<SendMessage>(_sendMessage);
+    on<DetachImage>(_detachImage);
   }
 
   final NavigationRepository _navigationRepo;
@@ -38,6 +39,15 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
   final NetworkManager _networkManager;
+
+  void _detachImage(DetachImage event, Emitter<ConversationState> emit) {
+    List<String> attachedImagePaths = List.from(state.attachedImagePaths);
+    attachedImagePaths.removeAt(event.index);
+
+    emit(state.copyWith(
+      attachedImagePaths: attachedImagePaths
+    ));
+  }
 
   void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
     bool hasNetwork = await _networkManager.isNetworkConnected();
