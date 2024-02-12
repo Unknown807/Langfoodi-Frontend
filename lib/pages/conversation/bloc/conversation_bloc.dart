@@ -94,9 +94,16 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
+    List<String> imagePaths = List.from(state.attachedImagePaths);
     for (var img in event.imageFiles) {
-      print(img.path);
+      if (!imagePaths.contains(img.path)) {
+        imagePaths.add(img.path);
+      }
     }
+
+    emit(state.copyWith(
+      attachedImagePaths: imagePaths
+    ));
   }
 
   void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<ConversationState> emit) async {

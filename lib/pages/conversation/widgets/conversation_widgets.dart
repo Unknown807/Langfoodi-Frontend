@@ -1,6 +1,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -27,3 +28,4 @@ part 'attach_image_button.dart';
 part 'attach_recipe_button.dart';
 part 'chat_bubble/chat_bubble_reply_box.dart';
 part 'chat_bubble/reply_box_attachment.dart';
+part 'image_attachment_box.dart';

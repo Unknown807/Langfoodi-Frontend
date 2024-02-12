@@ -15,7 +15,8 @@ class ConversationState extends Equatable {
     this.currentRecipes = const [],
     this.checkboxValues = const [],
     this.pageLoading = false,
-    this.conversationId = ""
+    this.conversationId = "",
+    this.attachedImagePaths = const []
   });
 
   final GroupedItemScrollController messageListScrollController;
@@ -32,6 +33,7 @@ class ConversationState extends Equatable {
   final String dialogTitle;
   final String dialogMessage;
   final String conversationId;
+  final List<String> attachedImagePaths;
 
   @override
   List<Object> get props => [
@@ -40,7 +42,7 @@ class ConversationState extends Equatable {
     messageTextController, dialogTitle, dialogMessage,
     currentRecipes, checkboxValues,
     messageListScrollController, pageLoading,
-    conversationId
+    conversationId, attachedImagePaths
   ];
 
   ConversationState copyWith({
@@ -57,7 +59,8 @@ class ConversationState extends Equatable {
     List<Recipe>? currentRecipes,
     List<bool>? checkboxValues,
     bool? pageLoading,
-    String? conversationId
+    String? conversationId,
+    List<String>? attachedImagePaths
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -73,7 +76,8 @@ class ConversationState extends Equatable {
       currentRecipes: currentRecipes ?? this.currentRecipes,
       checkboxValues: checkboxValues ?? this.checkboxValues,
       pageLoading: pageLoading ?? this.pageLoading,
-      conversationId: conversationId ?? this.conversationId
+      conversationId: conversationId ?? this.conversationId,
+      attachedImagePaths: attachedImagePaths ?? this.attachedImagePaths
     );
   }
 }

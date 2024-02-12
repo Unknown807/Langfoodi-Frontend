@@ -49,7 +49,7 @@ class AttachRecipeButton extends StatelessWidget {
                                           return CustomIconTile(
                                             padding: null,
                                             icon: Icons.error,
-                                            backgroundColor: Theme.of(context).colorScheme.background,
+                                            backgroundColor: Theme.of(context).colorScheme.surface,
                                             iconColor: Theme.of(context).colorScheme.error,
                                             tileColor: Theme.of(context).colorScheme.error,
                                           );
