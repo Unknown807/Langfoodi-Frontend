@@ -45,7 +45,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     attachedImagePaths.removeAt(event.index);
 
     emit(state.copyWith(
-      attachedImagePaths: attachedImagePaths
+      attachedImagePaths: attachedImagePaths,
+      allowRecipes: attachedImagePaths.isEmpty
     ));
   }
 

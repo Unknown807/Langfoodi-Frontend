@@ -23,6 +23,7 @@ class ImageAttachmentBox extends StatelessWidget {
                   width: double.infinity,
                   height: 60,
                   child: ListView.separated(
+                    clipBehavior: Clip.none,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: state.attachedImagePaths.length,
