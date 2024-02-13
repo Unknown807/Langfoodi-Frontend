@@ -4,6 +4,7 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
@@ -33,6 +34,7 @@ class ConversationPage extends StatelessWidget {
         context.read<AuthenticationRepository>(),
         context.read<RecipeRepository>(),
         context.read<MessageRepository>(),
+        context.read<ImageRepository>(),
         context.read<NetworkManager>()
       )..add(InitState(convo)),
       child: Scaffold(
