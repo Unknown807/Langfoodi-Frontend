@@ -39,6 +39,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<DetachImage>(_detachImage);
       on<AttachRecipes>(_attachRecipes);
       on<ResetPopupDialog>(_resetPopupDialog);
+      on<CancelRecipeAttachment>(_cancelRecipeAttachment);
    }
 
   final NavigationRepository _navigationRepo;
@@ -55,14 +56,14 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
-  Future<List<HostedImage>?> attemptImageHosting() async {
+  Future<List<HostedImage>?> attemptImageHosting(List<String> imagePaths) async {
     List<HostedImage> hostedImages = [];
     Signature? uploadSignature = await _imageRepo.getSignature();
     if (uploadSignature == null) return null;
 
     bool uploadSuccess = true;
     final uploadContract = SignedUploadContract(uploadSignature.signature, uploadSignature.timeStamp);
-    for (String imagePath in state.attachedImagePaths) {
+    for (String imagePath in imagePaths) {
       HostedImage? hostedImage = await _imageRepo.uploadImage(imagePath, uploadContract);
       if (hostedImage == null) {
         uploadSuccess = false;
@@ -109,8 +110,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     state.messageTextController.clear();
 
     List<HostedImage>? hostedImages;
-    if (state.attachedImagePaths.isNotEmpty) {
-      hostedImages = await attemptImageHosting();
+    if (attachedImagePaths.isNotEmpty) {
+      hostedImages = await attemptImageHosting(attachedImagePaths);
       if (hostedImages == null) {
         return emit(state.copyWith(
           sendingMessage: false,
@@ -125,8 +126,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       senderId: state.senderId,
       text: textContent.isNotEmpty ? textContent : null,
       imageURLs: hostedImages?.map((i) => i.publicId).toList(),
-      recipeIds: state.attachedRecipes.isNotEmpty
-        ? state.attachedRecipes.map((r) => r.id).toList()
+      recipeIds: attachedRecipes.isNotEmpty
+        ? attachedRecipes.map((r) => r.id).toList()
         : null,
       //TODO: replied message Id to be added here
     );
@@ -194,6 +195,19 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
+  void _cancelRecipeAttachment(CancelRecipeAttachment event, Emitter<ConversationState> emit) {
+    List<bool> checkboxValues = List.generate(state.checkboxValues.length, (_) => false);
+    for (int i = 0; i < state.currentRecipes.length; i++) {
+      if (state.attachedRecipes.contains(state.currentRecipes[i])) {
+        checkboxValues[i] = true;
+      }
+    }
+
+    emit(state.copyWith(
+      checkboxValues: checkboxValues
+    ));
+  }
+
   void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
     List<String> imagePaths = List.from(state.attachedImagePaths);
     for (var img in event.imageFiles) {
@@ -225,6 +239,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
         currentRecipes: currentRecipes,
+        attachedRecipes: [],
         checkboxValues: List.generate(currentRecipes.length, (_) => false),
       ));
     }

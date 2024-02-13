@@ -97,6 +97,9 @@ class AttachRecipeButton extends StatelessWidget {
                               )
                         )
                       ),
+                      leftButtonCallback: () => context
+                        .read<ConversationBloc>()
+                        .add(const CancelRecipeAttachment()),
                       rightButtonText: "Select",
                       rightButtonCallback: () => context
                         .read<ConversationBloc>()

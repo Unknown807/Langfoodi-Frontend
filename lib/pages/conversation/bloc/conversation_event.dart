@@ -40,6 +40,10 @@ final class AttachRecipes extends ConversationEvent {
   const AttachRecipes();
 }
 
+final class CancelRecipeAttachment extends ConversationEvent {
+  const CancelRecipeAttachment();
+}
+
 final class DetachImage extends ConversationEvent {
   const DetachImage(this.index);
 
