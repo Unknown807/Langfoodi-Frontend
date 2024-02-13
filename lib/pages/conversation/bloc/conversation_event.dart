@@ -79,3 +79,12 @@ final class SendMessage extends ConversationEvent {
 final class ResetPopupDialog extends ConversationEvent {
   const ResetPopupDialog();
 }
+
+final class RemoveMessage extends ConversationEvent {
+  const RemoveMessage(this.id);
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}

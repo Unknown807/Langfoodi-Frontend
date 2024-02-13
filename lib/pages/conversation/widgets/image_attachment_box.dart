@@ -55,16 +55,14 @@ class ImageAttachmentBox extends StatelessWidget {
                             )
                           ),
                           Positioned(
-                            top: -5,
-                            right: 5,
-                            child: MaterialButton(
+                            bottom: 25,
+                            right: 25,
+                            child: IconButton(
                               color: Colors.white,
-                              height: 20,
-                              shape: const CircleBorder(),
-                              child: Icon(
+                              icon: Icon(
                                 Icons.cancel_rounded,
                                 color: Theme.of(context).colorScheme.inversePrimary,
-                                size: 20,
+                                size: 25,
                               ),
                               onPressed: () => context
                                 .read<ConversationBloc>()

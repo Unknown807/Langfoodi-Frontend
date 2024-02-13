@@ -40,6 +40,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<AttachRecipes>(_attachRecipes);
       on<ResetPopupDialog>(_resetPopupDialog);
       on<CancelRecipeAttachment>(_cancelRecipeAttachment);
+      on<RemoveMessage>(_removeMessage);
    }
 
   final NavigationRepository _navigationRepo;
@@ -48,6 +49,31 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) async {
+    if (!await _networkManager.isNetworkConnected()) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
+    bool success = await _messageRepo.removeMessage(event.id);
+
+    if (success) {
+      List<Message> messages = List.from(state.messages);
+      messages.removeWhere((msg) => msg.id == event.id);
+
+      emit(state.copyWith(
+        messages: messages,
+      ));
+    } else {
+      emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Could not delete message, please check and try again."
+      ));
+    }
+  }
 
   void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationState> emit) {
     emit(state.copyWith(
@@ -82,8 +108,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
-    bool hasNetwork = await _networkManager.isNetworkConnected();
-    if (!hasNetwork) {
+    if (!await _networkManager.isNetworkConnected()) {
       return emit(state.copyWith(
         dialogTitle: "Oops!",
         dialogMessage: "Network issue encountered, please check your internet connection"
@@ -246,14 +271,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   Future<List<Recipe>> _getCurrentUserRecipesAndReturn() async {
-    bool hasNetwork = await _networkManager.isNetworkConnected();
-    if (!hasNetwork) return [];
+    if (!await _networkManager.isNetworkConnected()) return [];
 
     String? userId = (await _authRepo.currentUser).id;
     return await _recipeRepo.getRecipesFromUserId(userId);
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
+    if (!await _networkManager.isNetworkConnected()) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
     final senderId = (await _authRepo.currentUser).id;
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 
