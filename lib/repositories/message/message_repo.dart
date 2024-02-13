@@ -29,4 +29,9 @@ class MessageRepository {
 
     return Message.fromJsonStr(response.body, jsonWrapper);
   }
+
+  Future<bool> removeMessage(String id) async {
+    final response = await request.delete("/message/delete?id=$id");
+    return response.isOk;
+  }
 }
