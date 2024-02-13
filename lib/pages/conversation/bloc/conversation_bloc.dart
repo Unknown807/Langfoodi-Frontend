@@ -88,6 +88,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       || textContent.isEmpty
       && (state.attachedRecipes.isEmpty && state.attachedImagePaths.isEmpty)) return;
 
+    emit(state.copyWith(sendingMessage: true));
     state.messageTextController.clear();
 
     List<HostedImage>? hostedImages;
@@ -95,6 +96,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       hostedImages = await attemptImageHosting();
       if (hostedImages == null) {
         return emit(state.copyWith(
+          sendingMessage: false,
           dialogTitle: "Oops!",
           dialogMessage: "There was an issue while trying to send your images, please check and try again.",
         ));
@@ -118,6 +120,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       newMessages.add(sentMessage);
 
       emit(state.copyWith(
+        sendingMessage: false,
         messages: newMessages,
         allowImages: true,
         allowRecipes: true,
@@ -131,6 +134,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       }
 
       emit(state.copyWith(
+        sendingMessage: false,
         dialogTitle: "Oops!",
         dialogMessage: "There was an issue sending your message, please check and try again.",
       ));

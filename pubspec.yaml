@@ -51,6 +51,7 @@ dependencies:
   sticky_grouped_list: ^3.1.0
   bubble: ^1.2.1
   carousel_slider: ^4.2.1
+  loading_animation_widget: ^1.2.0+4
 
 dev_dependencies:
   integration_test:
