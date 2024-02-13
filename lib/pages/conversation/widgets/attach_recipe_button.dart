@@ -8,7 +8,9 @@ class AttachRecipeButton extends StatelessWidget {
     return BlocBuilder<ConversationBloc, ConversationState>(
       buildWhen: (p, c) =>
         p.currentRecipes != c.currentRecipes
-        || p.allowRecipes != c.allowRecipes,
+        || p.pageLoading != c.pageLoading
+        || p.allowRecipes != c.allowRecipes
+        || p.sendingMessage != c.sendingMessage,
       builder: (context, state) {
         return IconButton(
           padding: const EdgeInsets.only(left: 5),
@@ -17,9 +19,12 @@ class AttachRecipeButton extends StatelessWidget {
           disabledColor: Theme.of(context).hintColor,
           color: Theme.of(context).colorScheme.tertiary,
           icon: const Icon(Icons.fastfood),
-          onPressed: state.currentRecipes.isEmpty || !state.allowRecipes
-            ? null
-            : () {
+          onPressed: state.currentRecipes.isEmpty
+            || !state.allowRecipes
+            || state.sendingMessage
+            || state.pageLoading
+              ? null
+              : () {
                 showDialog(
                   barrierDismissible: false,
                   context: context,
@@ -99,7 +104,7 @@ class AttachRecipeButton extends StatelessWidget {
                     )
                   )
                 );
-          }
+              }
         );
       }
     );

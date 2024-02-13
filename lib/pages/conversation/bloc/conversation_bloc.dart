@@ -34,7 +34,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
       on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
       on<AttachImages>(_attachImagesToMessage);
-      on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
       on<SetCheckboxValue>(_setCheckboxValue);
       on<ScrollToMessage>(_scrollToMessage);
       on<SendMessage>(_sendMessage);
@@ -84,11 +83,22 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     }
 
     String textContent = state.messageTextController.text;
-    if (state.pageLoading
-      || textContent.isEmpty
-      && (state.attachedRecipes.isEmpty && state.attachedImagePaths.isEmpty)) return;
+    List<Recipe> attachedRecipes = List.from(state.attachedRecipes);
+    List<String> attachedImagePaths = List.from(state.attachedImagePaths);
 
-    emit(state.copyWith(sendingMessage: true));
+    if (state.pageLoading
+      || state.sendingMessage
+      || textContent.isEmpty
+      && (attachedRecipes.isEmpty && attachedImagePaths.isEmpty)) return;
+
+    emit(state.copyWith(
+      sendingMessage: true,
+      allowImages: true,
+      allowRecipes: true,
+      attachedImagePaths: [],
+      attachedRecipes: [],
+      checkboxValues: List.generate(state.currentRecipes.length, (_) => false),
+    ));
     state.messageTextController.clear();
 
     List<HostedImage>? hostedImages;
@@ -122,11 +132,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       emit(state.copyWith(
         sendingMessage: false,
         messages: newMessages,
-        allowImages: true,
-        allowRecipes: true,
-        attachedRecipes: [],
-        attachedImagePaths: [],
-        checkboxValues: List.generate(state.currentRecipes.length, (_) => false)
       ));
     } else {
       if (hostedImages != null) {
@@ -205,26 +210,24 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       arguments: event.arguments) as RecipeInteractionPageResponseArguments?;
 
     if (result != null) {
+      emit(state.copyWith(pageLoading: true));
+      List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
+
       emit(state.copyWith(
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
+        currentRecipes: currentRecipes,
+        pageLoading: false
       ));
     }
   }
 
   Future<List<Recipe>> _getCurrentUserRecipesAndReturn() async {
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) return [];
+
     String? userId = (await _authRepo.currentUser).id;
     return await _recipeRepo.getRecipesFromUserId(userId);
-  }
-
-  void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogTitle: "", dialogMessage: ""));
-    bool hasNetwork = await _networkManager.isNetworkConnected();
-    if (!hasNetwork) return;
-
-    emit(state.copyWith(pageLoading: true));
-    List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
-    emit(state.copyWith(currentRecipes: currentRecipes, pageLoading: false));
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {

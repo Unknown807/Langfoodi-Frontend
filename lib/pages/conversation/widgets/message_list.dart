@@ -16,9 +16,9 @@ class MessageList extends StatelessWidget {
                 title: Text(state.dialogTitle),
                 content: Text(state.dialogMessage),
                 leftButtonText: null,
-                rightButtonCallback: () => context
-                  .read<ConversationBloc>()
-                  .add(const GetCurrentUserRecipes())
+                rightButtonCallback: () {
+                  //if ()
+                }
               )
             )
           );

@@ -68,10 +68,6 @@ final class ScrollToMessage extends ConversationEvent {
   List<Object> get props => [id];
 }
 
-final class GetCurrentUserRecipes extends ConversationEvent {
-  const GetCurrentUserRecipes();
-}
-
 final class ChangeMessagesToDisplay extends ConversationEvent {
   const ChangeMessagesToDisplay();
 }
