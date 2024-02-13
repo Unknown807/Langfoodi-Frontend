@@ -55,11 +55,13 @@ class ImageAttachmentBox extends StatelessWidget {
                             )
                           ),
                           Positioned(
-                            bottom: 25,
-                            right: 25,
-                            child: IconButton(
-                              splashRadius: 1,
-                              icon: Icon(
+                            top: -5,
+                            right: 5,
+                            child: MaterialButton(
+                              color: Colors.white,
+                              height: 20,
+                              shape: const CircleBorder(),
+                              child: Icon(
                                 Icons.cancel_rounded,
                                 color: Theme.of(context).colorScheme.inversePrimary,
                                 size: 20,

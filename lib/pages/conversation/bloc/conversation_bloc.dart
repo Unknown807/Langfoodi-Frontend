@@ -86,8 +86,9 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     String textContent = state.messageTextController.text;
     if (state.pageLoading
       || textContent.isEmpty
-      || state.attachedRecipes.isEmpty
-      || state.attachedImagePaths.isEmpty) return;
+      && (state.attachedRecipes.isEmpty && state.attachedImagePaths.isEmpty)) return;
+
+    state.messageTextController.clear();
 
     List<HostedImage>? hostedImages;
     if (state.attachedImagePaths.isNotEmpty) {
@@ -115,8 +116,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     if (sentMessage != null) {
       List<Message> newMessages = List.from(state.messages);
       newMessages.add(sentMessage);
-
-      state.messageTextController.clear();
 
       emit(state.copyWith(
         messages: newMessages,

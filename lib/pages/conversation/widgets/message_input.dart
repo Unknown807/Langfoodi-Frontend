@@ -15,9 +15,7 @@ class MessageInput extends StatelessWidget {
           boxDecorationType: FormInputBoxDecorationType.roundedTextArea,
           fontSize: 14,
           maxLines: 1,
-          eventFunc: (value) {
-            print(value);
-          }
+          eventFunc: (_) {}
         );
       }
     );
