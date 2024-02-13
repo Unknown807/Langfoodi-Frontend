@@ -278,6 +278,13 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
+    if (!await _networkManager.isNetworkConnected()) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection"
+      ));
+    }
+
     final senderId = (await _authRepo.currentUser).id;
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 
