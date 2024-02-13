@@ -63,25 +63,52 @@ class MessageList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     if (isSentByMe)
-                      Bubble(
-                        nipWidth: 3,
-                        elevation: 5,
-                        margin: BubbleEdges.only(
-                          left: MediaQuery.of(context).size.width*0.25,
-                          top: 10,
-                        ),
-                        padding: const BubbleEdges.all(12),
-                        color: Theme.of(context).colorScheme.primary.withGreen(190),
-                        nip: BubbleNip.rightTop,
-                        alignment: Alignment.centerRight,
-                        child: ChatBubbleContent(
-                          isSentByMe: isSentByMe,
-                          message: message,
-                          repliedMessage: state.messages
-                            .cast<Message?>()
-                            .firstWhere(
-                              (msg) => msg!.id == message.repliedToMessageId,
-                              orElse: () => null)
+                      ContextMenuArea(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        builder: (_) => [
+                          BlocProvider<ConversationBloc>.value(
+                            value: BlocProvider.of<ConversationBloc>(context),
+                            child: ListTile(
+                              title: const Text("Remove"),
+                              onTap: () {
+                                context.read<NavigationRepository>().dismissDialog(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => BlocProvider<ConversationBloc>.value(
+                                    value: BlocProvider.of<ConversationBloc>(context),
+                                    child: CustomAlertDialog(
+                                      title: const Text("Remove Message"),
+                                      content: const Text("Are you sure you want to remove this message?"),
+                                      rightButtonCallback: () => context
+                                        .read<ConversationBloc>()
+                                        .add(RemoveMessage(message.id))
+                                    ),
+                                  )
+                                );
+                              }
+                            ),
+                          )
+                        ],
+                        child: Bubble(
+                          nipWidth: 3,
+                          elevation: 5,
+                          margin: BubbleEdges.only(
+                            left: MediaQuery.of(context).size.width*0.25,
+                            top: 10,
+                          ),
+                          padding: const BubbleEdges.all(12),
+                          color: Theme.of(context).colorScheme.primary.withGreen(190),
+                          nip: BubbleNip.rightTop,
+                          alignment: Alignment.centerRight,
+                          child: ChatBubbleContent(
+                            isSentByMe: isSentByMe,
+                            message: message,
+                            repliedMessage: state.messages
+                              .cast<Message?>()
+                              .firstWhere(
+                                (msg) => msg!.id == message.repliedToMessageId,
+                                orElse: () => null)
+                          )
                         )
                       ),
                     if (!isSentByMe)

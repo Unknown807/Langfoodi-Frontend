@@ -40,6 +40,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<AttachRecipes>(_attachRecipes);
       on<ResetPopupDialog>(_resetPopupDialog);
       on<CancelRecipeAttachment>(_cancelRecipeAttachment);
+      on<RemoveMessage>(_removeMessage);
    }
 
   final NavigationRepository _navigationRepo;
@@ -48,6 +49,10 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) {
+    print(event.id);
+  }
 
   void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationState> emit) {
     emit(state.copyWith(
