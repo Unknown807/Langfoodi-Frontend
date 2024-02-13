@@ -36,6 +36,10 @@ final class AttachImages extends ConversationEvent {
   List<Object> get props => [imageFiles];
 }
 
+final class AttachRecipes extends ConversationEvent {
+  const AttachRecipes();
+}
+
 final class DetachImage extends ConversationEvent {
   const DetachImage(this.index);
 

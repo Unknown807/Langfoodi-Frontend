@@ -32,6 +32,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     on<ScrollToMessage>(_scrollToMessage);
     on<SendMessage>(_sendMessage);
     on<DetachImage>(_detachImage);
+    on<AttachRecipes>(_attachRecipes);
   }
 
   final NavigationRepository _navigationRepo;
@@ -104,6 +105,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
+  void _attachRecipes(AttachRecipes event, Emitter<ConversationState> emit) {
+    List<Recipe> attachedRecipes = [];
+    for (int i = 0; i < state.currentRecipes.length; i++) {
+      if (state.checkboxValues[i]) {
+        attachedRecipes.add(state.currentRecipes[i]);
+      }
+    }
+
+    emit(state.copyWith(
+      attachedRecipes: attachedRecipes,
+      allowImages: attachedRecipes.isEmpty
+    ));
+  }
+
   void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
     List<String> imagePaths = List.from(state.attachedImagePaths);
     for (var img in event.imageFiles) {
@@ -113,7 +128,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     }
 
     emit(state.copyWith(
-      attachedImagePaths: imagePaths
+      attachedImagePaths: imagePaths,
+      allowRecipes: imagePaths.isEmpty
     ));
   }
 

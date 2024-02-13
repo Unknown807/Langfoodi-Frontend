@@ -67,6 +67,7 @@ class ConversationPage extends StatelessWidget {
           children: [
             Expanded(flex: 8, child: MessageList()),
             ImageAttachmentBox(),
+            RecipeAttachmentBox(),
             Row(
               children: [
                 Expanded(flex: 1, child: AttachRecipeButton()),
