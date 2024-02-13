@@ -15,7 +15,12 @@ class ConversationState extends Equatable {
     this.currentRecipes = const [],
     this.checkboxValues = const [],
     this.pageLoading = false,
-    this.conversationId = ""
+    this.conversationId = "",
+    this.attachedImagePaths = const [],
+    this.attachedRecipes = const [],
+    this.allowImages = true,
+    this.allowRecipes = true,
+    this.sendingMessage = false
   });
 
   final GroupedItemScrollController messageListScrollController;
@@ -32,6 +37,11 @@ class ConversationState extends Equatable {
   final String dialogTitle;
   final String dialogMessage;
   final String conversationId;
+  final List<String> attachedImagePaths;
+  final List<Recipe> attachedRecipes;
+  final bool allowImages;
+  final bool allowRecipes;
+  final bool sendingMessage;
 
   @override
   List<Object> get props => [
@@ -40,7 +50,8 @@ class ConversationState extends Equatable {
     messageTextController, dialogTitle, dialogMessage,
     currentRecipes, checkboxValues,
     messageListScrollController, pageLoading,
-    conversationId
+    conversationId, attachedImagePaths, allowImages,
+    allowRecipes, attachedRecipes, sendingMessage
   ];
 
   ConversationState copyWith({
@@ -57,7 +68,12 @@ class ConversationState extends Equatable {
     List<Recipe>? currentRecipes,
     List<bool>? checkboxValues,
     bool? pageLoading,
-    String? conversationId
+    String? conversationId,
+    List<String>? attachedImagePaths,
+    bool? allowImages,
+    bool? allowRecipes,
+    List<Recipe>? attachedRecipes,
+    bool? sendingMessage
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -73,7 +89,12 @@ class ConversationState extends Equatable {
       currentRecipes: currentRecipes ?? this.currentRecipes,
       checkboxValues: checkboxValues ?? this.checkboxValues,
       pageLoading: pageLoading ?? this.pageLoading,
-      conversationId: conversationId ?? this.conversationId
+      conversationId: conversationId ?? this.conversationId,
+      attachedImagePaths: attachedImagePaths ?? this.attachedImagePaths,
+      allowImages: allowImages ?? this.allowImages,
+      allowRecipes: allowRecipes ?? this.allowRecipes,
+      attachedRecipes: attachedRecipes ?? this.attachedRecipes,
+      sendingMessage: sendingMessage ?? this.sendingMessage
     );
   }
 }

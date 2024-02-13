@@ -36,6 +36,23 @@ final class AttachImages extends ConversationEvent {
   List<Object> get props => [imageFiles];
 }
 
+final class AttachRecipes extends ConversationEvent {
+  const AttachRecipes();
+}
+
+final class CancelRecipeAttachment extends ConversationEvent {
+  const CancelRecipeAttachment();
+}
+
+final class DetachImage extends ConversationEvent {
+  const DetachImage(this.index);
+
+  final int index;
+
+  @override
+  List<Object> get props => [index];
+}
+
 final class SetCheckboxValue extends ConversationEvent {
   const SetCheckboxValue(this.index, this.value);
 
@@ -55,14 +72,10 @@ final class ScrollToMessage extends ConversationEvent {
   List<Object> get props => [id];
 }
 
-final class GetCurrentUserRecipes extends ConversationEvent {
-  const GetCurrentUserRecipes();
-}
-
-final class ChangeMessagesToDisplay extends ConversationEvent {
-  const ChangeMessagesToDisplay();
-}
-
 final class SendMessage extends ConversationEvent {
   const SendMessage();
+}
+
+final class ResetPopupDialog extends ConversationEvent {
+  const ResetPopupDialog();
 }

@@ -5,13 +5,21 @@ class MessageSendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      splashRadius: 20,
-      color: Theme.of(context).colorScheme.primary,
-      icon: const Icon(Icons.send),
-      onPressed: () => context
-        .read<ConversationBloc>()
-        .add(const SendMessage())
+    return BlocBuilder<ConversationBloc, ConversationState>(
+      buildWhen: (p, c) =>
+        p.sendingMessage != c.sendingMessage
+        || p.pageLoading != c.pageLoading,
+      builder: (context, state) {
+        return IconButton(
+          splashRadius: 20,
+          color: Theme.of(context).colorScheme.primary,
+          disabledColor: Theme.of(context).hintColor,
+          icon: const Icon(Icons.send),
+          onPressed: state.sendingMessage || state.pageLoading ? null : () => context
+            .read<ConversationBloc>()
+            .add(const SendMessage())
+        );
+      },
     );
   }
 }

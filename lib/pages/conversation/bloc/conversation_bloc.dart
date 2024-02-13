@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_response_arguments.dart';
@@ -19,25 +20,66 @@ part 'conversation_event.dart';
 part 'conversation_state.dart';
 
 class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
-  ConversationBloc(this._navigationRepo, this._authRepo, this._recipeRepo, this._messageRepo, this._networkManager) : super(ConversationState(
-    messageTextController: TextEditingController(),
-    messageListScrollController: GroupedItemScrollController()
-  )) {
-    on<InitState>(_initState);
-    on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
-    on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
-    on<AttachImages>(_attachImagesToMessage);
-    on<GetCurrentUserRecipes>(_getCurrentUserRecipes);
-    on<SetCheckboxValue>(_setCheckboxValue);
-    on<ScrollToMessage>(_scrollToMessage);
-    on<SendMessage>(_sendMessage);
-  }
+  ConversationBloc(
+    this._navigationRepo,
+    this._authRepo,
+    this._recipeRepo,
+    this._messageRepo,
+    this._imageRepo,
+    this._networkManager) : super(ConversationState(
+      messageTextController: TextEditingController(),
+      messageListScrollController: GroupedItemScrollController()
+    )) {
+      on<InitState>(_initState);
+      on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
+      on<AttachImages>(_attachImagesToMessage);
+      on<SetCheckboxValue>(_setCheckboxValue);
+      on<ScrollToMessage>(_scrollToMessage);
+      on<SendMessage>(_sendMessage);
+      on<DetachImage>(_detachImage);
+      on<AttachRecipes>(_attachRecipes);
+      on<ResetPopupDialog>(_resetPopupDialog);
+      on<CancelRecipeAttachment>(_cancelRecipeAttachment);
+   }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
+  final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationState> emit) {
+    emit(state.copyWith(
+      dialogTitle: "",
+      dialogMessage: "",
+    ));
+  }
+
+  Future<List<HostedImage>?> attemptImageHosting(List<String> imagePaths) async {
+    List<HostedImage> hostedImages = [];
+    Signature? uploadSignature = await _imageRepo.getSignature();
+    if (uploadSignature == null) return null;
+
+    bool uploadSuccess = true;
+    final uploadContract = SignedUploadContract(uploadSignature.signature, uploadSignature.timeStamp);
+    for (String imagePath in imagePaths) {
+      HostedImage? hostedImage = await _imageRepo.uploadImage(imagePath, uploadContract);
+      if (hostedImage == null) {
+        uploadSuccess = false;
+        break;
+      }
+
+      hostedImages.add(hostedImage);
+    }
+
+    if (!uploadSuccess) {
+      await _imageRepo.removeImages(hostedImages.map((i) => i.publicId).toList());
+      return null;
+    }
+
+    return hostedImages;
+  }
 
   void _sendMessage(SendMessage event, Emitter<ConversationState> emit) async {
     bool hasNetwork = await _networkManager.isNetworkConnected();
@@ -48,32 +90,78 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       ));
     }
 
-    //TODO: add checks for recipeIds and imageURLs in here as well, can't send an empty message
     String textContent = state.messageTextController.text;
-    if (state.pageLoading || textContent.isEmpty) return;
+    List<Recipe> attachedRecipes = List.from(state.attachedRecipes);
+    List<String> attachedImagePaths = List.from(state.attachedImagePaths);
+
+    if (state.pageLoading
+      || state.sendingMessage
+      || textContent.isEmpty
+      && (attachedRecipes.isEmpty && attachedImagePaths.isEmpty)) return;
+
+    emit(state.copyWith(
+      sendingMessage: true,
+      allowImages: true,
+      allowRecipes: true,
+      attachedImagePaths: [],
+      attachedRecipes: [],
+      checkboxValues: List.generate(state.currentRecipes.length, (_) => false),
+    ));
+    state.messageTextController.clear();
+
+    List<HostedImage>? hostedImages;
+    if (attachedImagePaths.isNotEmpty) {
+      hostedImages = await attemptImageHosting(attachedImagePaths);
+      if (hostedImages == null) {
+        return emit(state.copyWith(
+          sendingMessage: false,
+          dialogTitle: "Oops!",
+          dialogMessage: "There was an issue while trying to send your images, please check and try again.",
+        ));
+      }
+    }
 
     NewMessageContract contract = NewMessageContract(
       conversationId: state.conversationId,
       senderId: state.senderId,
       text: textContent.isNotEmpty ? textContent : null,
-      //TODO: recipeIds and imageURLs and replied message Id to be added here
+      imageURLs: hostedImages?.map((i) => i.publicId).toList(),
+      recipeIds: attachedRecipes.isNotEmpty
+        ? attachedRecipes.map((r) => r.id).toList()
+        : null,
+      //TODO: replied message Id to be added here
     );
     Message? sentMessage = await _messageRepo.sendMessage(contract);
 
     if (sentMessage != null) {
       List<Message> newMessages = List.from(state.messages);
       newMessages.add(sentMessage);
-      state.messageTextController.clear();
 
       emit(state.copyWith(
+        sendingMessage: false,
         messages: newMessages,
       ));
     } else {
+      if (hostedImages != null) {
+        await _imageRepo.removeImages(hostedImages.map((i) => i.publicId).toList());
+      }
+
       emit(state.copyWith(
+        sendingMessage: false,
         dialogTitle: "Oops!",
-        dialogMessage: "There as an issue sending your message, please check and try again.",
+        dialogMessage: "There was an issue sending your message, please check and try again.",
       ));
     }
+  }
+
+  void _detachImage(DetachImage event, Emitter<ConversationState> emit) {
+    List<String> attachedImagePaths = List.from(state.attachedImagePaths);
+    attachedImagePaths.removeAt(event.index);
+
+    emit(state.copyWith(
+        attachedImagePaths: attachedImagePaths,
+        allowRecipes: attachedImagePaths.isEmpty
+    ));
   }
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
@@ -93,10 +181,45 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
-  void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
-    for (var img in event.imageFiles) {
-      print(img.path);
+  void _attachRecipes(AttachRecipes event, Emitter<ConversationState> emit) {
+    List<Recipe> attachedRecipes = [];
+    for (int i = 0; i < state.currentRecipes.length; i++) {
+      if (state.checkboxValues[i]) {
+        attachedRecipes.add(state.currentRecipes[i]);
+      }
     }
+
+    emit(state.copyWith(
+      attachedRecipes: attachedRecipes,
+      allowImages: attachedRecipes.isEmpty
+    ));
+  }
+
+  void _cancelRecipeAttachment(CancelRecipeAttachment event, Emitter<ConversationState> emit) {
+    List<bool> checkboxValues = List.generate(state.checkboxValues.length, (_) => false);
+    for (int i = 0; i < state.currentRecipes.length; i++) {
+      if (state.attachedRecipes.contains(state.currentRecipes[i])) {
+        checkboxValues[i] = true;
+      }
+    }
+
+    emit(state.copyWith(
+      checkboxValues: checkboxValues
+    ));
+  }
+
+  void _attachImagesToMessage(AttachImages event, Emitter<ConversationState> emit) {
+    List<String> imagePaths = List.from(state.attachedImagePaths);
+    for (var img in event.imageFiles) {
+      if (!imagePaths.contains(img.path)) {
+        imagePaths.add(img.path);
+      }
+    }
+
+    emit(state.copyWith(
+      attachedImagePaths: imagePaths,
+      allowRecipes: imagePaths.isEmpty
+    ));
   }
 
   void _goToInteractionPageAndExpectResult(GoToInteractionPageAndExpectResult event, Emitter<ConversationState> emit) async {
@@ -108,33 +231,33 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       arguments: event.arguments) as RecipeInteractionPageResponseArguments?;
 
     if (result != null) {
+      emit(state.copyWith(pageLoading: true));
+      List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
+
       emit(state.copyWith(
+        pageLoading: false,
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
+        currentRecipes: currentRecipes,
+        attachedRecipes: [],
+        checkboxValues: List.generate(currentRecipes.length, (_) => false),
       ));
     }
   }
 
   Future<List<Recipe>> _getCurrentUserRecipesAndReturn() async {
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) return [];
+
     String? userId = (await _authRepo.currentUser).id;
     return await _recipeRepo.getRecipesFromUserId(userId);
-  }
-
-  void _getCurrentUserRecipes(GetCurrentUserRecipes event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogTitle: "", dialogMessage: ""));
-    bool hasNetwork = await _networkManager.isNetworkConnected();
-    if (!hasNetwork) return;
-
-    emit(state.copyWith(pageLoading: true));
-    List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
-    emit(state.copyWith(currentRecipes: currentRecipes, pageLoading: false));
   }
 
   void _initState(InitState event, Emitter<ConversationState> emit) async {
     final senderId = (await _authRepo.currentUser).id;
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 
-    List<Message> messages = await _getMessagesFromConversationAndReturn(event.conversation.id);
+    List<Message> messages = await _messageRepo.getMessagesFromConversation(event.conversation.id);
     final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
@@ -152,31 +275,15 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
-  void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogMessage: "", dialogTitle: "", pageLoading: true));
-    List<Message> messages = await _getMessagesFromConversationAndReturn(state.conversationId);
-    final nameColours = _generateNameColours(messages);
-
-    emit(state.copyWith(
-      pageLoading: false,
-      messages: messages,
-      nameColours: nameColours
-    ));
-  }
-
-  Future<List<Message>> _getMessagesFromConversationAndReturn(String conversationId) async {
-    return await _messageRepo.getMessagesFromConversation(conversationId);
-  }
-
   Map<String, Color> _generateNameColours(List<Message> messages) {
     Map<String, Color> nameColours = {};
     for (var msg in messages) {
       nameColours.putIfAbsent(
-          msg.senderId,
-              () {
-            final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
-            return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
-          }
+        msg.senderId,
+        () {
+          final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
+          return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
+        }
       );
     }
 
