@@ -63,32 +63,8 @@ class MessageList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     if (isSentByMe)
-                      ContextMenuArea(
-                        width: MediaQuery.of(context).size.width*0.5,
-                        builder: (_) => [
-                          BlocProvider<ConversationBloc>.value(
-                            value: BlocProvider.of<ConversationBloc>(context),
-                            child: ListTile(
-                              title: const Text("Remove"),
-                              onTap: () {
-                                context.read<NavigationRepository>().dismissDialog(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => BlocProvider<ConversationBloc>.value(
-                                    value: BlocProvider.of<ConversationBloc>(context),
-                                    child: CustomAlertDialog(
-                                      title: const Text("Remove Message"),
-                                      content: const Text("Are you sure you want to remove this message?"),
-                                      rightButtonCallback: () => context
-                                        .read<ConversationBloc>()
-                                        .add(RemoveMessage(message.id))
-                                    ),
-                                  )
-                                );
-                              }
-                            ),
-                          )
-                        ],
+                      RemoveMessageContextMenu(
+                        messageId: message.id,
                         child: Bubble(
                           nipWidth: 3,
                           elevation: 5,
