@@ -31,7 +31,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       messageListScrollController: GroupedItemScrollController()
     )) {
       on<InitState>(_initState);
-      on<ChangeMessagesToDisplay>(_changeMessagesToDisplay);
       on<GoToInteractionPageAndExpectResult>(_goToInteractionPageAndExpectResult);
       on<AttachImages>(_attachImagesToMessage);
       on<SetCheckboxValue>(_setCheckboxValue);
@@ -39,6 +38,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<SendMessage>(_sendMessage);
       on<DetachImage>(_detachImage);
       on<AttachRecipes>(_attachRecipes);
+      on<ResetPopupDialog>(_resetPopupDialog);
    }
 
   final NavigationRepository _navigationRepo;
@@ -47,6 +47,13 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationState> emit) {
+    emit(state.copyWith(
+      dialogTitle: "",
+      dialogMessage: "",
+    ));
+  }
 
   Future<List<HostedImage>?> attemptImageHosting() async {
     List<HostedImage> hostedImages = [];
@@ -214,10 +221,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
       emit(state.copyWith(
+        pageLoading: false,
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
         currentRecipes: currentRecipes,
-        pageLoading: false
+        checkboxValues: List.generate(currentRecipes.length, (_) => false),
       ));
     }
   }
@@ -234,7 +242,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     final senderId = (await _authRepo.currentUser).id;
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 
-    List<Message> messages = await _getMessagesFromConversationAndReturn(event.conversation.id);
+    List<Message> messages = await _messageRepo.getMessagesFromConversation(event.conversation.id);
     final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
@@ -250,22 +258,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       checkboxValues: List.generate(currentRecipes.length, (_) => false),
       pageLoading: false
     ));
-  }
-
-  void _changeMessagesToDisplay(ChangeMessagesToDisplay event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(dialogMessage: "", dialogTitle: "", pageLoading: true));
-    List<Message> messages = await _getMessagesFromConversationAndReturn(state.conversationId);
-    final nameColours = _generateNameColours(messages);
-
-    emit(state.copyWith(
-      pageLoading: false,
-      messages: messages,
-      nameColours: nameColours
-    ));
-  }
-
-  Future<List<Message>> _getMessagesFromConversationAndReturn(String conversationId) async {
-    return await _messageRepo.getMessagesFromConversation(conversationId);
   }
 
   Map<String, Color> _generateNameColours(List<Message> messages) {

@@ -68,10 +68,10 @@ final class ScrollToMessage extends ConversationEvent {
   List<Object> get props => [id];
 }
 
-final class ChangeMessagesToDisplay extends ConversationEvent {
-  const ChangeMessagesToDisplay();
-}
-
 final class SendMessage extends ConversationEvent {
   const SendMessage();
+}
+
+final class ResetPopupDialog extends ConversationEvent {
+  const ResetPopupDialog();
 }
