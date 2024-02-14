@@ -42,6 +42,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<CancelRecipeAttachment>(_cancelRecipeAttachment);
       on<RemoveMessage>(_removeMessage);
       on<ReplyToMessage>(_replyToMessage);
+      on<SearchMessages>(_searchMessages);
    }
 
   final NavigationRepository _navigationRepo;
@@ -200,10 +201,32 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     attachedImagePaths.removeAt(event.index);
 
     emit(state.copyWith(
-        attachedImagePaths: attachedImagePaths,
-        allowRecipes: attachedImagePaths.isEmpty
+      attachedImagePaths: attachedImagePaths,
+      allowRecipes: attachedImagePaths.isEmpty
     ));
   }
+
+  void _searchMessages(SearchMessages event, Emitter<ConversationState> emit) async {
+    final searchTerm = event.searchTerm.toLowerCase();
+    if (searchTerm.isEmpty) return;
+
+    int scrollIndex = -1;
+    final length = state.messages.length;
+    for (int i=0; i<length; i++) {
+      final text = state.messages[i].textContent;
+      if (text != null && text.toLowerCase().contains(searchTerm)) {
+        scrollIndex = length - i - 2;
+        break;
+      }
+    }
+    if (scrollIndex < 0) return;
+
+    state.messageListScrollController.scrollTo(
+      duration: const Duration(milliseconds: 200),
+      index: scrollIndex,
+    );
+  }
+
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
