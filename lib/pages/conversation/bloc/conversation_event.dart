@@ -5,7 +5,7 @@ sealed class ConversationEvent extends Equatable {
   const ConversationEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class InitState extends ConversationEvent {
@@ -87,4 +87,13 @@ final class RemoveMessage extends ConversationEvent {
 
   @override
   List<Object> get props => [id];
+}
+
+final class ReplyToMessage extends ConversationEvent {
+  const ReplyToMessage(this.message);
+
+  final Message? message;
+
+  @override
+  List<Object?> get props => [message];
 }

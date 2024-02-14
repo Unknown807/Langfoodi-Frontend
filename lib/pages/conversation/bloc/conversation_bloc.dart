@@ -41,6 +41,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ResetPopupDialog>(_resetPopupDialog);
       on<CancelRecipeAttachment>(_cancelRecipeAttachment);
       on<RemoveMessage>(_removeMessage);
+      on<ReplyToMessage>(_replyToMessage);
    }
 
   final NavigationRepository _navigationRepo;
@@ -49,6 +50,10 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
+    emit(state.copyWith(repliedMessage: event.message));
+  }
 
   void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) async {
     if (!await _networkManager.isNetworkConnected()) {
@@ -191,6 +196,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
+    if (index < 0) index = 0;
+
     state.messageListScrollController.scrollTo(
       duration: const Duration(milliseconds: 200),
       index: index,

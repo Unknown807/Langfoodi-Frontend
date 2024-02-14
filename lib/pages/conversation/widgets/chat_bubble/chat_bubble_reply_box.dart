@@ -10,7 +10,9 @@ class ChatBubbleReplyBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Padding(
+      padding: EdgeInsets.zero,
+      child: GestureDetector(
       onTap: () => context
         .read<ConversationBloc>()
         .add(ScrollToMessage(message.id)),
@@ -43,6 +45,6 @@ class ChatBubbleReplyBox extends StatelessWidget {
           ],
         )
       ),
-    );
+    ));
   }
 }

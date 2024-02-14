@@ -29,7 +29,7 @@ class ConversationPage extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (_) => ConversationBloc(
+      create: (context) => ConversationBloc(
         context.read<NavigationRepository>(),
         context.read<AuthenticationRepository>(),
         context.read<RecipeRepository>(),
@@ -65,12 +65,19 @@ class ConversationPage extends StatelessWidget {
           ],
           onSearchFunc: (term) {print(term);},
         ),
-        body: const Column (
+        body: Column (
           children: [
-            Expanded(flex: 8, child: MessageList()),
-            ImageAttachmentBox(),
-            RecipeAttachmentBox(),
-            Row(
+            const Expanded(flex: 8, child: MessageList()),
+            const ImageAttachmentBox(),
+            const RecipeAttachmentBox(),
+            BlocBuilder<ConversationBloc, ConversationState>(
+              builder: (context, state) {
+                return state.repliedMessage.id.isNotEmpty
+                  ? ChatBubbleReplyBox(message: state.repliedMessage!)
+                  : const SizedBox.shrink();
+              },
+            ),
+            const Row(
               children: [
                 Expanded(flex: 1, child: AttachRecipeButton()),
                 Expanded(flex: 1, child: AttachImageButton()),

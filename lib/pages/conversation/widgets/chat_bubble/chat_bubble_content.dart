@@ -7,6 +7,7 @@ class ChatBubbleContent extends StatelessWidget {
     required this.message,
     this.repliedMessage,
     this.nameColour
+    //TODO: isGroup here
   });
 
   final bool isSentByMe;

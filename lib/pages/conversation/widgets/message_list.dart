@@ -65,9 +65,9 @@ class MessageList extends StatelessWidget {
                     if (isSentByMe)
                       SwipePlus(
                         minThreshold: .5,
-                        onDragComplete: () {
-                          print("dragged you");
-                        },
+                        onDragComplete: () => context
+                          .read<ConversationBloc>()
+                          .add(ReplyToMessage(message)),
                         child: RemoveMessageContextMenu(
                           messageId: message.id,
                           child: Bubble(
@@ -96,9 +96,9 @@ class MessageList extends StatelessWidget {
                     if (!isSentByMe)
                       SwipePlus(
                         minThreshold: .5,
-                        onDragComplete: () {
-                          print("dragged");
-                        },
+                        onDragComplete: () => context
+                          .read<ConversationBloc>()
+                          .add(ReplyToMessage(message)),
                         child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
