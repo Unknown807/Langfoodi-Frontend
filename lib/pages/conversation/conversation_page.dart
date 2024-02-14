@@ -74,6 +74,7 @@ class ConversationPage extends StatelessWidget {
                   ? const SizedBox.shrink()
                   : MessageReplyBox(
                       message: state.repliedMessage!,
+                      isSentByMe: state.repliedMessageIsSentByMe,
                       replying: true,
                     );
               },

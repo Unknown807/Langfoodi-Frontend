@@ -82,6 +82,7 @@ class MessageList extends StatelessWidget {
                             nip: BubbleNip.rightTop,
                             alignment: Alignment.centerRight,
                             child: ChatBubbleContent(
+                              isGroup: state.isGroup,
                               isSentByMe: isSentByMe,
                               message: message,
                               repliedMessage: state.messages
@@ -120,6 +121,7 @@ class MessageList extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary.withRed(235),
                             nip: BubbleNip.leftTop,
                             child: ChatBubbleContent(
+                              isGroup: state.isGroup,
                               nameColour: state.nameColours[message.senderId],
                               isSentByMe: isSentByMe,
                               message: message,

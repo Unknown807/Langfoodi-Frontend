@@ -5,10 +5,12 @@ class MessageReplyBox extends StatelessWidget {
     super.key,
     required this.message,
     this.replying = false,
+    this.isSentByMe = false
   });
 
   final Message message;
   final bool replying;
+  final bool isSentByMe;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,14 @@ class MessageReplyBox extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Text(isSentByMe ? "You" : message.senderName,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14
+                        )
+                      ),
+
                       if (message.textContent != null)
                         Text(
                           "${message.textContent!.length >= 20

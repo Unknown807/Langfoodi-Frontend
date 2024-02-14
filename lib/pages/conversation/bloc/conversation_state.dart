@@ -22,6 +22,7 @@ class ConversationState extends Equatable {
     this.allowRecipes = true,
     this.sendingMessage = false,
     this.repliedMessage = const Message("", "", "", [], null, null, "", "", null, null),
+    this.repliedMessageIsSentByMe = false
   });
 
   final GroupedItemScrollController messageListScrollController;
@@ -43,6 +44,7 @@ class ConversationState extends Equatable {
   final bool allowImages;
   final bool allowRecipes;
   final bool sendingMessage;
+  final bool repliedMessageIsSentByMe;
   final Message repliedMessage;
 
   @override
@@ -54,7 +56,7 @@ class ConversationState extends Equatable {
     messageListScrollController, pageLoading,
     conversationId, attachedImagePaths, allowImages,
     allowRecipes, attachedRecipes, sendingMessage,
-    repliedMessage
+    repliedMessage, repliedMessageIsSentByMe
   ];
 
   ConversationState copyWith({
@@ -77,7 +79,8 @@ class ConversationState extends Equatable {
     bool? allowRecipes,
     List<Recipe>? attachedRecipes,
     bool? sendingMessage,
-    Message? repliedMessage
+    Message? repliedMessage,
+    bool? repliedMessageIsSentByMe
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -99,7 +102,8 @@ class ConversationState extends Equatable {
       allowRecipes: allowRecipes ?? this.allowRecipes,
       attachedRecipes: attachedRecipes ?? this.attachedRecipes,
       sendingMessage: sendingMessage ?? this.sendingMessage,
-      repliedMessage: repliedMessage ?? this.repliedMessage
+      repliedMessage: repliedMessage ?? this.repliedMessage,
+      repliedMessageIsSentByMe: repliedMessageIsSentByMe ?? this.repliedMessageIsSentByMe
     );
   }
 }

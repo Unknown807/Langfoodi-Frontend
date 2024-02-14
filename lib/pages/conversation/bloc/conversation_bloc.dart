@@ -52,7 +52,10 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final NetworkManager _networkManager;
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(repliedMessage: event.message ?? const Message("", "", "", [], null, null, "", "", null, null)));
+    emit(state.copyWith(
+      repliedMessage: event.message ?? const Message("", "", "", [], null, null, "", "", null, null),
+      repliedMessageIsSentByMe: state.senderId == event.message?.senderId
+    ));
   }
 
   void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) async {
@@ -268,6 +271,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
       emit(state.copyWith(
         pageLoading: false,
+        allowImages: true,
+        allowRecipes: true,
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
         currentRecipes: currentRecipes,
