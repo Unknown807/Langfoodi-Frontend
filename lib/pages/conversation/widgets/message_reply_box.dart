@@ -15,13 +15,13 @@ class MessageReplyBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: replying ? const EdgeInsets.fromLTRB(8, 5, 8, 0) : EdgeInsets.zero,
+        padding: replying ? const EdgeInsets.fromLTRB(8, 5, 6, 0) : EdgeInsets.zero,
         child: GestureDetector(
           onTap: () => context.read<ConversationBloc>().add(ScrollToMessage(message.id)),
           child: Container(
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 4),
-              padding: const EdgeInsets.fromLTRB(6, 4, 0, 4),
+              padding: const EdgeInsets.fromLTRB(6, 4, 8, 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Theme.of(context).colorScheme.background.withAlpha(150),
@@ -66,7 +66,9 @@ class MessageReplyBox extends StatelessWidget {
                       color: Theme.of(context).colorScheme.inversePrimary,
                       size: 18,
                     ),
-                    onPressed: () {}
+                    onPressed: () => context
+                      .read<ConversationBloc>()
+                      .add(const ReplyToMessage(null))
                   )
               ])),
         ));

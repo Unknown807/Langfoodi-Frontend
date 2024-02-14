@@ -74,6 +74,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
       emit(state.copyWith(
         messages: messages,
+        repliedMessageIsSentByMe: false,
+        repliedMessage: const Message("", "", "", [], null, null, "", "", null, null)
       ));
     } else {
       emit(state.copyWith(
@@ -132,12 +134,18 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       || textContent.isEmpty
       && (attachedRecipes.isEmpty && attachedImagePaths.isEmpty)) return;
 
+    String? messageRepliedToId = state.repliedMessage.id.isNotEmpty
+      ? state.repliedMessage.id
+      : null;
+
     emit(state.copyWith(
       sendingMessage: true,
       allowImages: true,
       allowRecipes: true,
+      repliedMessageIsSentByMe: false,
       attachedImagePaths: [],
       attachedRecipes: [],
+      repliedMessage: const Message("", "", "", [], null, null, "", "", null, null),
       checkboxValues: List.generate(state.currentRecipes.length, (_) => false),
     ));
     state.messageTextController.clear();
@@ -157,12 +165,12 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     NewMessageContract contract = NewMessageContract(
       conversationId: state.conversationId,
       senderId: state.senderId,
+      messageRepliedToId: messageRepliedToId,
       text: textContent.isNotEmpty ? textContent : null,
       imageURLs: hostedImages?.map((i) => i.publicId).toList(),
       recipeIds: attachedRecipes.isNotEmpty
         ? attachedRecipes.map((r) => r.id).toList()
         : null,
-      //TODO: replied message Id to be added here
     );
     Message? sentMessage = await _messageRepo.sendMessage(contract);
 

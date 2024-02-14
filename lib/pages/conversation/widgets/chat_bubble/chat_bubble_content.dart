@@ -26,7 +26,7 @@ class ChatBubbleContent extends StatelessWidget {
           if (repliedMessage != null)
             MessageReplyBox(
               message: repliedMessage!,
-              isSentByMe: repliedMessage!.senderId == message.id && isSentByMe
+              isSentByMe: repliedMessage!.senderId == message.senderId && isSentByMe
             ),
 
           if (!isSentByMe && isGroup)
