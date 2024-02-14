@@ -63,7 +63,7 @@ class _AppView extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Recipe Social Media',
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
+            scaffoldBackgroundColor: const Color.fromRGBO(254, 254, 254, 1),
             primaryColor: const Color.fromRGBO(49, 183, 63, 1),
             colorScheme: ColorScheme(
               brightness: Brightness.light,
@@ -76,7 +76,7 @@ class _AppView extends StatelessWidget {
               inversePrimary: Colors.redAccent,
               error: Colors.red,
               onError: Colors.white,
-              background: Colors.white,
+              background: const Color.fromRGBO(242, 242, 242, 1),
               onBackground: Colors.black,
               surface: Colors.white,
               onSurface: Colors.black,

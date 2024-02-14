@@ -38,32 +38,9 @@ class ConversationPage extends StatelessWidget {
         context.read<NetworkManager>()
       )..add(InitState(convo)),
       child: Scaffold(
-        appBar: CustomSearchAppBar(
-          title: Row(
-            children: [
-              CustomCircleAvatar(
-                avatarIcon: convo.isGroup ? Icons.group : Icons.person,
-                //TODO: status will be refactored eventually
-                //conversationStatus: convo.conversationStatus,
-                avatarIconSize: 25,
-              ),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Text(convo.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)
-                )
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert_rounded),
-              onPressed: () {print("more options pressed");},
-            )
-          ],
-          onSearchFunc: (term) {print(term);},
+        appBar: MessageSearchAppBar(
+          isGroup: convo.isGroup,
+          conversationName: convo.name,
         ),
         body: Column (
           children: [

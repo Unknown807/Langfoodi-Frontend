@@ -97,3 +97,12 @@ final class ReplyToMessage extends ConversationEvent {
   @override
   List<Object?> get props => [message];
 }
+
+final class SearchMessages extends ConversationEvent {
+  const SearchMessages(this.searchTerm);
+
+  final String searchTerm;
+
+  @override
+  List<Object> get props => [searchTerm];
+}
