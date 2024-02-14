@@ -63,9 +63,10 @@ class MessageList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     if (isSentByMe)
-                      ChatBubbleSwiper(
+                      SwipePlus(
+                        minThreshold: .5,
                         onDragComplete: () {
-                          print("complete");
+                          print("dragged you");
                         },
                         child: RemoveMessageContextMenu(
                           messageId: message.id,
@@ -93,7 +94,12 @@ class MessageList extends StatelessWidget {
                         )
                       ),
                     if (!isSentByMe)
-                      Row(
+                      SwipePlus(
+                        minThreshold: .5,
+                        onDragComplete: () {
+                          print("dragged");
+                        },
+                        child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (state.isGroup)
@@ -118,15 +124,14 @@ class MessageList extends StatelessWidget {
                               isSentByMe: isSentByMe,
                               message: message,
                               repliedMessage: state.messages
-                                  .cast<Message?>()
-                                  .firstWhere(
-                                      (msg) => msg!.id == message.repliedToMessageId,
-                                  orElse: () => null
-                              )
+                                .cast<Message?>()
+                                .firstWhere(
+                                  (msg) => msg!.id == message.repliedToMessageId,
+                                  orElse: () => null)
                             ),
                           )),
                         ]
-                      ),
+                      )),
                     if (state.messages.last.id == message.id)
                       const SentMessageProgressIndicator()
                   ],
