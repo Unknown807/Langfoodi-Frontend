@@ -22,7 +22,7 @@ class ChatBubbleContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (repliedMessage != null) ChatBubbleReplyBox(message: repliedMessage!),
+          if (repliedMessage != null) MessageReplyBox(message: repliedMessage!),
           if (!isSentByMe)
             Text(message.senderName,
               style: TextStyle(

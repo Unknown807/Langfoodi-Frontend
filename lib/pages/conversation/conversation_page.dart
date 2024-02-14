@@ -68,15 +68,18 @@ class ConversationPage extends StatelessWidget {
         body: Column (
           children: [
             const Expanded(flex: 8, child: MessageList()),
-            const ImageAttachmentBox(),
-            const RecipeAttachmentBox(),
             BlocBuilder<ConversationBloc, ConversationState>(
               builder: (context, state) {
-                return state.repliedMessage.id.isNotEmpty
-                  ? ChatBubbleReplyBox(message: state.repliedMessage!)
-                  : const SizedBox.shrink();
+                return state.repliedMessage.id.isEmpty
+                  ? const SizedBox.shrink()
+                  : MessageReplyBox(
+                      message: state.repliedMessage!,
+                      replying: true,
+                    );
               },
             ),
+            const ImageAttachmentBox(),
+            const RecipeAttachmentBox(),
             const Row(
               children: [
                 Expanded(flex: 1, child: AttachRecipeButton()),

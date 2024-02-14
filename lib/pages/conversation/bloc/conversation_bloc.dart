@@ -52,7 +52,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final NetworkManager _networkManager;
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
-    emit(state.copyWith(repliedMessage: event.message));
+    emit(state.copyWith(repliedMessage: event.message ?? const Message("", "", "", [], null, null, "", "", null, null)));
   }
 
   void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) async {
