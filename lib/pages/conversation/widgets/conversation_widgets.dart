@@ -22,6 +22,7 @@ export 'conversation_widgets.dart';
 part 'chat_bubble/chat_bubble_content.dart';
 part 'chat_bubble/chat_bubble_image_carousel.dart';
 part 'chat_bubble/chat_bubble_recipe_carousel.dart';
+part 'chat_bubble/chat_bubble_swiper.dart';
 part 'message_input.dart';
 part 'message_list.dart';
 part 'message_send_button.dart';

@@ -63,27 +63,32 @@ class MessageList extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     if (isSentByMe)
-                      RemoveMessageContextMenu(
-                        messageId: message.id,
-                        child: Bubble(
-                          nipWidth: 3,
-                          elevation: 5,
-                          margin: BubbleEdges.only(
-                            left: MediaQuery.of(context).size.width*0.25,
-                            top: 10,
-                          ),
-                          padding: const BubbleEdges.all(12),
-                          color: Theme.of(context).colorScheme.primary.withGreen(190),
-                          nip: BubbleNip.rightTop,
-                          alignment: Alignment.centerRight,
-                          child: ChatBubbleContent(
-                            isSentByMe: isSentByMe,
-                            message: message,
-                            repliedMessage: state.messages
-                              .cast<Message?>()
-                              .firstWhere(
-                                (msg) => msg!.id == message.repliedToMessageId,
-                                orElse: () => null)
+                      ChatBubbleSwiper(
+                        onDragComplete: () {
+                          print("complete");
+                        },
+                        child: RemoveMessageContextMenu(
+                          messageId: message.id,
+                          child: Bubble(
+                            nipWidth: 3,
+                            elevation: 5,
+                            margin: BubbleEdges.only(
+                              left: MediaQuery.of(context).size.width*0.25,
+                              top: 10,
+                            ),
+                            padding: const BubbleEdges.all(12),
+                            color: Theme.of(context).colorScheme.primary.withGreen(190),
+                            nip: BubbleNip.rightTop,
+                            alignment: Alignment.centerRight,
+                            child: ChatBubbleContent(
+                              isSentByMe: isSentByMe,
+                              message: message,
+                              repliedMessage: state.messages
+                                .cast<Message?>()
+                                .firstWhere(
+                                  (msg) => msg!.id == message.repliedToMessageId,
+                                  orElse: () => null)
+                            )
                           )
                         )
                       ),
