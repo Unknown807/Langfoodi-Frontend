@@ -17,6 +17,7 @@ import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:swipe_plus/swipe_plus.dart';
 
 export 'conversation_widgets.dart';
 part 'chat_bubble/chat_bubble_content.dart';
@@ -27,8 +28,9 @@ part 'message_list.dart';
 part 'message_send_button.dart';
 part 'attach_image_button.dart';
 part 'attach_recipe_button.dart';
-part 'chat_bubble/chat_bubble_reply_box.dart';
+part 'message_reply_box.dart';
 part 'chat_bubble/reply_box_attachment.dart';
 part 'image_attachment_box.dart';
 part 'recipe_attachment_box.dart';
 part 'sent_message_progress_indicator.dart';
+part 'remove_message_context_menu.dart';

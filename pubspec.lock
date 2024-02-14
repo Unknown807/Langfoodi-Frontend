@@ -884,6 +884,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  swipe_plus:
+    dependency: "direct main"
+    description:
+      name: swipe_plus
+      sha256: fdad5ea8abf0d6bb75ab7a4a9996cdfb477541e52229cb9bc7b7472204d68c28
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.1"
   sync_http:
     dependency: transitive
     description:

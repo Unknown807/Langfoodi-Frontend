@@ -4,12 +4,14 @@ class ChatBubbleContent extends StatelessWidget {
   const ChatBubbleContent({
     super.key,
     required this.isSentByMe,
+    required this.isGroup,
     required this.message,
     this.repliedMessage,
     this.nameColour
   });
 
   final bool isSentByMe;
+  final bool isGroup;
   final Message message;
   final Message? repliedMessage;
   final Color? nameColour;
@@ -21,8 +23,13 @@ class ChatBubbleContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (repliedMessage != null) ChatBubbleReplyBox(message: repliedMessage!),
-          if (!isSentByMe)
+          if (repliedMessage != null)
+            MessageReplyBox(
+              message: repliedMessage!,
+              isSentByMe: repliedMessage!.senderId == message.senderId && isSentByMe
+            ),
+
+          if (!isSentByMe && isGroup)
             Text(message.senderName,
               style: TextStyle(
                 color: nameColour,

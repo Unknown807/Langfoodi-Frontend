@@ -41,6 +41,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ResetPopupDialog>(_resetPopupDialog);
       on<CancelRecipeAttachment>(_cancelRecipeAttachment);
       on<RemoveMessage>(_removeMessage);
+      on<ReplyToMessage>(_replyToMessage);
    }
 
   final NavigationRepository _navigationRepo;
@@ -49,6 +50,13 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
   final NetworkManager _networkManager;
+
+  void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
+    emit(state.copyWith(
+      repliedMessage: event.message ?? const Message("", "", "", [], null, null, "", "", null, null),
+      repliedMessageIsSentByMe: state.senderId == event.message?.senderId
+    ));
+  }
 
   void _removeMessage(RemoveMessage event, Emitter<ConversationState> emit) async {
     if (!await _networkManager.isNetworkConnected()) {
@@ -66,6 +74,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
       emit(state.copyWith(
         messages: messages,
+        repliedMessageIsSentByMe: false,
+        repliedMessage: const Message("", "", "", [], null, null, "", "", null, null)
       ));
     } else {
       emit(state.copyWith(
@@ -124,12 +134,18 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       || textContent.isEmpty
       && (attachedRecipes.isEmpty && attachedImagePaths.isEmpty)) return;
 
+    String? messageRepliedToId = state.repliedMessage.id.isNotEmpty
+      ? state.repliedMessage.id
+      : null;
+
     emit(state.copyWith(
       sendingMessage: true,
       allowImages: true,
       allowRecipes: true,
+      repliedMessageIsSentByMe: false,
       attachedImagePaths: [],
       attachedRecipes: [],
+      repliedMessage: const Message("", "", "", [], null, null, "", "", null, null),
       checkboxValues: List.generate(state.currentRecipes.length, (_) => false),
     ));
     state.messageTextController.clear();
@@ -149,12 +165,12 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     NewMessageContract contract = NewMessageContract(
       conversationId: state.conversationId,
       senderId: state.senderId,
+      messageRepliedToId: messageRepliedToId,
       text: textContent.isNotEmpty ? textContent : null,
       imageURLs: hostedImages?.map((i) => i.publicId).toList(),
       recipeIds: attachedRecipes.isNotEmpty
         ? attachedRecipes.map((r) => r.id).toList()
         : null,
-      //TODO: replied message Id to be added here
     );
     Message? sentMessage = await _messageRepo.sendMessage(contract);
 
@@ -191,6 +207,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   void _scrollToMessage(ScrollToMessage event, Emitter<ConversationState> _) {
     int index = (state.messages.length - state.messages.indexWhere((msg) => msg.id == event.id)) - 2;
+    if (index < 0) index = 0;
+
     state.messageListScrollController.scrollTo(
       duration: const Duration(milliseconds: 200),
       index: index,
@@ -261,6 +279,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
       emit(state.copyWith(
         pageLoading: false,
+        allowImages: true,
+        allowRecipes: true,
         dialogTitle: result.dialogTitle,
         dialogMessage: result.dialogMessage,
         currentRecipes: currentRecipes,
