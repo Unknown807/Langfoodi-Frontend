@@ -45,6 +45,14 @@ class Request {
       .catchError((error, stackTrace) { return generalExceptionResponse; });
   }
 
+  Future<http.Response> putWithoutBody(String path, {Map<String, String>? headers, String? baseUrl}) async {
+    final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
+    return client.getInstance()
+      .put(url, headers: formatHeaders(headers))
+      .timeout(timeoutDuration, onTimeout: () => timeoutExceptionResponse)
+      .catchError((error, stackTrace) { return generalExceptionResponse; });
+  }
+
   Future<http.Response> postWithoutBody(String path, {Map<String, String>? headers, String? baseUrl}) async {
     final url = Uri.parse((baseUrl ?? this.baseUrl) + path);
     return client.getInstance()
