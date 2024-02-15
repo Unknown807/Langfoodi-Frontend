@@ -4,12 +4,12 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class ConversationPage extends StatelessWidget {
   const ConversationPage({super.key});
@@ -25,7 +25,8 @@ class ConversationPage extends StatelessWidget {
       null,
       false,
       null,
-      0
+      0,
+      ["654bd4d5d33c4cb815358c60", "658af0cf010f1b2b80184588"]
     );
 
     return BlocProvider(
@@ -35,6 +36,7 @@ class ConversationPage extends StatelessWidget {
         context.read<RecipeRepository>(),
         context.read<MessageRepository>(),
         context.read<ImageRepository>(),
+        context.read<ConversationRepository>(),
         context.read<NetworkManager>()
       )..add(InitState(convo)),
       child: Scaffold(

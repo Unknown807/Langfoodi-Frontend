@@ -6,6 +6,7 @@ class ChatBubbleContent extends StatelessWidget {
     required this.isSentByMe,
     required this.isGroup,
     required this.message,
+    required this.userIds,
     this.repliedMessage,
     this.nameColour
   });
@@ -13,11 +14,16 @@ class ChatBubbleContent extends StatelessWidget {
   final bool isSentByMe;
   final bool isGroup;
   final Message message;
+  final List<String> userIds;
   final Message? repliedMessage;
   final Color? nameColour;
 
   @override
   Widget build(BuildContext context) {
+    bool readByAll = isGroup
+      ? userIds.every((userId) => message.seenByUserIds.contains(userId))
+      : message.seenByUserIds.toSet().length == 2;
+
     return IntrinsicWidth(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,16 +54,30 @@ class ChatBubbleContent extends StatelessWidget {
               )
             )),
           const SizedBox(height: 4),
-          IntrinsicHeight(
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Text(DateFormat("HH:mm").format(message.sentDate!),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  fontSize: 10,
-                )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Text(DateFormat("HH:mm").format(message.sentDate!),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 10,
+                  )
+                ),
               ),
-            )
+              const SizedBox(width: 4),
+              if (isSentByMe)
+                Icon(
+                  readByAll
+                    ? Icons.remove_red_eye_rounded
+                    : Icons.remove_red_eye_outlined,
+                  color: readByAll
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Colors.white,
+                  size: 11,
+                )
+            ],
           )
         ],
       ));

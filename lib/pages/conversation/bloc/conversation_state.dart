@@ -22,7 +22,8 @@ class ConversationState extends Equatable {
     this.allowRecipes = true,
     this.sendingMessage = false,
     this.repliedMessage = const Message("", "", "", [], null, null, "", "", null, null),
-    this.repliedMessageIsSentByMe = false
+    this.repliedMessageIsSentByMe = false,
+    this.userIds = const []
   });
 
   final GroupedItemScrollController messageListScrollController;
@@ -46,6 +47,7 @@ class ConversationState extends Equatable {
   final bool sendingMessage;
   final bool repliedMessageIsSentByMe;
   final Message repliedMessage;
+  final List<String> userIds;
 
   @override
   List<Object> get props => [
@@ -56,7 +58,8 @@ class ConversationState extends Equatable {
     messageListScrollController, pageLoading,
     conversationId, attachedImagePaths, allowImages,
     allowRecipes, attachedRecipes, sendingMessage,
-    repliedMessage, repliedMessageIsSentByMe
+    repliedMessage, repliedMessageIsSentByMe,
+    userIds
   ];
 
   ConversationState copyWith({
@@ -80,7 +83,8 @@ class ConversationState extends Equatable {
     List<Recipe>? attachedRecipes,
     bool? sendingMessage,
     Message? repliedMessage,
-    bool? repliedMessageIsSentByMe
+    bool? repliedMessageIsSentByMe,
+    List<String>? userIds,
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -103,7 +107,8 @@ class ConversationState extends Equatable {
       attachedRecipes: attachedRecipes ?? this.attachedRecipes,
       sendingMessage: sendingMessage ?? this.sendingMessage,
       repliedMessage: repliedMessage ?? this.repliedMessage,
-      repliedMessageIsSentByMe: repliedMessageIsSentByMe ?? this.repliedMessageIsSentByMe
+      repliedMessageIsSentByMe: repliedMessageIsSentByMe ?? this.repliedMessageIsSentByMe,
+      userIds: userIds ?? this.userIds
     );
   }
 }

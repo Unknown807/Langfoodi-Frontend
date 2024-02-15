@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
@@ -26,6 +27,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     this._recipeRepo,
     this._messageRepo,
     this._imageRepo,
+    this._conversationRepo,
     this._networkManager) : super(ConversationState(
       messageTextController: TextEditingController(),
       messageListScrollController: GroupedItemScrollController()
@@ -50,6 +52,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final RecipeRepository _recipeRepo;
   final MessageRepository _messageRepo;
   final ImageRepository _imageRepo;
+  final ConversationRepository _conversationRepo;
   final NetworkManager _networkManager;
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
@@ -335,12 +338,16 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     final nameColours = _generateNameColours(messages);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
+    await _conversationRepo.markConversationAsRead(event.conversation.id, senderId);
+    messages.forEach(((msg) => msg.seenByUserIds.add(senderId)));
+
     emit(state.copyWith(
       //TODO: status will be refactored eventually
       //conversationStatus: event.conversationStatus,
       conversationId: event.conversation.id,
       conversationName: event.conversation.name,
       isGroup: event.conversation.isGroup,
+      userIds: event.conversation.userIds,
       messages: messages,
       nameColours: nameColours,
       currentRecipes: currentRecipes,
