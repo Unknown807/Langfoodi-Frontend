@@ -1,9 +1,7 @@
 part of 'conversation_widgets.dart';
 
 class MessageList extends StatelessWidget {
-  MessageList({super.key});
-
-  //final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
+  const MessageList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +18,14 @@ class MessageList extends StatelessWidget {
                 leftButtonText: null,
                 rightButtonCallback: () => context
                   .read<ConversationBloc>()
-                  .add(const ChangeMessagesToDisplay())
+                  .add(const ResetPopupDialog())
               )
             )
           );
         }
       },
       builder: (context, state) {
-        return state.messages.isEmpty
+        return state.pageLoading
           ? const Center(child: CircularProgressIndicator())
           : StickyGroupedListView<Message, DateTime>(
               itemScrollController: state.messageListScrollController,
@@ -36,6 +34,7 @@ class MessageList extends StatelessWidget {
               order: StickyGroupedListOrder.DESC,
               floatingHeader: true,
               elements: state.messages,
+              itemComparator: (m1, m2) => m1.sentDate!.compareTo(m2.sentDate!),
               groupBy: (message) => DateTime(
                 message.sentDate!.year,
                 message.sentDate!.month,
@@ -61,63 +60,86 @@ class MessageList extends StatelessWidget {
               ),
               itemBuilder: (context, message) {
                 bool isSentByMe = message.senderId == state.senderId;
-                return isSentByMe
-                  ? Bubble(
-                      nipWidth: 3,
-                      elevation: 5,
-                      margin: BubbleEdges.only(
-                        left: MediaQuery.of(context).size.width*0.25,
-                        top: 10,
-                      ),
-                      padding: const BubbleEdges.all(12),
-                      color: Theme.of(context).colorScheme.primary.withGreen(190),
-                      nip: BubbleNip.rightTop,
-                      alignment: Alignment.centerRight,
-                      child: ChatBubbleContent(
-                        isSentByMe: isSentByMe,
-                        message: message,
-                        repliedMessage: state.messages
-                          .cast<Message?>()
-                          .firstWhere(
-                            (msg) => msg!.id == message.repliedToMessageId,
-                            orElse: () => null
+                return Column(
+                  children: <Widget>[
+                    if (isSentByMe)
+                      SwipePlus(
+                        minThreshold: .5,
+                        onDragComplete: () => context
+                          .read<ConversationBloc>()
+                          .add(ReplyToMessage(message)),
+                        child: RemoveMessageContextMenu(
+                          messageId: message.id,
+                          child: Bubble(
+                            nipWidth: 3,
+                            elevation: 5,
+                            margin: BubbleEdges.only(
+                              left: MediaQuery.of(context).size.width*0.25,
+                              top: 10,
+                            ),
+                            padding: const BubbleEdges.all(12),
+                            color: Theme.of(context).colorScheme.primary.withGreen(190),
+                            nip: BubbleNip.rightTop,
+                            alignment: Alignment.centerRight,
+                            child: ChatBubbleContent(
+                              userIds: state.userIds,
+                              isGroup: state.isGroup,
+                              isSentByMe: isSentByMe,
+                              message: message,
+                              repliedMessage: state.messages
+                                .cast<Message?>()
+                                .firstWhere(
+                                  (msg) => msg!.id == message.repliedToMessageId,
+                                  orElse: () => null)
+                            )
                           )
-                      )
-                    )
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (state.isGroup)
-                          const CustomCircleAvatar(
-                            avatarIcon: Icons.person,
-                            avatarIconSize: 16,
-                            circleRadiusSize: 13
-                          ),
-                        Flexible(child: Bubble(
-                          nipWidth: 3,
-                          elevation: 5,
-                          margin: BubbleEdges.only(
-                            right: MediaQuery.of(context).size.width*0.20,
-                            top: 10,
-                            left: 5,
-                          ),
-                          padding: const BubbleEdges.all(12),
-                          color: Theme.of(context).colorScheme.secondary.withRed(235),
-                          nip: BubbleNip.leftTop,
-                          child: ChatBubbleContent(
-                            nameColour: state.nameColours[message.senderId],
-                            isSentByMe: isSentByMe,
-                            message: message,
-                            repliedMessage: state.messages
-                              .cast<Message?>()
-                              .firstWhere(
-                                (msg) => msg!.id == message.repliedToMessageId,
-                                orElse: () => null
-                              )
-                          ),
-                        )),
-                      ]
-                    );
+                        )
+                      ),
+                    if (!isSentByMe)
+                      SwipePlus(
+                        minThreshold: .5,
+                        onDragComplete: () => context
+                          .read<ConversationBloc>()
+                          .add(ReplyToMessage(message)),
+                        child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (state.isGroup)
+                            const CustomCircleAvatar(
+                              avatarIcon: Icons.person,
+                              avatarIconSize: 16,
+                              circleRadiusSize: 13
+                            ),
+                          Flexible(child: Bubble(
+                            nipWidth: 3,
+                            elevation: 5,
+                            margin: BubbleEdges.only(
+                              right: MediaQuery.of(context).size.width*0.20,
+                              top: 10,
+                              left: 5,
+                            ),
+                            padding: const BubbleEdges.all(12),
+                            color: Theme.of(context).colorScheme.secondary.withRed(235),
+                            nip: BubbleNip.leftTop,
+                            child: ChatBubbleContent(
+                              userIds: state.userIds,
+                              isGroup: state.isGroup,
+                              nameColour: state.nameColours[message.senderId],
+                              isSentByMe: isSentByMe,
+                              message: message,
+                              repliedMessage: state.messages
+                                .cast<Message?>()
+                                .firstWhere(
+                                  (msg) => msg!.id == message.repliedToMessageId,
+                                  orElse: () => null)
+                            ),
+                          )),
+                        ]
+                      )),
+                    if (state.messages.last.id == message.id)
+                      const SentMessageProgressIndicator()
+                  ],
+                );
               },
         );
       },

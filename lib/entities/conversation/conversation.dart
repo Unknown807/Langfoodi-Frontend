@@ -8,16 +8,18 @@ class Conversation extends Equatable with JsonConvertible {
     this.thumbnailId,
     this.isGroup,
     this.lastMessage,
-    this.messagesUnseen
+    this.messagesUnseen,
+    this.userIds
   );
 
   final String id;
   final String connectionOrGroupId;
   final String name;
   final bool isGroup;
-  final List<int> messagesUnseen;
+  final int messagesUnseen;
   final String? thumbnailId;
   final Message? lastMessage;
+  final List<String> userIds;
 
   static Conversation fromJson(Map jsonData) {
     return Conversation(
@@ -27,13 +29,15 @@ class Conversation extends Equatable with JsonConvertible {
       jsonData["thumbnailId"],
       jsonData["isGroup"],
       jsonData["lastMessage"] != null ? Message.fromJson(jsonData["lastMessage"]) : null,
-      jsonData["messagesUnseen"]
+      jsonData["messagesUnseen"],
+      (jsonData["userIds"] as List).map((id) => id as String).toList()
     );
   }
 
   @override
   List<Object?> get props => [
     id, connectionOrGroupId, name, isGroup,
-    messagesUnseen, thumbnailId, lastMessage
+    messagesUnseen, thumbnailId, lastMessage,
+    userIds
   ];
 }

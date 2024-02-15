@@ -13,6 +13,7 @@ void main() {
   late RecipeRepositoryMock recipeRepoMock;
   late ImageRepositoryMock imageRepoMock;
   late ConversationRepositoryMock conversationRepoMock;
+  late MessageRepositoryMock messageRepoMock;
   late ImageTransformationBuilderMock imageTransformationBuilderMock;
   late ImageBuilderMock imageBuilderMock;
   late NetworkManagerMock networkManagerMock;
@@ -24,6 +25,7 @@ void main() {
     authRepoMock = AuthenticationRepositoryMock();
     navigRepoMock = NavigationRepositoryMock();
     conversationRepoMock = ConversationRepositoryMock();
+    messageRepoMock = MessageRepositoryMock();
     imageBuilderMock = ImageBuilderMock();
     imageTransformationBuilderMock = ImageTransformationBuilderMock();
     networkManagerMock = NetworkManagerMock();
@@ -41,6 +43,7 @@ void main() {
       recipeRepo: recipeRepoMock,
       imageBuilder: imageBuilderMock,
       conversationRepo: conversationRepoMock,
+      messageRepo: messageRepoMock,
       imageTransformationBuilder: imageTransformationBuilderMock,
       networkManager: networkManagerMock,
       localStore: localStoreMock,

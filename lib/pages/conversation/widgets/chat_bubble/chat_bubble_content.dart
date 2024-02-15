@@ -4,25 +4,38 @@ class ChatBubbleContent extends StatelessWidget {
   const ChatBubbleContent({
     super.key,
     required this.isSentByMe,
+    required this.isGroup,
     required this.message,
+    required this.userIds,
     this.repliedMessage,
     this.nameColour
   });
 
   final bool isSentByMe;
+  final bool isGroup;
   final Message message;
+  final List<String> userIds;
   final Message? repliedMessage;
   final Color? nameColour;
 
   @override
   Widget build(BuildContext context) {
+    bool readByAll = isGroup
+      ? userIds.every((userId) => message.seenByUserIds.contains(userId))
+      : message.seenByUserIds.toSet().length == 2;
+
     return IntrinsicWidth(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (repliedMessage != null) ChatBubbleReplyBox(message: repliedMessage!),
-          if (!isSentByMe)
+          if (repliedMessage != null)
+            MessageReplyBox(
+              message: repliedMessage!,
+              isSentByMe: repliedMessage!.senderId == message.senderId && isSentByMe
+            ),
+
+          if (!isSentByMe && isGroup)
             Text(message.senderName,
               style: TextStyle(
                 color: nameColour,
@@ -32,8 +45,8 @@ class ChatBubbleContent extends StatelessWidget {
             ),
           if (!isSentByMe) const SizedBox(height: 4),
           if (message.imageURLs != null) ChatBubbleImageCarousel(imageUrls: message.imageURLs!),
-          if (message.recipePreviews != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipePreviews!),
-          if (message.imageURLs != null || message.recipePreviews != null) const SizedBox(height: 4),
+          if (message.recipes != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipes!),
+          if (message.imageURLs != null || message.recipes != null) const SizedBox(height: 4),
           if (message.textContent != null)
             Flexible(child: Text(message.textContent!,
               style: TextStyle(
@@ -41,16 +54,30 @@ class ChatBubbleContent extends StatelessWidget {
               )
             )),
           const SizedBox(height: 4),
-          IntrinsicHeight(
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Text(DateFormat("HH:mm").format(message.sentDate!),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  fontSize: 10,
-                )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Text(DateFormat("HH:mm").format(message.sentDate!),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 10,
+                  )
+                ),
               ),
-            )
+              const SizedBox(width: 4),
+              if (isSentByMe)
+                Icon(
+                  readByAll
+                    ? Icons.remove_red_eye_rounded
+                    : Icons.remove_red_eye_outlined,
+                  color: readByAll
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Colors.white,
+                  size: 11,
+                )
+            ],
           )
         ],
       ));
