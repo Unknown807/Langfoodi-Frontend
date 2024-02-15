@@ -25,7 +25,8 @@ class ConversationPage extends StatelessWidget {
       null,
       false,
       null,
-      0
+      0,
+      ["654bd4d5d33c4cb815358c60", "658af0cf010f1b2b80184588"]
     );
 
     return BlocProvider(

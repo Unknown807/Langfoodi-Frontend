@@ -11,7 +11,7 @@ class Message extends Equatable with JsonConvertible {
     this.repliedToMessageId,
     this.textContent,
     this.imageURLs,
-    this.recipes
+    this.recipes,
   );
 
   final String id;

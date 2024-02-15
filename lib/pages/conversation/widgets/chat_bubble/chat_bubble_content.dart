@@ -6,6 +6,7 @@ class ChatBubbleContent extends StatelessWidget {
     required this.isSentByMe,
     required this.isGroup,
     required this.message,
+    required this.userIds,
     this.repliedMessage,
     this.nameColour
   });
@@ -13,18 +14,15 @@ class ChatBubbleContent extends StatelessWidget {
   final bool isSentByMe;
   final bool isGroup;
   final Message message;
+  final List<String> userIds;
   final Message? repliedMessage;
   final Color? nameColour;
 
   @override
   Widget build(BuildContext context) {
-    bool readByAll;
-    if (isGroup) {
-      readByAll = message.seenByUserIds.length == 2;
-    } else {
-      readByAll = false;
-      //TODO: need to know how many members in group?
-    }
+    bool readByAll = isGroup
+      ? userIds.every((userId) => message.seenByUserIds.contains(userId))
+      : message.seenByUserIds.length == 2;
 
     return IntrinsicWidth(
       child: Column(

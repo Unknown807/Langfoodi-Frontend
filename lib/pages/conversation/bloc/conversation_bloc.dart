@@ -341,6 +341,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       conversationId: event.conversation.id,
       conversationName: event.conversation.name,
       isGroup: event.conversation.isGroup,
+      userIds: event.conversation.userIds,
       messages: messages,
       nameColours: nameColours,
       currentRecipes: currentRecipes,
