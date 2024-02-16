@@ -28,13 +28,13 @@ class RecipeAttachmentBox extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       final recipe = state.attachedRecipes[index];
                       return Chip(
+                        backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(50),
                         label: Text(
                           recipe.title,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.tertiary
                           ),
                         ),
-                        backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(50),
                       );
                     },
                   ),

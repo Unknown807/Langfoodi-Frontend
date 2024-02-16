@@ -16,7 +16,7 @@ class ConversationCard extends StatelessWidget {
 
   static const double conversationIconSize = 30;
   static const double statusIconSize = 20;
-  static const double pinIconSize = 25;
+  static const double pinIconSize = 15;
 
   final Conversation conversation;
 
@@ -82,6 +82,25 @@ class ConversationCard extends StatelessWidget {
                               fontSize: 16
                             ),
                         )),
+
+                        if (conversation.messagesUnseen > 0)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+                            child: Chip(
+                              padding: const EdgeInsets.symmetric(horizontal: 2),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                side: BorderSide.none,
+                              ),
+                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              label: Text("${conversation.messagesUnseen}"),
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontSize: 12
+                              ),
+                            ),
+                          ),
+
                         if (false) // TODO: add check for isPinned from user
                           Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
                       ]
