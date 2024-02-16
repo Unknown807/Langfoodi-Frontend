@@ -32,7 +32,7 @@ class ChatBubbleImageCarousel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: context.read<ImageBuilder>().displayCloudinaryImage(
                   imageUrl: imageUrls[itemIndex],
-                  transformationType: ImageTransformationType.low,
+                  transformationType: ImageTransformationType.lowVertical,
                   errorBuilder: (context, obj1, obj2) {
                     return CustomIconTile(
                       padding: null,

@@ -19,7 +19,7 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
             enlargeFactor: 0.3,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,
-            height: 300,
+            height: 150,
           ),
           itemCount: recipePreviews.length,
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
@@ -34,34 +34,18 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  color: Theme.of(context).colorScheme.background,
+                  color: Theme.of(context).colorScheme.background.withAlpha(150),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Center(
-                        child: Text(
-                          recipePreviews[itemIndex].title.capitalise(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 2),
                     Expanded(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                         child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                           isAsset: true,
                           imageUrl: recipePreviews[itemIndex].thumbnailId ?? "assets/images/no_image.png",
-                          transformationType: ImageTransformationType.low,
+                          transformationType: ImageTransformationType.lowHorizontal,
                           errorBuilder: (context, obj1, obj2) {
                             return CustomIconTile(
                               padding: null,
@@ -74,15 +58,25 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
                         ),
                       )
                     ),
-                    Center(
-                      child: Text(
-                        "Click To View",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          recipePreviews[itemIndex].title.capitalise(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.fastfood_rounded,
+                          size: 15,
+                        )
+                      ],
                     ),
                     const SizedBox(height: 2)
                   ],
