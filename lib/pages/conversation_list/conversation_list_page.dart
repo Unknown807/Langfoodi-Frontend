@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_list.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_sortby_section.dart';
@@ -37,16 +38,25 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
               state.conversations.isNotEmpty
                 ? const ConversationList()
-                : Container(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Center(
-                      child: Text("You have no conversations yet!",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground, fontSize: 20
-                        ),
+                : Column(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Center(
+                          child: Text("You have no conversations yet! (Or they're loading)",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                              fontSize: 20
+                            ),
+                          )
+                        )
+                      ),
+                      LoadingAnimationWidget.newtonCradle(
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 150
                       )
-                    )
-                )
+                    ],
+                  )
             ]
           );
         }

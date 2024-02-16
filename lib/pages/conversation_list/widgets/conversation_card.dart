@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
-import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
 import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
@@ -74,7 +73,7 @@ class ConversationCard extends StatelessWidget {
                           flex: 1,
                           child: Text(
                             conversation.lastMessage != null && conversation.lastMessage!.senderName.isNotEmpty
-                              ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? ""}"
+                              ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? "..."}"
                               : "",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

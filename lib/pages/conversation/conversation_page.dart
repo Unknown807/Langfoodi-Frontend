@@ -7,6 +7,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/message/message_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -16,18 +17,7 @@ class ConversationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
-
-    Conversation convo = const Conversation(
-      "65c5317147169650f0d44687",
-      "connectionOrGroupId",
-      "test2",
-      null,
-      false,
-      null,
-      0,
-      ["654bd4d5d33c4cb815358c60", "658af0cf010f1b2b80184588"]
-    );
+    var args = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
 
     return BlocProvider(
       create: (context) => ConversationBloc(
@@ -38,11 +28,11 @@ class ConversationPage extends StatelessWidget {
         context.read<ImageRepository>(),
         context.read<ConversationRepository>(),
         context.read<NetworkManager>()
-      )..add(InitState(convo)),
+      )..add(InitState(args.conversation)),
       child: Scaffold(
         appBar: MessageSearchAppBar(
-          isGroup: convo.isGroup,
-          conversationName: convo.name,
+          isGroup: args.conversation.isGroup,
+          conversationName: args.conversation.name,
         ),
         body: Column (
           children: [
