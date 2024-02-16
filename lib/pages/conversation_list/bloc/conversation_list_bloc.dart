@@ -14,16 +14,53 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<ChangeSelectedSortingOption>(_changeSelectedSortingOption);
+    on<SearchConversations>(_searchConversations);
   }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
 
+  void _searchConversations(SearchConversations event, Emitter<ConversationListState> emit) {
+    if (state.conversations.isEmpty) return;
+    final searchTerm = event.searchTerm.toLowerCase();
+
+    if (searchTerm == state.prevSearchTerm) {
+      return emit(state.copyWith(searchSuggestions: []));
+    }
+
+    List<bool> shownConversations = List.from(state.shownConversations);
+    List<String> newSuggestions = [];
+
+    for (int i=0; i<shownConversations.length; i++) {
+      if (searchTerm.isEmpty) {
+        shownConversations[i] = true;
+      } else if (!state.conversations[i].name.toLowerCase().contains(searchTerm)) {
+        shownConversations[i] = false;
+      } else {
+        shownConversations[i] = true;
+        if (newSuggestions.length < 5) {
+          newSuggestions.add(state.conversations[i].name);
+        }
+      }
+    }
+
+    emit(state.copyWith(
+      shownConversations: shownConversations,
+      searchSuggestions: newSuggestions,
+      prevSearchTerm: searchTerm
+    ));
+  }
 
   void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
     final userId = (await _authRepo.currentUser).id;
     List<Conversation> conversations = await _conversationRepo.getConversationByUser(userId);
-    emit(state.copyWith(conversations: conversations));
+
+    emit(state.copyWith(
+      conversations: conversations,
+      shownConversations: state.shownConversations.isEmpty
+        ? List.generate(conversations.length, (_) => true)
+        : state.shownConversations
+    ));
   }
 
   void _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {

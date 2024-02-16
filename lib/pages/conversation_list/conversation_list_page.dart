@@ -18,21 +18,25 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: CustomSearchAppBar(
-        title: const Text("Conversations"),
-        onSearchFunc: (term) {print(term);},
-      ),
-      floatingActionButton: CustomFloatingButton(
-        key: const Key("conversationListPage"),
-        icon: Icons.add,
-        eventFunc: () {print("float button pressed");}
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: BlocBuilder<ConversationListBloc, ConversationListState>(
-        builder: (context, state) {
-          return Column(
+    return BlocBuilder<ConversationListBloc, ConversationListState>(
+      builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: CustomSearchAppBar(
+            title: const Text("Conversations"),
+            hintText: "Search Your Conversations",
+            suggestions: state.searchSuggestions,
+            onSearchFunc: (term) => context
+              .read<ConversationListBloc>()
+              .add(SearchConversations(term))
+          ),
+          floatingActionButton: CustomFloatingButton(
+            key: const Key("conversationListPage"),
+            icon: Icons.add,
+            eventFunc: () {print("float button pressed");}
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
@@ -55,11 +59,11 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
                         size: 150
                       )
                     ],
-                  )
+              )
             ]
-          );
-        }
-      )
+          )
+        );
+      }
     );
   }
 }

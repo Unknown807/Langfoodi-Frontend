@@ -12,6 +12,15 @@ final class ChangeConversationsToDisplay extends ConversationListEvent {
   const ChangeConversationsToDisplay();
 }
 
+final class SearchConversations extends ConversationListEvent {
+  const SearchConversations(this.searchTerm);
+
+  final String searchTerm;
+
+  @override
+  List<Object> get props => [searchTerm];
+}
+
 final class ChangeSelectedSortingOption extends ConversationListEvent {
   const ChangeSelectedSortingOption(this.selectedSortingOption);
 

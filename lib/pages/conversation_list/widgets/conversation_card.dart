@@ -28,7 +28,7 @@ class ConversationCard extends StatelessWidget {
           onTap: () => context
             .read<NavigationRepository>()
             .goTo(context, "/conversation",
-              arguments: ConversationPageArguments(conversation: conversation)),
+            arguments: ConversationPageArguments(conversation: conversation)),
           child: Center(
             child: Card(
               color: Theme.of(context).scaffoldBackgroundColor,

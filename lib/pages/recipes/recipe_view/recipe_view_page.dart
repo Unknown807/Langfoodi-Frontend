@@ -44,9 +44,9 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
                 title: const Text("My Recipes"),
                 hintText: "Search Your Recipes",
                 suggestions: state.searchSuggestions,
-                onSearchFunc: (value) => context
+                onSearchFunc: (term) => context
                   .read<RecipeViewBloc>()
-                  .add(SearchTermChanged(value)),
+                  .add(SearchTermChanged(term)),
               ),
           floatingActionButton: CustomFloatingButton(
             key: const Key("recipeViewPage"),
