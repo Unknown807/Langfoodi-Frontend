@@ -2,22 +2,22 @@ part of 'conversation_list_bloc.dart';
 
 class ConversationListState extends Equatable {
   const ConversationListState({
-    this.conversationCards = const [],
+    this.conversations = const [],
     this.selectedSortingOption = SortingOption.lastMessage
   });
 
-  final List<ConversationCardContent> conversationCards;
+  final List<Conversation> conversations;
   final SortingOption selectedSortingOption;
 
   @override
-  List<Object?> get props => [conversationCards, selectedSortingOption];
+  List<Object?> get props => [conversations, selectedSortingOption];
 
   ConversationListState copyWith({
-    List<ConversationCardContent>? conversationsToDisplay,
+    List<Conversation>? conversations,
     SortingOption? selectedSortingOption
   }) {
     return ConversationListState (
-      conversationCards: conversationsToDisplay ?? conversationCards,
+      conversations: conversations ?? this.conversations,
       selectedSortingOption: selectedSortingOption ?? this.selectedSortingOption
     );
   }
