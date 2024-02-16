@@ -13,7 +13,6 @@ part 'conversation_list_state.dart';
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
   ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
-    on<ChangeSelectedSortingOption>(_changeSelectedSortingOption);
     on<SearchConversations>(_searchConversations);
   }
 
@@ -60,12 +59,6 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
       shownConversations: state.shownConversations.isEmpty
         ? List.generate(conversations.length, (_) => true)
         : state.shownConversations
-    ));
-  }
-
-  void _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {
-    emit(state.copyWith(
-      selectedSortingOption: event.selectedSortingOption
     ));
   }
 }

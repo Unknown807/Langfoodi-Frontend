@@ -31,11 +31,11 @@ class MessageList extends StatelessWidget {
             ? Container(
                 padding: const EdgeInsets.all(20),
                 child: Text("No Messages Yet!",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
-                      fontSize: 18
-                    ),
-                  )
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                    fontSize: 18
+                  ),
+                )
               )
             : StickyGroupedListView<Message, DateTime>(
                 itemScrollController: state.messageListScrollController,

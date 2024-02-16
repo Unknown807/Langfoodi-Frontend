@@ -20,12 +20,3 @@ final class SearchConversations extends ConversationListEvent {
   @override
   List<Object> get props => [searchTerm];
 }
-
-final class ChangeSelectedSortingOption extends ConversationListEvent {
-  const ChangeSelectedSortingOption(this.selectedSortingOption);
-
-  final SortingOption selectedSortingOption;
-
-  @override
-  List<Object> get props => [selectedSortingOption];
-}

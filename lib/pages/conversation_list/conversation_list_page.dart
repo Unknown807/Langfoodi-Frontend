@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_list.dart';
-import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_sortby_section.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
@@ -38,8 +37,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
+            children: <Widget>[
               state.conversations.isNotEmpty
                 ? const ConversationList()
                 : Column(
