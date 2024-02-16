@@ -22,11 +22,6 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
       appBar: CustomSearchAppBar(
         title: const Text("Conversations"),
         onSearchFunc: (term) {print(term);},
-        actions: [
-          IconButton(
-          icon: const Icon(Icons.more_vert_rounded),
-          onPressed: () {print("more options pressed");})
-        ],
       ),
       floatingActionButton: CustomFloatingButton(
         key: const Key("conversationListPage"),
@@ -40,7 +35,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ConversationSortBySection(selectedSortingOption: state.selectedSortingOption),
-              state.conversationCards.isNotEmpty
+              state.conversations.isNotEmpty
                 ? const ConversationList()
                 : Container(
                     padding: const EdgeInsets.only(top: 20),

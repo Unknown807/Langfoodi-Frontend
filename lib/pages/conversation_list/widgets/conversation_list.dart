@@ -10,17 +10,19 @@ class ConversationList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ConversationListBloc, ConversationListState>(
       builder: (BuildContext context, state) {
-      return Expanded(
-        child: ListView.separated(
-          itemCount: state.conversationCards.length ,
-          itemBuilder: (context, index) {
-            return ConversationCard(conversationCardContent: state.conversationCards[index]);
-          },
-          separatorBuilder: (context, index) {
-            return Divider(height:1, color: Theme.of(context).hintColor.withAlpha(40));
-          },
-        )
-      );
+        return Expanded(
+          child: ListView.builder(
+            itemCount: state.conversations.length ,
+            itemBuilder: (context, index) {
+              return Column(
+                children: <Widget>[
+                  ConversationCard(conversation: state.conversations[index]),
+                  Divider(height:1, color: Theme.of(context).hintColor.withAlpha(40))
+                ],
+              );
+            },
+          )
+        );
     });
   }
 }
