@@ -41,13 +41,12 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
                 : Column(
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Center(
-                          child: Text("You have no conversations yet! (Or they're loading)",
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
-                              fontSize: 20
-                            ),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.fromLTRB(30, 20, 20, 20),
+                        child: Text("You have no conversations yet! (Or they're loading)",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                            fontSize: 20
                           )
                         )
                       ),

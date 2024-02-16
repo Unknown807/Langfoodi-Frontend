@@ -34,26 +34,13 @@ class ConversationPage extends StatelessWidget {
           isGroup: args.conversation.isGroup,
           conversationName: args.conversation.name,
         ),
-        body: Column (
+        body: const Column (
           children: [
-            const Expanded(flex: 8, child: MessageList()),
-            BlocBuilder<ConversationBloc, ConversationState>(
-              buildWhen: (p, c) =>
-                p.repliedMessage.id != c.repliedMessage.id
-                || p.repliedMessageIsSentByMe != c.repliedMessageIsSentByMe,
-              builder: (context, state) {
-                return state.repliedMessage.id.isEmpty
-                  ? const SizedBox.shrink()
-                  : MessageReplyBox(
-                      message: state.repliedMessage!,
-                      isSentByMe: state.repliedMessageIsSentByMe,
-                      replying: true,
-                    );
-              },
-            ),
-            const ImageAttachmentBox(),
-            const RecipeAttachmentBox(),
-            const Row(
+            Expanded(flex: 8, child: MessageList()),
+            ActiveReplyBox(),
+            ImageAttachmentBox(),
+            RecipeAttachmentBox(),
+            Row(
               children: [
                 Expanded(flex: 1, child: AttachRecipeButton()),
                 Expanded(flex: 1, child: AttachImageButton()),

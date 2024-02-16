@@ -35,3 +35,4 @@ part 'recipe_attachment_box.dart';
 part 'sent_message_progress_indicator.dart';
 part 'remove_message_context_menu.dart';
 part 'message_search_app_bar.dart';
+part 'active_reply_box.dart';
