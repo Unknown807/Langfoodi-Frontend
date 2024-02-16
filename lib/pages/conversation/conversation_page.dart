@@ -1,72 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
-import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
+import 'package:recipe_social_media/repositories/image/image_repo.dart';
+import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 class ConversationPage extends StatelessWidget {
   const ConversationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
+    //var convoDetails = ModalRoute.of(context)!.settings.arguments as ConversationPageArguments;
+
+    Conversation convo = const Conversation(
+      "65c5317147169650f0d44687",
+      "connectionOrGroupId",
+      "test2",
+      null,
+      false,
+      null,
+      0,
+      ["654bd4d5d33c4cb815358c60", "658af0cf010f1b2b80184588"]
+    );
 
     return BlocProvider(
-      create: (_) => ConversationBloc(
+      create: (context) => ConversationBloc(
         context.read<NavigationRepository>(),
         context.read<AuthenticationRepository>(),
-        context.read<RecipeRepository>()
-      )
-      ..add(InitState(
-        convoDetails.conversationName,
-        convoDetails.conversationStatus,
-        convoDetails.isGroup
-      )),
+        context.read<RecipeRepository>(),
+        context.read<MessageRepository>(),
+        context.read<ImageRepository>(),
+        context.read<ConversationRepository>(),
+        context.read<NetworkManager>()
+      )..add(InitState(convo)),
       child: Scaffold(
-        appBar: CustomSearchAppBar(
-          title: Row(
-            children: [
-              CustomCircleAvatar(
-                avatarIcon: convoDetails.isGroup ? Icons.group : Icons.person,
-                conversationStatus: convoDetails.conversationStatus,
-                avatarIconSize: 25,
-              ),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Text(convoDetails.conversationName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)
-                )
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert_rounded),
-              onPressed: () {print("more options pressed");},
-            )
-          ],
-          onSearchFunc: (term) {print(term);},
+        appBar: MessageSearchAppBar(
+          isGroup: convo.isGroup,
+          conversationName: convo.name,
         ),
         body: Column (
           children: [
-            Expanded(flex: 8, child: MessageList()),
-            Row(
+            const Expanded(flex: 8, child: MessageList()),
+            BlocBuilder<ConversationBloc, ConversationState>(
+              buildWhen: (p, c) =>
+                p.repliedMessage.id != c.repliedMessage.id
+                || p.repliedMessageIsSentByMe != c.repliedMessageIsSentByMe,
+              builder: (context, state) {
+                return state.repliedMessage.id.isEmpty
+                  ? const SizedBox.shrink()
+                  : MessageReplyBox(
+                      message: state.repliedMessage!,
+                      isSentByMe: state.repliedMessageIsSentByMe,
+                      replying: true,
+                    );
+              },
+            ),
+            const ImageAttachmentBox(),
+            const RecipeAttachmentBox(),
+            const Row(
               children: [
-                const Expanded(flex: 1, child: AttachRecipeButton()),
-                const Expanded(flex: 1, child: AttachImageButton()),
-                const Expanded(flex: 5, child: MessageInput()),
-                IconButton(
-                  splashRadius: 20,
-                  color: Theme.of(context).colorScheme.primary,
-                  icon: const Icon(Icons.send),
-                  onPressed: () {},
-                )
+                Expanded(flex: 1, child: AttachRecipeButton()),
+                Expanded(flex: 1, child: AttachImageButton()),
+                Expanded(flex: 5, child: MessageInput()),
+                MessageSendButton()
               ],
             )
           ]
