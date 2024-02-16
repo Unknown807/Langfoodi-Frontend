@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kentfinalproject.recipe_social_media">
    <application
-        android:label="recipe_social_media"
+        android:label="Langfoodi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

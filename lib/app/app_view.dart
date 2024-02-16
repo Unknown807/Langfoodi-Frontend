@@ -61,7 +61,7 @@ class _AppView extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Recipe Social Media',
+          title: 'Langfoodi',
           theme: ThemeData(
             scaffoldBackgroundColor: const Color.fromRGBO(254, 254, 254, 1),
             primaryColor: const Color.fromRGBO(49, 183, 63, 1),
