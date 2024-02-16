@@ -13,13 +13,13 @@ class ChatBubbleImageCarousel extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: SizedBox(
-        width: 250,
+        width: 150,
         child: CarouselSlider.builder(
           options: CarouselOptions(
             enlargeFactor: 0.2,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,
-            height: 300,
+            height: 200,
           ),
           itemCount: imageUrls.length,
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
@@ -32,7 +32,7 @@ class ChatBubbleImageCarousel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: context.read<ImageBuilder>().displayCloudinaryImage(
                   imageUrl: imageUrls[itemIndex],
-                  transformationType: ImageTransformationType.low,
+                  transformationType: ImageTransformationType.lowVertical,
                   errorBuilder: (context, obj1, obj2) {
                     return CustomIconTile(
                       padding: null,

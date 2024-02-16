@@ -5,8 +5,10 @@ class ImageTransformationBuilder {
     switch (type) {
       case ImageTransformationType.tiny:
         return _getTinyQualityTransformation();
-      case ImageTransformationType.low:
-        return _getLowQualityTransformation();
+      case ImageTransformationType.lowVertical:
+        return _getLowQualityVerticalTransformation();
+      case ImageTransformationType.lowHorizontal:
+        return _getLowQualityHorizontalTransformation();
       case ImageTransformationType.standard:
         return _getStandardTransformation();
       case ImageTransformationType.high:
@@ -20,8 +22,12 @@ class ImageTransformationBuilder {
     return _getLowOrTinyQualityTransformation(50, 50);
   }
 
-  Transformation _getLowQualityTransformation() {
+  Transformation _getLowQualityVerticalTransformation() {
     return _getLowOrTinyQualityTransformation(200, 300);
+  }
+
+  Transformation _getLowQualityHorizontalTransformation() {
+    return _getLowOrTinyQualityTransformation(250, 150);
   }
 
   Transformation _getLowOrTinyQualityTransformation(int width, int height) {

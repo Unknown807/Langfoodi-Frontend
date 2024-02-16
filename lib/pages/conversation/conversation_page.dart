@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -34,21 +33,32 @@ class ConversationPage extends StatelessWidget {
           isGroup: args.conversation.isGroup,
           conversationName: args.conversation.name,
         ),
-        body: const Column (
-          children: [
-            Expanded(flex: 8, child: MessageList()),
-            ActiveReplyBox(),
-            ImageAttachmentBox(),
-            RecipeAttachmentBox(),
-            Row(
-              children: [
-                Expanded(flex: 1, child: AttachRecipeButton()),
-                Expanded(flex: 1, child: AttachImageButton()),
-                Expanded(flex: 5, child: MessageInput()),
-                MessageSendButton()
-              ],
+        body: Container(
+          key: const Key("conversationPageBgImg"),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: context.read<ImageBuilder>().getAssetImage(
+                "assets/images/convo_${Theme.of(context).brightness == Brightness.light ? "light": "dark"}_bg.png"
+              )
             )
-          ]
+          ),
+          child: const Column (
+            children: [
+              Expanded(flex: 8, child: MessageList()),
+              ActiveReplyBox(),
+              ImageAttachmentBox(),
+              RecipeAttachmentBox(),
+              Row(
+                children: [
+                  Expanded(flex: 1, child: AttachRecipeButton()),
+                  Expanded(flex: 1, child: AttachImageButton()),
+                  Expanded(flex: 5, child: MessageInput()),
+                  MessageSendButton()
+                ],
+              )
+            ]
+          ),
         )
       )
     );
