@@ -34,21 +34,32 @@ class ConversationPage extends StatelessWidget {
           isGroup: args.conversation.isGroup,
           conversationName: args.conversation.name,
         ),
-        body: const Column (
-          children: [
-            Expanded(flex: 8, child: MessageList()),
-            ActiveReplyBox(),
-            ImageAttachmentBox(),
-            RecipeAttachmentBox(),
-            Row(
-              children: [
-                Expanded(flex: 1, child: AttachRecipeButton()),
-                Expanded(flex: 1, child: AttachImageButton()),
-                Expanded(flex: 5, child: MessageInput()),
-                MessageSendButton()
-              ],
+        body: Container(
+          key: const Key("conversationPageBgImg"),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: context.read<ImageBuilder>().getAssetImage(
+                "assets/images/convo_${Theme.of(context).brightness == Brightness.light ? "light": "dark"}_bg.png"
+              )
             )
-          ]
+          ),
+          child: const Column (
+            children: [
+              Expanded(flex: 8, child: MessageList()),
+              ActiveReplyBox(),
+              ImageAttachmentBox(),
+              RecipeAttachmentBox(),
+              Row(
+                children: [
+                  Expanded(flex: 1, child: AttachRecipeButton()),
+                  Expanded(flex: 1, child: AttachImageButton()),
+                  Expanded(flex: 5, child: MessageInput()),
+                  MessageSendButton()
+                ],
+              )
+            ]
+          ),
         )
       )
     );
