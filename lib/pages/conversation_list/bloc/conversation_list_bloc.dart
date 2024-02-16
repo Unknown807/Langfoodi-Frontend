@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import 'package:equatable/equatable.dart';
 
 export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
+//TODO: Add functionality to pin and unpin conversations
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
   ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
@@ -51,10 +51,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   }
 
   void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
-    final userId = (await _authRepo.currentUser).id;
-    List<Conversation> conversations = await _conversationRepo.getConversationByUser(userId);
+    final currentUser = await _authRepo.currentUser;
+    List<Conversation> conversations = await _conversationRepo.getConversationByUser(currentUser.id);
 
     emit(state.copyWith(
+      pinnedIds: currentUser.pinnedConversationIds,
       conversations: conversations,
       shownConversations: state.shownConversations.isEmpty
         ? List.generate(conversations.length, (_) => true)

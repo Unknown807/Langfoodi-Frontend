@@ -101,7 +101,7 @@ class ConversationCard extends StatelessWidget {
                             ),
                           ),
 
-                        if (false) // TODO: add check for isPinned from user
+                        if (state.pinnedIds.contains(conversation.id))
                           Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
                       ]
                     )
