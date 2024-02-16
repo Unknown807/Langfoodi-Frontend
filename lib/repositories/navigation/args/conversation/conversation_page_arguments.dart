@@ -2,12 +2,8 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 
 class ConversationPageArguments {
   const ConversationPageArguments({
-    required this.conversationName,
-    required this.conversationStatus,
-    required this.isGroup,
+    required this.conversation,
   });
 
-  final String conversationName;
-  final ConversationStatus conversationStatus;
-  final bool isGroup;
+  final Conversation conversation;
 }

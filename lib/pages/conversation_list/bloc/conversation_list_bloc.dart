@@ -1,41 +1,65 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
-import 'package:recipe_social_media/pages/conversation_list/models/conversation_card_content.dart';
-import 'package:recipe_social_media/repositories/navigation/args/conversation_list/conversation_list_page_arguments.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:equatable/equatable.dart';
 
 export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
+//TODO: Add functionality to pin and unpin conversations
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
-  ConversationListBloc() : super(const ConversationListState()) {
+  ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
-    on<ChangeSelectedSortingOption>(_changeSelectedSortingOption);
+    on<SearchConversations>(_searchConversations);
   }
 
-  List<ConversationCardContent> conversationCards = [
-    ConversationCardContent(details: const ConversationListPageArguments(isGroup: false, conversationName: "Connection1", conversationStatus: ConversationStatus.connected, isPinned: true), lastMessage: "Last message...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 11, 18)),
-    ConversationCardContent(details: const ConversationListPageArguments(isGroup: false, conversationName: "Connection2", conversationStatus: ConversationStatus.connected, isPinned: true), lastMessage: "Last message sent...", lastMessageSender: "Connection2", lastMessageSentDate: DateTime(2023, 11, 13)),
-    ConversationCardContent(details: const ConversationListPageArguments(isGroup: true, conversationName: "Group1", conversationStatus: ConversationStatus.connected, isPinned: false), lastMessage: "Last message...", lastMessageSender: "GroupMember1", lastMessageSentDate: DateTime(2023, 11, 25)),
-    const ConversationCardContent(details: ConversationListPageArguments(isGroup: true, conversationName: "Group2", conversationStatus: ConversationStatus.connected, isPinned: false)),
-    ConversationCardContent(details: const ConversationListPageArguments(isGroup: false, conversationName: "Connection3", conversationStatus: ConversationStatus.pending, isPinned: false), lastMessage: "Last message...", lastMessageSender: "Connection3", lastMessageSentDate: DateTime(2023, 11, 12)),
-    const ConversationCardContent(details: ConversationListPageArguments(isGroup: false, conversationName: "Connection4", conversationStatus: ConversationStatus.blocked, isPinned: false)),
-    ConversationCardContent(details: const ConversationListPageArguments(isGroup: true, conversationName: "Group3", conversationStatus: ConversationStatus.connected, isPinned: false), lastMessage: "Last message sent...", lastMessageSender: "You", lastMessageSentDate: DateTime(2023, 01, 19)),
-    const ConversationCardContent(details: ConversationListPageArguments(isGroup: false, conversationName: "Connection5", conversationStatus: ConversationStatus.blocked, isPinned: false)),
-  ];
+  final AuthenticationRepository _authRepo;
+  final ConversationRepository _conversationRepo;
 
-  void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
+  void _searchConversations(SearchConversations event, Emitter<ConversationListState> emit) {
+    if (state.conversations.isEmpty) return;
+    final searchTerm = event.searchTerm.toLowerCase();
+
+    if (searchTerm == state.prevSearchTerm) {
+      return emit(state.copyWith(searchSuggestions: []));
+    }
+
+    List<bool> shownConversations = List.from(state.shownConversations);
+    List<String> newSuggestions = [];
+
+    for (int i=0; i<shownConversations.length; i++) {
+      if (searchTerm.isEmpty) {
+        shownConversations[i] = true;
+      } else if (!state.conversations[i].name.toLowerCase().contains(searchTerm)) {
+        shownConversations[i] = false;
+      } else {
+        shownConversations[i] = true;
+        if (newSuggestions.length < 5) {
+          newSuggestions.add(state.conversations[i].name);
+        }
+      }
+    }
+
     emit(state.copyWith(
-      conversationsToDisplay: conversationCards
+      shownConversations: shownConversations,
+      searchSuggestions: newSuggestions,
+      prevSearchTerm: searchTerm
     ));
   }
 
-  void _changeSelectedSortingOption(ChangeSelectedSortingOption event, Emitter<ConversationListState> emit) async {
+  void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
+    final currentUser = await _authRepo.currentUser;
+    List<Conversation> conversations = await _conversationRepo.getConversationByUser(currentUser.id);
+
     emit(state.copyWith(
-      selectedSortingOption: event.selectedSortingOption
+      pinnedIds: currentUser.pinnedConversationIds,
+      conversations: conversations,
+      shownConversations: state.shownConversations.isEmpty
+        ? List.generate(conversations.length, (_) => true)
+        : state.shownConversations
     ));
   }
 }

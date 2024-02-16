@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:recipe_social_media/app/app.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/pages/splash/splash_page.dart';
@@ -53,9 +54,13 @@ void main() {
   group("app and app view tests", () {
     testWidgets("app status is authenticated", (widgetTester) async {
       // Arrange
+      when(() => conversationRepoMock.getConversationByUser(any())).thenAnswer((invocation) => Future.value([]));
+      when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(
+        User("1", "handle", "username", "email", "pass", DateTime(2024), null, const []))
+      );
       when(() => authRepoMock.isAuthenticated()).thenAnswer((invocation) => Future.value(true));
       await widgetTester.pumpWidget(createWidgetUnderTest());
-      await widgetTester.pumpAndSettle();
+      await widgetTester.pump();
 
       // Assert
       expect(find.byType(HomePage), findsOneWidget);
