@@ -61,21 +61,21 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        Flexible(child: Text(
                           recipePreviews[itemIndex].title.capitalise(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
                             fontWeight: FontWeight.w500,
-                            fontSize: 16
+                            fontSize: 14
                           ),
-                        ),
+                        )),
                         const SizedBox(width: 4),
-                        const Icon(
+                        const Flexible(child: Icon(
                           Icons.fastfood_rounded,
                           size: 15,
-                        )
+                        ))
                       ],
                     ),
                     const SizedBox(height: 2)
