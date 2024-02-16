@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:cloudinary_url_gen/transformation/delivery/delivery_actions.dart';
 import 'package:cloudinary_url_gen/transformation/resize/crop.dart';
-import 'package:cloudinary_url_gen/transformation/resize/resize.dart';
 import 'package:cloudinary_url_gen/transformation/transformation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -39,9 +36,9 @@ void main() {
       expect((result!.components[1] as Thumbnail).dimensions.height, 50);
     });
 
-    test("transformation type is low", () async {
+    test("transformation type is lowVertical", () async {
       // Act
-      final result = sut.getImageTransformation(ImageTransformationType.low);
+      final result = sut.getImageTransformation(ImageTransformationType.lowVertical);
 
       // Assert
       expect(result, isNotNull);
@@ -53,6 +50,22 @@ void main() {
       ]);
       expect((result!.components[1] as Thumbnail).dimensions.width, 200);
       expect((result!.components[1] as Thumbnail).dimensions.height, 300);
+    });
+
+    test("transformation type is lowHorizontal", () async {
+      // Act
+      final result = sut.getImageTransformation(ImageTransformationType.lowHorizontal);
+
+      // Assert
+      expect(result, isNotNull);
+      expect(result, isA<Transformation>());
+      expect(result!.components, [
+        isA<Quality>(),
+        isA<Thumbnail>(),
+        isA<Dpr>()
+      ]);
+      expect((result!.components[1] as Thumbnail).dimensions.width, 250);
+      expect((result!.components[1] as Thumbnail).dimensions.height, 150);
     });
 
     test("transformation type is standard", () async {

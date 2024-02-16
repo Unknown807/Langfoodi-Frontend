@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
