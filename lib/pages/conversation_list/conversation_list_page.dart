@@ -1,3 +1,5 @@
+import 'package:animated_expandable_fab/expandable_fab/action_button.dart';
+import 'package:animated_expandable_fab/expandable_fab/expandable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -29,10 +31,21 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
               .read<ConversationListBloc>()
               .add(SearchConversations(term))
           ),
-          floatingActionButton: CustomFloatingButton(
+          floatingActionButton: ExpandableFab(
             key: const Key("conversationListPage"),
-            icon: Icons.add,
-            eventFunc: () {print("float button pressed");}
+            distance: 100,
+            openIcon: const Icon(Icons.add, size: 40),
+            closeIcon: const Icon(Icons.close, size: 30),
+            children: [
+              ActionButton(
+                icon: const Icon(Icons.group_add_rounded, size: 30),
+                onPressed: () {print("group");},
+              ),
+              ActionButton(
+                icon: const Icon(Icons.person_add_alt_1_rounded, size: 30),
+                onPressed: () {print("connection");},
+              ),
+            ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           body: Column(

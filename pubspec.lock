@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  animated_expandable_fab:
+    dependency: "direct main"
+    description:
+      name: animated_expandable_fab
+      sha256: "96aa2f411ed329eb99e89b50f8a04eb2a8423eb3b9a60182f194f100741231cc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   animations:
     dependency: transitive
     description:
