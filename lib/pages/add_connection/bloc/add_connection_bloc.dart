@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 
 export 'add_connection_bloc.dart';
@@ -19,7 +20,18 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
 
   void _searchForUsers(SearchForUsers event, Emitter<AddConnectionState> emit) {
     final searchTerm = state.searchTextController.value.text.toLowerCase();
-    if (searchTerm.isEmpty) return;
-    //TODO: check prevSearch to minimise calls
+    if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
+
+    //TODO: get list of users here
+    List<UserAccount> users = [
+      UserAccount("1", "handle1", "username1", DateTime.now(), "pzkr9msh3kumhsxxakfa", const []),
+      UserAccount("1", "handle1", "username1", DateTime.now(), "", const []),
+      UserAccount("1", "handle1", "username1", DateTime.now(), "pzkr9msh3kumhsxxakfaWRONG", const [])
+    ];
+
+    emit(state.copyWith(
+      users: users,
+      prevSearchTerm: searchTerm,
+    ));
   }
 }
