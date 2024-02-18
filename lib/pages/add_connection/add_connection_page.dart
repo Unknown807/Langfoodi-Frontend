@@ -18,9 +18,15 @@ class AddConnectionPage extends StatelessWidget {
           title: const Text("Add New Friend"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        body: const Column(
+        body: Column(
           children: <Widget>[
-            UserSearchInput()
+            const UserSearchInput(),
+            Divider(
+              color: Theme.of(context).hintColor.withAlpha(40),
+              thickness: 3,
+              height: 5,
+            ),
+            const Expanded(child: UserList())
           ],
         ),
       ),

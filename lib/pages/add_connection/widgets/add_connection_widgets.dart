@@ -5,3 +5,4 @@ import 'package:recipe_social_media/pages/add_connection/bloc/add_connection_blo
 
 export 'add_connection_widgets.dart';
 part 'user_search_input.dart';
+part 'user_list.dart';
