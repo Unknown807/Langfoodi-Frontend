@@ -11,3 +11,12 @@ sealed class AddConnectionEvent extends Equatable {
 final class SearchForUsers extends AddConnectionEvent {
   const SearchForUsers();
 }
+
+final class CreateConversation extends AddConnectionEvent {
+  CreateConversation(this.userId);
+
+  String userId;
+
+  @override
+  List<Object> get props => [userId];
+}

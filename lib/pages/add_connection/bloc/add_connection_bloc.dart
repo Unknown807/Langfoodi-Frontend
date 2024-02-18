@@ -14,9 +14,14 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
       searchTextController: TextEditingController()
     )) {
       on<SearchForUsers>(_searchForUsers);
+      on<CreateConversation>(_createConversation);
     }
 
   final AuthenticationRepository _authRepo;
+
+  void _createConversation(CreateConversation event, Emitter<AddConnectionState> emit) {
+    print(event.userId);
+  }
 
   void _searchForUsers(SearchForUsers event, Emitter<AddConnectionState> emit) {
     final searchTerm = state.searchTextController.value.text.toLowerCase();
