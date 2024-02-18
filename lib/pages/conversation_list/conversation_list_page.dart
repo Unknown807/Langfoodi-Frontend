@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_list.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
@@ -38,12 +39,20 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
             closeIcon: const Icon(Icons.close, size: 30),
             children: [
               ActionButton(
-                icon: const Icon(Icons.group_add_rounded, size: 30),
+                icon: Icon(
+                  Icons.group_add_rounded,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  size: 30),
                 onPressed: () {print("group");},
               ),
               ActionButton(
-                icon: const Icon(Icons.person_add_alt_1_rounded, size: 30),
-                onPressed: () {print("connection");},
+                icon: Icon(
+                  Icons.person_add_alt_1_rounded,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  size: 30),
+                onPressed: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "/add-connection")
               ),
             ],
           ),
