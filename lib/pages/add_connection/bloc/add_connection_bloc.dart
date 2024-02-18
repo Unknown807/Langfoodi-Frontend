@@ -25,8 +25,8 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     //TODO: get list of users here
     List<UserAccount> users = [
       UserAccount("1", "handle1", "username1", DateTime.now(), "pzkr9msh3kumhsxxakfa", const []),
-      UserAccount("1", "handle1", "username1", DateTime.now(), "", const []),
-      UserAccount("1", "handle1", "username1", DateTime.now(), "pzkr9msh3kumhsxxakfaWRONG", const [])
+      UserAccount("2", "handle2", "username2", DateTime.now(), null, const []),
+      UserAccount("3", "handle3", "username3", DateTime.now(), "pzkr9msh3kumhsxxakfaWRONG", const [])
     ];
 
     emit(state.copyWith(
