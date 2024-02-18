@@ -7,3 +7,7 @@ sealed class AddConnectionEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class SearchForUsers extends AddConnectionEvent {
+  const SearchForUsers();
+}

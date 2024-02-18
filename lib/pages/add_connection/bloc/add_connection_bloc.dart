@@ -12,8 +12,14 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     this._authRepo) : super(AddConnectionState(
       searchTextController: TextEditingController()
     )) {
-      //TODO: add event handlers here
+      on<SearchForUsers>(_searchForUsers);
     }
 
   final AuthenticationRepository _authRepo;
+
+  void _searchForUsers(SearchForUsers event, Emitter<AddConnectionState> emit) {
+    final searchTerm = state.searchTextController.value.text.toLowerCase();
+    if (searchTerm.isEmpty) return;
+    //TODO: check prevSearch to minimise calls
+  }
 }
