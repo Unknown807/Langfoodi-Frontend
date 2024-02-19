@@ -18,13 +18,22 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     )) {
       on<SearchForUsers>(_searchForUsers);
       on<CreateConversation>(_createConversation);
+      on<ResetDialog>(_resetDialog);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
 
+  void _resetDialog(ResetDialog event, Emitter<AddConnectionState> emit) {
+    emit(state.copyWith(
+      dialogTitle: "",
+      dialogMessage: "",
+    ));
+  }
+
   void _createConversation(CreateConversation event, Emitter<AddConnectionState> emit) async {
     emit(state.copyWith(pageLoading: true));
+    bool formSuccess = false;
     String dialogTitle = "Oops!";
     String dialogMessage = "Could not start the conversation, please check and try again.";
 
@@ -33,6 +42,7 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     if (newConnection == null) {
       return emit(state.copyWith(
         pageLoading: false,
+        formSuccess: formSuccess,
         dialogTitle: dialogTitle,
         dialogMessage: dialogMessage
       ));
@@ -44,10 +54,12 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     if (newConversation != null) {
       dialogTitle = "Success!";
       dialogMessage = "Conversation created!";
+      formSuccess = true;
     }
 
     emit(state.copyWith(
       pageLoading: false,
+      formSuccess: formSuccess,
       dialogTitle: dialogTitle,
       dialogMessage: dialogMessage
     ));

@@ -4,6 +4,8 @@ import 'package:recipe_social_media/pages/add_connection/bloc/add_connection_blo
 import 'package:recipe_social_media/pages/add_connection/widgets/add_connection_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class AddConnectionPage extends StatelessWidget {
   const AddConnectionPage({super.key});
@@ -20,17 +22,46 @@ class AddConnectionPage extends StatelessWidget {
           title: const Text("Add New Friend"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        body: Column(
-          children: <Widget>[
-            const UserSearchInput(),
-            Divider(
-              color: Theme.of(context).hintColor.withAlpha(40),
-              thickness: 3,
-              height: 5,
-            ),
-            const Expanded(child: UserList())
-          ],
-        ),
+        body: BlocConsumer<AddConnectionBloc, AddConnectionState>(
+          listener: (context, state) {
+            if (state.dialogTitle.isNotEmpty) {
+              showDialog(
+                context: context,
+                builder: (_) => BlocProvider<AddConnectionBloc>.value(
+                  value: BlocProvider.of<AddConnectionBloc>(context),
+                  child: CustomAlertDialog(
+                    title: Text(state.dialogTitle),
+                    content: Text(state.dialogMessage),
+                    leftButtonText: null,
+                    rightButtonCallback: state.formSuccess
+                      ? () => context
+                        .read<NavigationRepository>()
+                        .goTo(context, "/conversation-list", routeType: RouteType.backLink)
+                      : () => context
+                        .read<AddConnectionBloc>()
+                        .add(const ResetDialog())
+                  ),
+                )
+              );
+            }
+          },
+          buildWhen: (p, c) => p.pageLoading != c.pageLoading,
+          builder: (context, state) {
+            return state.pageLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  children: <Widget>[
+                    const UserSearchInput(),
+                    Divider(
+                      color: Theme.of(context).hintColor.withAlpha(40),
+                      thickness: 3,
+                      height: 5,
+                    ),
+                    const Expanded(child: UserList())
+                  ],
+                );
+          },
+        )
       ),
     );
   }

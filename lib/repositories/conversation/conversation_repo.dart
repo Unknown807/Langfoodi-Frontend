@@ -39,7 +39,7 @@ class ConversationRepository {
   }
 
   Future<Conversation?> createConversationByConnection(String connectionId, String userId) async {
-    final response = await request.putWithoutBody(
+    final response = await request.postWithoutBody(
       "/conversation/create-by-connection?connectionId=$connectionId&userId=$userId"
     );
     if (!response.isOk) return null;

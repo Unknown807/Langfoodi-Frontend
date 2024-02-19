@@ -20,3 +20,7 @@ final class CreateConversation extends AddConnectionEvent {
   @override
   List<Object> get props => [userId];
 }
+
+final class ResetDialog extends AddConnectionEvent {
+  const ResetDialog();
+}
