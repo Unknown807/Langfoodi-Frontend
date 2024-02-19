@@ -18,9 +18,13 @@ class UserSearchInput extends StatelessWidget {
                 boxDecorationType: FormInputBoxDecorationType.textArea,
                 fontSize: 18,
                 eventFunc: (_) {},
-                onSubmittedEventFunc: (_) => context
-                  .read<AddConnectionBloc>()
-                  .add(const SearchForUsers())
+                onSubmittedEventFunc: (_) {
+                  if (state.searchLoading) return;
+
+                  context
+                    .read<AddConnectionBloc>()
+                    .add(const SearchForUsers());
+                }
               ),
             ),
             Padding(
@@ -38,9 +42,13 @@ class UserSearchInput extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onPrimary,
                       )
                     ),
-                    onTap: () => context
-                      .read<AddConnectionBloc>()
-                      .add(const SearchForUsers())
+                    onTap: () {
+                      if (state.searchLoading) return;
+
+                      context
+                        .read<AddConnectionBloc>()
+                        .add(const SearchForUsers());
+                    }
                   ),
                 ),
               ),

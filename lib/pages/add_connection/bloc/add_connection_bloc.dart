@@ -23,20 +23,17 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     print(event.userId);
   }
 
-  void _searchForUsers(SearchForUsers event, Emitter<AddConnectionState> emit) {
+  void _searchForUsers(SearchForUsers event, Emitter<AddConnectionState> emit) async {
     final searchTerm = state.searchTextController.value.text.toLowerCase();
     if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
 
-    //TODO: get list of users here
-    List<UserAccount> users = [
-      UserAccount("1", "handle1", "username1", DateTime.now(), "pzkr9msh3kumhsxxakfa", const []),
-      UserAccount("2", "handle2", "username2", DateTime.now(), null, const []),
-      UserAccount("3", "handle3", "username3", DateTime.now(), "pzkr9msh3kumhsxxakfaWRONG", const [])
-    ];
+    emit(state.copyWith(searchLoading: true));
+    List<UserAccount> users = await _authRepo.searchAndGetUsers(searchTerm);
 
     emit(state.copyWith(
       users: users,
       prevSearchTerm: searchTerm,
+      searchLoading: false
     ));
   }
 }

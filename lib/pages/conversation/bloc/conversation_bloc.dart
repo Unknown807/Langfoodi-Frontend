@@ -166,7 +166,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       }
     }
 
-    NewMessageContract contract = NewMessageContract(
+    SendMessageContract contract = SendMessageContract(
       conversationId: state.conversationId,
       senderId: state.senderId,
       messageRepliedToId: messageRepliedToId,

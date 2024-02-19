@@ -3,7 +3,7 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'message_repo.dart';
-part 'contracts/new_message_contract.dart';
+part 'contracts/send_message_contract.dart';
 
 class MessageRepository {
   MessageRepository(this.request, this.jsonWrapper);
@@ -23,7 +23,7 @@ class MessageRepository {
     return retrievedMessages;
   }
 
-  Future<Message?> sendMessage(NewMessageContract contract) async {
+  Future<Message?> sendMessage(SendMessageContract contract) async {
     final response = await request.post("/message/send", contract, jsonWrapper);
     if (!response.isOk) return null;
 
@@ -34,6 +34,4 @@ class MessageRepository {
     final response = await request.delete("/message/delete?id=$id");
     return response.isOk;
   }
-
-
 }

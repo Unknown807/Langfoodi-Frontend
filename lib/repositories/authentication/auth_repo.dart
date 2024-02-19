@@ -36,6 +36,18 @@ class AuthenticationRepository {
     return false;
   }
 
+  Future<List<UserAccount>> searchAndGetUsers(String searchTerm) async {
+    final response = await request.postWithoutBody("/user/get-all?containedString=$searchTerm");
+    if (!response.isOk) return [];
+
+    List<dynamic> jsonUserAccounts = jsonWrapper.decodeData(response.body);
+    List<UserAccount> retrievedUserAccounts = jsonUserAccounts
+      .map((jsonUserAccount) => UserAccount.fromJson(jsonUserAccount))
+      .toList();
+
+    return retrievedUserAccounts;
+  }
+
   Future<String> updateUser({required String id, String? profileImageId, String? username, String? email, String? password}) async {
     var data = UpdateUserContract(
       id: id,
