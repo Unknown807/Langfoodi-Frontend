@@ -24,7 +24,7 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
 
   void _groupNameChanged(GroupNameChanged event, Emitter<AddGroupState> emit) {
     final name = GroupName.dirty(event.name);
-    
+
     emit(state.copyWith(
       groupName: name,
       groupNameValid: Formz.validate([name])
