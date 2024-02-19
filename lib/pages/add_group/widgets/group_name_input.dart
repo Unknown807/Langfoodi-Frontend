@@ -6,15 +6,20 @@ class GroupNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddGroupBloc, AddGroupState>(
+      buildWhen: (p, c) =>
+        p.groupName != c.groupName
+        || p.groupNameValid != c.groupNameValid,
       builder: (context, state) {
         return FormInput(
           labelText: "Group Name",
-          outerPadding: const EdgeInsets.fromLTRB(20, 20, 10, 20),
-          innerPadding: const EdgeInsets.symmetric(horizontal: 10),
+          outerPadding: const EdgeInsets.all(20),
+          innerPadding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
           boxDecorationType: FormInputBoxDecorationType.textArea,
+          errorText: state.groupNameValid ? null : "Only use alphanumeric characters or !, _, ), (",
           fontSize: 18,
-          eventFunc: (_) {},
-          onSubmittedEventFunc: (_) {},
+          eventFunc: (name) => context
+            .read<AddGroupBloc>()
+            .add(GroupNameChanged(name)),
         );
       }
     );

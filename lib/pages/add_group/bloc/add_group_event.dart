@@ -7,3 +7,12 @@ sealed class AddGroupEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GroupNameChanged extends AddGroupEvent {
+  const GroupNameChanged(this.name);
+
+  final String name;
+
+  @override
+  List<Object> get props => [name];
+}
