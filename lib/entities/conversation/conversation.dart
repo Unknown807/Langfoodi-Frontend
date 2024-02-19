@@ -21,6 +21,10 @@ class Conversation extends Equatable with JsonConvertible {
   final Message? lastMessage;
   final List<String> userIds;
 
+  static Conversation fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return Conversation.fromJson(jsonWrapper.decodeData(jsonStr));
+  }
+
   static Conversation fromJson(Map jsonData) {
     return Conversation(
       jsonData["id"],

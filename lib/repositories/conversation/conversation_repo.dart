@@ -29,4 +29,21 @@ class ConversationRepository {
     );
     return response.isOk;
   }
+
+  Future<Connection?> createConnection(String userId1, String userId2) async {
+    final contract = NewConnectionContract(userId1: userId1, userId2: userId2);
+    final response = await request.post("/connection/create", contract, jsonWrapper);
+    if (!response.isOk) return null;
+
+    return Connection.fromJsonStr(response.body, jsonWrapper);
+  }
+
+  Future<Conversation?> createConversationByConnection(String connectionId, String userId) async {
+    final response = await request.putWithoutBody(
+      "/conversation/create-by-connection?connectionId=$connectionId&userId=$userId"
+    );
+    if (!response.isOk) return null;
+
+    return Conversation.fromJsonStr(response.body, jsonWrapper);
+  }
 }

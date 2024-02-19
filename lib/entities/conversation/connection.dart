@@ -13,6 +13,10 @@ class Connection extends Equatable with JsonConvertible {
   final String userId2;
   final String connectionStatus;
 
+  static Connection fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
+    return Connection.fromJson(jsonWrapper.decodeData(jsonStr));
+  }
+
   static Connection fromJson(Map jsonData) {
     return Connection(
       jsonData["connectionId"],
