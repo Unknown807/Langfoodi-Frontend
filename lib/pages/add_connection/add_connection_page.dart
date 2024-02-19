@@ -57,7 +57,7 @@ class AddConnectionPage extends StatelessWidget {
                       thickness: 3,
                       height: 5,
                     ),
-                    const Expanded(child: UserList())
+                    const Expanded(child: ConnectionUserList())
                   ],
                 );
           },
