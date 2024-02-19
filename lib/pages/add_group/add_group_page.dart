@@ -33,6 +33,7 @@ class AddGroupPage extends StatelessWidget {
                       thickness: 3,
                       height: 5,
                     ),
+                    const UserSearchInput()
                   ],
                 );
           },

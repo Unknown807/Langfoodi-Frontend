@@ -13,14 +13,19 @@ part 'add_group_state.dart';
 class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
   AddGroupBloc(
     this._authRepo,
-    this._conversationRepo) : super(const AddGroupState(
-      //TODO: controller here
+    this._conversationRepo) : super(AddGroupState(
+      searchTextController: TextEditingController()
     )) {
       on<GroupNameChanged>(_groupNameChanged);
+      on<SearchForUsers>(_searchForUsers);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _searchForUsers(SearchForUsers event, Emitter<AddGroupState> emit) {
+    print("searching");
+  }
 
   void _groupNameChanged(GroupNameChanged event, Emitter<AddGroupState> emit) {
     final name = GroupName.dirty(event.name);

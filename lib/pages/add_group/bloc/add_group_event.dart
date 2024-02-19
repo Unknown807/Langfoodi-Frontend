@@ -16,3 +16,7 @@ final class GroupNameChanged extends AddGroupEvent {
   @override
   List<Object> get props => [name];
 }
+
+final class SearchForUsers extends AddGroupEvent {
+  const SearchForUsers();
+}
