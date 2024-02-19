@@ -70,7 +70,8 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
 
     emit(state.copyWith(searchLoading: true));
-    List<UserAccount> users = await _authRepo.searchAndGetUsers(searchTerm);
+    final userId = (await _authRepo.currentUser).id;
+    List<UserAccount> users = await _authRepo.searchAndGetUsers(searchTerm, userId);
 
     emit(state.copyWith(
       users: users,

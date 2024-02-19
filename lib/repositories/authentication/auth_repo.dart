@@ -36,8 +36,8 @@ class AuthenticationRepository {
     return false;
   }
 
-  Future<List<UserAccount>> searchAndGetUsers(String searchTerm) async {
-    final response = await request.postWithoutBody("/user/get-all?containedString=$searchTerm");
+  Future<List<UserAccount>> searchAndGetUsers(String searchTerm, String userId) async {
+    final response = await request.postWithoutBody("/user/get-unconnected?containedString=$searchTerm&userId=$userId");
     if (!response.isOk) return [];
 
     List<dynamic> jsonUserAccounts = jsonWrapper.decodeData(response.body);
