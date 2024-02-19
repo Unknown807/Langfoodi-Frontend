@@ -86,17 +86,20 @@ class ConversationCard extends StatelessWidget {
                         if (conversation.messagesUnseen > 0)
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
-                            child: Chip(
-                              padding: const EdgeInsets.symmetric(horizontal: 2),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
-                                side: BorderSide.none,
-                              ),
-                              backgroundColor: Theme.of(context).colorScheme.primary,
-                              label: Text("${conversation.messagesUnseen}"),
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 12
+                            child: ClipOval(
+                              child: Container(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 25,
+                                height: 25,
+                                child: Center(
+                                  child: Text(
+                                    "${conversation.messagesUnseen}",
+                                    style: TextStyle(
+                                      color: Theme.of(context).colorScheme.onPrimary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  )),
                               ),
                             ),
                           ),

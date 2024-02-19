@@ -6,3 +6,4 @@ export 'conversation_entities.dart';
 part 'conversation_status.dart';
 part 'conversation.dart';
 part 'message.dart';
+part 'connection.dart';

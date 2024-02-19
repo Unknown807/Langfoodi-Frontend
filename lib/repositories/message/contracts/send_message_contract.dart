@@ -1,7 +1,7 @@
 part of 'package:recipe_social_media/repositories/message/message_repo.dart';
 
-class NewMessageContract with JsonConvertible {
-  NewMessageContract({
+class SendMessageContract with JsonConvertible {
+  SendMessageContract({
     required this.conversationId,
     required this.senderId,
     this.text,

@@ -57,9 +57,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     emit(state.copyWith(
       pinnedIds: currentUser.pinnedConversationIds,
       conversations: conversations,
-      shownConversations: state.shownConversations.isEmpty
-        ? List.generate(conversations.length, (_) => true)
-        : state.shownConversations
+      shownConversations:
+        state.shownConversations.isEmpty
+        || state.shownConversations.length != conversations.length
+          ? List.generate(conversations.length, (_) => true)
+          : state.shownConversations
     ));
   }
 }
