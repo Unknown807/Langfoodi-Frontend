@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/pages/add_connection/bloc/add_connection_bloc.dart';
 import 'package:recipe_social_media/pages/add_connection/widgets/add_connection_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 
 class AddConnectionPage extends StatelessWidget {
   const AddConnectionPage({super.key});
@@ -11,7 +12,8 @@ class AddConnectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddConnectionBloc(
-        context.read<AuthenticationRepository>()
+        context.read<AuthenticationRepository>(),
+        context.read<ConversationRepository>()
       ),
       child: Scaffold(
         appBar: AppBar(

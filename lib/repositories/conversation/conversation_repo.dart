@@ -3,6 +3,7 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'conversation_repo.dart';
+part 'contracts/new_connection_contract.dart';
 
 class ConversationRepository {
   ConversationRepository(this.request, this.jsonWrapper);
