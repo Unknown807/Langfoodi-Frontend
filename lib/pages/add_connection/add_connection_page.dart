@@ -19,7 +19,7 @@ class AddConnectionPage extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Add New Friend"),
+          title: const Text("New Friend"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: BlocConsumer<AddConnectionBloc, AddConnectionState>(
