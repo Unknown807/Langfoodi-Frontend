@@ -24,8 +24,19 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
 
-  void _searchForUsers(SearchForUsers event, Emitter<AddGroupState> emit) {
-    print("searching");
+  void _searchForUsers(SearchForUsers event, Emitter<AddGroupState> emit) async {
+    final searchTerm = state.searchTextController.value.text.toLowerCase();
+    if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
+
+    emit(state.copyWith(searchLoading: true));
+    final userId = (await _authRepo.currentUser).id;
+    List<UserAccount> users = await _authRepo.searchAndGetConnectedUsers(searchTerm, userId);
+
+    emit(state.copyWith(
+      searchedUsers: users,
+      prevSearchTerm: searchTerm,
+      searchLoading: false
+    ));
   }
 
   void _groupNameChanged(GroupNameChanged event, Emitter<AddGroupState> emit) {
