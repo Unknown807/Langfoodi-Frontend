@@ -5,6 +5,7 @@ import 'package:recipe_social_media/pages/add_connection/widgets/add_connection_
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class AddConnectionPage extends StatelessWidget {
@@ -15,7 +16,8 @@ class AddConnectionPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AddConnectionBloc(
         context.read<AuthenticationRepository>(),
-        context.read<ConversationRepository>()
+        context.read<ConversationRepository>(),
+        context.read<NetworkManager>()
       ),
       child: Scaffold(
         appBar: AppBar(

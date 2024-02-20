@@ -7,6 +7,7 @@ import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/pages/add_group/models/group_name.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'add_group_bloc.dart';
 part 'add_group_event.dart';
@@ -15,7 +16,8 @@ part 'add_group_state.dart';
 class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
   AddGroupBloc(
     this._authRepo,
-    this._conversationRepo) : super(AddGroupState(
+    this._conversationRepo,
+    this._networkManager) : super(AddGroupState(
       searchTextController: TextEditingController(),
     )) {
       on<GroupNameChanged>(_groupNameChanged);
@@ -28,6 +30,7 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+  final NetworkManager _networkManager;
 
   void _resetDialog(ResetDialog event, Emitter<AddGroupState> emit) {
     emit(state.copyWith(
@@ -45,6 +48,15 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     }
 
     emit(state.copyWith(pageLoading: true));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        pageLoading: false,
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection."
+      ));
+    }
+
     bool formSuccess = false;
     String dialogTitle = "Oops!";
     String dialogMessage = "Could not create group, please check and try again.";
@@ -83,7 +95,7 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     ));
   }
 
-  void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) async {
+  void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) {
     List<UserAccount> selectedUsers = List.from(state.selectedUsers);
     selectedUsers.removeWhere((usr) => usr.id == event.userId);
 
@@ -93,7 +105,7 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     ));
   }
 
-  void _selectUser(SelectUser event, Emitter<AddGroupState> emit) async {
+  void _selectUser(SelectUser event, Emitter<AddGroupState> emit) {
     if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
 
     List<UserAccount> selectedUsers = List.from(state.selectedUsers);
@@ -110,6 +122,15 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
 
     emit(state.copyWith(searchLoading: true));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        searchLoading: false,
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection."
+      ));
+    }
+
     final userId = (await _authRepo.currentUser).id;
     List<UserAccount> users = await _authRepo.searchAndGetConnectedUsers(searchTerm, userId);
 
