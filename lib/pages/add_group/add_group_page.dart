@@ -4,6 +4,7 @@ import 'package:recipe_social_media/pages/add_group/bloc/add_group_bloc.dart';
 import 'package:recipe_social_media/pages/add_group/widgets/add_group_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
+import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 class AddGroupPage extends StatelessWidget {
   const AddGroupPage({super.key});
@@ -20,6 +21,11 @@ class AddGroupPage extends StatelessWidget {
           title: const Text("New Group"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
+        floatingActionButton: CustomFloatingButton(
+          key: const Key("addGroupPage"),
+          icon: Icons.check_rounded,
+          eventFunc: () {},
+        ),
         body: BlocConsumer<AddGroupBloc, AddGroupState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -33,6 +39,7 @@ class AddGroupPage extends StatelessWidget {
                       thickness: 3,
                       height: 5,
                     ),
+                    const SelectedUsersCounter(),
                     const SelectedUserList(),
                     const UserSearchInput(),
                     const Expanded(child: SearchedUserList())

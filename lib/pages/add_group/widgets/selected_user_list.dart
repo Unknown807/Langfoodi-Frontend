@@ -13,7 +13,7 @@ class SelectedUserList extends StatelessWidget {
           child: Padding(
             padding: state.selectedUsers.isEmpty
               ? EdgeInsets.zero
-              : const EdgeInsets.fromLTRB(15, 20, 20, 0),
+              : const EdgeInsets.fromLTRB(15, 15, 20, 0),
             child: SizedBox(
               height: state.selectedUsersBoxHeight,
               width: double.infinity,

@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/forms/widgets/form_widgets.dart';
@@ -13,3 +12,4 @@ part 'group_name_input.dart';
 part 'user_search_input.dart';
 part 'searched_user_list.dart';
 part 'selected_user_list.dart';
+part 'selected_users_counter.dart';

@@ -8,7 +8,7 @@ class UserSearchInput extends StatelessWidget {
     return BlocBuilder<AddGroupBloc, AddGroupState>(
       builder: (context, state) {
         return SearchInput(
-          outerPadding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
+          outerPadding: const EdgeInsets.fromLTRB(15, 10, 20, 10),
           textController: state.searchTextController,
           inputLabel: "Username or Handle",
           onSubmit: (_) {
