@@ -138,7 +138,8 @@ class _AppView extends StatelessWidget {
             "/cloudinary-image-view": (context) => const CloudinaryImageViewPage(),
             "/conversation-list": (context) => const ConversationListPage(),
             "/conversation": (context) => const ConversationPage(),
-            "/add-connection": (context) => const AddConnectionPage()
+            "/add-connection": (context) => const AddConnectionPage(),
+            "/add-group": (context) => const AddGroupPage()
           },
           home: BlocBuilder<AppBloc, AppState>(
             buildWhen: (p, c) => p.status != c.status,

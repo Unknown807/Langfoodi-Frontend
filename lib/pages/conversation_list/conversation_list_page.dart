@@ -43,7 +43,9 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
                   Icons.group_add_rounded,
                   color: Theme.of(context).colorScheme.onSecondary,
                   size: 30),
-                onPressed: () {print("group");},
+                onPressed: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "/add-group")
               ),
               ActionButton(
                 icon: Icon(

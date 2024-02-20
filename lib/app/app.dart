@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:recipe_social_media/pages/add_connection/add_connection_page.dart';
+import 'package:recipe_social_media/pages/add_group/add_group_page.dart';
 import 'package:recipe_social_media/pages/conversation/conversation_page.dart';
 import 'package:recipe_social_media/pages/conversation_list/conversation_list_page.dart';
 import 'package:recipe_social_media/pages/image_view/cloudinary_image_view_page.dart';
