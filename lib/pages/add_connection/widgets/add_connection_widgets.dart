@@ -8,4 +8,4 @@ import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'add_connection_widgets.dart';
 part 'user_search_input.dart';
-part 'connection_user_list.dart';
+part 'searched_user_list.dart';

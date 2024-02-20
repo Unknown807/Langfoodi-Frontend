@@ -1,7 +1,7 @@
 part of 'add_connection_widgets.dart';
 
-class ConnectionUserList extends StatelessWidget {
-  const ConnectionUserList({super.key});
+class SearchedUserList extends StatelessWidget {
+  const SearchedUserList({super.key});
 
   @override
   Widget build(BuildContext context) {
