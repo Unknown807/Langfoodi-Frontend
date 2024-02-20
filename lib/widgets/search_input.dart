@@ -7,12 +7,14 @@ class SearchInput extends StatelessWidget {
     required this.inputLabel,
     required this.onSubmit,
     required this.onTap,
+    this.outerPadding = const EdgeInsets.fromLTRB(20, 20, 10, 20)
   });
 
   final Function(String) onSubmit;
   final VoidCallback onTap;
   final TextEditingController textController;
   final String inputLabel;
+  final EdgeInsets outerPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class SearchInput extends StatelessWidget {
         Flexible(
           child: FormInput(
             textController: textController,
-            outerPadding: const EdgeInsets.fromLTRB(20, 20, 10, 20),
+            outerPadding: outerPadding,
             innerPadding: const EdgeInsets.symmetric(horizontal: 10),
             labelText: inputLabel,
             boxDecorationType: FormInputBoxDecorationType.textArea,

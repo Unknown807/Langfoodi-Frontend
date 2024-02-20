@@ -33,10 +33,7 @@ class AddGroupPage extends StatelessWidget {
                       thickness: 3,
                       height: 5,
                     ),
-
-                    if (state.selectedUsers.isNotEmpty)
-                      const SizedBox(height: 50, width: 100, child: SelectedUserList()),
-
+                    const SelectedUserList(),
                     const UserSearchInput(),
                     const Expanded(child: SearchedUserList())
                   ],

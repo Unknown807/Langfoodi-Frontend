@@ -26,13 +26,14 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
   final ConversationRepository _conversationRepo;
 
   void _selectUser(SelectUser event, Emitter<AddGroupState> emit) async {
-    if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
+    //if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
 
     List<UserAccount> selectedUsers = List.from(state.selectedUsers);
     selectedUsers.add(event.user);
 
     emit(state.copyWith(
-      selectedUsers: selectedUsers
+      selectedUsers: selectedUsers,
+      selectedUsersBoxHeight: 75
     ));
   }
 
