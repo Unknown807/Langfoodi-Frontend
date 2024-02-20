@@ -22,11 +22,7 @@ class AddGroupPage extends StatelessWidget {
           title: const Text("New Group"),
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        floatingActionButton: CustomFloatingButton(
-          key: const Key("addGroupPage"),
-          icon: Icons.check_rounded,
-          eventFunc: () {},
-        ),
+        floatingActionButton: const AddGroupButton(),
         body: BlocConsumer<AddGroupBloc, AddGroupState>(
           listener: (context, state) {},
           builder: (context, state) {

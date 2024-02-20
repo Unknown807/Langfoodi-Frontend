@@ -13,3 +13,4 @@ part 'user_search_input.dart';
 part 'searched_user_list.dart';
 part 'selected_user_list.dart';
 part 'selected_users_counter.dart';
+part 'add_group_button.dart';

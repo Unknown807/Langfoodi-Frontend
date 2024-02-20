@@ -21,10 +21,22 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
       on<SearchForUsers>(_searchForUsers);
       on<SelectUser>(_selectUser);
       on<DeselectUser>(_deselectUser);
+      on<CreateGroup>(_createGroup);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _createGroup(CreateGroup event, Emitter<AddGroupState> emit) async {
+    bool groupNameValid = Formz.validate([state.groupName]);
+    if (state.selectedUsers.isEmpty || !groupNameValid) {
+      return emit(state.copyWith(
+        groupNameValid: groupNameValid
+      ));
+    }
+
+    print("hello");
+  }
 
   void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) async {
     List<UserAccount> selectedUsers = List.from(state.selectedUsers);
