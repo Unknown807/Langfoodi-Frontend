@@ -7,3 +7,4 @@ part 'conversation_status.dart';
 part 'conversation.dart';
 part 'message.dart';
 part 'connection.dart';
+part 'group.dart';

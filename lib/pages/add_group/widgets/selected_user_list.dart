@@ -45,8 +45,10 @@ class SelectedUserList extends StatelessWidget {
                                         imageUrl: user.profileImageId!,
                                         errorBuilder: (err, ob1, ob2) {
                                           return CustomIconTile(
+                                            padding: EdgeInsets.zero,
                                             icon: Icons.error,
                                             borderStrokeWidth: 4,
+                                            iconSize: 25,
                                             borderRadius: 100,
                                             iconColor: Theme.of(context).colorScheme.error,
                                             tileColor: Theme.of(context).colorScheme.error,

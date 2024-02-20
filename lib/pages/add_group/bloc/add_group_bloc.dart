@@ -35,7 +35,14 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
       ));
     }
 
-    print("hello");
+    emit(state.copyWith(pageLoading: true));
+
+
+    // Create group
+    // if issue delete group -> popup
+    // Create conversation by group
+    // if issue delete group -> popup
+    // if success -> success popup
   }
 
   void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) async {
