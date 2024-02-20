@@ -48,7 +48,6 @@ dependencies:
   file: ^6.0.0
   easy_search_bar: ^2.5.0
   internet_connection_checker: ^1.0.0+1
-  sticky_grouped_list: ^3.1.0
   bubble: ^1.2.1
   carousel_slider: ^4.2.1
   loading_animation_widget: ^1.2.0+4
@@ -56,6 +55,11 @@ dependencies:
   swipe_plus: ^0.8.1
   animated_expandable_fab: ^0.0.3
   animate_do: ^3.3.3
+
+  sticky_grouped_list:
+    git:
+      url: "https://mg699@bitbucket.org/kentfinalproject/sticky_grouped_list.git"
+      ref: main
 
 dev_dependencies:
   integration_test:
