@@ -42,3 +42,7 @@ final class DeselectUser extends AddGroupEvent {
 final class CreateGroup extends AddGroupEvent {
   const CreateGroup();
 }
+
+final class ResetDialog extends AddGroupEvent {
+  const ResetDialog();
+}

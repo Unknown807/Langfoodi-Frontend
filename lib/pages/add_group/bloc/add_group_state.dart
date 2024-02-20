@@ -62,7 +62,8 @@ class AddGroupState extends Equatable {
       selectedUsers: selectedUsers ?? this.selectedUsers,
       selectedUsersBoxHeight: selectedUsersBoxHeight ?? this.selectedUsersBoxHeight,
       dialogTitle: dialogTitle ?? this.dialogTitle,
-      dialogMessage: dialogMessage ?? this.dialogMessage
+      dialogMessage: dialogMessage ?? this.dialogMessage,
+      formSuccess: formSuccess ?? this.formSuccess
     );
   }
 }

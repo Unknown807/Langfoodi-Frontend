@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
+import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/pages/add_group/models/group_name.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -22,10 +23,18 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
       on<SelectUser>(_selectUser);
       on<DeselectUser>(_deselectUser);
       on<CreateGroup>(_createGroup);
+      on<ResetDialog>(_resetDialog);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _resetDialog(ResetDialog event, Emitter<AddGroupState> emit) {
+    emit(state.copyWith(
+      dialogTitle: "",
+      dialogMessage: ""
+    ));
+  }
 
   void _createGroup(CreateGroup event, Emitter<AddGroupState> emit) async {
     bool groupNameValid = Formz.validate([state.groupName]);
@@ -36,13 +45,42 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     }
 
     emit(state.copyWith(pageLoading: true));
+    bool formSuccess = false;
+    String dialogTitle = "Oops!";
+    String dialogMessage = "Could not create group, please check and try again.";
 
+    String currentUserId = (await _authRepo.currentUser).id;
+    Group? newGroup = await _conversationRepo.createGroup(
+      state.groupName.value,
+      state.selectedUsers.map((usr) => usr.id).toList()..add(currentUserId)
+    );
 
-    // Create group
-    // if issue delete group -> popup
-    // Create conversation by group
-    // if issue delete group -> popup
-    // if success -> success popup
+    if (newGroup == null) {
+      return emit(state.copyWith(
+        pageLoading: false,
+        formSuccess: formSuccess,
+        dialogTitle: dialogTitle,
+        dialogMessage: dialogMessage
+      ));
+    }
+
+    Conversation? newConversation = await _conversationRepo.createConversationByGroup(
+      newGroup.id, currentUserId
+    );
+    if (newConversation != null) {
+      dialogTitle = "Success!";
+      dialogMessage = "Group created!";
+      formSuccess = true;
+    } else {
+      await _conversationRepo.deleteGroup(newGroup.id);
+    }
+
+    emit(state.copyWith(
+      pageLoading: false,
+      formSuccess: formSuccess,
+      dialogTitle: dialogTitle,
+      dialogMessage: dialogMessage,
+    ));
   }
 
   void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) async {
