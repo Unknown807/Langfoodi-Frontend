@@ -29,3 +29,12 @@ final class SelectUser extends AddGroupEvent {
   @override
   List<Object> get props => [user];
 }
+
+final class DeselectUser extends AddGroupEvent {
+  const DeselectUser(this.userId);
+
+  final String userId;
+
+  @override
+  List<Object> get props => [userId];
+}

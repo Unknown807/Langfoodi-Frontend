@@ -15,18 +15,29 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
   AddGroupBloc(
     this._authRepo,
     this._conversationRepo) : super(AddGroupState(
-      searchTextController: TextEditingController()
+      searchTextController: TextEditingController(),
     )) {
       on<GroupNameChanged>(_groupNameChanged);
       on<SearchForUsers>(_searchForUsers);
       on<SelectUser>(_selectUser);
+      on<DeselectUser>(_deselectUser);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
 
+  void _deselectUser(DeselectUser event, Emitter<AddGroupState> emit) async {
+    List<UserAccount> selectedUsers = List.from(state.selectedUsers);
+    selectedUsers.removeWhere((usr) => usr.id == event.userId);
+
+    emit(state.copyWith(
+      selectedUsers: selectedUsers,
+      selectedUsersBoxHeight: selectedUsers.isEmpty ? 0 : 75,
+    ));
+  }
+
   void _selectUser(SelectUser event, Emitter<AddGroupState> emit) async {
-    //if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
+    if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
 
     List<UserAccount> selectedUsers = List.from(state.selectedUsers);
     selectedUsers.add(event.user);

@@ -10,7 +10,7 @@ class AddGroupState extends Equatable {
     this.searchLoading = false,
     this.searchedUsers = const [],
     this.selectedUsers = const[],
-    this.selectedUsersBoxHeight = 0
+    this.selectedUsersBoxHeight = 0,
   });
 
   final TextEditingController searchTextController;
@@ -27,7 +27,7 @@ class AddGroupState extends Equatable {
   List<Object> get props => [
     pageLoading, groupName, groupNameValid,
     prevSearchTerm, searchLoading, searchTextController,
-    searchedUsers, selectedUsers, selectedUsersBoxHeight
+    searchedUsers, selectedUsers, selectedUsersBoxHeight,
   ];
 
   AddGroupState copyWith({
@@ -39,7 +39,7 @@ class AddGroupState extends Equatable {
     TextEditingController? searchTextController,
     List<UserAccount>? searchedUsers,
     List<UserAccount>? selectedUsers,
-    double? selectedUsersBoxHeight
+    double? selectedUsersBoxHeight,
   }) {
     return AddGroupState(
       pageLoading: pageLoading ?? this.pageLoading,
@@ -50,7 +50,7 @@ class AddGroupState extends Equatable {
       searchTextController: searchTextController ?? this.searchTextController,
       searchedUsers: searchedUsers ?? this.searchedUsers,
       selectedUsers: selectedUsers ?? this.selectedUsers,
-      selectedUsersBoxHeight: selectedUsersBoxHeight ?? this.selectedUsersBoxHeight
+      selectedUsersBoxHeight: selectedUsersBoxHeight ?? this.selectedUsersBoxHeight,
     );
   }
 }
