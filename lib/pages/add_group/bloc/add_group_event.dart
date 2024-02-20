@@ -20,3 +20,12 @@ final class GroupNameChanged extends AddGroupEvent {
 final class SearchForUsers extends AddGroupEvent {
   const SearchForUsers();
 }
+
+final class SelectUser extends AddGroupEvent {
+  const SelectUser(this.user);
+
+  final UserAccount user;
+
+  @override
+  List<Object> get props => [user];
+}

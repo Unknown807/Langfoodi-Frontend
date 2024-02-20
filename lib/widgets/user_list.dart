@@ -30,7 +30,7 @@ class UserList extends StatelessWidget {
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: users.length,
-              itemBuilder: (BuildContext context, int index) {
+              itemBuilder: (context, index) {
                 final user = users[index];
                 return Padding(padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
                   child: InkWell(

@@ -6,10 +6,10 @@ class AddGroupState extends Equatable {
     this.pageLoading = false,
     this.groupName = const GroupName.pure(),
     this.groupNameValid = true,
-    //this.selectedUsers,
     this.prevSearchTerm = "",
     this.searchLoading = false,
-    this.searchedUsers = const []
+    this.searchedUsers = const [],
+    this.selectedUsers = const[]
   });
 
   final TextEditingController searchTextController;
@@ -19,12 +19,13 @@ class AddGroupState extends Equatable {
   final String prevSearchTerm;
   final bool searchLoading;
   final List<UserAccount> searchedUsers;
+  final List<UserAccount> selectedUsers;
 
   @override
   List<Object> get props => [
     pageLoading, groupName, groupNameValid,
     prevSearchTerm, searchLoading, searchTextController,
-    searchedUsers
+    searchedUsers, selectedUsers
   ];
 
   AddGroupState copyWith({
@@ -34,7 +35,8 @@ class AddGroupState extends Equatable {
     String? prevSearchTerm,
     bool? searchLoading,
     TextEditingController? searchTextController,
-    List<UserAccount>? searchedUsers
+    List<UserAccount>? searchedUsers,
+    List<UserAccount>? selectedUsers
   }) {
     return AddGroupState(
       pageLoading: pageLoading ?? this.pageLoading,
@@ -43,7 +45,8 @@ class AddGroupState extends Equatable {
       prevSearchTerm: prevSearchTerm ?? this.prevSearchTerm,
       searchLoading: searchLoading ?? this.searchLoading,
       searchTextController: searchTextController ?? this.searchTextController,
-      searchedUsers: searchedUsers ?? this.searchedUsers
+      searchedUsers: searchedUsers ?? this.searchedUsers,
+      selectedUsers: selectedUsers ?? this.selectedUsers
     );
   }
 }

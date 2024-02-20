@@ -11,7 +11,9 @@ class SearchedUserList extends StatelessWidget {
           noUsersFoundFlag: state.prevSearchTerm.isNotEmpty && state.searchedUsers.isEmpty,
           listLoadingFlag: state.searchLoading,
           users: state.searchedUsers,
-          onTap: (UserAccount user) => print(user),
+          onTap: (UserAccount user) => context
+            .read<AddGroupBloc>()
+            .add(SelectUser(user))
         );
       },
     );

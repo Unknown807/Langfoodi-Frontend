@@ -19,10 +19,22 @@ class AddGroupBloc extends Bloc<AddGroupEvent, AddGroupState> {
     )) {
       on<GroupNameChanged>(_groupNameChanged);
       on<SearchForUsers>(_searchForUsers);
+      on<SelectUser>(_selectUser);
     }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _selectUser(SelectUser event, Emitter<AddGroupState> emit) async {
+    if (state.selectedUsers.any((usr) => usr.id == event.user.id)) return;
+
+    List<UserAccount> selectedUsers = List.from(state.selectedUsers);
+    selectedUsers.add(event.user);
+
+    emit(state.copyWith(
+      selectedUsers: selectedUsers
+    ));
+  }
 
   void _searchForUsers(SearchForUsers event, Emitter<AddGroupState> emit) async {
     final searchTerm = state.searchTextController.value.text.toLowerCase();
