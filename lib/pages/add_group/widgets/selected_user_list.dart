@@ -31,39 +31,55 @@ class SelectedUserList extends StatelessWidget {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            user.profileImageId != null
-                              ? SizedBox(
-                                  height: 50,
-                                  width: 50,
-                                  child: ClipOval(
-                                    child: context.read<ImageBuilder>().displayCloudinaryImage(
-                                      imageUrl: user.profileImageId!,
-                                      errorBuilder: (err, ob1, ob2) {
-                                        return CustomIconTile(
-                                          icon: Icons.error,
-                                          borderStrokeWidth: 4,
-                                          borderRadius: 100,
-                                          iconColor: Theme.of(context).colorScheme.error,
-                                          tileColor: Theme.of(context).colorScheme.error,
-                                        );
-                                      }
+                        SizedBox(
+                          height: 75,
+                          width: 60,
+                          child:Column(
+                            children: <Widget>[
+                              user.profileImageId != null
+                                ? SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: ClipOval(
+                                      child: context.read<ImageBuilder>().displayCloudinaryImage(
+                                        imageUrl: user.profileImageId!,
+                                        errorBuilder: (err, ob1, ob2) {
+                                          return CustomIconTile(
+                                            icon: Icons.error,
+                                            borderStrokeWidth: 4,
+                                            borderRadius: 100,
+                                            iconColor: Theme.of(context).colorScheme.error,
+                                            tileColor: Theme.of(context).colorScheme.error,
+                                          );
+                                        }
+                                      ),
                                     ),
+                                  )
+                                : const CustomCircleAvatar(
+                                    avatarIcon: Icons.person_rounded,
+                                    avatarIconSize: 40,
+                                    circleRadiusSize: 25,
                                   ),
-                                )
-                              : const CustomCircleAvatar(
-                                  avatarIcon: Icons.person_rounded,
-                                  avatarIconSize: 40,
-                                  circleRadiusSize: 25,
+
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: Text(
+                                  user.username,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onBackground.withAlpha(150),
+                                    fontSize: 16
+                                  ),
                                 ),
-                            Text(user.username)
-                          ],
+                              )
+                            ],
+                          )
                         ),
 
                         Positioned(
                           bottom: 45,
-                          right: 20,
+                          right: 25,
                           child: IconButton(
                             splashRadius: 15,
                             color: Colors.white,

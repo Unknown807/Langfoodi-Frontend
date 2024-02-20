@@ -69,7 +69,7 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
       builder: (context, state) {
         final pageState = context.watch<ProfileSettingsBloc>().state;
         return state.formStatus.isInProgress || pageState.pageLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Scaffold(body: Center(child: CircularProgressIndicator()))
           : Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: PreferredSize(

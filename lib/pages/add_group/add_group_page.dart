@@ -17,6 +17,7 @@ class AddGroupPage extends StatelessWidget {
         context.read<ConversationRepository>()
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("New Group"),
           backgroundColor: Theme.of(context).primaryColor,
