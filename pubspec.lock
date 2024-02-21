@@ -881,7 +881,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "2ad4583ec9d98cea323ec46655b6471ee5c8e4f6"
+      resolved-ref: e81ed1b4b7c548d37370454c152b1c505bf59318
       url: "https://github.com/Unknown807/sticky_grouped_list.git"
     source: git
     version: "3.1.0"
