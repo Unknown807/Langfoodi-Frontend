@@ -879,10 +879,11 @@ packages:
   sticky_grouped_list:
     dependency: "direct main"
     description:
-      name: sticky_grouped_list
-      sha256: "40398cb90321f07cbdbdd3049c27a5f048bd75a13abb19453b07a956f53a0eda"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: e81ed1b4b7c548d37370454c152b1c505bf59318
+      url: "https://github.com/Unknown807/sticky_grouped_list.git"
+    source: git
     version: "3.1.0"
   stream_channel:
     dependency: transitive

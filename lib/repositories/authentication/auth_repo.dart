@@ -20,6 +20,11 @@ class AuthenticationRepository {
     return User.fromJsonStr(userStr, jsonWrapper);
   }
 
+  void setCurrentUser(User user) async {
+    String userStr = user.serialize(jsonWrapper);
+    localStore.setKey(userKey, userStr);
+  }
+
   Future<bool> isAuthenticated() async {
     String userStr = await localStore.getKey(userKey) ?? "";
     if (userStr.isNotEmpty) {

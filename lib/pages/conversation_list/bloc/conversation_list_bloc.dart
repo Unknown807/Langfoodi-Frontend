@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -9,15 +10,47 @@ export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
-//TODO: Add functionality to pin and unpin conversations
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
   ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<SearchConversations>(_searchConversations);
+    on<PinConversation>(_pinConversation);
+    on<UnpinConversation>(_unpinConversation);
   }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _pinConversation(PinConversation event, Emitter<ConversationListState> emit) async {
+    _pinOrUnpinConversation(event.conversationId, true);
+  }
+
+  void _unpinConversation(UnpinConversation event, Emitter<ConversationListState> emit) async {
+    _pinOrUnpinConversation(event.conversationId, false);
+  }
+
+  void _pinOrUnpinConversation(String conversationId, bool toPin) async {
+    List<String> pinnedIds = List.from(state.pinnedIds);
+    if (toPin) {
+      pinnedIds.add(conversationId);
+    } else {
+      pinnedIds.removeWhere((pid) => pid == conversationId);
+    }
+
+    User currentUser = await _authRepo.currentUser;
+    currentUser.pinnedConversationIds = pinnedIds;
+    _authRepo.setCurrentUser(currentUser);
+
+    emit(state.copyWith(
+      pinnedIds: pinnedIds
+    ));
+
+    if (toPin) {
+      await _conversationRepo.pinConversation(conversationId, currentUser.id);
+    } else {
+      await _conversationRepo.unpinConversation(conversationId, currentUser.id);
+    }
+  }
 
   void _searchConversations(SearchConversations event, Emitter<ConversationListState> emit) {
     if (state.conversations.isEmpty) return;
