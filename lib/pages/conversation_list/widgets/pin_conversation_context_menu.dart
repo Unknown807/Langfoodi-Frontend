@@ -20,8 +20,19 @@ class PinConversationContextMenu extends StatelessWidget {
         ListTile(
           title: Text(isPinned ? "Unpin" : "Pin"),
           onTap: () {
-            context.read<NavigationRepository>().dismissDialog(context);
-            //context.read<ConversationListBloc>().add()
+            context
+              .read<NavigationRepository>()
+              .dismissDialog(context);
+
+            if (isPinned) {
+              context
+                .read<ConversationListBloc>()
+                .add(UnpinConversation(conversationId));
+            } else {
+              context
+                .read<ConversationListBloc>()
+                .add(PinConversation(conversationId));
+            }
           },
         ),
       ],
