@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
@@ -14,10 +16,16 @@ class AuthenticationRepository {
   final Request request;
   final JsonWrapper jsonWrapper;
   final userKey = "loggedInUser";
+  final tokenKey = "authToken";
 
   Future<User> get currentUser async {
     String userStr = (await localStore.getKey(userKey))!;
     return User.fromJsonStr(userStr, jsonWrapper);
+  }
+
+  Future<String> get currentAuthToken async {
+    String token = (await localStore.getKey(tokenKey))!;
+    return token;
   }
 
   Future<bool> isAuthenticated() async {
@@ -30,6 +38,11 @@ class AuthenticationRepository {
           password: loggedInUser.password);
 
       var response = await request.post("/auth/authenticate", data, jsonWrapper);
+      if (response.isOk) {
+        var (user, authToken) = mapAuthenticationResponse(response.body);
+        saveAuthData(user, authToken);
+      }
+
       return response.isOk;
     }
 
@@ -72,8 +85,8 @@ class AuthenticationRepository {
 
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.isOk) {
-      User user = User.fromJsonStr(response.body, jsonWrapper);
-      localStore.setKey(userKey, user.serialize(jsonWrapper));
+      var (user, authToken) = mapAuthenticationResponse(response.body);
+      saveAuthData(user, authToken);
       return "";
     }
 
@@ -85,8 +98,8 @@ class AuthenticationRepository {
     var response = await request.post("/auth/authenticate", data, jsonWrapper);
 
     if (response.isOk) {
-      User user = User.fromJsonStr(response.body, jsonWrapper);
-      localStore.setKey(userKey, user.serialize(jsonWrapper));
+      var (user, authToken) = mapAuthenticationResponse(response.body);
+      saveAuthData(user, authToken);
       return "";
     }
 
@@ -95,5 +108,18 @@ class AuthenticationRepository {
 
   Future<void> logOut() async {
     localStore.deleteKey(userKey);
+  }
+
+  saveAuthData(User user, String authToken) {
+    localStore.setKey(userKey, user.serialize(jsonWrapper));
+    localStore.setKey(tokenKey, authToken);
+  }
+
+  (User, String) mapAuthenticationResponse(String authResponse) {
+    Map<String, dynamic> authResponseJson = jsonWrapper.decodeData(authResponse);
+    User user = User.fromJson(authResponseJson["user"]);
+    String authToken = authResponseJson["token"];
+
+    return (user, authToken);
   }
 }
