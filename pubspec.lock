@@ -881,8 +881,8 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "8b3b24fadf80965ba2b054040141a52e56087f07"
-      url: "https://mg699@bitbucket.org/kentfinalproject/sticky_grouped_list.git"
+      resolved-ref: "2ad4583ec9d98cea323ec46655b6471ee5c8e4f6"
+      url: "https://github.com/Unknown807/sticky_grouped_list.git"
     source: git
     version: "3.1.0"
   stream_channel:

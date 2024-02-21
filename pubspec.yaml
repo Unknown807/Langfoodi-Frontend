@@ -58,7 +58,7 @@ dependencies:
 
   sticky_grouped_list:
     git:
-      url: "https://mg699@bitbucket.org/kentfinalproject/sticky_grouped_list.git"
+      url: "https://github.com/Unknown807/sticky_grouped_list.git"
       ref: main
 
 dev_dependencies:
