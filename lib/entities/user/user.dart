@@ -1,7 +1,7 @@
 part of 'user_entities.dart';
 
 class User extends Equatable with JsonConvertible {
-  const User(
+  User(
     this.id,
     this.handler,
     this.username,
@@ -17,9 +17,9 @@ class User extends Equatable with JsonConvertible {
   final String username;
   final String email;
   final String password;
-  final List<String> pinnedConversationIds;
   final DateTime creationDate;
   final String? profileImageId;
+  List<String> pinnedConversationIds;
   // TODO: Add expiry date for login?
 
   @override

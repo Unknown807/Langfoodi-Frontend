@@ -1,5 +1,6 @@
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'conversation_repo.dart';
@@ -64,6 +65,20 @@ class ConversationRepository {
 
   Future<bool> deleteGroup(String groupId) async {
     final response = await request.delete("/group/delete?groupId=$groupId");
+    return response.isOk;
+  }
+
+  Future<bool> unpinConversation(String conversationId, String userId) async {
+    final response = await request.postWithoutBody(
+      "/user/unpin?conversationId=$conversationId&userId=$userId"
+    );
+    return response.isOk;
+  }
+  
+  Future<bool> pinConversation(String conversationId, String userId) async {
+    final response = await request.postWithoutBody(
+        "/user/pin?conversationId=$conversationId&userId=$userId"
+    );
     return response.isOk;
   }
 }
