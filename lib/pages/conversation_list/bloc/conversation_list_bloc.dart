@@ -9,7 +9,6 @@ export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
-//TODO: Add functionality to pin and unpin conversations
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
   ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
