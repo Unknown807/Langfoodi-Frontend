@@ -41,8 +41,15 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     currentUser.pinnedConversationIds = pinnedIds;
     _authRepo.setCurrentUser(currentUser);
 
+    List<Conversation> sortedConversations = List.from(state.conversations);
+    sortedConversations.sort((c1, c2) => pinnedIds
+      .indexOf(c2.id)
+      .compareTo(pinnedIds
+        .indexOf(c1.id)));
+
     emit(state.copyWith(
-      pinnedIds: pinnedIds
+      pinnedIds: pinnedIds,
+      conversations: sortedConversations
     ));
 
     if (toPin) {
@@ -86,6 +93,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
     final currentUser = await _authRepo.currentUser;
     List<Conversation> conversations = await _conversationRepo.getConversationByUser(currentUser.id);
+    conversations.sort((c1, c2) =>
+      currentUser.pinnedConversationIds
+        .indexOf(c2.id)
+        .compareTo(currentUser.pinnedConversationIds
+          .indexOf(c1.id)));
 
     emit(state.copyWith(
       pinnedIds: currentUser.pinnedConversationIds,

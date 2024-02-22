@@ -98,8 +98,16 @@ class ConversationCard extends StatelessWidget {
                           ),
                         ),
 
-                      if (isPinned)
-                        Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
+                      Transform.rotate(
+                        angle: pi / 4,
+                        child: Icon(
+                          Icons.push_pin,
+                          size: pinIconSize,
+                          color: isPinned
+                            ? Theme.of(context).colorScheme.onBackground.withAlpha(180)
+                            : Theme.of(context).scaffoldBackgroundColor
+                        )
+                      ),
                     ]
                   )
               ),
