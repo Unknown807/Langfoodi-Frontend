@@ -32,6 +32,7 @@ class ConversationPage extends StatelessWidget {
         appBar: MessageSearchAppBar(
           isGroup: args.conversation.isGroup,
           conversationName: args.conversation.name,
+          thumbnailId: args.conversation.thumbnailId,
         ),
         body: Container(
           key: const Key("conversationPageBgImg"),

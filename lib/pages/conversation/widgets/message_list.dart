@@ -69,7 +69,7 @@ class MessageList extends StatelessWidget {
                   ),
                 ),
                 itemBuilder: (context, message) {
-                  bool isSentByMe = message.senderId == state.senderId;
+                  bool isSentByMe = message.userPreview.id == state.senderId;
                   return Column(
                     children: <Widget>[
                       if (isSentByMe)
@@ -115,11 +115,33 @@ class MessageList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (state.isGroup)
-                              const CustomCircleAvatar(
-                                avatarIcon: Icons.person,
-                                avatarIconSize: 16,
-                                circleRadiusSize: 13
-                              ),
+                              message.userPreview.profileImageId != null
+                                ? SizedBox(
+                                    height: 26,
+                                    width: 26,
+                                    child: ClipOval(
+                                      child: context.read<ImageBuilder>().displayCloudinaryImage(
+                                        imageUrl: message.userPreview.profileImageId!,
+                                        transformationType: ImageTransformationType.tiny,
+                                        errorBuilder: (err, ob1, ob2) {
+                                          return CustomIconTile(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icons.error,
+                                            borderStrokeWidth: 4,
+                                            iconSize: 20,
+                                            borderRadius: 20,
+                                            iconColor: Theme.of(context).colorScheme.error,
+                                            tileColor: Theme.of(context).colorScheme.error,
+                                          );
+                                        }
+                                      ),
+                                    ),
+                                  )
+                              : const CustomCircleAvatar(
+                                  avatarIcon: Icons.person,
+                                  avatarIconSize: 16,
+                                  circleRadiusSize: 13
+                                ),
                             Flexible(child: Bubble(
                               nipWidth: 3,
                               elevation: 5,
@@ -134,7 +156,7 @@ class MessageList extends StatelessWidget {
                               child: ChatBubbleContent(
                                 userIds: state.userIds,
                                 isGroup: state.isGroup,
-                                nameColour: state.nameColours[message.senderId],
+                                nameColour: state.nameColours[message.userPreview.id],
                                 isSentByMe: isSentByMe,
                                 message: message,
                                 repliedMessage: state.messages

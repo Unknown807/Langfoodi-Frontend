@@ -3,8 +3,7 @@ part of 'conversation_entities.dart';
 class Message extends Equatable with JsonConvertible {
   const Message(
     this.id,
-    this.senderId,
-    this.senderName,
+    this.userPreview,
     this.seenByUserIds,
     this.sentDate,
     this.updatedDate,
@@ -15,8 +14,7 @@ class Message extends Equatable with JsonConvertible {
   );
 
   final String id;
-  final String senderId;
-  final String senderName;
+  final UserPreviewForMessage userPreview;
   final List<String> seenByUserIds;
   final DateTime? sentDate;
   final DateTime? updatedDate;
@@ -32,8 +30,7 @@ class Message extends Equatable with JsonConvertible {
   static Message fromJson(Map jsonData) {
     return Message(
       jsonData["id"],
-      jsonData["senderId"],
-      jsonData["senderName"],
+      UserPreviewForMessage.fromJson(jsonData["userPreview"]),
       (jsonData["seenByUserIds"] as List).map((id) => id as String).toList(),
       jsonData["sentDate"] != null ? DateTime.parse(jsonData["sentDate"]) : null,
       jsonData["updatedDate"] != null ? DateTime.parse(jsonData["updatedDate"]) : null,
@@ -46,8 +43,8 @@ class Message extends Equatable with JsonConvertible {
 
   @override
   List<Object?> get props => [
-    id, senderId, sentDate, updatedDate,
+    id, sentDate, updatedDate,
     repliedToMessageId, textContent, imageURLs,
-    recipes, senderName
+    recipes, userPreview
   ];
 }

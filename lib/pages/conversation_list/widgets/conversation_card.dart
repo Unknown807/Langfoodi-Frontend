@@ -30,11 +30,31 @@ class ConversationCard extends StatelessWidget {
                 color: Theme.of(context).scaffoldBackgroundColor,
                 elevation: 0,
                 child: ListTile(
-                  leading: CustomCircleAvatar(
-                    avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
-                    // TODO: status will be added later
-                    //conversationStatus: conversationCardContent.details.conversationStatus,
-                  ),
+                  leading: conversation.thumbnailId != null
+                    ? SizedBox(
+                        height: 42,
+                        width: 42,
+                        child: ClipOval(
+                          child: context.read<ImageBuilder>().displayCloudinaryImage(
+                            imageUrl: conversation.thumbnailId!,
+                            transformationType: ImageTransformationType.tiny,
+                            errorBuilder: (err, ob1, ob2) {
+                              return CustomIconTile(
+                                padding: EdgeInsets.zero,
+                                icon: Icons.error,
+                                borderStrokeWidth: 4,
+                                iconSize: 20,
+                                borderRadius: 20,
+                                iconColor: Theme.of(context).colorScheme.error,
+                                tileColor: Theme.of(context).colorScheme.error,
+                              );
+                            }
+                          ),
+                        ),
+                      )
+                    : CustomCircleAvatar(
+                        avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
+                      ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -66,8 +86,8 @@ class ConversationCard extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          conversation.lastMessage != null && conversation.lastMessage!.senderName.isNotEmpty
-                            ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? "..."}"
+                          conversation.lastMessage != null && conversation.lastMessage!.userPreview.username.isNotEmpty
+                            ? "${conversation.lastMessage!.userPreview.username}: ${conversation.lastMessage!.textContent ?? "..."}"
                             : "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -116,24 +136,5 @@ class ConversationCard extends StatelessWidget {
         ));
       }
     );
-  }
-
-  Widget getStatusIcon(ConversationStatus conversationStatus, ThemeData themeData) {
-    switch (conversationStatus) {
-      case ConversationStatus.blocked:
-        return Icon(
-          Icons.block,
-          color: themeData.colorScheme.inversePrimary,
-          size: statusIconSize,
-        );
-      case ConversationStatus.pending:
-        return Icon(
-          Icons.pending,
-          color: themeData.colorScheme.tertiary.withGreen(180),
-          size: statusIconSize,
-        );
-      default:
-        return const SizedBox.shrink();
-    }
   }
 }

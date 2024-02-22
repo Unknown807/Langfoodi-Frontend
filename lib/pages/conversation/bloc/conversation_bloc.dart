@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
+import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
@@ -57,8 +58,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
     emit(state.copyWith(
-      repliedMessage: event.message ?? const Message("", "", "", [], null, null, "", "", null, null),
-      repliedMessageIsSentByMe: state.senderId == event.message?.senderId
+      repliedMessage: event.message ?? const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
+      repliedMessageIsSentByMe: state.senderId == event.message?.userPreview.id
     ));
   }
 
@@ -79,7 +80,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       emit(state.copyWith(
         messages: messages,
         repliedMessageIsSentByMe: false,
-        repliedMessage: const Message("", "", "", [], null, null, "", "", null, null)
+        repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
       ));
     } else {
       emit(state.copyWith(
@@ -149,7 +150,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       repliedMessageIsSentByMe: false,
       attachedImagePaths: [],
       attachedRecipes: [],
-      repliedMessage: const Message("", "", "", [], null, null, "", "", null, null),
+      repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
       checkboxValues: List.generate(state.currentRecipes.length, (_) => false),
     ));
     state.messageTextController.clear();
@@ -335,15 +336,13 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 
     List<Message> messages = await _messageRepo.getMessagesFromConversation(event.conversation.id);
-    final nameColours = _generateNameColours(messages);
+    final nameColours = _generateNameColours(event.conversation.userIds);
     List<Recipe> currentRecipes = await _getCurrentUserRecipesAndReturn();
 
     await _conversationRepo.markConversationAsRead(event.conversation.id, senderId);
     messages.forEach(((msg) => msg.seenByUserIds.add(senderId)));
 
     emit(state.copyWith(
-      //TODO: status will be refactored eventually
-      //conversationStatus: event.conversationStatus,
       conversationId: event.conversation.id,
       conversationName: event.conversation.name,
       isGroup: event.conversation.isGroup,
@@ -356,12 +355,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
   }
 
-  Map<String, Color> _generateNameColours(List<Message> messages) {
+  Map<String, Color> _generateNameColours(List<String> userIds) {
     Map<String, Color> nameColours = {};
-    for (var msg in messages) {
+    for (String id in userIds) {
       nameColours.putIfAbsent(
-        msg.senderId,
-        () {
+        id, () {
           final colorHex = (Random().nextDouble() * 0xFFFFFFFF).toString();
           return Color(int.parse(colorHex.substring(0, 6), radix: 16) + 0xFF000000);
         }
