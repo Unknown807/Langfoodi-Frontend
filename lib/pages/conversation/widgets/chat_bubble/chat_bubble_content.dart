@@ -32,11 +32,11 @@ class ChatBubbleContent extends StatelessWidget {
           if (repliedMessage != null)
             MessageReplyBox(
               message: repliedMessage!,
-              isSentByMe: repliedMessage!.senderId == message.senderId && isSentByMe
+              isSentByMe: repliedMessage!.userPreview.id == message.userPreview.id && isSentByMe
             ),
 
           if (!isSentByMe && isGroup)
-            Text(message.senderName,
+            Text(message.userPreview.username,
               style: TextStyle(
                 color: nameColour,
                 fontWeight: FontWeight.bold,

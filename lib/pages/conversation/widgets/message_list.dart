@@ -69,7 +69,7 @@ class MessageList extends StatelessWidget {
                   ),
                 ),
                 itemBuilder: (context, message) {
-                  bool isSentByMe = message.senderId == state.senderId;
+                  bool isSentByMe = message.userPreview.id == state.senderId;
                   return Column(
                     children: <Widget>[
                       if (isSentByMe)
@@ -134,7 +134,7 @@ class MessageList extends StatelessWidget {
                               child: ChatBubbleContent(
                                 userIds: state.userIds,
                                 isGroup: state.isGroup,
-                                nameColour: state.nameColours[message.senderId],
+                                nameColour: state.nameColours[message.userPreview.id],
                                 isSentByMe: isSentByMe,
                                 message: message,
                                 repliedMessage: state.messages

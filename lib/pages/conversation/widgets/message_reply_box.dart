@@ -32,7 +32,7 @@ class MessageReplyBox extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(isSentByMe ? "You" : message.senderName,
+                      Text(isSentByMe ? "You" : message.userPreview.username,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
                           fontWeight: FontWeight.bold,

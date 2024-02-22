@@ -86,8 +86,8 @@ class ConversationCard extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          conversation.lastMessage != null && conversation.lastMessage!.senderName.isNotEmpty
-                            ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? "..."}"
+                          conversation.lastMessage != null && conversation.lastMessage!.userPreview.username.isNotEmpty
+                            ? "${conversation.lastMessage!.userPreview.username}: ${conversation.lastMessage!.textContent ?? "..."}"
                             : "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

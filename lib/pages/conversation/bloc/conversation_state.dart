@@ -20,7 +20,7 @@ class ConversationState extends Equatable {
     this.allowImages = true,
     this.allowRecipes = true,
     this.sendingMessage = false,
-    this.repliedMessage = const Message("", "", "", [], null, null, "", "", null, null),
+    this.repliedMessage = const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
     this.repliedMessageIsSentByMe = false,
     this.userIds = const [],
   });
