@@ -23,21 +23,34 @@ class AuthenticationRepository {
     return User.fromJsonStr(userStr, jsonWrapper);
   }
 
+  void setCurrentUser(User user) async {
+    String userStr = user.serialize(jsonWrapper);
+    localStore.setKey(userKey, userStr);
+  }
+
   Future<bool> isAuthenticated() async {
     var (user, errorMessage) = await request.authenticate(null);
     return user != null && errorMessage == null;
   }
 
-  Future<List<UserAccount>> searchAndGetUsers(String searchTerm, String userId) async {
-    final response = await request.postWithoutBody("/user/get-unconnected?containedString=$searchTerm&userId=$userId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
+  Future<List<UserAccount>> _searchAndGetUsers(String path) async {
+    final response = await request.postWithoutBody(path, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return [];
 
     List<dynamic> jsonUserAccounts = jsonWrapper.decodeData(response.body);
     List<UserAccount> retrievedUserAccounts = jsonUserAccounts
-      .map((jsonUserAccount) => UserAccount.fromJson(jsonUserAccount))
-      .toList();
+        .map((jsonUserAccount) => UserAccount.fromJson(jsonUserAccount))
+        .toList();
 
     return retrievedUserAccounts;
+  }
+
+  Future<List<UserAccount>> searchAndGetUnconnectedUsers(String searchTerm, String userId) async {
+    return _searchAndGetUsers("/user/get-unconnected?containedString=$searchTerm&userId=$userId");
+  }
+
+  Future<List<UserAccount>> searchAndGetConnectedUsers(String searchTerm, String userId) async {
+    return _searchAndGetUsers("/user/get-connected?containedString=$searchTerm&userId=$userId");
   }
 
   Future<String> updateUser({required String id, String? profileImageId, String? username, String? email, String? password}) async {

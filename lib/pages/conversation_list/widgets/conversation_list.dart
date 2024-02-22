@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
-import 'package:recipe_social_media/pages/conversation_list/widgets/conversation_card.dart';
+part of 'conversation_list_widgets.dart';
 
 class ConversationList extends StatelessWidget {
   const ConversationList({super.key});

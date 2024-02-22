@@ -1,12 +1,4 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
-import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
-import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
-import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
-import 'package:recipe_social_media/widgets/shared_widgets.dart';
+part of 'conversation_list_widgets.dart';
 
 class ConversationCard extends StatelessWidget {
   const ConversationCard({
@@ -24,96 +16,105 @@ class ConversationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ConversationListBloc, ConversationListState>(
       builder: (context, state) {
+        final isPinned = state.pinnedIds.contains(conversation.id);
         return GestureDetector(
           onTap: () => context
             .read<NavigationRepository>()
             .goTo(context, "/conversation",
             arguments: ConversationPageArguments(conversation: conversation)),
-          child: Center(
-            child: Card(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              elevation: 0,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: CustomCircleAvatar(
-                      avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
-                      // TODO: status will be added later
-                      //conversationStatus: conversationCardContent.details.conversationStatus,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            conversation.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        ),
-                        Text(
-                          conversation.lastMessage?.sentDate != null
-                            ? DateFormat("dd/MM/yyyy").format(conversation.lastMessage!.sentDate!)
-                            : "",
+          child: PinConversationContextMenu(
+            isPinned: isPinned,
+            conversationId: conversation.id,
+            child: Center(
+              child: Card(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                elevation: 0,
+                child: ListTile(
+                  leading: CustomCircleAvatar(
+                    avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
+                    // TODO: status will be added later
+                    //conversationStatus: conversationCardContent.details.conversationStatus,
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          conversation.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 12)
+                            fontSize: 18, fontWeight: FontWeight.bold),
                         )
-                      ]
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            conversation.lastMessage != null && conversation.lastMessage!.senderName.isNotEmpty
-                              ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? "..."}"
-                              : "",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Theme.of(context).hintColor,
-                              fontSize: 16
-                            ),
-                        )),
+                      ),
+                      Text(
+                        conversation.lastMessage?.sentDate != null
+                          ? DateFormat("dd/MM/yyyy").format(conversation.lastMessage!.sentDate!)
+                          : "",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 12)
+                      )
+                    ]
+                  ),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          conversation.lastMessage != null && conversation.lastMessage!.senderName.isNotEmpty
+                            ? "${conversation.lastMessage!.senderName}: ${conversation.lastMessage!.textContent ?? "..."}"
+                            : "",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Theme.of(context).hintColor,
+                            fontSize: 16
+                          ),
+                      )),
 
-                        if (conversation.messagesUnseen > 0)
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
-                            child: ClipOval(
-                              child: Container(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 25,
-                                height: 25,
-                                child: Center(
-                                  child: Text(
-                                    "${conversation.messagesUnseen}",
-                                    style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  )),
-                              ),
+                      if (conversation.messagesUnseen > 0)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+                          child: ClipOval(
+                            child: Container(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 25,
+                              height: 25,
+                              child: Center(
+                                child: Text(
+                                  "${conversation.messagesUnseen}",
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                )),
                             ),
                           ),
+                        ),
 
-                        if (state.pinnedIds.contains(conversation.id))
-                          Transform.rotate(angle: pi / 4, child: const Icon(Icons.push_pin, size: pinIconSize))
-                      ]
-                    )
-                ),
-              ],
-            ),
+                      Transform.rotate(
+                        angle: pi / 4,
+                        child: Icon(
+                          Icons.push_pin,
+                          size: pinIconSize,
+                          color: isPinned
+                            ? Theme.of(context).colorScheme.onBackground.withAlpha(180)
+                            : Theme.of(context).scaffoldBackgroundColor
+                        )
+                      ),
+                    ]
+                  )
+              ),
+            )
           )
-        )
-      );}
+        ));
+      }
     );
   }
 

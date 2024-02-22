@@ -5,6 +5,7 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'add_connection_bloc.dart';
 part 'add_connection_event.dart';
@@ -13,7 +14,8 @@ part 'add_connection_state.dart';
 class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
   AddConnectionBloc(
     this._authRepo,
-    this._conversationRepo) : super(AddConnectionState(
+    this._conversationRepo,
+    this._networkManager) : super(AddConnectionState(
       searchTextController: TextEditingController()
     )) {
       on<SearchForUsers>(_searchForUsers);
@@ -23,6 +25,7 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+  final NetworkManager _networkManager;
 
   void _resetDialog(ResetDialog event, Emitter<AddConnectionState> emit) {
     emit(state.copyWith(
@@ -33,6 +36,15 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
 
   void _createConversation(CreateConversation event, Emitter<AddConnectionState> emit) async {
     emit(state.copyWith(pageLoading: true));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        pageLoading: false,
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection."
+      ));
+    }
+
     bool formSuccess = false;
     String dialogTitle = "Oops!";
     String dialogMessage = "Could not start the conversation, please check and try again.";
@@ -70,8 +82,17 @@ class AddConnectionBloc extends Bloc<AddConnectionEvent, AddConnectionState> {
     if (searchTerm.isEmpty || searchTerm == state.prevSearchTerm) return;
 
     emit(state.copyWith(searchLoading: true));
+    bool hasNetwork = await _networkManager.isNetworkConnected();
+    if (!hasNetwork) {
+      return emit(state.copyWith(
+        searchLoading: false,
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection."
+      ));
+    }
+
     final userId = (await _authRepo.currentUser).id;
-    List<UserAccount> users = await _authRepo.searchAndGetUsers(searchTerm, userId);
+    List<UserAccount> users = await _authRepo.searchAndGetUnconnectedUsers(searchTerm, userId);
 
     emit(state.copyWith(
       users: users,
