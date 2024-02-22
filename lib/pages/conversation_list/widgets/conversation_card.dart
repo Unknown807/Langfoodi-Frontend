@@ -30,11 +30,31 @@ class ConversationCard extends StatelessWidget {
                 color: Theme.of(context).scaffoldBackgroundColor,
                 elevation: 0,
                 child: ListTile(
-                  leading: CustomCircleAvatar(
-                    avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
-                    // TODO: status will be added later
-                    //conversationStatus: conversationCardContent.details.conversationStatus,
-                  ),
+                  leading: conversation.thumbnailId != null
+                    ? SizedBox(
+                        height: 42,
+                        width: 42,
+                        child: ClipOval(
+                          child: context.read<ImageBuilder>().displayCloudinaryImage(
+                            imageUrl: conversation.thumbnailId!,
+                            transformationType: ImageTransformationType.tiny,
+                            errorBuilder: (err, ob1, ob2) {
+                              return CustomIconTile(
+                                padding: EdgeInsets.zero,
+                                icon: Icons.error,
+                                borderStrokeWidth: 4,
+                                iconSize: 20,
+                                borderRadius: 20,
+                                iconColor: Theme.of(context).colorScheme.error,
+                                tileColor: Theme.of(context).colorScheme.error,
+                              );
+                            }
+                          ),
+                        ),
+                      )
+                    : CustomCircleAvatar(
+                        avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
+                      ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

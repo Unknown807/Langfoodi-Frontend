@@ -4,23 +4,45 @@ class MessageSearchAppBar extends StatelessWidget implements PreferredSizeWidget
   const MessageSearchAppBar({
     super.key,
     required this.isGroup,
-    required this.conversationName
+    required this.conversationName,
+    required this.thumbnailId
   });
 
   final bool isGroup;
   final String conversationName;
+  final String? thumbnailId;
 
   @override
   Widget build(BuildContext context) {
     return CustomSearchAppBar(
       title: Row(
         children: [
-          CustomCircleAvatar(
-            avatarIcon: isGroup ? Icons.group : Icons.person,
-            //TODO: status will be refactored eventually
-            //conversationStatus: convo.conversationStatus,
-            avatarIconSize: 25,
-          ),
+          thumbnailId != null
+            ? SizedBox(
+                height: 40,
+                width: 37,
+                child: ClipOval(
+                  child: context.read<ImageBuilder>().displayCloudinaryImage(
+                    imageUrl: thumbnailId!,
+                    transformationType: ImageTransformationType.tiny,
+                    errorBuilder: (err, ob1, ob2) {
+                      return CustomIconTile(
+                        padding: EdgeInsets.zero,
+                        icon: Icons.error,
+                        borderStrokeWidth: 4,
+                        iconSize: 20,
+                        borderRadius: 20,
+                        iconColor: Theme.of(context).colorScheme.error,
+                        tileColor: Theme.of(context).colorScheme.error,
+                      );
+                    }
+                  ),
+                ),
+              )
+          : CustomCircleAvatar(
+              avatarIcon: isGroup ? Icons.group : Icons.person,
+              avatarIconSize: 25,
+            ),
           const SizedBox(width: 10),
           Flexible(
             child: Text(conversationName,

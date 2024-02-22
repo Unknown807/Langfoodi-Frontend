@@ -7,6 +7,7 @@ import 'package:recipe_social_media/entities/conversation/conversation_entities.
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
 export 'conversation_list_widgets.dart';

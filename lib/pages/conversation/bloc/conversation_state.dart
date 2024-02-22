@@ -5,7 +5,6 @@ class ConversationState extends Equatable {
     required this.messageListScrollController,
     required this.messageTextController,
     this.conversationName = "",
-    this.conversationStatus = ConversationStatus.connected,
     this.isGroup = false,
     this.messages = const [],
     this.senderId = "",
@@ -23,12 +22,11 @@ class ConversationState extends Equatable {
     this.sendingMessage = false,
     this.repliedMessage = const Message("", "", "", [], null, null, "", "", null, null),
     this.repliedMessageIsSentByMe = false,
-    this.userIds = const []
+    this.userIds = const [],
   });
 
   final GroupedItemScrollController messageListScrollController;
   final TextEditingController messageTextController;
-  final ConversationStatus conversationStatus;
   final String senderId;
   final String conversationName;
   final bool isGroup;
@@ -52,7 +50,7 @@ class ConversationState extends Equatable {
   @override
   List<Object> get props => [
     conversationName, messages, isGroup,
-    senderId, conversationStatus, nameColours,
+    senderId, nameColours,
     messageTextController, dialogTitle, dialogMessage,
     currentRecipes, checkboxValues,
     messageListScrollController, pageLoading,
@@ -67,7 +65,6 @@ class ConversationState extends Equatable {
     List<Message>? messages,
     bool? isGroup,
     String? senderId,
-    ConversationStatus? conversationStatus,
     Map<String, Color>? nameColours,
     TextEditingController? messageTextController,
     GroupedItemScrollController? messageListScrollController,
@@ -91,7 +88,6 @@ class ConversationState extends Equatable {
       messages: messages ?? this.messages,
       isGroup: isGroup ?? this.isGroup,
       senderId: senderId ?? this.senderId,
-      conversationStatus: conversationStatus ?? this.conversationStatus,
       nameColours: nameColours ?? this.nameColours,
       messageTextController: messageTextController ?? this.messageTextController,
       messageListScrollController: messageListScrollController ?? this.messageListScrollController,
@@ -108,7 +104,7 @@ class ConversationState extends Equatable {
       sendingMessage: sendingMessage ?? this.sendingMessage,
       repliedMessage: repliedMessage ?? this.repliedMessage,
       repliedMessageIsSentByMe: repliedMessageIsSentByMe ?? this.repliedMessageIsSentByMe,
-      userIds: userIds ?? this.userIds
+      userIds: userIds ?? this.userIds,
     );
   }
 }

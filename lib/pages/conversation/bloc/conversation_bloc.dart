@@ -342,8 +342,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     messages.forEach(((msg) => msg.seenByUserIds.add(senderId)));
 
     emit(state.copyWith(
-      //TODO: status will be refactored eventually
-      //conversationStatus: event.conversationStatus,
       conversationId: event.conversation.id,
       conversationName: event.conversation.name,
       isGroup: event.conversation.isGroup,
