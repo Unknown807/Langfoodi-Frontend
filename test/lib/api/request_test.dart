@@ -7,11 +7,13 @@ import '../../../test_utilities/fakes/generic_fakes.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
+  late ResponseMock responseMock;
   late String path;
   late Uri fullPath;
   late MultipartFileProviderMock multipartFileProviderMock;
   late ClientMock clientMock;
   late JsonWrapperMock jsonWrapperMock;
+  late LocalStoreMock localStoreMock;
   late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
@@ -19,19 +21,21 @@ void main() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
+    responseMock = ResponseMock();
     jsonWrapperMock = JsonWrapperMock();
     jsonConvertibleMock = JsonConvertibleMock();
     multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
-    when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
+    localStoreMock = LocalStoreMock();
+    when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
     registerFallbackValue(BaseRequestFake());
 
     ReferenceWrapper<ClientMock> refWrapper = ReferenceWrapper(clientMock);
-    sut = Request(refWrapper, multipartFileProviderMock);
+    sut = Request(refWrapper, multipartFileProviderMock, localStoreMock, jsonWrapperMock);
   });
 
   group("formatHeaders method tests", () {
@@ -67,6 +71,7 @@ void main() {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.put(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
@@ -84,6 +89,7 @@ void main() {
     test("without headers", () async {
       // Arrange
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.put(path, jsonConvertibleMock, jsonWrapperMock);
@@ -103,6 +109,7 @@ void main() {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.post(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
@@ -120,6 +127,7 @@ void main() {
     test("without headers", () async {
       // Arrange
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.post(path, jsonConvertibleMock, jsonWrapperMock);
@@ -138,6 +146,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.postWithoutBody(path, headers: headers);
@@ -152,6 +161,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.postWithoutBody(path);
 
@@ -168,6 +180,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.get(path, headers: headers);
@@ -182,6 +195,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.get(path);
 
@@ -198,6 +214,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.delete(path, headers: headers);
@@ -212,6 +229,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.delete(path);
 

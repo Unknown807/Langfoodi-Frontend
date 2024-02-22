@@ -39,8 +39,8 @@ Future<void> main() async {
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
 
   final localStore = LocalStore(secureStorage);
-  final request = Request(clientWrapper, multipartFileProvider);
   final jsonWrapper = JsonWrapper();
+  final request = Request(clientWrapper, multipartFileProvider, localStore, jsonWrapper);
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 

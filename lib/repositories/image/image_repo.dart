@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloudinary_url_gen/cloudinary.dart';
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -18,18 +20,18 @@ class ImageRepository {
   late JsonWrapper jsonWrapper;
 
   Future<Signature?> getSignature() async {
-    final response = await request.postWithoutBody("/image/get/cloudinary-signature");
+    final response = await request.postWithoutBody("/image/get/cloudinary-signature", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return null;
     return Signature.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<bool> removeImage(String publicId) async {
-    final response = await request.delete("/image/single-delete?publicId=$publicId");
+    final response = await request.delete("/image/single-delete?publicId=$publicId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     return response.isOk;
   }
 
   Future<bool> removeImages(List<String> publicIds) async {
-    final response = await request.delete("/image/bulk-delete?publicIds=${publicIds.join("&publicIds=")}");
+    final response = await request.delete("/image/bulk-delete?publicIds=${publicIds.join("&publicIds=")}", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     return response.isOk;
   }
 

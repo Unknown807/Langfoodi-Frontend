@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
@@ -14,6 +16,7 @@ class AuthenticationRepository {
   final Request request;
   final JsonWrapper jsonWrapper;
   final userKey = "loggedInUser";
+  final tokenKey = "authToken";
 
   Future<User> get currentUser async {
     String userStr = (await localStore.getKey(userKey))!;
@@ -26,23 +29,12 @@ class AuthenticationRepository {
   }
 
   Future<bool> isAuthenticated() async {
-    String userStr = await localStore.getKey(userKey) ?? "";
-    if (userStr.isNotEmpty) {
-      User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
-
-      var data = AuthenticationAttemptContract(
-          handlerOrEmail: loggedInUser.email,
-          password: loggedInUser.password);
-
-      var response = await request.post("/auth/authenticate", data, jsonWrapper);
-      return response.isOk;
-    }
-
-    return false;
+    var (user, errorMessage) = await request.authenticate(null);
+    return user != null && errorMessage == null;
   }
 
   Future<List<UserAccount>> _searchAndGetUsers(String path) async {
-    final response = await request.postWithoutBody(path);
+    final response = await request.postWithoutBody(path, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return [];
 
     List<dynamic> jsonUserAccounts = jsonWrapper.decodeData(response.body);
@@ -70,7 +62,7 @@ class AuthenticationRepository {
       profileImageId: profileImageId
     );
     
-    var response = await request.put("/user/update", data, jsonWrapper);
+    var response = await request.put("/user/update", data, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (response.isOk) return "";
 
     return response.isBadRequest ? response.body : "Issue Updating Profile";
@@ -85,8 +77,9 @@ class AuthenticationRepository {
 
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.isOk) {
-      User user = User.fromJsonStr(response.body, jsonWrapper);
+      var (user, authToken) = request.mapAuthenticationResponse(response.body);
       localStore.setKey(userKey, user.serialize(jsonWrapper));
+      localStore.setKey(tokenKey, authToken);
       return "";
     }
 
@@ -95,18 +88,18 @@ class AuthenticationRepository {
 
   Future<String> loginWithHandlerOrEmail(String handlerOrEmail, String password) async {
     var data = AuthenticationAttemptContract(handlerOrEmail: handlerOrEmail, password: password);
-    var response = await request.post("/auth/authenticate", data, jsonWrapper);
 
-    if (response.isOk) {
-      User user = User.fromJsonStr(response.body, jsonWrapper);
+    var (user, errorMessage) = await request.authenticate(data);
+    if (user != null) {
       localStore.setKey(userKey, user.serialize(jsonWrapper));
       return "";
     }
 
-    return response.isBadRequest ? response.body : "Issue Signing In";
+    return errorMessage ?? "Issue Signing In";
   }
 
   Future<void> logOut() async {
     localStore.deleteKey(userKey);
+    localStore.deleteKey(request.tokenKey);
   }
 }

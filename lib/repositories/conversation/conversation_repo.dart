@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
@@ -14,7 +16,7 @@ class ConversationRepository {
   late JsonWrapper jsonWrapper;
 
   Future<List<Conversation>> getConversationByUser(String userId) async {
-    final response = await request.postWithoutBody("/conversation/get-by-user?userId=$userId");
+    final response = await request.postWithoutBody("/conversation/get-by-user?userId=$userId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return [];
 
     List<dynamic> jsonMessages = jsonWrapper.decodeData(response.body);
@@ -27,21 +29,22 @@ class ConversationRepository {
 
   Future<bool> markConversationAsRead(String conversationId, String userId) async {
     final response = await request.putWithoutBody(
-      "/conversation/mark-as-read?conversationId=$conversationId&userId=$userId"
+      "/conversation/mark-as-read?conversationId=$conversationId&userId=$userId",
+        headers: { HttpHeaders.authorizationHeader: await request.currentToken }
     );
     return response.isOk;
   }
 
   Future<Connection?> createConnection(String userId1, String userId2) async {
     final contract = NewConnectionContract(userId1: userId1, userId2: userId2);
-    final response = await request.post("/connection/create", contract, jsonWrapper);
+    final response = await request.post("/connection/create", contract, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return null;
 
     return Connection.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<Conversation?> _createConversation(String path) async {
-    final response = await request.postWithoutBody(path);
+    final response = await request.postWithoutBody(path, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return null;
 
     return Conversation.fromJsonStr(response.body, jsonWrapper);
@@ -57,27 +60,29 @@ class ConversationRepository {
 
   Future<Group?> createGroup(String groupName, List<String> userIds) async {
     final contract = NewGroupContract(name: groupName, userIds: userIds);
-    final response = await request.post("/group/create", contract, jsonWrapper);
+    final response = await request.post("/group/create", contract, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return null;
 
     return Group.fromJsonStr(response.body, jsonWrapper);
   }
 
   Future<bool> deleteGroup(String groupId) async {
-    final response = await request.delete("/group/delete?groupId=$groupId");
+    final response = await request.delete("/group/delete?groupId=$groupId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     return response.isOk;
   }
 
   Future<bool> unpinConversation(String conversationId, String userId) async {
     final response = await request.postWithoutBody(
-      "/user/unpin?conversationId=$conversationId&userId=$userId"
+      "/user/unpin?conversationId=$conversationId&userId=$userId",
+        headers: { HttpHeaders.authorizationHeader: await request.currentToken }
     );
     return response.isOk;
   }
-  
+
   Future<bool> pinConversation(String conversationId, String userId) async {
     final response = await request.postWithoutBody(
-        "/user/pin?conversationId=$conversationId&userId=$userId"
+        "/user/pin?conversationId=$conversationId&userId=$userId",
+        headers: { HttpHeaders.authorizationHeader: await request.currentToken }
     );
     return response.isOk;
   }
