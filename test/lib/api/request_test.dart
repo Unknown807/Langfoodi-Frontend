@@ -71,6 +71,7 @@ void main() {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.put(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
@@ -88,6 +89,7 @@ void main() {
     test("without headers", () async {
       // Arrange
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.put(path, jsonConvertibleMock, jsonWrapperMock);
@@ -107,6 +109,7 @@ void main() {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.post(path, jsonConvertibleMock, jsonWrapperMock, headers: headers);
@@ -124,6 +127,7 @@ void main() {
     test("without headers", () async {
       // Arrange
       when(() => jsonWrapperMock.encodeData(any())).thenAnswer((invocation) => '{"username": "username1"}');
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.post(path, jsonConvertibleMock, jsonWrapperMock);
@@ -142,6 +146,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.postWithoutBody(path, headers: headers);
@@ -156,6 +161,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.postWithoutBody(path);
 
@@ -172,6 +180,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.get(path, headers: headers);
@@ -186,6 +195,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.get(path);
 
@@ -202,6 +214,7 @@ void main() {
     test("with headers", () async {
       // Arrange
       const headers = { "authorization": "auth-token-here" };
+      when(() => responseMock.statusCode).thenReturn(200);
 
       // Act
       await sut.delete(path, headers: headers);
@@ -216,6 +229,9 @@ void main() {
     });
 
     test("without headers", () async {
+      // Arrange
+      when(() => responseMock.statusCode).thenReturn(200);
+
       // Act
       await sut.delete(path);
 
