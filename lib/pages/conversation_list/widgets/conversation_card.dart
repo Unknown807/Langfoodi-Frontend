@@ -137,23 +137,4 @@ class ConversationCard extends StatelessWidget {
       }
     );
   }
-
-  Widget getStatusIcon(ConversationStatus conversationStatus, ThemeData themeData) {
-    switch (conversationStatus) {
-      case ConversationStatus.blocked:
-        return Icon(
-          Icons.block,
-          color: themeData.colorScheme.inversePrimary,
-          size: statusIconSize,
-        );
-      case ConversationStatus.pending:
-        return Icon(
-          Icons.pending,
-          color: themeData.colorScheme.tertiary.withGreen(180),
-          size: statusIconSize,
-        );
-      default:
-        return const SizedBox.shrink();
-    }
-  }
 }
