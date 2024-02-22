@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -12,7 +14,7 @@ class ConversationRepository {
   late JsonWrapper jsonWrapper;
 
   Future<List<Conversation>> getConversationByUser(String userId) async {
-    final response = await request.postWithoutBody("/conversation/get-by-user?userId=$userId");
+    final response = await request.postWithoutBody("/conversation/get-by-user?userId=$userId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return [];
 
     List<dynamic> jsonMessages = jsonWrapper.decodeData(response.body);
@@ -25,14 +27,15 @@ class ConversationRepository {
 
   Future<bool> markConversationAsRead(String conversationId, String userId) async {
     final response = await request.putWithoutBody(
-      "/conversation/mark-as-read?conversationId=$conversationId&userId=$userId"
+      "/conversation/mark-as-read?conversationId=$conversationId&userId=$userId",
+        headers: { HttpHeaders.authorizationHeader: await request.currentToken }
     );
     return response.isOk;
   }
 
   Future<Connection?> createConnection(String userId1, String userId2) async {
     final contract = NewConnectionContract(userId1: userId1, userId2: userId2);
-    final response = await request.post("/connection/create", contract, jsonWrapper);
+    final response = await request.post("/connection/create", contract, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return null;
 
     return Connection.fromJsonStr(response.body, jsonWrapper);
@@ -40,7 +43,8 @@ class ConversationRepository {
 
   Future<Conversation?> createConversationByConnection(String connectionId, String userId) async {
     final response = await request.postWithoutBody(
-      "/conversation/create-by-connection?connectionId=$connectionId&userId=$userId"
+      "/conversation/create-by-connection?connectionId=$connectionId&userId=$userId",
+        headers: { HttpHeaders.authorizationHeader: await request.currentToken }
     );
     if (!response.isOk) return null;
 

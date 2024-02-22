@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
@@ -21,18 +23,13 @@ class AuthenticationRepository {
     return User.fromJsonStr(userStr, jsonWrapper);
   }
 
-  Future<String> get currentAuthToken async {
-    String token = (await localStore.getKey(tokenKey))!;
-    return token;
-  }
-
   Future<bool> isAuthenticated() async {
     var (user, errorMessage) = await request.authenticate(null);
     return user != null && errorMessage == null;
   }
 
   Future<List<UserAccount>> searchAndGetUsers(String searchTerm, String userId) async {
-    final response = await request.postWithoutBody("/user/get-unconnected?containedString=$searchTerm&userId=$userId");
+    final response = await request.postWithoutBody("/user/get-unconnected?containedString=$searchTerm&userId=$userId", headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (!response.isOk) return [];
 
     List<dynamic> jsonUserAccounts = jsonWrapper.decodeData(response.body);
@@ -52,7 +49,7 @@ class AuthenticationRepository {
       profileImageId: profileImageId
     );
     
-    var response = await request.put("/user/update", data, jsonWrapper);
+    var response = await request.put("/user/update", data, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
     if (response.isOk) return "";
 
     return response.isBadRequest ? response.body : "Issue Updating Profile";
