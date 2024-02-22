@@ -12,6 +12,7 @@ void main() {
   late MultipartFileProviderMock multipartFileProviderMock;
   late ClientMock clientMock;
   late JsonWrapperMock jsonWrapperMock;
+  late LocalStoreMock localStoreMock;
   late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
@@ -23,6 +24,7 @@ void main() {
     jsonConvertibleMock = JsonConvertibleMock();
     multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
+    localStoreMock = LocalStoreMock();
     when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
@@ -31,7 +33,7 @@ void main() {
     registerFallbackValue(BaseRequestFake());
 
     ReferenceWrapper<ClientMock> refWrapper = ReferenceWrapper(clientMock);
-    sut = Request(refWrapper, multipartFileProviderMock);
+    sut = Request(refWrapper, multipartFileProviderMock, localStoreMock, jsonWrapperMock);
   });
 
   group("formatHeaders method tests", () {

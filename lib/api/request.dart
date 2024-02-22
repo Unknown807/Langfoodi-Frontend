@@ -1,7 +1,10 @@
 part of 'api.dart';
 
 class Request {
-  Request(this.client, this.multipartFileProvider);
+  Request(this.client, this.multipartFileProvider, this.localStore, this.jsonWrapper);
+
+  final userKey = "loggedInUser";
+  final tokenKey = "authToken";
 
   final ReferenceWrapper<http.Client> client;
   final MultipartFileProvider multipartFileProvider;
@@ -12,10 +15,14 @@ class Request {
   final http.Response generalExceptionResponse = http.Response("Unknown Error", 500);
   final http.Response timeoutExceptionResponse = http.Response("Timeout Error", 408);
 
+  final LocalStore localStore;
+  final JsonWrapper jsonWrapper;
+
   final String baseUrl = "https://localhost:7120";
   final Map<String, String> baseHeaders = {
     HttpHeaders.acceptHeader: "application/json",
-    HttpHeaders.contentTypeHeader: "application/json"
+    HttpHeaders.contentTypeHeader: "application/json",
+    HttpHeaders.authorizationHeader: "token"
   };
 
   @visibleForTesting
@@ -25,6 +32,32 @@ class Request {
       allHeaders.addAll(headers);
     }
     return allHeaders;
+  }
+
+  Future<(User? user, String? errorMessage)> authenticate(AuthenticationAttemptContract? contract) async {
+    if (contract == null) {
+      String userStr = await localStore.getKey(userKey) ?? "";
+
+      if (userStr == "") {
+        return (null, null);
+      }
+
+      User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
+
+      contract = AuthenticationAttemptContract(
+          handlerOrEmail: loggedInUser.email,
+          password: loggedInUser.password);
+    }
+
+    var response = await post("/auth/authenticate", contract, jsonWrapper);
+    if (response.isOk) {
+      var (user, authToken) = mapAuthenticationResponse(response.body);
+      localStore.setKey(tokenKey, authToken);
+
+      return (user, null);
+    }
+
+    return (null, response.isBadRequest ? response.body : null);
   }
 
   Future<http.Response> put(String path, Object data, JsonWrapper jsonWrapper, {Map<String, String>? headers, String? baseUrl}) async {
@@ -90,5 +123,13 @@ class Request {
         timeoutDuration,
         onTimeout: () => IOStreamedResponse(Stream.fromIterable([[1,],[2,]]), 408))
       .catchError((error, stackTrace) { return http.StreamedResponse(Stream.fromIterable([[1,],[2,]]), 500); });
+  }
+
+  (User, String) mapAuthenticationResponse(String authResponse) {
+    Map<String, dynamic> authResponseJson = jsonWrapper.decodeData(authResponse);
+    User user = User.fromJson(authResponseJson["user"]);
+    String authToken = authResponseJson["token"];
+
+    return (user, authToken);
   }
 }

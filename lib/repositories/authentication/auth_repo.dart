@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/api/api.dart';
@@ -29,24 +27,8 @@ class AuthenticationRepository {
   }
 
   Future<bool> isAuthenticated() async {
-    String userStr = await localStore.getKey(userKey) ?? "";
-    if (userStr.isNotEmpty) {
-      User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
-
-      var data = AuthenticationAttemptContract(
-          handlerOrEmail: loggedInUser.email,
-          password: loggedInUser.password);
-
-      var response = await request.post("/auth/authenticate", data, jsonWrapper);
-      if (response.isOk) {
-        var (user, authToken) = mapAuthenticationResponse(response.body);
-        saveAuthData(user, authToken);
-      }
-
-      return response.isOk;
-    }
-
-    return false;
+    var (user, errorMessage) = await request.authenticate(null);
+    return user != null && errorMessage == null;
   }
 
   Future<List<UserAccount>> searchAndGetUsers(String searchTerm, String userId) async {
@@ -85,8 +67,9 @@ class AuthenticationRepository {
 
     var response = await request.post("/user/create", data, jsonWrapper);
     if (response.isOk) {
-      var (user, authToken) = mapAuthenticationResponse(response.body);
-      saveAuthData(user, authToken);
+      var (user, authToken) = request.mapAuthenticationResponse(response.body);
+      localStore.setKey(userKey, user.serialize(jsonWrapper));
+      localStore.setKey(tokenKey, authToken);
       return "";
     }
 
@@ -95,31 +78,17 @@ class AuthenticationRepository {
 
   Future<String> loginWithHandlerOrEmail(String handlerOrEmail, String password) async {
     var data = AuthenticationAttemptContract(handlerOrEmail: handlerOrEmail, password: password);
-    var response = await request.post("/auth/authenticate", data, jsonWrapper);
 
-    if (response.isOk) {
-      var (user, authToken) = mapAuthenticationResponse(response.body);
-      saveAuthData(user, authToken);
+    var (user, errorMessage) = await request.authenticate(data);
+    if (user != null) {
+      localStore.setKey(userKey, user.serialize(jsonWrapper));
       return "";
     }
 
-    return response.isBadRequest ? response.body : "Issue Signing In";
+    return errorMessage ?? "Issue Signing In";
   }
 
   Future<void> logOut() async {
     localStore.deleteKey(userKey);
-  }
-
-  saveAuthData(User user, String authToken) {
-    localStore.setKey(userKey, user.serialize(jsonWrapper));
-    localStore.setKey(tokenKey, authToken);
-  }
-
-  (User, String) mapAuthenticationResponse(String authResponse) {
-    Map<String, dynamic> authResponseJson = jsonWrapper.decodeData(authResponse);
-    User user = User.fromJson(authResponseJson["user"]);
-    String authToken = authResponseJson["token"];
-
-    return (user, authToken);
   }
 }
