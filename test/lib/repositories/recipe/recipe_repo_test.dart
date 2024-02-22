@@ -15,7 +15,9 @@ void main() {
     requestMock = RequestMock();
     jsonWrapperMock = JsonWrapperMock();
 
-    when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => requestMock.currentToken).thenAnswer((invocation) async => "test_token");
+    when(() => requestMock.postWithoutBody(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+
     registerFallbackValue(jsonWrapperMock);
 
     sut = RecipeRepository(requestMock, jsonWrapperMock);
@@ -122,7 +124,7 @@ void main() {
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(jsonStr);
       when(() => jsonWrapperMock.decodeData(any())).thenReturn({"id":"1","title":"recipe1","description":"recipe 1 desc","chef":{"id":"id1","handler":"testHandler","userName":"test1","accountCreationDate":"2023-11-08","pinnedConversationIds": ["convoId1"]},"numberOfServings":null,"cookingTime":500,"kiloCalories":2000,"tags":["string"],"ingredients":[{"name":"egg","quantity":1,"unitOfMeasurement":"whole"}],"recipeSteps":[{"text":"step 1","imageUrl":"url"}],"creationDate":"2023-09-26T15:50:29.1911738+00:00","lastUpdatedDate":"2023-09-26T15:50:29.1911738+00:00"});
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.post(any(), contract, any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.addNewRecipe(contract);
@@ -139,7 +141,7 @@ void main() {
           tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
           recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(404);
-      when(() => requestMock.post(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.post(any(), contract, any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.addNewRecipe(contract);
@@ -157,7 +159,7 @@ void main() {
           tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
           recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);
@@ -174,7 +176,7 @@ void main() {
           tags: ["string"], ingredients: [const Ingredient("eggs", 1, "whole")],
           recipeSteps: [RecipeStep("step 1", "url")]);
       when(() => responseMock.statusCode).thenReturn(404);
-      when(() => requestMock.put(any(), contract, any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.put(any(), contract, any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.updateRecipe(contract);
@@ -190,7 +192,7 @@ void main() {
       // Arrange
       const recipeId = "1";
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.delete(any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.delete(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.removeRecipe(recipeId);
@@ -204,7 +206,7 @@ void main() {
       // Arrange
       const recipeId = "1";
       when(() => responseMock.statusCode).thenReturn(404);
-      when(() => requestMock.delete(any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.delete(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
       var result = await sut.removeRecipe(recipeId);

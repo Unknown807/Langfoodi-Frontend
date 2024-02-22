@@ -23,6 +23,7 @@ void main() {
     streamedResponseMock = StreamedResponseMock();
     jsonWrapperMock = JsonWrapperMock();
 
+    when(() => requestMock.currentToken).thenAnswer((invocation) async => "test_token");
     when(() => cloudinaryMock.config).thenReturn(cloudinaryConfigMock);
     when(() => cloudinaryConfigMock.cloudConfig).thenReturn(cloudConfigMock);
     when(() => cloudConfigMock.cloudName).thenReturn("cloud name");
@@ -34,7 +35,7 @@ void main() {
   group("getSignature method tests", () {
     test("success, returns signature model", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.postWithoutBody(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn('{"signature": "sig", "timeStamp": 12345 }');
       when(() => jsonWrapperMock.decodeData(any()))
@@ -45,12 +46,12 @@ void main() {
 
       // Assert
       expect(result, const Signature("sig", "12345"));
-      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature", headers: any(named: "headers"))).called(1);
     });
 
     test("unsuccessful, call returns null", () async {
       // Arrange
-      when(() => requestMock.postWithoutBody(any())).thenAnswer((invocation) => Future.value(responseMock));
+      when(() => requestMock.postWithoutBody(any(), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
       when(() => responseMock.statusCode).thenReturn(401);
 
       // Act
@@ -58,7 +59,7 @@ void main() {
 
       // Assert
       expect(result, isNull);
-      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature")).called(1);
+      verify(() => requestMock.postWithoutBody("/image/get/cloudinary-signature", headers: any(named: "headers"))).called(1);
     });
   });
 
@@ -117,7 +118,7 @@ void main() {
     test("unsuccessful response, so return false", () async {
       // Arrange
       when(() => responseMock.statusCode).thenReturn(500);
-      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3"))
+      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3", headers: any(named: "headers")))
         .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
@@ -125,13 +126,13 @@ void main() {
 
       // Assert
       expect(result, false);
-      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3")).called(1);
+      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3", headers: any(named: "headers"))).called(1);
     });
 
     test("successful response, so return true", () async {
       // Arrange
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3"))
+      when(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3", headers: any(named: "headers")))
           .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
@@ -139,7 +140,7 @@ void main() {
 
       // Assert
       expect(result, true);
-      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3")).called(1);
+      verify(() => requestMock.delete("/image/bulk-delete?publicIds=1&publicIds=2&publicIds=3", headers: any(named: "headers"))).called(1);
     });
   });
   
@@ -147,7 +148,7 @@ void main() {
     test("unsuccessful response, so return false", () async {
       // Arrange
       when(() => responseMock.statusCode).thenReturn(401);
-      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow"))
+      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow", headers: any(named: "headers")))
         .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
@@ -155,13 +156,13 @@ void main() {
 
       // Assert
       expect(result, false);
-      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow")).called(1);
+      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow", headers: any(named: "headers"))).called(1);
     });
 
     test("successful response, so return true", () async {
       // Arrange
       when(() => responseMock.statusCode).thenReturn(200);
-      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow"))
+      when(() => requestMock.delete("/image/single-delete?publicId=publicidwow", headers: any(named: "headers")))
           .thenAnswer((invocation) => Future.value(responseMock));
 
       // Act
@@ -169,7 +170,7 @@ void main() {
 
       // Assert
       expect(result, true);
-      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow")).called(1);
+      verify(() => requestMock.delete("/image/single-delete?publicId=publicidwow", headers: any(named: "headers"))).called(1);
     });
   });
 }

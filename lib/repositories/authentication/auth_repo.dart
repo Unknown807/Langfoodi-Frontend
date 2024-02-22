@@ -87,5 +87,6 @@ class AuthenticationRepository {
 
   Future<void> logOut() async {
     localStore.deleteKey(userKey);
+    localStore.deleteKey(request.tokenKey);
   }
 }

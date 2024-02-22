@@ -7,6 +7,7 @@ import '../../../test_utilities/fakes/generic_fakes.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
+  late ResponseMock responseMock;
   late String path;
   late Uri fullPath;
   late MultipartFileProviderMock multipartFileProviderMock;
@@ -20,15 +21,16 @@ void main() {
     path = "/get/user";
     fullPath = Uri.parse("https://localhost:7120/get/user");
 
+    responseMock = ResponseMock();
     jsonWrapperMock = JsonWrapperMock();
     jsonConvertibleMock = JsonConvertibleMock();
     multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
     localStoreMock = LocalStoreMock();
-    when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
-    when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(ResponseMock()));
+    when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
+    when(() => clientMock.delete(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
 
     registerFallbackValue(BaseRequestFake());
 
