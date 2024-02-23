@@ -54,3 +54,4 @@ class RecipeRepositoryMock extends Mock implements RecipeRepository {}
 class RecipeViewBlocMock extends MockBloc<RecipeViewEvent, RecipeViewState> implements RecipeViewBloc {}
 class RecipeViewStateMock extends Mock implements RecipeViewState {}
 class StreamedResponseMock extends Mock implements http.StreamedResponse {}
+class MessagingHubMock extends Mock implements MessagingHub {}

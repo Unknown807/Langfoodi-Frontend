@@ -19,6 +19,7 @@ void main() {
   late ImageBuilderMock imageBuilderMock;
   late NetworkManagerMock networkManagerMock;
   late LocalStoreMock localStoreMock;
+  late MessagingHubMock messagingHubMock;
 
   setUp(() {
     recipeRepoMock = RecipeRepositoryMock();
@@ -31,6 +32,7 @@ void main() {
     imageTransformationBuilderMock = ImageTransformationBuilderMock();
     networkManagerMock = NetworkManagerMock();
     localStoreMock = LocalStoreMock();
+    messagingHubMock = MessagingHubMock();
 
     when(() => localStoreMock.getKey("currentTheme")).thenAnswer((invocation) => Future.value("light"));
     when(() => imageBuilderMock.getAssetImage(any())).thenReturn(const AssetImage("assets/images/light_auth_bg.png"));
@@ -48,6 +50,7 @@ void main() {
       imageTransformationBuilder: imageTransformationBuilderMock,
       networkManager: networkManagerMock,
       localStore: localStoreMock,
+      messagingHub: messagingHubMock,
     );
   }
 

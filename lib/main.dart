@@ -38,6 +38,8 @@ Future<void> main() async {
   final multipartFileProvider = MultipartFileProvider();
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
 
+  final messagingHub = MessagingHub();
+  messagingHub.startConnection();
   final localStore = LocalStore(secureStorage);
   final jsonWrapper = JsonWrapper();
   final request = Request(clientWrapper, multipartFileProvider, localStore, jsonWrapper);
@@ -73,6 +75,7 @@ Future<void> main() async {
     imageBuilder: imageBuilder,
     networkManager: networkManager,
     localStore: localStore,
+    messagingHub: messagingHub,
   ));
 
   //localStore.deleteKey("loggedInUser");
