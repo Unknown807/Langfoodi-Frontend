@@ -16,10 +16,15 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<SearchConversations>(_searchConversations);
     on<PinConversation>(_pinConversation);
     on<UnpinConversation>(_unpinConversation);
+    on<LeaveGroup>(_leaveGroup);
   }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+
+  void _leaveGroup(LeaveGroup event, Emitter<ConversationListState> emit) async {
+    print("hallo");
+  }
 
   void _pinConversation(PinConversation event, Emitter<ConversationListState> emit) async {
     _pinOrUnpinConversation(event.conversationId, true);
