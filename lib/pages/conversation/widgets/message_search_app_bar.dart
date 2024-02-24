@@ -53,12 +53,6 @@ class MessageSearchAppBar extends StatelessWidget implements PreferredSizeWidget
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.more_vert_rounded),
-          onPressed: () {print("more options pressed");},
-        )
-      ],
       onSearchFunc: (term) => context
         .read<ConversationBloc>()
         .add(SearchMessages(term))
