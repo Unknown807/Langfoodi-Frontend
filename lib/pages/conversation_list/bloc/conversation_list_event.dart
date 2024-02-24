@@ -47,3 +47,7 @@ final class LeaveGroup extends ConversationListEvent {
   @override
   List<Object> get props => [conversationId];
 }
+
+final class ResetPopupDialog extends ConversationListEvent {
+  const ResetPopupDialog();
+}

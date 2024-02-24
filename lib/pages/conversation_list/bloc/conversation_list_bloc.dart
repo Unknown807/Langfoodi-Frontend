@@ -5,25 +5,42 @@ import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'conversation_list_bloc.dart';
 part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
-  ConversationListBloc(this._conversationRepo, this._authRepo) : super(const ConversationListState()) {
+  ConversationListBloc(this._conversationRepo, this._authRepo, this._networkManager) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<SearchConversations>(_searchConversations);
     on<PinConversation>(_pinConversation);
     on<UnpinConversation>(_unpinConversation);
     on<LeaveGroup>(_leaveGroup);
+    on<ResetPopupDialog>(_resetPopupDialog);
   }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
+  final NetworkManager _networkManager;
+
+  void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationListState> emit) async {
+    emit(state.copyWith(
+      dialogTitle: "",
+      dialogMessage: ""
+    ));
+  }
 
   void _leaveGroup(LeaveGroup event, Emitter<ConversationListState> emit) async {
-    print("hallo");
+    if (!await _networkManager.isNetworkConnected()) {
+      return emit(state.copyWith(
+        dialogTitle: "Oops!",
+        dialogMessage: "Network issue encountered, please check your internet connection."
+      ));
+    }
+
+
   }
 
   void _pinConversation(PinConversation event, Emitter<ConversationListState> emit) async {
