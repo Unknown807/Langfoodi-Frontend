@@ -80,7 +80,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              state.conversations.isNotEmpty
+              state.conversations.isNotEmpty || state.pageLoading
                 ? const ConversationList()
                 : Column(
                     children: <Widget>[

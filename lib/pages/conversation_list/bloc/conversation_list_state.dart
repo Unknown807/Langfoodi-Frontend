@@ -8,7 +8,8 @@ class ConversationListState extends Equatable {
     this.pinnedIds = const [],
     this.prevSearchTerm = "",
     this.dialogTitle = "",
-    this.dialogMessage = ""
+    this.dialogMessage = "",
+    this.pageLoading = false
   });
 
   final List<Conversation> conversations;
@@ -18,12 +19,14 @@ class ConversationListState extends Equatable {
   final String prevSearchTerm;
   final String dialogTitle;
   final String dialogMessage;
+  final bool pageLoading;
 
   @override
   List<Object?> get props => [
     conversations, shownConversations,
     searchSuggestions, prevSearchTerm,
-    pinnedIds, dialogTitle, dialogMessage
+    pinnedIds, dialogTitle, dialogMessage,
+    pageLoading
   ];
 
   ConversationListState copyWith({
@@ -33,7 +36,8 @@ class ConversationListState extends Equatable {
     String? prevSearchTerm,
     List<String>? pinnedIds,
     String? dialogTitle,
-    String? dialogMessage
+    String? dialogMessage,
+    bool? pageLoading
   }) {
     return ConversationListState (
       conversations: conversations ?? this.conversations,
@@ -42,7 +46,8 @@ class ConversationListState extends Equatable {
       prevSearchTerm: prevSearchTerm ?? this.prevSearchTerm,
       pinnedIds: pinnedIds ?? this.pinnedIds,
       dialogTitle: dialogTitle ?? this.dialogTitle,
-      dialogMessage: dialogMessage ?? this.dialogMessage
+      dialogMessage: dialogMessage ?? this.dialogMessage,
+      pageLoading: pageLoading ?? this.pageLoading
     );
   }
 }

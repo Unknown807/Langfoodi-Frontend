@@ -40,7 +40,36 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
       ));
     }
 
+    emit(state.copyWith(pageLoading: true));
+    final currentUserId = (await _authRepo.currentUser).id;
+    final groupIndex = state.conversations.indexWhere((convo) => convo.id == event.conversationId);
+    final groupConversation = state.conversations[groupIndex];
+    groupConversation.userIds.removeWhere((userId) => userId == currentUserId);
 
+    final success = await _conversationRepo.updateGroup(
+      groupConversation.connectionOrGroupId,
+      groupConversation.name,
+      groupConversation.userIds
+    );
+
+    if (success) {
+      List<Conversation> conversations = List.from(state.conversations);
+      List<bool> shownConversations = List.from(state.shownConversations);
+      conversations.removeAt(groupIndex);
+      shownConversations.removeAt(groupIndex);
+
+      emit(state.copyWith(
+        pageLoading: false,
+        conversations: conversations,
+        shownConversations: shownConversations
+      ));
+    } else {
+      emit(state.copyWith(
+        pageLoading: false,
+        dialogTitle: "Oops!",
+        dialogMessage: "Encountered issue trying to leave group."
+      ));
+    }
   }
 
   void _pinConversation(PinConversation event, Emitter<ConversationListState> emit) async {
