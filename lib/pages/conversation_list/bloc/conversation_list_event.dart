@@ -38,3 +38,16 @@ final class UnpinConversation extends ConversationListEvent {
   @override
   List<Object> get props => [conversationId];
 }
+
+final class LeaveGroup extends ConversationListEvent {
+  const LeaveGroup(this.conversationId);
+
+  final String conversationId;
+
+  @override
+  List<Object> get props => [conversationId];
+}
+
+final class ResetPopupDialog extends ConversationListEvent {
+  const ResetPopupDialog();
+}

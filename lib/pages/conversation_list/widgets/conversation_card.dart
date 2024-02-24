@@ -22,7 +22,8 @@ class ConversationCard extends StatelessWidget {
             .read<NavigationRepository>()
             .goTo(context, "/conversation",
             arguments: ConversationPageArguments(conversation: conversation)),
-          child: PinConversationContextMenu(
+          child: ConversationContextMenu(
+            isGroup: conversation.isGroup,
             isPinned: isPinned,
             conversationId: conversation.id,
             child: Center(
