@@ -152,6 +152,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
 
     emit(state.copyWith(
       pinnedIds: currentUser.pinnedConversationIds,
+      blockedIds: currentUser.blockedConnectionIds,
       conversations: conversations,
       shownConversations:
         state.shownConversations.isEmpty

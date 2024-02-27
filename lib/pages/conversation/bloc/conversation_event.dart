@@ -9,12 +9,13 @@ sealed class ConversationEvent extends Equatable {
 }
 
 final class InitState extends ConversationEvent {
-  const InitState(this.conversation);
+  const InitState(this.conversation, this.isBlocked);
 
   final Conversation conversation;
+  final bool isBlocked;
 
   @override
-  List<Object> get props => [conversation];
+  List<Object> get props => [conversation, isBlocked];
 }
 
 final class GoToInteractionPageAndExpectResult extends ConversationEvent {

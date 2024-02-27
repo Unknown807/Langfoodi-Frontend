@@ -4,11 +4,13 @@ class MessageSearchAppBar extends StatelessWidget implements PreferredSizeWidget
   const MessageSearchAppBar({
     super.key,
     required this.isGroup,
+    required this.isBlocked,
     required this.conversationName,
     required this.thumbnailId
   });
 
   final bool isGroup;
+  final bool isBlocked;
   final String conversationName;
   final String? thumbnailId;
 
@@ -23,7 +25,7 @@ class MessageSearchAppBar extends StatelessWidget implements PreferredSizeWidget
             thumbnailBoxHeight: 40,
             thumbnailBoxWidth: 37,
             thumbnailId: thumbnailId,
-            conversationStatus: ConversationStatus.blocked,
+            conversationStatus: isBlocked ? ConversationStatus.blocked : null,
           ),
           const SizedBox(width: 10),
           Flexible(

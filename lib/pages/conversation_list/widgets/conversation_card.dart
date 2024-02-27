@@ -17,11 +17,15 @@ class ConversationCard extends StatelessWidget {
     return BlocBuilder<ConversationListBloc, ConversationListState>(
       builder: (context, state) {
         final isPinned = state.pinnedIds.contains(conversation.id);
+        final isBlocked = state.blockedIds.contains(conversation.connectionOrGroupId);
         return GestureDetector(
           onTap: () => context
             .read<NavigationRepository>()
             .goTo(context, "/conversation",
-            arguments: ConversationPageArguments(conversation: conversation)),
+            arguments: ConversationPageArguments(
+              conversation: conversation,
+              isBlocked: isBlocked
+            )),
           child: ConversationContextMenu(
             isGroup: conversation.isGroup,
             isPinned: isPinned,
@@ -34,7 +38,7 @@ class ConversationCard extends StatelessWidget {
                   leading: CustomCircleAvatar(
                     avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
                     thumbnailId: conversation.thumbnailId,
-                    conversationStatus: ConversationStatus.blocked,
+                    conversationStatus: isBlocked ? ConversationStatus.blocked : null,
                   ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
