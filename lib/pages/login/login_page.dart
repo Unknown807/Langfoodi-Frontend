@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Column(children: <Widget>[
-                  SizedBox(height:280),
+                  SizedBox(height:100),
                   Container(
                     key: const Key("loginPageBgImg"),
                     height:70,
@@ -28,6 +28,7 @@ class LoginPage extends StatelessWidget {
                         )
                       ),
                     )),
+                  SizedBox(height:200),
                   Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: BlocProvider<LoginBloc>(
