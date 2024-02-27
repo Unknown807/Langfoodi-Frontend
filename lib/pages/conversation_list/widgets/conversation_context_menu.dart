@@ -5,14 +5,18 @@ class ConversationContextMenu extends StatelessWidget {
     super.key,
     required this.isPinned,
     required this.isGroup,
+    required this.isBlocked,
     required this.conversationId,
+    required this.connectionId,
     required this.child
   });
 
   final Widget child;
   final String conversationId;
+  final String connectionId;
   final bool isPinned;
   final bool isGroup;
+  final bool isBlocked;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,34 @@ class ConversationContextMenu extends StatelessWidget {
             }
           },
         ),
+        if (!isGroup && !isBlocked)
+          ListTile(
+            title: const Text("Block"),
+            onTap: () {
+              context
+                .read<NavigationRepository>()
+                .dismissDialog(context);
+
+              context
+                .read<ConversationListBloc>()
+                .add(BlockConnection(connectionId));
+            },
+          ),
+
+        if (!isGroup && isBlocked)
+          ListTile(
+            title: const Text("Unblock"),
+            onTap: () {
+              context
+                .read<NavigationRepository>()
+                .dismissDialog(context);
+
+              context
+                .read<ConversationListBloc>()
+                .add(UnblockConnection(connectionId));
+            },
+          ),
+
         if (isGroup)
           ListTile(
             title: const Text("Leave Group"),

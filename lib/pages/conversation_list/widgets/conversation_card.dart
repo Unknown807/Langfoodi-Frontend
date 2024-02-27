@@ -27,9 +27,11 @@ class ConversationCard extends StatelessWidget {
               isBlocked: isBlocked
             )),
           child: ConversationContextMenu(
+            isBlocked: isBlocked,
             isGroup: conversation.isGroup,
             isPinned: isPinned,
             conversationId: conversation.id,
+            connectionId: conversation.connectionOrGroupId,
             child: Center(
               child: Card(
                 color: Theme.of(context).scaffoldBackgroundColor,
