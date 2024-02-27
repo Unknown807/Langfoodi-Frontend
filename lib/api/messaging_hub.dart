@@ -4,23 +4,28 @@ class MessagingHub {
 
   static const String baseUrl = "https://localhost:7120";
 
-  HubConnection _hubConnection;
+  final HubConnection _hubConnection;
+  final JsonWrapper _jsonWrapper;
 
-  MessagingHub({String? url})
+  MessagingHub(this._jsonWrapper, {String? url})
     : _hubConnection = HubConnectionBuilder()
       .withUrl('${url ?? baseUrl}/messaging-hub')
       .build();
 
   Future<void> startConnection() async {
-    await _hubConnection.start();
   }
 
   void stopConnection() async {
     _hubConnection.stop();
   }
 
-  void onMessageReceived(Function(dynamic) callback) {
-    _hubConnection.on("ReceiveMessage", callback);
+  void onMessageReceived(Function(Message, String) callback) {
+    _hubConnection.on("ReceiveMessage", (arguments) {
+      Message message = Message.fromJson(arguments?[0] as Map<dynamic, dynamic>);
+      String conversationId = arguments?[1] as String;
+
+      callback(message, conversationId);
+    });
   }
 
   void onMessageUpdated(Function(dynamic) callback) {

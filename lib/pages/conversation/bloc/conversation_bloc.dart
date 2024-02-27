@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
@@ -29,7 +30,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     this._messageRepo,
     this._imageRepo,
     this._conversationRepo,
-    this._networkManager) : super(ConversationState(
+    this._networkManager,
+    this._messagingHub) : super(ConversationState(
       messageTextController: TextEditingController(),
       messageListScrollController: GroupedItemScrollController()
     )) {
@@ -46,7 +48,20 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<RemoveMessage>(_removeMessage);
       on<ReplyToMessage>(_replyToMessage);
       on<SearchMessages>(_searchMessages);
-   }
+      on<ReceiveMessage>(_showReceivedMessage);
+
+      _messagingHub.onMessageReceived((message, conversationId) {
+        if (conversationId != state.conversationId) {
+          return;
+        }
+
+        if (state.messages.any((m) => m.id == message.id)) {
+          return;
+        }
+
+        add(ReceiveMessage(message));
+      });
+  }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
@@ -55,6 +70,17 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final ImageRepository _imageRepo;
   final ConversationRepository _conversationRepo;
   final NetworkManager _networkManager;
+  final MessagingHub _messagingHub;
+
+  void _showReceivedMessage(ReceiveMessage event, Emitter<ConversationState> emit) {
+    List<Message> newMessages = List.from(state.messages);
+    newMessages.add(event.message);
+
+    emit(state.copyWith(
+      sendingMessage: false,
+      messages: newMessages,
+    ));
+  }
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
     emit(state.copyWith(

@@ -38,8 +38,6 @@ Future<void> main() async {
   final multipartFileProvider = MultipartFileProvider();
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
 
-  final messagingHub = MessagingHub();
-  messagingHub.startConnection();
   final localStore = LocalStore(secureStorage);
   final jsonWrapper = JsonWrapper();
   final request = Request(clientWrapper, multipartFileProvider, localStore, jsonWrapper);
@@ -57,6 +55,9 @@ Future<void> main() async {
   final recipeRepo = RecipeRepository(request, jsonWrapper);
   final conversationRepo = ConversationRepository(request, jsonWrapper);
   final messageRepo = MessageRepository(request, jsonWrapper);
+
+  final messagingHub = MessagingHub(jsonWrapper);
+  messagingHub.startConnection();
 
   // The below 2 (commented out) lines are used for manual testing purposes:
 

@@ -45,6 +45,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => imageBuilder),
         RepositoryProvider(create: (_) => networkManager),
         RepositoryProvider(create: (_) => localStore),
+        RepositoryProvider(create: (_) => messagingHub),
       ],
       child: BlocProvider(
         create: (_) => AppBloc(localStore, authRepo)..add(const InitState()),
