@@ -12,34 +12,26 @@ class LoginForm extends StatelessWidget {
           }
         },
         child: Column(children: <Widget>[
-          const FormErrorLabel(),
           const SizedBox(height: 5),
           const Column(children: <Widget>[
             HandlerEmailInput(),
             PasswordInput(),
           ]),
           const SizedBox(height: 20),
-          // Row(
-          //   children: <Widget>[
-          //     const Spacer(),
-          //     CustomTextButton(
-          //       text: "Forgot Password?",
-          //       fontSize: 14,
-          //       eventFunc: () {}),
-          //   ],
-          // ),
-          Container(width:300, child: const LoginButton()),
+          const FormErrorLabel(),
+          const SizedBox(height: 20),
+          const LoginButton(),
           const SizedBox(height: 10),
-          Container(width:300, child: OutlinedButton(
+          Row(children:[Expanded(child:Container(child: OutlinedButton(
             onPressed: () {context
-              .read<NavigationRepository>()
-              .goTo(context, "/register");
+                .read<NavigationRepository>()
+                .goTo(context, "/register");
             },
 
             style: OutlinedButton.styleFrom(side:const BorderSide(color: Colors.green)),
 
             child: const Text("Create account"),
-          )),
+          )))]),
         ]));
   }
 }
@@ -109,10 +101,10 @@ class LoginButton extends StatelessWidget {
           return const CircularProgressIndicator();
         }
 
-        return FormButton(
+        return Row(children:[Expanded(child:Container(child:FormButton(
           eventFunc: () => context.read<LoginBloc>().add(const FormSubmitted()),
           text: "Sign in",
-        );
+        )))]);
       },
     );
   }
