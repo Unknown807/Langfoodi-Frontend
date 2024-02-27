@@ -48,11 +48,22 @@ class ChatBubbleContent extends StatelessWidget {
           if (message.recipes != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipes!),
           if (message.imageURLs != null || message.recipes != null) const SizedBox(height: 4),
           if (message.textContent != null)
-            Flexible(child: Text(message.textContent!,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+            Flexible(
+              child: Text(message.textContent!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                )
               )
-            )),
+            ),
+          if (message.imageURLs == null && message.recipes == null && message.textContent == null)
+            Flexible(
+              child: Text("Recipes Were Removed",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground.withAlpha(150),
+                  fontStyle: FontStyle.italic
+                ),
+              ),
+            ),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
