@@ -14,47 +14,32 @@ class LoginForm extends StatelessWidget {
         child: Column(children: <Widget>[
           const FormErrorLabel(),
           const SizedBox(height: 5),
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.shadow,
-                  blurRadius: 20.0,
-                  offset: const Offset(0, 10))
-              ]),
-            child: const Column(children: <Widget>[
-              HandlerEmailInput(),
-              PasswordInput(),
-            ])),
-          const SizedBox(height: 5),
-          Row(
-            children: <Widget>[
-              const Spacer(),
-              CustomTextButton(
-                text: "Forgot Password?",
-                fontSize: 14,
-                eventFunc: () {}),
-            ],
-          ),
-          const LoginButton(),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Don't have an account?    ",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                )),
-              CustomTextButton(
-                eventFunc: () => context
-                  .read<NavigationRepository>()
-                  .goTo(context, "/register"),
-                text: "Sign Up"),
-            ],
-          ),
+          const Column(children: <Widget>[
+            HandlerEmailInput(),
+            PasswordInput(),
+          ]),
+          const SizedBox(height: 20),
+          // Row(
+          //   children: <Widget>[
+          //     const Spacer(),
+          //     CustomTextButton(
+          //       text: "Forgot Password?",
+          //       fontSize: 14,
+          //       eventFunc: () {}),
+          //   ],
+          // ),
+          Container(width:300, child: const LoginButton()),
+          const SizedBox(height: 10),
+          Container(width:300, child: OutlinedButton(
+            onPressed: () {context
+              .read<NavigationRepository>()
+              .goTo(context, "/register");
+            },
+
+            style: OutlinedButton.styleFrom(side:const BorderSide(color: Colors.green)),
+
+            child: const Text("Create account"),
+          )),
         ]));
   }
 }
@@ -76,18 +61,17 @@ class FormErrorLabel extends StatelessWidget {
 
 class HandlerEmailInput extends StatelessWidget {
   const HandlerEmailInput({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
-        return FormInput(
-          boxDecorationType: FormInputBoxDecorationType.underlined,
-          hintText: "Handler or Email",
+        return (FormInput(
+          hintText: "Email",
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
-          });
+          },
+        height: 100));
       },
     );
   }
@@ -107,6 +91,7 @@ class PasswordInput extends StatelessWidget {
           eventFunc: (password) {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
+          height: 100,
         );
       },
     );
@@ -126,7 +111,7 @@ class LoginButton extends StatelessWidget {
 
         return FormButton(
           eventFunc: () => context.read<LoginBloc>().add(const FormSubmitted()),
-          text: "Login",
+          text: "Sign in",
         );
       },
     );
