@@ -5,9 +5,8 @@ class MessagingHub {
   static const String baseUrl = "https://localhost:7120";
 
   final HubConnection _hubConnection;
-  final JsonWrapper _jsonWrapper;
 
-  MessagingHub(this._jsonWrapper, {String? url})
+  MessagingHub({String? url})
     : _hubConnection = HubConnectionBuilder()
       .withUrl('${url ?? baseUrl}/messaging-hub')
       .build();
