@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
-import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'conversation_repo.dart';
 part 'contracts/new_connection_contract.dart';
 part 'contracts/new_group_contract.dart';
+part 'contracts/update_group_contract.dart';
 
 class ConversationRepository {
   ConversationRepository(this.request, this.jsonWrapper);
@@ -64,6 +64,12 @@ class ConversationRepository {
     if (!response.isOk) return null;
 
     return Group.fromJsonStr(response.body, jsonWrapper);
+  }
+
+  Future<bool> updateGroup(String groupId, String groupName, List<String> userIds) async {
+    final contract = UpdateGroupContract(groupId: groupId, groupName: groupName, userIds: userIds);
+    final response = await request.put("/group/update", contract, jsonWrapper, headers: { HttpHeaders.authorizationHeader: await request.currentToken });
+    return response.isOk;
   }
 
   Future<bool> deleteGroup(String groupId) async {

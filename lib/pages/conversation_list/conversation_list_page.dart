@@ -20,7 +20,25 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConversationListBloc, ConversationListState>(
+    return BlocConsumer<ConversationListBloc, ConversationListState>(
+      listener: (context, state) {
+        if (state.dialogTitle.isNotEmpty) {
+          showDialog(
+            context: context,
+            builder: (_) => BlocProvider<ConversationListBloc>.value(
+              value: BlocProvider.of<ConversationListBloc>(context),
+              child: CustomAlertDialog(
+                title: Text(state.dialogTitle),
+                content: Text(state.dialogMessage),
+                leftButtonText: null,
+                rightButtonCallback: () => context
+                  .read<ConversationListBloc>()
+                  .add(const ResetPopupDialog())
+              ),
+            )
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -62,7 +80,7 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              state.conversations.isNotEmpty
+              state.conversations.isNotEmpty || state.pageLoading
                 ? const ConversationList()
                 : Column(
                     children: <Widget>[
