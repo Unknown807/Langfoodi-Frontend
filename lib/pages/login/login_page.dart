@@ -17,27 +17,17 @@ class LoginPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Column(children: <Widget>[
+                  SizedBox(height:280),
                   Container(
                     key: const Key("loginPageBgImg"),
-                    height: 350,
+                    height:70,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        fit: BoxFit.fill,
                         image: context.read<ImageBuilder>().getAssetImage(
-                          "assets/images/${Theme.of(context).brightness == Brightness.light ? "light": "dark"}_auth_bg.png"
+                          "assets/images/hero_logo_${Theme.of(context).brightness == Brightness.light ? "light": "dark"}.png"
                         )
                       ),
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          child: Center(
-                            child: Text("Welcome", style: Theme.of(context).textTheme.displayLarge),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                    )),
                   Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: BlocProvider<LoginBloc>(
