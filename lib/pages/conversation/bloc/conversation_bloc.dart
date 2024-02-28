@@ -50,6 +50,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<SearchMessages>(_searchMessages);
       on<ReceiveMessage>(_showReceivedMessage);
       on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
+      on<ReceiveMessageMarkedAsRead>(_showReceivedMessageMarkedAsRead);
 
       _messagingHub.onMessageReceived((message, conversationId) {
         if (conversationId != state.conversationId) {
@@ -70,6 +71,14 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
         add(ReceiveMessageDeletion(messageId));
       });
+
+      _messagingHub.onMessageMarkedAsRead((messageId, userId) {
+        if (!state.messages.any((m) => m.id == messageId)) {
+          return;
+        }
+
+        add(ReceiveMessageMarkedAsRead(messageId, userId));
+      });
   }
 
   final NavigationRepository _navigationRepo;
@@ -86,7 +95,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     newMessages.add(event.message);
 
     emit(state.copyWith(
-      sendingMessage: false,
       messages: newMessages,
     ));
   }
@@ -99,6 +107,17 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       messages: messages,
       repliedMessageIsSentByMe: false,
       repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
+    ));
+  }
+
+  void _showReceivedMessageMarkedAsRead(ReceiveMessageMarkedAsRead event, Emitter<ConversationState> emit) {
+    List<Message> messages = List.from(state.messages);
+    messages.firstWhere((m) => m.id == event.messageId)
+        .seenByUserIds
+        .add(event.userId);
+
+    emit(state.copyWith(
+      messages: messages,
     ));
   }
 
@@ -225,6 +244,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sendingMessage: false,
         dialogTitle: "Oops!",
         dialogMessage: "There was an issue sending your message, please check and try again.",
+      ));
+    }
+    else {
+      emit(state.copyWith(
+        sendingMessage: false,
       ));
     }
   }

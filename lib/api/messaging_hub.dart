@@ -36,7 +36,12 @@ class MessagingHub {
     });
   }
 
-  void onMessageMarkedAsRead(Function(dynamic) callback) {
-    _hubConnection.on("ReceiveMarkAsRead", callback);
+  void onMessageMarkedAsRead(Function(String, String) callback) {
+    _hubConnection.on("ReceiveMarkAsRead", (arguments) {
+      String userId = arguments?[0] as String;
+      String messageId = arguments?[1] as String;
+
+      callback(messageId, userId);
+    });
   }
 }

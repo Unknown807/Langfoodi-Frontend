@@ -124,3 +124,13 @@ final class ReceiveMessageDeletion extends ConversationEvent {
   @override
   List<Object?> get props => [messageId];
 }
+
+final class ReceiveMessageMarkedAsRead extends ConversationEvent {
+  const ReceiveMessageMarkedAsRead(this.messageId, this.userId);
+
+  final String messageId;
+  final String userId;
+
+  @override
+  List<Object?> get props => [messageId, userId];
+}
