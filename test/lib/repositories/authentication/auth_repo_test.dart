@@ -13,14 +13,15 @@ void main() {
     "password": "Password123!",
     "accountCreationDate": "2023-11-08 00:00:00.000",
     "profileImageId": "imageId",
-    "pinnedConversationIds": ["convoId1"]
+    "pinnedConversationIds": ["convoId1"],
+    "blockedConnectionIds": ["connId1"]
   };
 
   const Map<String, dynamic> authResponseData = {
     "user": userMapData,
     "token": "test_token"
   };
-  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08","profileImageId":"imageId","pinnedConversationIds": ["convoId1"]}';
+  const String userData = '{"id":"id1","handler":"testHandler","userName":"test1","email":"test1@mail.com","password":"Password123!","accountCreationDate":"2023-11-08","profileImageId":"imageId","pinnedConversationIds": ["convoId1"],"blockedConnectionIds": ["connId1"]}';
   late JsonConvertibleMock jsonConvertibleMock;
   late RequestMock requestMock;
   late ResponseMock responseMock;
@@ -56,7 +57,7 @@ void main() {
         "id1", "testHandler",
         "test1", "test1@mail.com",
         "Password123!", DateTime.parse("2023-11-08"),
-        "imageId", const ["convoId1"]
+        "imageId", const ["convoId1"], const ["connId1"]
       ));
     });
   });
@@ -76,7 +77,7 @@ void main() {
     test("saved user, status code is 200", () async {
       // Arrange
       when(() => requestMock.authenticate(any())).thenAnswer((invocation) => Future.value((
-        User("1", "handler", "UserName", "mail@test.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const []), null)));
+        User("1", "handler", "UserName", "mail@test.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const [], const []), null)));
 
       // Act
       final result = await authRepo.isAuthenticated();
@@ -94,7 +95,7 @@ void main() {
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(userData);
       when(() => requestMock.mapAuthenticationResponse(any())).thenAnswer((invocation) => (
-        User("1", "handler1", "username1", "mail@example.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const []), "token"));
+        User("1", "handler1", "username1", "mail@example.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const [], const []), "token"));
 
       // Act
       final result = await authRepo.register("handler1", "username1", "mail@example.com", "Password123!");
@@ -138,7 +139,7 @@ void main() {
       when(() => responseMock.statusCode).thenReturn(200);
       when(() => responseMock.body).thenReturn(userData);
       when(() => requestMock.authenticate(any())).thenAnswer((_) => Future.value((
-        User("1", "handler1", "username1", "mail@example.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const []), "token")));
+        User("1", "handler1", "username1", "mail@example.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const [], const []), "token")));
 
       // Act
       final result = await authRepo.loginWithHandlerOrEmail("mail@example.com", "Password123!");

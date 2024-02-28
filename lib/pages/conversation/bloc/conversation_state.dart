@@ -6,6 +6,7 @@ class ConversationState extends Equatable {
     required this.messageTextController,
     this.conversationName = "",
     this.isGroup = false,
+    this.isBlocked = false,
     this.messages = const [],
     this.senderId = "",
     this.nameColours = const {},
@@ -30,6 +31,7 @@ class ConversationState extends Equatable {
   final String senderId;
   final String conversationName;
   final bool isGroup;
+  final bool isBlocked;
   final bool pageLoading;
   final List<Message> messages;
   final List<Recipe> currentRecipes;
@@ -57,7 +59,7 @@ class ConversationState extends Equatable {
     conversationId, attachedImagePaths, allowImages,
     allowRecipes, attachedRecipes, sendingMessage,
     repliedMessage, repliedMessageIsSentByMe,
-    userIds
+    userIds, isBlocked
   ];
 
   ConversationState copyWith({
@@ -82,6 +84,7 @@ class ConversationState extends Equatable {
     Message? repliedMessage,
     bool? repliedMessageIsSentByMe,
     List<String>? userIds,
+    bool? isBlocked
   }) {
     return ConversationState(
       conversationName: conversationName ?? this.conversationName,
@@ -105,6 +108,7 @@ class ConversationState extends Equatable {
       repliedMessage: repliedMessage ?? this.repliedMessage,
       repliedMessageIsSentByMe: repliedMessageIsSentByMe ?? this.repliedMessageIsSentByMe,
       userIds: userIds ?? this.userIds,
+      isBlocked: isBlocked ?? this.isBlocked
     );
   }
 }

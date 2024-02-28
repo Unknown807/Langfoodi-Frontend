@@ -115,33 +115,14 @@ class MessageList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (state.isGroup)
-                              message.userPreview.profileImageId != null
-                                ? SizedBox(
-                                    height: 26,
-                                    width: 26,
-                                    child: ClipOval(
-                                      child: context.read<ImageBuilder>().displayCloudinaryImage(
-                                        imageUrl: message.userPreview.profileImageId!,
-                                        transformationType: ImageTransformationType.tiny,
-                                        errorBuilder: (err, ob1, ob2) {
-                                          return CustomIconTile(
-                                            padding: EdgeInsets.zero,
-                                            icon: Icons.error,
-                                            borderStrokeWidth: 4,
-                                            iconSize: 20,
-                                            borderRadius: 20,
-                                            iconColor: Theme.of(context).colorScheme.error,
-                                            tileColor: Theme.of(context).colorScheme.error,
-                                          );
-                                        }
-                                      ),
-                                    ),
-                                  )
-                              : const CustomCircleAvatar(
-                                  avatarIcon: Icons.person,
-                                  avatarIconSize: 16,
-                                  circleRadiusSize: 13
-                                ),
+                              CustomCircleAvatar(
+                                avatarIcon: Icons.person,
+                                avatarIconSize: 16,
+                                circleRadiusSize: 13,
+                                thumbnailId: message.userPreview.profileImageId,
+                                thumbnailBoxWidth: 26,
+                                thumbnailBoxHeight: 26,
+                              ),
                             Flexible(child: Bubble(
                               nipWidth: 3,
                               elevation: 5,

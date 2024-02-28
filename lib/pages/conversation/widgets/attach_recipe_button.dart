@@ -23,6 +23,7 @@ class AttachRecipeButton extends StatelessWidget {
             || !state.allowRecipes
             || state.sendingMessage
             || state.pageLoading
+            || state.isBlocked
               ? null
               : () {
                 showDialog(

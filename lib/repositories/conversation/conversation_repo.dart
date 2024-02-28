@@ -92,4 +92,20 @@ class ConversationRepository {
     );
     return response.isOk;
   }
+
+  Future<bool> blockConnection(String connectionId, String userId) async {
+    final response = await request.postWithoutBody(
+      "/user/block?connectionId=$connectionId&userId=$userId",
+      headers: { HttpHeaders.authorizationHeader: await request.currentToken }
+    );
+    return response.isOk;
+  }
+
+  Future<bool> unblockConnection(String connectionId, String userId) async {
+    final response = await request.postWithoutBody(
+      "/user/unblock?connectionId=$connectionId&userId=$userId",
+      headers: { HttpHeaders.authorizationHeader: await request.currentToken }
+    );
+    return response.isOk;
+  }
 }

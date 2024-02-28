@@ -18,6 +18,8 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<PinConversation>(_pinConversation);
     on<UnpinConversation>(_unpinConversation);
     on<LeaveGroup>(_leaveGroup);
+    on<BlockConnection>(_blockConnection);
+    on<UnblockConnection>(_unblockConnection);
     on<ResetPopupDialog>(_resetPopupDialog);
   }
 
@@ -110,6 +112,37 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     }
   }
 
+  void _blockConnection(BlockConnection event, Emitter<ConversationListState> emit) async {
+    _blockOrUnblockConnection(event.connectionId, true);
+  }
+
+  void _unblockConnection(UnblockConnection event, Emitter<ConversationListState> emit) async {
+    _blockOrUnblockConnection(event.connectionId, false);
+  }
+
+  void _blockOrUnblockConnection(String connectionId, bool toBlock) async {
+    List<String> blockedIds = List.from(state.blockedIds);
+    if (toBlock) {
+      blockedIds.add(connectionId);
+    } else {
+      blockedIds.removeWhere((bid) => bid == connectionId);
+    }
+
+    User currentUser = await _authRepo.currentUser;
+    currentUser.blockedConnectionIds = blockedIds;
+    _authRepo.setCurrentUser(currentUser);
+
+    emit(state.copyWith(
+      blockedIds: blockedIds
+    ));
+
+    if (toBlock) {
+      await _conversationRepo.blockConnection(connectionId, currentUser.id);
+    } else {
+      await _conversationRepo.unblockConnection(connectionId, currentUser.id);
+    }
+  }
+
   void _searchConversations(SearchConversations event, Emitter<ConversationListState> emit) {
     if (state.conversations.isEmpty) return;
     final searchTerm = event.searchTerm.toLowerCase();
@@ -152,6 +185,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
 
     emit(state.copyWith(
       pinnedIds: currentUser.pinnedConversationIds,
+      blockedIds: currentUser.blockedConnectionIds,
       conversations: conversations,
       shownConversations:
         state.shownConversations.isEmpty

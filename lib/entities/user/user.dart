@@ -9,7 +9,8 @@ class User extends Equatable with JsonConvertible {
     this.password,
     this.creationDate,
     this.profileImageId,
-    this.pinnedConversationIds
+    this.pinnedConversationIds,
+    this.blockedConnectionIds
   );
 
   final String id;
@@ -20,7 +21,7 @@ class User extends Equatable with JsonConvertible {
   final DateTime creationDate;
   final String? profileImageId;
   List<String> pinnedConversationIds;
-  // TODO: Add expiry date for login?
+  List<String> blockedConnectionIds;
 
   @override
   Map toJson() {
@@ -32,7 +33,8 @@ class User extends Equatable with JsonConvertible {
       "password": password,
       "accountCreationDate": creationDate.toString(),
       "profileImageId": profileImageId,
-      "pinnedConversationIds": pinnedConversationIds
+      "pinnedConversationIds": pinnedConversationIds,
+      "blockedConnectionIds": blockedConnectionIds
     };
   }
 
@@ -50,6 +52,7 @@ class User extends Equatable with JsonConvertible {
       DateTime.parse(jsonData["accountCreationDate"]),
       jsonData["profileImageId"],
       (jsonData["pinnedConversationIds"] as List).map((id) => id as String).toList(),
+      (jsonData["blockedConnectionIds"] as List).map((id) => id as String).toList()
     );
   }
 
@@ -57,6 +60,6 @@ class User extends Equatable with JsonConvertible {
   List<Object?> get props => [
     id, handler, username, email,
     password, creationDate, profileImageId,
-    pinnedConversationIds
+    pinnedConversationIds, blockedConnectionIds
   ];
 }

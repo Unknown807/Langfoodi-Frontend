@@ -56,7 +56,7 @@ void main() {
       // Arrange
       when(() => conversationRepoMock.getConversationByUser(any())).thenAnswer((invocation) => Future.value([]));
       when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(
-        User("1", "handle", "username", "email", "pass", DateTime(2024), null, const []))
+        User("1", "handle", "username", "email", "pass", DateTime(2024), null, const [], const []))
       );
       when(() => authRepoMock.isAuthenticated()).thenAnswer((invocation) => Future.value(true));
       await widgetTester.pumpWidget(createWidgetUnderTest());
