@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                           authRepo: context.read<AuthenticationRepository>(),
                           networkManager: context.read<NetworkManager>()
                         ),
-                        child: const LoginForm(),
+                        child: LoginForm(),
                       ))))),
                 ])))));
   }

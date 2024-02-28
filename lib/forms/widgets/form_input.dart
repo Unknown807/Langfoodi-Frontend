@@ -109,15 +109,18 @@ class FormInput extends StatelessWidget {
             fontWeight: fontWeight,
             fontSize: fontSize),
           decoration: InputDecoration(
-
             border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
             hintText: hintText,
             labelText: hintText,
             errorText: errorText,
             hintStyle: TextStyle(color: themeData.hintColor),
             labelStyle: TextStyle(color: themeData.hintColor),
-            floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary)
-          ),
+            floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {textController?.clear();},
+            )
+          )
         )));
   }
 }

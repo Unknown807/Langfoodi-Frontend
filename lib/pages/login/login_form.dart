@@ -1,8 +1,9 @@
 part of 'login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
-
+  LoginForm({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, InputState>(
@@ -12,9 +13,9 @@ class LoginForm extends StatelessWidget {
           }
         },
         child: Container(child:Expanded(child:Column(children: <Widget>[
-          const Column(children: <Widget>[
-            HandlerEmailInput(),
-            PasswordInput(),
+          Column(children: <Widget>[
+            HandlerEmailInput(controller: emailController),
+            PasswordInput(controller: passwordController),
           ]),
           const FormErrorLabel(),
           const LoginButton(),
@@ -49,7 +50,9 @@ class FormErrorLabel extends StatelessWidget {
 }
 
 class HandlerEmailInput extends StatelessWidget {
-  const HandlerEmailInput({super.key});
+  const HandlerEmailInput({super.key, required this.controller});
+  final TextEditingController controller;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
@@ -60,14 +63,16 @@ class HandlerEmailInput extends StatelessWidget {
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
           },
-        height: 100));
+        height: 100,
+        textController: controller,));
       },
     );
   }
 }
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput({super.key});
+  const PasswordInput({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +86,7 @@ class PasswordInput extends StatelessWidget {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
           height: 100,
+          textController: controller,
         );
       },
     );
