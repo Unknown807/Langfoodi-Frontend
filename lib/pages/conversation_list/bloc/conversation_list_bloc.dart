@@ -32,8 +32,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<ResetPopupDialog>(_resetPopupDialog);
     on<ReceiveMessage>(_showReceivedMessage);
     on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
-    on<GoToAddConnectionPageAndExpectResult>(
-        _goToAddConnectionPageAndExpectResult);
+    on<GoToAddConnectionPageAndExpectResult>(_goToAddConnectionPageAndExpectResult);
     on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
     on<GoToConversationPageAndExpectResult>(_goToConversationPageAndExpectResult);
 
@@ -230,14 +229,14 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   }
 
   void _blockConnection(BlockConnection event, Emitter<ConversationListState> emit) async {
-    _blockOrUnblockConnection(event.connectionId, true);
+    _blockOrUnblockConnection(event.connectionId, true, emit);
   }
 
   void _unblockConnection(UnblockConnection event, Emitter<ConversationListState> emit) async {
-    _blockOrUnblockConnection(event.connectionId, false);
+    _blockOrUnblockConnection(event.connectionId, false, emit);
   }
 
-  void _blockOrUnblockConnection(String connectionId, bool toBlock) async {
+  void _blockOrUnblockConnection(String connectionId, bool toBlock, Emitter<ConversationListState> emit) async {
     List<String> blockedIds = List.from(state.blockedIds);
     if (toBlock) {
       blockedIds.add(connectionId);
