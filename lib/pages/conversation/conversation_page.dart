@@ -45,7 +45,7 @@ class ConversationPage extends StatelessWidget {
               )
             )
           ),
-          child: const Column (
+          child: const Column(
             children: [
               Expanded(flex: 8, child: MessageList()),
               ActiveReplyBox(),

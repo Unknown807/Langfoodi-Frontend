@@ -75,7 +75,7 @@ Future<void> main() async {
     localStore: localStore,
   ));
 
-  //localStore.deleteKey("loggedInUser");
+  localStore.deleteKey("loggedInUser");
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
 }
