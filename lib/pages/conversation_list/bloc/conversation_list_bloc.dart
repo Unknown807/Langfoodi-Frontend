@@ -6,6 +6,7 @@ import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipe_social_media/repositories/navigation/args/conversation/conversation_page_arguments.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
@@ -30,6 +31,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<ReceiveMessage>(_showReceivedMessage);
     on<GoToAddConnectionPageAndExpectResult>(_goToAddConnectionPageAndExpectResult);
     on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
+    on<GoToConversationPageAndExpectResult>(_goToConversationPageAndExpectResult);
 
     _messagingHub.onMessageReceived((message, conversationId) {
       if (!state.conversations.any((convo) => convo.id == conversationId)) {
@@ -46,6 +48,10 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   final NavigationRepository _navigationRepo;
   final MessagingHub _messagingHub;
 
+  void _goToConversationPageAndExpectResult(GoToConversationPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+    await _goToPageAndExpectResult("/conversation", event.context, emit, arguments: event.arguments);
+  }
+
   void _goToAddConnectionPageAndExpectResult(GoToAddConnectionPageAndExpectResult event, Emitter<ConversationListState> emit) async {
     await _goToPageAndExpectResult("/add-connection", event.context, emit);
   }
@@ -54,12 +60,13 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     await _goToPageAndExpectResult("/add-group", event.context, emit);
   }
 
-  Future _goToPageAndExpectResult(String routeName, BuildContext context, Emitter<ConversationListState> emit) async {
+  Future _goToPageAndExpectResult(String routeName, BuildContext context, Emitter<ConversationListState> emit, {Object? arguments}) async {
     BuildContext eventContext = context;
     await _navigationRepo.goTo(
-        eventContext,
-        routeName,
-        routeType: RouteType.expect
+      eventContext,
+      routeName,
+      arguments: arguments,
+      routeType: RouteType.expect
     );
 
     await _changeConversations(emit);
