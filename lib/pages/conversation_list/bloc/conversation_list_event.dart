@@ -51,3 +51,13 @@ final class LeaveGroup extends ConversationListEvent {
 final class ResetPopupDialog extends ConversationListEvent {
   const ResetPopupDialog();
 }
+
+final class ReceiveMessage extends ConversationListEvent {
+  const ReceiveMessage(this.message, this.conversationId);
+
+  final Message message;
+  final String conversationId;
+
+  @override
+  List<Object> get props => [message, conversationId];
+}

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -12,18 +13,38 @@ part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
-  ConversationListBloc(this._conversationRepo, this._authRepo, this._networkManager) : super(const ConversationListState()) {
+  ConversationListBloc(this._conversationRepo, this._authRepo, this._networkManager, this._messagingHub) : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<SearchConversations>(_searchConversations);
     on<PinConversation>(_pinConversation);
     on<UnpinConversation>(_unpinConversation);
     on<LeaveGroup>(_leaveGroup);
     on<ResetPopupDialog>(_resetPopupDialog);
+    on<ReceiveMessage>(_showReceivedMessage);
+
+    _messagingHub.onMessageReceived((message, conversationId) {
+      if (!state.conversations.any((convo) => convo.id == conversationId)) {
+        return;
+      }
+
+      add(ReceiveMessage(message, conversationId));
+    });
   }
 
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
   final NetworkManager _networkManager;
+  final MessagingHub _messagingHub;
+
+  void _showReceivedMessage(ReceiveMessage event, Emitter<ConversationListState> emit) async {
+    List<Conversation> conversations = List.from(state.conversations);
+    var conversation = conversations.firstWhere((convo) => convo.id == event.conversationId);
+
+    conversation.lastMessage = event.message;
+    conversation.messagesUnseen++;
+
+    await _sortConversations(conversations, emit);
+  }
 
   void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationListState> emit) async {
     emit(state.copyWith(
@@ -115,7 +136,8 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
 
     emit(state.copyWith(
         pinnedIds: pinnedIds,
-        conversations: conversations
+        conversations: conversations,
+        pageLoading: false
     ));
   }
 
@@ -153,11 +175,6 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
     final currentUser = await _authRepo.currentUser;
     List<Conversation> conversations = await _conversationRepo.getConversationByUser(currentUser.id);
-    conversations.sort((c1, c2) =>
-      currentUser.pinnedConversationIds
-        .indexOf(c2.id)
-        .compareTo(currentUser.pinnedConversationIds
-          .indexOf(c1.id)));
 
     emit(state.copyWith(
       pinnedIds: currentUser.pinnedConversationIds,
@@ -166,7 +183,10 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
         state.shownConversations.isEmpty
         || state.shownConversations.length != conversations.length
           ? List.generate(conversations.length, (_) => true)
-          : state.shownConversations
+          : state.shownConversations,
+      pageLoading: true
     ));
+
+    await _sortConversations(state.conversations, emit);
   }
 }
