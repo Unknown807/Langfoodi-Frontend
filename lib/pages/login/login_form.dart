@@ -51,8 +51,8 @@ class FormErrorLabel extends StatelessWidget {
 }
 
 class HandlerEmailInput extends StatelessWidget {
-  const HandlerEmailInput({super.key, required this.controller});
-  final TextEditingController controller;
+  HandlerEmailInput({super.key, this.controller});
+  TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +72,8 @@ class HandlerEmailInput extends StatelessWidget {
 }
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput({super.key, required this.controller});
-  final TextEditingController controller;
+  PasswordInput({super.key, this.controller});
+  TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,7 @@ void main() {
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
           create: (_) => loginBlocMock,
-          child: const Scaffold(
+          child: Scaffold(
             body: HandlerEmailInput()
           )
         ),
@@ -64,7 +64,7 @@ void main() {
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
             create: (_) => loginBlocMock,
-            child: const Scaffold(
+            child: Scaffold(
                 body: PasswordInput()
             )
         ),
