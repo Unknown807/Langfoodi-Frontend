@@ -73,7 +73,10 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     conversation.lastMessage = event.message;
     conversation.messagesUnseen++;
 
-    emit(state.copyWith(conversations: conversations));
+    emit(state.copyWith(
+      conversations: conversations,
+      pageLoading: true)
+    );
     await _sortConversations(emit);
   }
 
