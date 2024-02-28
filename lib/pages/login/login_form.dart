@@ -44,7 +44,9 @@ class FormErrorLabel extends StatelessWidget {
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
         return Text(state.errorMessage,
-          style: TextStyle(color: Theme.of(context).colorScheme.error));
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,);
       },
     );
   }
