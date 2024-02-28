@@ -12,7 +12,7 @@ class LoginForm extends StatelessWidget {
             context.read<NavigationRepository>().goTo(context, "/home", routeType: RouteType.onlyThis);
           }
         },
-        child: Container(child:Expanded(child:Column(children: <Widget>[
+        child: Container(child:(Column(children: <Widget>[
           Column(children: <Widget>[
             HandlerEmailInput(controller: emailController),
             PasswordInput(controller: passwordController),
