@@ -28,9 +28,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<LeaveGroup>(_leaveGroup);
     on<ResetPopupDialog>(_resetPopupDialog);
     on<ReceiveMessage>(_showReceivedMessage);
-    on<GoToAddConnectionPageAndExpectResult>(_goToAddConnectionPageAndExpectResult);
+    on<GoToAddConnectionPageAndExpectResult>(
+        _goToAddConnectionPageAndExpectResult);
     on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
 
+    _messagingHub.startConnection();
     _messagingHub.onMessageReceived((message, conversationId) {
       if (!state.conversations.any((convo) => convo.id == conversationId)) {
         return;
@@ -38,6 +40,12 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
 
       add(ReceiveMessage(message, conversationId));
     });
+  }
+
+  @override
+  Future<void> close() async {
+    await _messagingHub.stopConnection();
+    return super.close();
   }
 
   final AuthenticationRepository _authRepo;

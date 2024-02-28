@@ -57,7 +57,6 @@ Future<void> main() async {
   final messageRepo = MessageRepository(request, jsonWrapper);
 
   final messagingHub = MessagingHub();
-  messagingHub.startConnection();
 
   // The below 2 (commented out) lines are used for manual testing purposes:
 

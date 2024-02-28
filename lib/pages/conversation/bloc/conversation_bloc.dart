@@ -52,6 +52,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
       on<ReceiveMessageMarkedAsRead>(_showReceivedMessageMarkedAsRead);
 
+      _messagingHub.startConnection();
       _messagingHub.onMessageReceived((message, conversationId) async {
         if (conversationId != state.conversationId) {
           return;
@@ -79,6 +80,12 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
         add(ReceiveMessageMarkedAsRead(messageId, userId));
       });
+  }
+
+  @override
+  Future<void> close() async {
+    await _messagingHub.stopConnection();
+    return super.close();
   }
 
   final NavigationRepository _navigationRepo;

@@ -11,12 +11,20 @@ class MessagingHub {
       .withUrl('${url ?? baseUrl}/messaging-hub')
       .build();
 
-  Future<void> startConnection() async {
-    _hubConnection.start();
+  Future startConnection() async {
+    try {
+      _hubConnection.start();
+    } on Exception {
+      log("Stopping SignalR connection failed");
+    }
   }
 
-  void stopConnection() async {
-    _hubConnection.stop();
+  Future stopConnection() async {
+    try {
+      _hubConnection.stop();
+    } on Exception {
+      log("Stopping SignalR connection failed");
+    }
   }
 
   void onMessageReceived(Function(Message, String) callback) {
