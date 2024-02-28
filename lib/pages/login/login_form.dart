@@ -11,15 +11,12 @@ class LoginForm extends StatelessWidget {
             context.read<NavigationRepository>().goTo(context, "/home", routeType: RouteType.onlyThis);
           }
         },
-        child: Column(children: <Widget>[
-          const SizedBox(height: 5),
+        child: Container(child:Expanded(child:Column(children: <Widget>[
           const Column(children: <Widget>[
             HandlerEmailInput(),
             PasswordInput(),
           ]),
-          const SizedBox(height: 20),
           const FormErrorLabel(),
-          const SizedBox(height: 20),
           const LoginButton(),
           const SizedBox(height: 10),
           Row(children:[Expanded(child:Container(child: OutlinedButton(
@@ -32,7 +29,7 @@ class LoginForm extends StatelessWidget {
 
             child: const Text("Create account"),
           )))]),
-        ]));
+        ]))));
   }
 }
 

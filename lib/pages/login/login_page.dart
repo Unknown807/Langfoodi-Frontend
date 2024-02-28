@@ -11,14 +11,12 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-            reverse: true,
-            child: Padding(
+        body: Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Column(children: <Widget>[
-                  SizedBox(height:100),
-                  Container(
+                child: Align(alignment:Alignment.bottomCenter,child:SingleChildScrollView(child:Column(children: <Widget>[
+                  Padding(padding: EdgeInsets.only(top: 50),
+                  child:Container(
                     key: const Key("loginPageBgImg"),
                     height:70,
                     decoration: BoxDecoration(
@@ -27,17 +25,16 @@ class LoginPage extends StatelessWidget {
                           "assets/images/hero_logo_${Theme.of(context).brightness == Brightness.light ? "light": "dark"}.png"
                         )
                       ),
-                    )),
-                  SizedBox(height:200),
-                  Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: BlocProvider<LoginBloc>(
+                    ))),
+                  ((Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: (BlocProvider<LoginBloc>(
                         create: (_) => LoginBloc(
                           authRepo: context.read<AuthenticationRepository>(),
                           networkManager: context.read<NetworkManager>()
                         ),
                         child: const LoginForm(),
-                      ))
-                ]))));
+                      ))))),
+                ])))));
   }
 }
