@@ -86,6 +86,7 @@ class FormInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+    bool showSuffixIcon = textController != null;
     return Padding(
       padding: outerPadding,
       child: Container(
@@ -116,10 +117,10 @@ class FormInput extends StatelessWidget {
             hintStyle: TextStyle(color: themeData.hintColor),
             labelStyle: TextStyle(color: themeData.hintColor),
             floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary),
-            suffixIcon: IconButton(
+            suffixIcon: showSuffixIcon ? IconButton(
               icon: Icon(Icons.clear),
               onPressed: () {textController?.clear();},
-            )
+            ) : null
           )
         )));
   }
