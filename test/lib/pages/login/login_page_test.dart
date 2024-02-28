@@ -25,7 +25,7 @@ void main() {
           RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock()),
           RepositoryProvider<ImageBuilder>(create: (_) => imageBuilderMock)
         ],
-        child: const LoginPage(),
+        child: LoginPage(),
       ),
     );
   }
