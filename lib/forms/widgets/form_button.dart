@@ -21,7 +21,7 @@ class FormButton extends StatelessWidget {
         foregroundColor: Theme.of(context).colorScheme.onPrimary
       ),
       onPressed: eventFunc,
-      child: Text(text),
+      child: Text(text,overflow: TextOverflow.ellipsis, maxLines: 1),
     );
   }
 }

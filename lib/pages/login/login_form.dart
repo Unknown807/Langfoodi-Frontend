@@ -29,7 +29,7 @@ class LoginForm extends StatelessWidget {
 
             style: OutlinedButton.styleFrom(side:const BorderSide(color: Colors.green)),
 
-            child: const Text("Create account"),
+            child: const Text("Create account",overflow: TextOverflow.ellipsis, maxLines: 1),
           )))]),
         ]))));
   }
