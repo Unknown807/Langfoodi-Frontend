@@ -119,16 +119,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
     bool success = await _messageRepo.removeMessage(event.id);
 
-    if (success) {
-      List<Message> messages = List.from(state.messages);
-      messages.removeWhere((msg) => msg.id == event.id);
-
-      emit(state.copyWith(
-        messages: messages,
-        repliedMessageIsSentByMe: false,
-        repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
-      ));
-    } else {
+    if (!success) {
       emit(state.copyWith(
         dialogTitle: "Oops!",
         dialogMessage: "Could not delete message, please check and try again."
@@ -225,15 +216,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     );
     Message? sentMessage = await _messageRepo.sendMessage(contract);
 
-    if (sentMessage != null) {
-      List<Message> newMessages = List.from(state.messages);
-      newMessages.add(sentMessage);
-
-      emit(state.copyWith(
-        sendingMessage: false,
-        messages: newMessages,
-      ));
-    } else {
+    if (sentMessage == null) {
       if (hostedImages != null) {
         await _imageRepo.removeImages(hostedImages.map((i) => i.publicId).toList());
       }
