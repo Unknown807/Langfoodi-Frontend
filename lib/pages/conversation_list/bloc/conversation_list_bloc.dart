@@ -6,6 +6,7 @@ import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 export 'conversation_list_bloc.dart';
@@ -13,7 +14,13 @@ part 'conversation_list_event.dart';
 part 'conversation_list_state.dart';
 
 class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListState> {
-  ConversationListBloc(this._conversationRepo, this._authRepo, this._networkManager, this._messagingHub) : super(const ConversationListState()) {
+  ConversationListBloc(
+    this._conversationRepo,
+    this._authRepo,
+    this._networkManager,
+    this._navigationRepo,
+    this._messagingHub)
+    : super(const ConversationListState()) {
     on<ChangeConversationsToDisplay>(_changeConversationsToDisplay);
     on<SearchConversations>(_searchConversations);
     on<PinConversation>(_pinConversation);
@@ -21,6 +28,8 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<LeaveGroup>(_leaveGroup);
     on<ResetPopupDialog>(_resetPopupDialog);
     on<ReceiveMessage>(_showReceivedMessage);
+    on<GoToAddConnectionPageAndExpectResult>(_goToAddConnectionPageAndExpectResult);
+    on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
 
     _messagingHub.onMessageReceived((message, conversationId) {
       if (!state.conversations.any((convo) => convo.id == conversationId)) {
@@ -34,7 +43,28 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   final AuthenticationRepository _authRepo;
   final ConversationRepository _conversationRepo;
   final NetworkManager _networkManager;
+  final NavigationRepository _navigationRepo;
   final MessagingHub _messagingHub;
+
+  void _goToAddConnectionPageAndExpectResult(GoToAddConnectionPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+    await _goToPageAndExpectResult("/add-connection", event.context, emit);
+  }
+
+  void _goToAddGroupPageAndExpectResult(GoToAddGroupPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+    await _goToPageAndExpectResult("/add-group", event.context, emit);
+  }
+
+  Future _goToPageAndExpectResult(String routeName, BuildContext context, Emitter<ConversationListState> emit) async {
+    BuildContext eventContext = context;
+    await _navigationRepo.goTo(
+        eventContext,
+        routeName,
+        routeType: RouteType.expect
+    );
+
+    await _changeConversations(emit);
+    await _sortConversations(emit);
+  }
 
   void _showReceivedMessage(ReceiveMessage event, Emitter<ConversationListState> emit) async {
     List<Conversation> conversations = List.from(state.conversations);
@@ -43,7 +73,8 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     conversation.lastMessage = event.message;
     conversation.messagesUnseen++;
 
-    await _sortConversations(conversations, emit);
+    emit(state.copyWith(conversations: conversations));
+    await _sortConversations(emit);
   }
 
   void _resetPopupDialog(ResetPopupDialog event, Emitter<ConversationListState> emit) async {
@@ -113,8 +144,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     currentUser.pinnedConversationIds = pinnedIds;
     _authRepo.setCurrentUser(currentUser);
 
-    List<Conversation> sortedConversations = List.from(state.conversations);
-    await _sortConversations(sortedConversations, emit);
+    await _sortConversations(emit);
 
     if (toPin) {
       await _conversationRepo.pinConversation(conversationId, currentUser.id);
@@ -123,21 +153,22 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     }
   }
 
-  Future _sortConversations(List<Conversation> conversations, Emitter<ConversationListState> emit) async {
+  Future _sortConversations(Emitter<ConversationListState> emit) async {
+    List<Conversation> conversations = List.from(state.conversations);
     conversations.sort((c2, c1) => (c1.lastMessage?.sentDate ?? DateTime(1900))
-        .compareTo(c2.lastMessage?.sentDate ?? DateTime(1900)));
+      .compareTo(c2.lastMessage?.sentDate ?? DateTime(1900)));
 
     var pinnedIds = (await _authRepo.currentUser).pinnedConversationIds;
 
     conversations.sort((c1, c2) => pinnedIds
-        .indexOf(c2.id)
-        .compareTo(pinnedIds
-        .indexOf(c1.id)));
+      .indexOf(c2.id)
+      .compareTo(pinnedIds
+      .indexOf(c1.id)));
 
     emit(state.copyWith(
-        pinnedIds: pinnedIds,
-        conversations: conversations,
-        pageLoading: false
+      pinnedIds: pinnedIds,
+      conversations: conversations,
+      pageLoading: false
     ));
   }
 
@@ -173,6 +204,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   }
 
   void _changeConversationsToDisplay(ChangeConversationsToDisplay event, Emitter<ConversationListState> emit) async {
+    await _changeConversations(emit);
+    await _sortConversations(emit);
+  }
+
+  Future _changeConversations(Emitter<ConversationListState> emit) async {
     final currentUser = await _authRepo.currentUser;
     List<Conversation> conversations = await _conversationRepo.getConversationByUser(currentUser.id);
 
@@ -180,13 +216,11 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
       pinnedIds: currentUser.pinnedConversationIds,
       conversations: conversations,
       shownConversations:
-        state.shownConversations.isEmpty
-        || state.shownConversations.length != conversations.length
+      state.shownConversations.isEmpty
+          || state.shownConversations.length != conversations.length
           ? List.generate(conversations.length, (_) => true)
           : state.shownConversations,
       pageLoading: true
     ));
-
-    await _sortConversations(state.conversations, emit);
   }
 }

@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
           context.read<ConversationRepository>(),
           context.read<AuthenticationRepository>(),
           context.read<NetworkManager>(),
+          context.read<NavigationRepository>(),
           context.read<MessagingHub>(),
         )),
         BlocProvider(create: (_) => ProfileSettingsFormBloc(

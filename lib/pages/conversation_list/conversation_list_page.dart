@@ -62,8 +62,8 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
                   color: Theme.of(context).colorScheme.onSecondary,
                   size: 30),
                 onPressed: () => context
-                  .read<NavigationRepository>()
-                  .goTo(context, "/add-group")
+                  .read<ConversationListBloc>()
+                  .add(GoToAddGroupPageAndExpectResult(context))
               ),
               ActionButton(
                 icon: Icon(
@@ -71,8 +71,8 @@ class ConversationListPage extends StatelessWidget implements PageLander  {
                   color: Theme.of(context).colorScheme.onSecondary,
                   size: 30),
                 onPressed: () => context
-                  .read<NavigationRepository>()
-                  .goTo(context, "/add-connection")
+                  .read<ConversationListBloc>()
+                  .add(GoToAddConnectionPageAndExpectResult(context))
               ),
             ],
           ),

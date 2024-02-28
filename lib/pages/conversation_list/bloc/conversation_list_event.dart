@@ -61,3 +61,21 @@ final class ReceiveMessage extends ConversationListEvent {
   @override
   List<Object> get props => [message, conversationId];
 }
+
+final class GoToAddConnectionPageAndExpectResult extends ConversationListEvent {
+  const GoToAddConnectionPageAndExpectResult(this.context);
+
+  final BuildContext context;
+
+  @override
+  List<Object> get props => [context];
+}
+
+final class GoToAddGroupPageAndExpectResult extends ConversationListEvent {
+  const GoToAddGroupPageAndExpectResult(this.context);
+
+  final BuildContext context;
+
+  @override
+  List<Object> get props => [context];
+}
