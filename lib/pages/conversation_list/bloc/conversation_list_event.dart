@@ -88,3 +88,13 @@ final class GoToAddGroupPageAndExpectResult extends ConversationListEvent {
   @override
   List<Object> get props => [context];
 }
+
+final class GoToConversationPageAndExpectResult extends ConversationListEvent {
+  const GoToConversationPageAndExpectResult(this.context, this.arguments);
+
+  final BuildContext context;
+  final ConversationPageArguments arguments;
+
+  @override
+  List<Object> get props => [context, arguments];
+}

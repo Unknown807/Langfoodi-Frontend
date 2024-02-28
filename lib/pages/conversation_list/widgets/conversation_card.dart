@@ -19,9 +19,9 @@ class ConversationCard extends StatelessWidget {
         final isPinned = state.pinnedIds.contains(conversation.id);
         return GestureDetector(
           onTap: () => context
-            .read<NavigationRepository>()
-            .goTo(context, "/conversation",
-            arguments: ConversationPageArguments(conversation: conversation)),
+            .read<ConversationListBloc>()
+            .add(GoToConversationPageAndExpectResult(
+              context, ConversationPageArguments(conversation: conversation))),
           child: ConversationContextMenu(
             isGroup: conversation.isGroup,
             isPinned: isPinned,
