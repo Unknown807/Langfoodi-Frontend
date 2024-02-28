@@ -8,10 +8,11 @@ class MessageInput extends StatelessWidget {
     return BlocBuilder<ConversationBloc, ConversationState>(
       builder: (context, state) {
         return FormInput(
+          readonly: state.isBlocked,
           textController: state.messageTextController,
           innerPadding: const EdgeInsets.symmetric(horizontal: 10),
           outerPadding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-          hintText: "Message...",
+          hintText: state.isBlocked ? "This user is blocked..." : "Message...",
           boxDecorationType: FormInputBoxDecorationType.roundedTextArea,
           fontSize: 14,
           maxLines: 1,

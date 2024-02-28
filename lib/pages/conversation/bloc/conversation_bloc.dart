@@ -395,6 +395,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       ));
     }
 
+    emit(state.copyWith(isBlocked: event.isBlocked));
+
     final senderId = (await _authRepo.currentUser).id;
     emit(state.copyWith(pageLoading: true, senderId: senderId));
 

@@ -17,45 +17,31 @@ class ConversationCard extends StatelessWidget {
     return BlocBuilder<ConversationListBloc, ConversationListState>(
       builder: (context, state) {
         final isPinned = state.pinnedIds.contains(conversation.id);
+        final isBlocked = state.blockedIds.contains(conversation.connectionOrGroupId);
         return GestureDetector(
           onTap: () => context
-            .read<ConversationListBloc>()
-            .add(GoToConversationPageAndExpectResult(
-              context, ConversationPageArguments(conversation: conversation))),
+            .read<NavigationRepository>()
+            .goTo(context, "/conversation",
+            arguments: ConversationPageArguments(
+              conversation: conversation,
+              isBlocked: isBlocked
+            )),
           child: ConversationContextMenu(
+            isBlocked: isBlocked,
             isGroup: conversation.isGroup,
             isPinned: isPinned,
             conversationId: conversation.id,
+            connectionId: conversation.connectionOrGroupId,
             child: Center(
               child: Card(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 elevation: 0,
                 child: ListTile(
-                  leading: conversation.thumbnailId != null
-                    ? SizedBox(
-                        height: 42,
-                        width: 42,
-                        child: ClipOval(
-                          child: context.read<ImageBuilder>().displayCloudinaryImage(
-                            imageUrl: conversation.thumbnailId!,
-                            transformationType: ImageTransformationType.tiny,
-                            errorBuilder: (err, ob1, ob2) {
-                              return CustomIconTile(
-                                padding: EdgeInsets.zero,
-                                icon: Icons.error,
-                                borderStrokeWidth: 4,
-                                iconSize: 20,
-                                borderRadius: 20,
-                                iconColor: Theme.of(context).colorScheme.error,
-                                tileColor: Theme.of(context).colorScheme.error,
-                              );
-                            }
-                          ),
-                        ),
-                      )
-                    : CustomCircleAvatar(
-                        avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
-                      ),
+                  leading: CustomCircleAvatar(
+                    avatarIcon: conversation.isGroup ? Icons.group : Icons.person,
+                    thumbnailId: conversation.thumbnailId,
+                    conversationStatus: isBlocked ? ConversationStatus.blocked : null,
+                  ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

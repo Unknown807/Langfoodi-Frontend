@@ -29,10 +29,11 @@ class ConversationPage extends StatelessWidget {
         context.read<ConversationRepository>(),
         context.read<NetworkManager>(),
         context.read<MessagingHub>(),
-      )..add(InitState(args.conversation)),
+      )..add(InitState(args.conversation, args.isBlocked)),
       child: Scaffold(
         appBar: MessageSearchAppBar(
           isGroup: args.conversation.isGroup,
+          isBlocked: args.isBlocked,
           conversationName: args.conversation.name,
           thumbnailId: args.conversation.thumbnailId,
         ),
@@ -46,7 +47,7 @@ class ConversationPage extends StatelessWidget {
               )
             )
           ),
-          child: const Column (
+          child: const Column(
             children: [
               Expanded(flex: 8, child: MessageList()),
               ActiveReplyBox(),

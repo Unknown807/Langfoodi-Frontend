@@ -7,7 +7,8 @@ class UserAccount extends Equatable with JsonConvertible {
     this.username,
     this.creationDate,
     this.profileImageId,
-    this.pinnedConversationIds
+    this.pinnedConversationIds,
+    this.blockedConnectionIds,
   );
 
   final String id;
@@ -15,6 +16,7 @@ class UserAccount extends Equatable with JsonConvertible {
   final String username;
   final DateTime creationDate;
   final List<String> pinnedConversationIds;
+  final List<String> blockedConnectionIds;
   final String? profileImageId;
 
   static UserAccount fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {
@@ -29,12 +31,13 @@ class UserAccount extends Equatable with JsonConvertible {
       DateTime.parse(jsonData["accountCreationDate"]),
       jsonData["profileImageId"],
       (jsonData["pinnedConversationIds"] as List).map((id) => id as String).toList(),
+      (jsonData["blockedConnectionIds"] as List).map((id) => id as String).toList()
     );
   }
 
   @override
   List<Object?> get props => [
     id, handler, username, creationDate,
-    profileImageId
+    profileImageId, blockedConnectionIds
   ];
 }

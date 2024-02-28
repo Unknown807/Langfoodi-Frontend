@@ -21,6 +21,24 @@ final class SearchConversations extends ConversationListEvent {
   List<Object> get props => [searchTerm];
 }
 
+final class BlockConnection extends ConversationListEvent {
+  const BlockConnection(this.connectionId);
+
+  final String connectionId;
+
+  @override
+  List<Object> get props => [connectionId];
+}
+
+final class UnblockConnection extends ConversationListEvent {
+  const UnblockConnection(this.connectionId);
+
+  final String connectionId;
+
+  @override
+  List<Object> get props => [connectionId];
+}
+
 final class PinConversation extends ConversationListEvent {
   const PinConversation(this.conversationId);
 
