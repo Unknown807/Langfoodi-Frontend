@@ -18,6 +18,7 @@ class LoginForm extends StatelessWidget {
             PasswordInput(controller: passwordController),
           ]),
           const FormErrorLabel(),
+          const SizedBox(height: 10),
           const LoginButton(),
           const SizedBox(height: 10),
           Row(children:[Expanded(child:Container(child: OutlinedButton(
