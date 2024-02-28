@@ -8,13 +8,15 @@ class CustomAlertDialog extends StatelessWidget {
     this.leftButtonCallback,
     this.rightButtonCallback,
     this.leftButtonText = "Cancel",
-    this.rightButtonText = "Ok"
+    this.rightButtonText = "Ok",
+    this.dismissOnRightButton = true
   });
 
   final Widget? title;
   final Widget? content;
   final String? leftButtonText;
   final String rightButtonText;
+  final bool dismissOnRightButton;
   final VoidCallback? leftButtonCallback;
   final VoidCallback? rightButtonCallback;
 
@@ -52,7 +54,9 @@ class CustomAlertDialog extends StatelessWidget {
         TextButton(
           onPressed: () {
             rightButtonCallback?.call();
-            context.read<NavigationRepository>().dismissDialog(context);
+            if (dismissOnRightButton) {
+              context.read<NavigationRepository>().dismissDialog(context);
+            }
           },
           style: btnStyle,
           child: Text(rightButtonText))
