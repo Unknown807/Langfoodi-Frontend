@@ -49,6 +49,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ReplyToMessage>(_replyToMessage);
       on<SearchMessages>(_searchMessages);
       on<ReceiveMessage>(_showReceivedMessage);
+      on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
 
       _messagingHub.onMessageReceived((message, conversationId) {
         if (conversationId != state.conversationId) {
@@ -60,6 +61,14 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         }
 
         add(ReceiveMessage(message));
+      });
+
+      _messagingHub.onMessageDeleted((messageId) {
+        if (!state.messages.any((m) => m.id == messageId)) {
+          return;
+        }
+
+        add(ReceiveMessageDeletion(messageId));
       });
   }
 
@@ -79,6 +88,17 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     emit(state.copyWith(
       sendingMessage: false,
       messages: newMessages,
+    ));
+  }
+
+  void _showReceivedMessageDeletion(ReceiveMessageDeletion event, Emitter<ConversationState> emit) {
+    List<Message> messages = List.from(state.messages);
+    messages.removeWhere((msg) => msg.id == event.messageId);
+
+    emit(state.copyWith(
+      messages: messages,
+      repliedMessageIsSentByMe: false,
+      repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
     ));
   }
 

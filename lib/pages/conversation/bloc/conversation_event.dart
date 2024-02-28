@@ -115,3 +115,12 @@ final class ReceiveMessage extends ConversationEvent {
   @override
   List<Object?> get props => [message];
 }
+
+final class ReceiveMessageDeletion extends ConversationEvent {
+  const ReceiveMessageDeletion(this.messageId);
+
+  final String messageId;
+
+  @override
+  List<Object?> get props => [messageId];
+}
