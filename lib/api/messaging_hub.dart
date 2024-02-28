@@ -12,6 +12,7 @@ class MessagingHub {
       .build();
 
   Future<void> startConnection() async {
+    _hubConnection.start();
   }
 
   void stopConnection() async {
