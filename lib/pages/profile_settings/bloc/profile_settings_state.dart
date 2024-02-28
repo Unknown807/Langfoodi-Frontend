@@ -6,51 +6,57 @@ class ProfileSettingsState extends Equatable {
     this.username = "",
     this.email = "",
     this.creationDate = "",
-    this.editingHandler = false,
     this.editingUsername = false,
     this.editingEmail = false,
     this.editingPassword = false,
-    this.thumbnailId,
+    this.currentThumbnailId,
+    this.newThumbnailPath = "",
+    this.pageLoading = false
   });
 
   final String handler;
   final String username;
   final String email;
-  final String? thumbnailId;
+  final String? currentThumbnailId;
+  final String newThumbnailPath;
   final String creationDate;
-  final bool editingHandler;
   final bool editingUsername;
   final bool editingEmail;
   final bool editingPassword;
+  final bool pageLoading;
 
   @override
   List<Object?> get props => [
-    handler, username, email, thumbnailId,
-    creationDate, editingHandler, editingUsername,
-    editingEmail, editingPassword
+    handler, username, email,
+    currentThumbnailId, newThumbnailPath,
+    creationDate, editingUsername,
+    editingEmail, editingPassword,
+    pageLoading
   ];
 
   ProfileSettingsState copyWith({
     String? handler,
     String? username,
     String? email,
-    String? thumbnailId,
+    String? currentThumbnailId,
+    String? newThumbnailPath,
     String? creationDate,
-    bool? editingHandler,
     bool? editingUsername,
     bool? editingEmail,
-    bool? editingPassword
+    bool? editingPassword,
+    bool? pageLoading
   }) {
     return ProfileSettingsState(
       handler: handler ?? this.handler,
       username: username ?? this.username,
       email: email ?? this.email,
-      thumbnailId: thumbnailId ?? this.thumbnailId,
+      currentThumbnailId: currentThumbnailId ?? this.currentThumbnailId,
+      newThumbnailPath: newThumbnailPath ?? this.newThumbnailPath,
       creationDate: creationDate ?? this.creationDate,
-      editingHandler: editingHandler ?? this.editingHandler,
       editingUsername: editingUsername ?? this.editingUsername,
       editingEmail: editingEmail ?? this.editingEmail,
-      editingPassword: editingPassword ?? this.editingPassword
+      editingPassword: editingPassword ?? this.editingPassword,
+      pageLoading: pageLoading ?? this.pageLoading
     );
   }
 }

@@ -7,10 +7,11 @@ void main() {
       test("map returned", () {
         // Arrange
         var contract = UpdateUserContract(
-            id: "id1",
-            username: "user1",
-            email: "mail@example.com",
-            password: "pass123"
+          id: "id1",
+          username: "user1",
+          email: "mail@example.com",
+          password: "pass123",
+          profileImageId: "imageId"
         );
 
         // Act
@@ -21,7 +22,8 @@ void main() {
           "id": "id1",
           "username": "user1",
           "email": "mail@example.com",
-          "password": "pass123"
+          "password": "pass123",
+          "profileImageId": "imageId"
         });
       });
     });

@@ -7,6 +7,8 @@ class App extends StatelessWidget {
     required this.navigationRepo,
     required this.imageRepo,
     required this.recipeRepo,
+    required this.conversationRepo,
+    required this.messageRepo,
     required this.imageTransformationBuilder,
     required this.imageBuilder,
     required this.networkManager,
@@ -18,6 +20,8 @@ class App extends StatelessWidget {
   final NavigationRepository navigationRepo;
   final ImageRepository imageRepo;
   final RecipeRepository recipeRepo;
+  final ConversationRepository conversationRepo;
+  final MessageRepository messageRepo;
 
   // Utilities
   final ImageTransformationBuilder imageTransformationBuilder;
@@ -33,6 +37,8 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => navigationRepo),
         RepositoryProvider(create: (_) => imageRepo),
         RepositoryProvider(create: (_) => recipeRepo),
+        RepositoryProvider(create: (_) => conversationRepo),
+        RepositoryProvider(create: (_) => messageRepo),
         RepositoryProvider(create: (_) => imageTransformationBuilder),
         RepositoryProvider(create: (_) => imageBuilder),
         RepositoryProvider(create: (_) => networkManager),
@@ -55,9 +61,9 @@ class _AppView extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Recipe Social Media',
+          title: 'Langfoodi',
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
+            scaffoldBackgroundColor: const Color.fromRGBO(254, 254, 254, 1),
             primaryColor: const Color.fromRGBO(49, 183, 63, 1),
             colorScheme: ColorScheme(
               brightness: Brightness.light,
@@ -70,7 +76,7 @@ class _AppView extends StatelessWidget {
               inversePrimary: Colors.redAccent,
               error: Colors.red,
               onError: Colors.white,
-              background: Colors.white,
+              background: const Color.fromRGBO(242, 242, 242, 1),
               onBackground: Colors.black,
               surface: Colors.white,
               onSurface: Colors.black,
@@ -131,7 +137,9 @@ class _AppView extends StatelessWidget {
             "/profile-settings": (context) => const ProfileSettingsPage(),
             "/cloudinary-image-view": (context) => const CloudinaryImageViewPage(),
             "/conversation-list": (context) => const ConversationListPage(),
-            "/conversation": (context) => const ConversationPage()
+            "/conversation": (context) => const ConversationPage(),
+            "/add-connection": (context) => const AddConnectionPage(),
+            "/add-group": (context) => const AddGroupPage()
           },
           home: BlocBuilder<AppBloc, AppState>(
             buildWhen: (p, c) => p.status != c.status,

@@ -12,11 +12,60 @@ final class ChangeConversationsToDisplay extends ConversationListEvent {
   const ChangeConversationsToDisplay();
 }
 
-final class ChangeSelectedSortingOption extends ConversationListEvent {
-  const ChangeSelectedSortingOption(this.selectedSortingOption);
+final class SearchConversations extends ConversationListEvent {
+  const SearchConversations(this.searchTerm);
 
-  final SortingOption selectedSortingOption;
+  final String searchTerm;
 
   @override
-  List<Object> get props => [selectedSortingOption];
+  List<Object> get props => [searchTerm];
+}
+
+final class BlockConnection extends ConversationListEvent {
+  const BlockConnection(this.connectionId);
+
+  final String connectionId;
+
+  @override
+  List<Object> get props => [connectionId];
+}
+
+final class UnblockConnection extends ConversationListEvent {
+  const UnblockConnection(this.connectionId);
+
+  final String connectionId;
+
+  @override
+  List<Object> get props => [connectionId];
+}
+
+final class PinConversation extends ConversationListEvent {
+  const PinConversation(this.conversationId);
+
+  final String conversationId;
+
+  @override
+  List<Object> get props => [conversationId];
+}
+
+final class UnpinConversation extends ConversationListEvent {
+  const UnpinConversation(this.conversationId);
+
+  final String conversationId;
+
+  @override
+  List<Object> get props => [conversationId];
+}
+
+final class LeaveGroup extends ConversationListEvent {
+  const LeaveGroup(this.conversationId);
+
+  final String conversationId;
+
+  @override
+  List<Object> get props => [conversationId];
+}
+
+final class ResetPopupDialog extends ConversationListEvent {
+  const ResetPopupDialog();
 }

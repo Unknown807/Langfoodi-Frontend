@@ -8,7 +8,7 @@ class CreationDateField extends StatelessWidget {
     return BlocBuilder<ProfileSettingsBloc, ProfileSettingsState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             "Joined On ${state.creationDate}",
             maxLines: 1,

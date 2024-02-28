@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/io_client.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/conversation/conversation_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
+import 'package:recipe_social_media/repositories/message/message_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/repositories/recipe/recipe_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
@@ -37,8 +39,8 @@ Future<void> main() async {
   final appLifeCycleObserver = AppLifeCycleObserver(clientWrapper);
 
   final localStore = LocalStore(secureStorage);
-  final request = Request(clientWrapper, multipartFileProvider);
   final jsonWrapper = JsonWrapper();
+  final request = Request(clientWrapper, multipartFileProvider, localStore, jsonWrapper);
   final cloudinaryConfig = Cloudinary.fromCloudName(cloudName: "dqy0zu53d", apiKey: "874862783656986");
   CloudinaryContext.cloudinary = cloudinaryConfig;
 
@@ -51,6 +53,8 @@ Future<void> main() async {
   final authRepo = AuthenticationRepository(localStore, request, jsonWrapper);
   final imageRepo = ImageRepository(request, jsonWrapper, cloudinaryConfig);
   final recipeRepo = RecipeRepository(request, jsonWrapper);
+  final conversationRepo = ConversationRepository(request, jsonWrapper);
+  final messageRepo = MessageRepository(request, jsonWrapper);
 
   // The below 2 (commented out) lines are used for manual testing purposes:
 
@@ -63,13 +67,15 @@ Future<void> main() async {
     navigationRepo: navigationRepo,
     imageRepo: imageRepo,
     recipeRepo: recipeRepo,
+    conversationRepo: conversationRepo,
+    messageRepo: messageRepo,
     imageTransformationBuilder: imageTransformationBuilder,
     imageBuilder: imageBuilder,
     networkManager: networkManager,
     localStore: localStore,
   ));
 
-  //localStore.deleteKey("loggedInUser");
+  localStore.deleteKey("loggedInUser");
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
 }

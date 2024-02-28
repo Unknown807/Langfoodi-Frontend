@@ -24,7 +24,7 @@ class CustomSearchAppBar extends StatelessWidget implements PreferredSizeWidget 
       putActionsOnRight: true,
       backgroundColor: Theme.of(context).primaryColor,
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onPrimary, size: 25),
-      titleTextStyle: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onPrimary),
+      titleTextStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Theme.of(context).colorScheme.onPrimary),
       searchHintText: hintText,
       searchBackgroundColor: Theme.of(context).colorScheme.background,
       searchHintStyle: TextStyle(fontSize: 20, color: Theme.of(context).hintColor),

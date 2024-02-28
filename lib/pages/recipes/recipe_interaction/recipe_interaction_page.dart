@@ -40,6 +40,7 @@ class RecipeInteractionPage extends StatelessWidget {
           listener: (context, state) {
             if (state.formStatus.isFailure) {
               showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (_) => BlocProvider<RecipeInteractionBloc>.value(
                   value: BlocProvider.of<RecipeInteractionBloc>(context),

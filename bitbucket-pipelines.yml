@@ -1,4 +1,4 @@
-image: mobiledevops/flutter-sdk-image:3.10.0
+image: mobiledevops/flutter-sdk-image:3.16.4
 
 pipelines:
   pull-requests:
