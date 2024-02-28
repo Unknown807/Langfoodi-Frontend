@@ -28,6 +28,7 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<LeaveGroup>(_leaveGroup);
     on<ResetPopupDialog>(_resetPopupDialog);
     on<ReceiveMessage>(_showReceivedMessage);
+    on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
     on<GoToAddConnectionPageAndExpectResult>(
         _goToAddConnectionPageAndExpectResult);
     on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
@@ -39,6 +40,10 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
       }
 
       add(ReceiveMessage(message, conversationId));
+    });
+
+    _messagingHub.onMessageDeleted((messageId) {
+      add(ReceiveMessageDeletion(messageId));
     });
   }
 
@@ -80,6 +85,38 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
 
     conversation.lastMessage = event.message;
     conversation.messagesUnseen++;
+
+    emit(state.copyWith(
+      conversations: conversations,
+      pageLoading: true)
+    );
+    await _sortConversations(emit);
+  }
+
+  void _showReceivedMessageDeletion(ReceiveMessageDeletion event, Emitter<ConversationListState> emit) async {
+    List<Conversation> conversations = List.from(state.conversations);
+    Conversation conversation;
+    try {
+      conversation = conversations.firstWhere((convo) => convo.lastMessage?.id == event.messageId);
+      if (conversation.lastMessage == null) {
+        return;
+      }
+    }
+    on Exception {
+      return;
+    }
+
+    conversation.lastMessage = Message(
+      "-1",
+      conversation.lastMessage!.userPreview,
+      conversation.lastMessage!.seenByUserIds,
+      conversation.lastMessage!.sentDate,
+      null,
+      null,
+      "Message deleted",
+      null,
+      null
+    );
 
     emit(state.copyWith(
       conversations: conversations,

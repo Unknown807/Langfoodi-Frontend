@@ -13,16 +13,16 @@ class MessagingHub {
 
   Future startConnection() async {
     try {
-      _hubConnection.start();
-    } on Exception {
-      log("Stopping SignalR connection failed");
+      await _hubConnection.start();
+    } catch (e) {
+      log("Starting SignalR connection failed");
     }
   }
 
   Future stopConnection() async {
     try {
-      _hubConnection.stop();
-    } on Exception {
+      await _hubConnection.stop();
+    } catch (e) {
       log("Stopping SignalR connection failed");
     }
   }

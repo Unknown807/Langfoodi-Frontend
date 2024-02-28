@@ -62,6 +62,15 @@ final class ReceiveMessage extends ConversationListEvent {
   List<Object> get props => [message, conversationId];
 }
 
+final class ReceiveMessageDeletion extends ConversationListEvent {
+  const ReceiveMessageDeletion(this.messageId);
+
+  final String messageId;
+
+  @override
+  List<Object> get props => [messageId];
+}
+
 final class GoToAddConnectionPageAndExpectResult extends ConversationListEvent {
   const GoToAddConnectionPageAndExpectResult(this.context);
 
