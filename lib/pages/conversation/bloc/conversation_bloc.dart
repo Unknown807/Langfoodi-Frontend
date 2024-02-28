@@ -52,7 +52,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
       on<ReceiveMessageMarkedAsRead>(_showReceivedMessageMarkedAsRead);
 
-      _messagingHub.onMessageReceived((message, conversationId) {
+      _messagingHub.onMessageReceived((message, conversationId) async {
         if (conversationId != state.conversationId) {
           return;
         }
@@ -64,7 +64,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         add(ReceiveMessage(message));
       });
 
-      _messagingHub.onMessageDeleted((messageId) {
+      _messagingHub.onMessageDeleted((messageId) async {
         if (!state.messages.any((m) => m.id == messageId)) {
           return;
         }
@@ -72,7 +72,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         add(ReceiveMessageDeletion(messageId));
       });
 
-      _messagingHub.onMessageMarkedAsRead((messageId, userId) {
+      _messagingHub.onMessageMarkedAsRead((messageId, userId) async {
         if (!state.messages.any((m) => m.id == messageId)) {
           return;
         }
