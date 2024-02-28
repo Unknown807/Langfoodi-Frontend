@@ -5,7 +5,10 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class LoginPage extends StatelessWidget {
                           authRepo: context.read<AuthenticationRepository>(),
                           networkManager: context.read<NetworkManager>()
                         ),
-                        child: LoginForm(),
+                        child: LoginForm(emailController: emailController, passwordController: passwordController),
                       ))))),
                 ])))));
   }

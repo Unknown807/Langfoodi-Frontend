@@ -1,9 +1,9 @@
 part of 'login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
-  LoginForm({super.key});
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  const LoginForm({super.key, required this.emailController, required this.passwordController});
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, InputState>(

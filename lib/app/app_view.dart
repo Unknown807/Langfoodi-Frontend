@@ -130,7 +130,7 @@ class _AppView extends StatelessWidget {
           routes: {
             "/splash": (context) => const SplashPage(),
             "/home": (context) => const HomePage(),
-            "/login": (context) => const LoginPage(),
+            "/login": (context) => LoginPage(),
             "/register": (context) => const RegisterPage(),
             "/recipe-view": (context) => const RecipeViewPage(),
             "/recipe-interaction": (context) => const RecipeInteractionPage(),
@@ -148,7 +148,7 @@ class _AppView extends StatelessWidget {
                 case AppStatus.authenticated:
                   return const HomePage();
                 case AppStatus.unauthenticated:
-                  return const LoginPage();
+                  return LoginPage();
                 default:
                   return const SplashPage();
               }
