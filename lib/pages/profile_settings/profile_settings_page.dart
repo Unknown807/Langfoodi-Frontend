@@ -5,6 +5,8 @@ import 'package:recipe_social_media/app/app.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_bloc.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_form_bloc.dart';
+import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
+import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 
@@ -76,19 +78,43 @@ class ProfileSettingsPage extends StatelessWidget implements PageLander {
                 preferredSize: const Size.fromHeight(56),
                 child: AppBar(
                   automaticallyImplyLeading: false,
+                  leading: IconButton(
+                    icon: Icon(
+                      Theme.of(context).colorScheme.brightness == Brightness.dark
+                        ? Icons.sunny
+                        : Icons.nightlight,
+                      color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                    ),
+                    onPressed: () => context
+                      .read<AppBloc>()
+                      .add(const ChangeAppTheme())
+                  ),
                   title: const Text("My Profile"),
                   backgroundColor: Theme.of(context).primaryColor,
                   actions: [
                     IconButton(
                       icon: Icon(
-                        Theme.of(context).colorScheme.brightness == Brightness.dark
-                          ? Icons.sunny
-                          : Icons.nightlight,
+                        Icons.logout_rounded,
                         color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
                       ),
-                      onPressed: () => context
-                        .read<AppBloc>()
-                        .add(const ChangeAppTheme())
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) => CustomAlertDialog(
+                          title: const Text("Logout?"),
+                          content: const Text("Are you sure you want to logout?"),
+                          dismissOnRightButton: false,
+                          rightButtonText: "Yes",
+                          rightButtonCallback: () {
+                            context
+                              .read<AuthenticationRepository>()
+                              .logOut();
+
+                            context
+                              .read<NavigationRepository>()
+                              .goTo(context, "/login", routeType: RouteType.onlyThis);
+                          },
+                        )
+                      )
                     )
                   ],
                 )

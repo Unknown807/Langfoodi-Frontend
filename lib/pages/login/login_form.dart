@@ -29,16 +29,7 @@ class LoginForm extends StatelessWidget {
               HandlerEmailInput(),
               PasswordInput(),
             ])),
-          const SizedBox(height: 5),
-          Row(
-            children: <Widget>[
-              const Spacer(),
-              CustomTextButton(
-                text: "Forgot Password?",
-                fontSize: 14,
-                eventFunc: () {}),
-            ],
-          ),
+          const SizedBox(height: 20),
           const LoginButton(),
           const SizedBox(height: 40),
           Row(
