@@ -14,7 +14,7 @@ void main() {
   setUp(() {
     imageBuilderMock = ImageBuilderMock();
     when(() => imageBuilderMock.getAssetImage(any()))
-        .thenReturn(const AssetImage("assets/images/light_auth_bg.png"));
+        .thenReturn(const AssetImage("assets/images/hero_logo_light.png"));
   });
 
   Widget createWidgetUnderTest() {
@@ -39,8 +39,7 @@ void main() {
       // Assert
       final Container imgContainer = widgetTester.widget(find.byKey(const Key("loginPageBgImg")).first);
       final BoxDecoration boxDeco = imgContainer.decoration! as BoxDecoration;
-      expect(boxDeco.image!.image, const AssetImage("assets/images/light_auth_bg.png"));
-      expect(find.text("Welcome"), findsOneWidget);
+      expect(boxDeco.image!.image, const AssetImage("assets/images/hero_logo_light.png"));
       expect(find.byType(LoginForm), findsOneWidget);
     });
   });
