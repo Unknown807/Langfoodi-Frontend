@@ -28,10 +28,6 @@ class MessagingHub {
     });
   }
 
-  void onMessageUpdated(Function(dynamic) callback) {
-    _hubConnection.on("ReceiveMessageUpdate", callback);
-  }
-
   void onMessageDeleted(Function(String) callback) {
     _hubConnection.on("ReceiveMessageDeletion", (arguments) {
       String messageId = arguments?[0] as String;
