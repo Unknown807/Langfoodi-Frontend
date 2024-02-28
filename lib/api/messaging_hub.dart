@@ -14,6 +14,7 @@ class MessagingHub {
   Future startConnection() async {
     try {
       await _hubConnection.start();
+      log("Started SignalR");
     } catch (e) {
       log("Starting SignalR connection failed");
     }
@@ -22,6 +23,7 @@ class MessagingHub {
   Future stopConnection() async {
     try {
       await _hubConnection.stop();
+      log("Stopped SignalR");
     } catch (e) {
       log("Stopping SignalR connection failed");
     }

@@ -35,24 +35,21 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     on<GoToAddGroupPageAndExpectResult>(_goToAddGroupPageAndExpectResult);
     on<GoToConversationPageAndExpectResult>(_goToConversationPageAndExpectResult);
 
-    _messagingHub.startConnection();
     _messagingHub.onMessageReceived((message, conversationId) {
       if (!state.conversations.any((convo) => convo.id == conversationId)) {
         return;
       }
 
-      add(ReceiveMessage(message, conversationId));
+      if (!isClosed) {
+        add(ReceiveMessage(message, conversationId));
+      }
     });
 
     _messagingHub.onMessageDeleted((messageId) {
-      add(ReceiveMessageDeletion(messageId));
+      if (!isClosed) {
+        add(ReceiveMessageDeletion(messageId));
+      }
     });
-  }
-
-  @override
-  Future<void> close() async {
-    await _messagingHub.stopConnection();
-    return super.close();
   }
 
   final AuthenticationRepository _authRepo;
@@ -61,15 +58,15 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   final NavigationRepository _navigationRepo;
   final MessagingHub _messagingHub;
 
-  void _goToConversationPageAndExpectResult(GoToConversationPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+  Future _goToConversationPageAndExpectResult(GoToConversationPageAndExpectResult event, Emitter<ConversationListState> emit) async {
     await _goToPageAndExpectResult("/conversation", event.context, emit, arguments: event.arguments);
   }
 
-  void _goToAddConnectionPageAndExpectResult(GoToAddConnectionPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+  Future _goToAddConnectionPageAndExpectResult(GoToAddConnectionPageAndExpectResult event, Emitter<ConversationListState> emit) async {
     await _goToPageAndExpectResult("/add-connection", event.context, emit);
   }
 
-  void _goToAddGroupPageAndExpectResult(GoToAddGroupPageAndExpectResult event, Emitter<ConversationListState> emit) async {
+  Future _goToAddGroupPageAndExpectResult(GoToAddGroupPageAndExpectResult event, Emitter<ConversationListState> emit) async {
     await _goToPageAndExpectResult("/add-group", event.context, emit);
   }
 
