@@ -73,14 +73,14 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   }
 
   void _pinConversation(PinConversation event, Emitter<ConversationListState> emit) async {
-    _pinOrUnpinConversation(event.conversationId, true);
+    await _pinOrUnpinConversation(event.conversationId, true, emit);
   }
 
   void _unpinConversation(UnpinConversation event, Emitter<ConversationListState> emit) async {
-    _pinOrUnpinConversation(event.conversationId, false);
+    await _pinOrUnpinConversation(event.conversationId, false, emit);
   }
 
-  void _pinOrUnpinConversation(String conversationId, bool toPin) async {
+  Future _pinOrUnpinConversation(String conversationId, bool toPin, Emitter<ConversationListState> emit) async {
     List<String> pinnedIds = List.from(state.pinnedIds);
     if (toPin) {
       pinnedIds.add(conversationId);
@@ -93,21 +93,30 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     _authRepo.setCurrentUser(currentUser);
 
     List<Conversation> sortedConversations = List.from(state.conversations);
-    sortedConversations.sort((c1, c2) => pinnedIds
-      .indexOf(c2.id)
-      .compareTo(pinnedIds
-        .indexOf(c1.id)));
-
-    emit(state.copyWith(
-      pinnedIds: pinnedIds,
-      conversations: sortedConversations
-    ));
+    await _sortConversations(sortedConversations, emit);
 
     if (toPin) {
       await _conversationRepo.pinConversation(conversationId, currentUser.id);
     } else {
       await _conversationRepo.unpinConversation(conversationId, currentUser.id);
     }
+  }
+
+  Future _sortConversations(List<Conversation> conversations, Emitter<ConversationListState> emit) async {
+    conversations.sort((c2, c1) => (c1.lastMessage?.sentDate ?? DateTime(1900))
+        .compareTo(c2.lastMessage?.sentDate ?? DateTime(1900)));
+
+    var pinnedIds = (await _authRepo.currentUser).pinnedConversationIds;
+
+    conversations.sort((c1, c2) => pinnedIds
+        .indexOf(c2.id)
+        .compareTo(pinnedIds
+        .indexOf(c1.id)));
+
+    emit(state.copyWith(
+        pinnedIds: pinnedIds,
+        conversations: conversations
+    ));
   }
 
   void _searchConversations(SearchConversations event, Emitter<ConversationListState> emit) {
