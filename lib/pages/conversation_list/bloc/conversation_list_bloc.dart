@@ -91,7 +91,10 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
     var conversation = conversations.firstWhere((convo) => convo.id == event.conversationId);
 
     conversation.lastMessage = event.message;
-    conversation.messagesUnseen++;
+
+    if ((await _authRepo.currentUser).id != event.message.userPreview.id){
+      conversation.messagesUnseen++;
+    }
 
     emit(state.copyWith(
       conversations: conversations,
