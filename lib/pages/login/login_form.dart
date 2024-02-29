@@ -82,6 +82,7 @@ class PasswordInput extends StatelessWidget {
       buildWhen: (p, c) => p.password != c.password,
       builder: (context, state) {
         return FormInput(
+          textController: state.passwordTextController,
           isConfidential: true,
           labelText: "Password",
           eventFunc: (password) {

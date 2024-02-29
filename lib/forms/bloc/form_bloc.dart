@@ -2,7 +2,8 @@ part of 'base_form.dart';
 
 class FormBloc extends Bloc<InputEvent, InputState> {
   FormBloc() : super(InputState(
-    emailTextController: TextEditingController()
+      emailTextController: TextEditingController(),
+      passwordTextController: TextEditingController()
   )) {
     on<HandlerChanged>(_onHandlerChanged);
     on<UserNameChanged>(_onUserNameChanged);
@@ -34,9 +35,11 @@ class FormBloc extends Bloc<InputEvent, InputState> {
 
   void _onEmailChanged(EmailChanged event, Emitter<InputState> emit) {
     final email = Email.dirty(event.email);
+
     if(event.email.isEmpty){
       state.emailTextController.clear();
     }
+
     emit(
         state.copyWith(
             email: email,
@@ -47,6 +50,11 @@ class FormBloc extends Bloc<InputEvent, InputState> {
 
   void _passwordChanged(PasswordChanged event, Emitter<InputState> emit) {
     final password = Password.dirty(event.password);
+
+    if(event.password.isEmpty){
+      state.passwordTextController.clear();
+    }
+
     final confirmedPassword = ConfirmedPassword.dirty(
       password: password.value,
       value: state.confirmedPassword.value,
