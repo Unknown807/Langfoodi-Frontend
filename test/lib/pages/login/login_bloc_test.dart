@@ -32,6 +32,8 @@ void main() {
       skip: 2,
         expect: () => [
           InputState(
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController(),
             formStatus: FormzSubmissionStatus.inProgress,
             errorMessage: "",
             email: Email.dirty("mail@mail.com"),
@@ -40,10 +42,10 @@ void main() {
             emailValid: true,
             passwordValid: true,
             confirmedPasswordValid: false,
-            emailTextController: TextEditingController(),
-            passwordTextController: TextEditingController()
           ),
           InputState(
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController(),
             formStatus: FormzSubmissionStatus.success,
             errorMessage: "",
             email: Email.dirty("mail@mail.com"),
@@ -52,8 +54,6 @@ void main() {
             emailValid: true,
             passwordValid: true,
             confirmedPasswordValid: false,
-            emailTextController: TextEditingController(),
-            passwordTextController: TextEditingController()
           )
         ]
     );
@@ -71,6 +71,8 @@ void main() {
       skip: 2,
       expect: () => [
         InputState(
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController(),
           formStatus: FormzSubmissionStatus.inProgress, 
           errorMessage: "",
           email: Email.dirty("mail@mail.com"),
@@ -79,10 +81,10 @@ void main() {
           emailValid: true,
           passwordValid: true,
           confirmedPasswordValid: false,
-          emailTextController: TextEditingController(),
-          passwordTextController: TextEditingController()
         ),
         InputState(
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController(),
           formStatus: FormzSubmissionStatus.failure,
           errorMessage: "form error",
           email: Email.dirty("mail@mail.com"),
@@ -91,8 +93,6 @@ void main() {
           emailValid: true,
           passwordValid: true,
           confirmedPasswordValid: false,
-          emailTextController: TextEditingController(),
-          passwordTextController: TextEditingController()
         )
       ]
     );
@@ -105,10 +105,10 @@ void main() {
       act: (bloc) => bloc.add(const FormSubmitted()),
       expect: () => [
         InputState(
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController(),
           formStatus: FormzSubmissionStatus.failure,
           errorMessage: "Network Issue Encountered!",
-          emailTextController: TextEditingController(),
-          passwordTextController: TextEditingController()
         )
       ]
     );
@@ -125,14 +125,14 @@ void main() {
         skip: 1,
         expect: () => [
           InputState(
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController(),
             formStatus: FormzSubmissionStatus.failure,
             errorMessage: "Fields can't be empty",
             password: Password.dirty("Password123!"),
             confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
             passwordValid: true,
             confirmedPasswordValid: false,
-            emailTextController: TextEditingController(),
-            passwordTextController: TextEditingController()
           )
         ]
     );
@@ -149,12 +149,12 @@ void main() {
         skip: 1,
         expect: () => [
           InputState(
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController(),
             formStatus: FormzSubmissionStatus.failure,
             errorMessage: "Fields can't be empty",
               email: Email.dirty("mail@mail.com"),
               emailValid: true,
-              emailTextController: TextEditingController(),
-              passwordTextController: TextEditingController()
           )
         ]
     );
