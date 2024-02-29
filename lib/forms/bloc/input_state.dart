@@ -2,6 +2,7 @@ part of 'base_form.dart';
 
 class InputState extends Equatable {
   const InputState({
+    required this.emailTextController,
     this.handler = const Handler.pure(),
     this.userName = const Username.pure(),
     this.email = const Email.pure(),
@@ -16,6 +17,7 @@ class InputState extends Equatable {
     this.errorMessage = "",
   });
 
+  final TextEditingController emailTextController;
   final Handler handler;
   final Username userName;
   final Email email;
@@ -31,6 +33,7 @@ class InputState extends Equatable {
 
   @override
   List<Object?> get props => [
+    emailTextController,
     handler,
     userName,
     email,
@@ -46,6 +49,7 @@ class InputState extends Equatable {
   ];
 
   InputState copyWith({
+    TextEditingController? emailTextController,
     Handler? handler,
     Username? userName,
     Email? email,
@@ -60,6 +64,7 @@ class InputState extends Equatable {
     String? errorMessage,
   }) {
     return InputState(
+      emailTextController: emailTextController ?? this.emailTextController,
       handler: handler ?? this.handler,
       userName: userName ?? this.userName,
       email: email ?? this.email,

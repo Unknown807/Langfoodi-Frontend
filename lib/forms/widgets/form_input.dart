@@ -21,6 +21,7 @@ class FormInput extends StatelessWidget {
       this.keyboardType,
       this.hintText,
       this.labelText,
+      this.suffixIcon,
       this.readonly = false,
       this.isConfidential = false,
       this.textAlign = TextAlign.left,
@@ -39,6 +40,7 @@ class FormInput extends StatelessWidget {
   TextInputType? keyboardType;
   String? hintText;
   String? labelText;
+  IconData? suffixIcon;
   bool readonly;
   bool isConfidential;
   int maxLines;
@@ -86,7 +88,6 @@ class FormInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    bool showSuffixIcon = textController != null;
     return Padding(
       padding: outerPadding,
       child: Container(
@@ -117,10 +118,12 @@ class FormInput extends StatelessWidget {
             hintStyle: TextStyle(color: themeData.hintColor),
             labelStyle: TextStyle(color: themeData.hintColor),
             floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary),
-            suffixIcon: showSuffixIcon ? IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {textController?.clear();eventFunc("");},
-            ) : null
+            suffixIcon: suffixIcon != null
+              ? IconButton(
+                  icon: Icon(suffixIcon),
+                  onPressed: () => eventFunc.call(""),
+                )
+              : null
           )
         )));
   }

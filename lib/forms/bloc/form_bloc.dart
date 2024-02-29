@@ -1,7 +1,9 @@
 part of 'base_form.dart';
 
 class FormBloc extends Bloc<InputEvent, InputState> {
-  FormBloc() : super(const InputState()) {
+  FormBloc() : super(InputState(
+    emailTextController: TextEditingController()
+  )) {
     on<HandlerChanged>(_onHandlerChanged);
     on<UserNameChanged>(_onUserNameChanged);
     on<EmailChanged>(_onEmailChanged);
@@ -32,6 +34,9 @@ class FormBloc extends Bloc<InputEvent, InputState> {
 
   void _onEmailChanged(EmailChanged event, Emitter<InputState> emit) {
     final email = Email.dirty(event.email);
+    if(event.email.isEmpty){
+      state.emailTextController.clear();
+    }
     emit(
         state.copyWith(
             email: email,

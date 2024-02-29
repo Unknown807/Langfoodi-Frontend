@@ -5,10 +5,7 @@ import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/utilities/utilities.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class LoginPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Align(alignment:Alignment.bottomCenter,child:SingleChildScrollView(child:Column(children: <Widget>[
-                  Padding(padding: EdgeInsets.only(top: 50),
+                  Padding(padding: const EdgeInsets.only(top: 50),
                   child:Container(
                     key: const Key("loginPageBgImg"),
                     height:70,
@@ -36,7 +33,7 @@ class LoginPage extends StatelessWidget {
                           authRepo: context.read<AuthenticationRepository>(),
                           networkManager: context.read<NetworkManager>()
                         ),
-                        child: LoginForm(emailController: emailController, passwordController: passwordController),
+                        child: const LoginForm(),
                       ))))),
                 ])))));
   }

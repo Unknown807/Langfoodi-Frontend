@@ -1,9 +1,7 @@
 part of 'login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({super.key, required this.emailController, required this.passwordController});
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+  const LoginForm({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, InputState>(
@@ -14,8 +12,8 @@ class LoginForm extends StatelessWidget {
         },
         child: Container(child:(Column(children: <Widget>[
           Column(children: <Widget>[
-            HandlerEmailInput(controller: emailController),
-            PasswordInput(controller: passwordController),
+            HandlerEmailInput(),
+            PasswordInput(),
           ]),
           const FormErrorLabel(),
           const SizedBox(height: 10),
@@ -62,12 +60,13 @@ class HandlerEmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return (FormInput(
+          textController: state.emailTextController,
           labelText: "Email",
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
           },
         height: 100,
-        textController: controller,));
+        suffixIcon: Icons.clear,));
       },
     );
   }
@@ -89,7 +88,7 @@ class PasswordInput extends StatelessWidget {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
           height: 100,
-          textController: controller,
+          suffixIcon: Icons.clear,
         );
       },
     );
