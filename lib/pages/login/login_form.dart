@@ -2,33 +2,40 @@ part of 'login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, InputState>(
         listener: (context, state) {
           if (state.formStatus.isSuccess) {
-            context.read<NavigationRepository>().goTo(context, "/home", routeType: RouteType.onlyThis);
+            context
+                .read<NavigationRepository>()
+                .goTo(context, "/home", routeType: RouteType.onlyThis);
           }
         },
-        child: Container(child:(Column(children: <Widget>[
-          Column(children: <Widget>[
-            HandlerEmailInput(),
-            PasswordInput(),
+        child: Container(
+            child: (Column(children: <Widget>[
+              Column(children: <Widget>[
+                HandlerEmailInput(),
+                PasswordInput(),
           ]),
           const FormErrorLabel(),
           const SizedBox(height: 10),
           const LoginButton(),
           const SizedBox(height: 10),
-          Row(children:[Expanded(child:Container(child: OutlinedButton(
-            onPressed: () {context
-                .read<NavigationRepository>()
-                .goTo(context, "/register");
-            },
-
-            style: OutlinedButton.styleFrom(side:const BorderSide(color: Colors.green)),
-
-            child: const Text("Create account",overflow: TextOverflow.ellipsis, maxLines: 1),
-          )))]),
+          Row(children: [
+            Expanded(
+                child: Container(
+                    child: OutlinedButton(
+              onPressed: () {
+                context.read<NavigationRepository>().goTo(context, "/register");
+              },
+              style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.green)),
+              child: const Text("Create account",
+                  overflow: TextOverflow.ellipsis, maxLines: 1),
+            )))
+          ]),
         ]))));
   }
 }
@@ -41,10 +48,12 @@ class FormErrorLabel extends StatelessWidget {
     return BlocBuilder<LoginBloc, InputState>(
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
-        return Text(state.errorMessage,
+        return Text(
+          state.errorMessage,
           style: TextStyle(color: Theme.of(context).colorScheme.error),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,);
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        );
       },
     );
   }
@@ -52,6 +61,7 @@ class FormErrorLabel extends StatelessWidget {
 
 class HandlerEmailInput extends StatelessWidget {
   HandlerEmailInput({super.key, this.controller});
+
   final TextEditingController? controller;
 
   @override
@@ -65,8 +75,9 @@ class HandlerEmailInput extends StatelessWidget {
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
           },
-        height: 100,
-        suffixIcon: Icons.clear,));
+          height: 100,
+          suffixIcon: Icons.clear,
+        ));
       },
     );
   }
@@ -74,6 +85,7 @@ class HandlerEmailInput extends StatelessWidget {
 
 class PasswordInput extends StatelessWidget {
   PasswordInput({super.key, this.controller});
+
   final TextEditingController? controller;
 
   @override
@@ -107,10 +119,15 @@ class LoginButton extends StatelessWidget {
           return const CircularProgressIndicator();
         }
 
-        return Row(children:[Expanded(child:Container(child:FormButton(
-          eventFunc: () => context.read<LoginBloc>().add(const FormSubmitted()),
-          text: "Sign in",
-        )))]);
+        return Row(children: [
+          Expanded(
+              child: Container(
+                  child: FormButton(
+            eventFunc: () =>
+                context.read<LoginBloc>().add(const FormSubmitted()),
+            text: "Sign in",
+          )))
+        ]);
       },
     );
   }
