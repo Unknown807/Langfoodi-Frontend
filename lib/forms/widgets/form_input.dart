@@ -119,7 +119,7 @@ class FormInput extends StatelessWidget {
             floatingLabelStyle: TextStyle(color: themeData.colorScheme.tertiary),
             suffixIcon: showSuffixIcon ? IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () {textController?.clear();},
+              onPressed: () {textController?.clear();eventFunc("");},
             ) : null
           )
         )));
