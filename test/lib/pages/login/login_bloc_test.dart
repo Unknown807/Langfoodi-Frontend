@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
@@ -30,7 +31,7 @@ void main() {
       },
       skip: 2,
         expect: () => [
-          const InputState(
+          InputState(
             formStatus: FormzSubmissionStatus.inProgress,
             errorMessage: "",
             email: Email.dirty("mail@mail.com"),
@@ -38,9 +39,11 @@ void main() {
             confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
             emailValid: true,
             passwordValid: true,
-            confirmedPasswordValid: false
+            confirmedPasswordValid: false,
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController()
           ),
-          const InputState(
+          InputState(
             formStatus: FormzSubmissionStatus.success,
             errorMessage: "",
             email: Email.dirty("mail@mail.com"),
@@ -48,7 +51,9 @@ void main() {
             confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
             emailValid: true,
             passwordValid: true,
-            confirmedPasswordValid: false
+            confirmedPasswordValid: false,
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController()
           )
         ]
     );
@@ -65,7 +70,7 @@ void main() {
       },
       skip: 2,
       expect: () => [
-        const InputState(
+        InputState(
           formStatus: FormzSubmissionStatus.inProgress, 
           errorMessage: "",
           email: Email.dirty("mail@mail.com"),
@@ -73,9 +78,11 @@ void main() {
           confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
           emailValid: true,
           passwordValid: true,
-          confirmedPasswordValid: false
+          confirmedPasswordValid: false,
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController()
         ),
-        const InputState(
+        InputState(
           formStatus: FormzSubmissionStatus.failure,
           errorMessage: "form error",
           email: Email.dirty("mail@mail.com"),
@@ -83,7 +90,9 @@ void main() {
           confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
           emailValid: true,
           passwordValid: true,
-          confirmedPasswordValid: false
+          confirmedPasswordValid: false,
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController()
         )
       ]
     );
@@ -95,9 +104,11 @@ void main() {
       },
       act: (bloc) => bloc.add(const FormSubmitted()),
       expect: () => [
-        const InputState(
+        InputState(
           formStatus: FormzSubmissionStatus.failure,
           errorMessage: "Network Issue Encountered!",
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController()
         )
       ]
     );
@@ -113,13 +124,15 @@ void main() {
         },
         skip: 1,
         expect: () => [
-          const InputState(
+          InputState(
             formStatus: FormzSubmissionStatus.failure,
             errorMessage: "Fields can't be empty",
             password: Password.dirty("Password123!"),
             confirmedPassword: ConfirmedPassword.dirty(password: "Password123!"),
             passwordValid: true,
-            confirmedPasswordValid: false
+            confirmedPasswordValid: false,
+            emailTextController: TextEditingController(),
+            passwordTextController: TextEditingController()
           )
         ]
     );
@@ -135,11 +148,13 @@ void main() {
         },
         skip: 1,
         expect: () => [
-          const InputState(
+          InputState(
             formStatus: FormzSubmissionStatus.failure,
             errorMessage: "Fields can't be empty",
               email: Email.dirty("mail@mail.com"),
               emailValid: true,
+              emailTextController: TextEditingController(),
+              passwordTextController: TextEditingController()
           )
         ]
     );
