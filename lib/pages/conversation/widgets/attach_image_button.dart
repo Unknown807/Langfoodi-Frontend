@@ -18,7 +18,7 @@ class AttachImageButton extends StatelessWidget {
           disabledColor: Theme.of(context).hintColor,
           color: Theme.of(context).colorScheme.tertiary,
           icon: const Icon(Icons.image_rounded),
-          onPressed: !state.allowImages || state.pageLoading || state.sendingMessage ? null : () async {
+          onPressed: !state.allowImages || state.pageLoading || state.sendingMessage || state.isBlocked ? null : () async {
             final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
             if (selectedImages.isNotEmpty && context.mounted) {
               context.read<ConversationBloc>().add(AttachImages(selectedImages));

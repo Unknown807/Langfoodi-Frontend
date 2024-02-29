@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
 import 'package:recipe_social_media/pages/home/home_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -15,10 +16,12 @@ import '../../../../test_utilities/mocks/generic_mocks.dart';
 void main() {
   late ConversationRepositoryMock conversationRepoMock;
   late AuthenticationRepositoryMock authRepoMock;
+  late MessagingHubMock messagingHubMock;
 
   setUp(() {
     conversationRepoMock = ConversationRepositoryMock();
     authRepoMock = AuthenticationRepositoryMock();
+    messagingHubMock = MessagingHubMock();
   });
 
   Widget createWidgetUnderTest() {
@@ -29,7 +32,8 @@ void main() {
         RepositoryProvider<AuthenticationRepository>(create: (_) => authRepoMock),
         RepositoryProvider<NavigationRepository>(create: (_) => NavigationRepositoryMock()),
         RepositoryProvider<NetworkManager>(create: (_) => NetworkManagerMock()),
-        RepositoryProvider<ImageRepository>(create: (_) => ImageRepositoryMock())
+        RepositoryProvider<ImageRepository>(create: (_) => ImageRepositoryMock()),
+        RepositoryProvider<MessagingHub>(create: (_) => messagingHubMock),
       ],
       child: const MaterialApp(
         home: HomePage(),
@@ -41,7 +45,7 @@ void main() {
       // Arrange
       when(() => conversationRepoMock.getConversationByUser(any())).thenAnswer((invocation) => Future.value([]));
       when(() => authRepoMock.currentUser).thenAnswer((invocation) => Future.value(
-          User("1", "handle", "username", "email", "pass", DateTime(2024), null, const []))
+          User("1", "handle", "username", "email", "pass", DateTime(2024), null, const [], const []))
       );
       await widgetTester.pumpWidget(createWidgetUnderTest());
 

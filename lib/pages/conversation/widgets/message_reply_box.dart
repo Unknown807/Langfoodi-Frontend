@@ -29,31 +29,46 @@ class MessageReplyBox extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(isSentByMe ? "You" : message.userPreview.username,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14
-                        )
-                      ),
+                  Expanded(
+                    flex: 100,
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(isSentByMe ? "You" : message.userPreview.username,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onBackground.withAlpha(180),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14
+                              )
+                            )
+                          ),
 
-                      if (message.textContent != null)
-                        Text(
-                          "${message.textContent!.length >= 20
-                            ? message.textContent!.substring(0, 20)
-                            : message.textContent!}...",
-                          style: TextStyle(color: Theme.of(context).colorScheme.onBackground.withAlpha(180)),
-                        ),
+                          if (message.textContent != null)
+                            Flexible(
+                              child: Text(
+                                "${message.textContent!.length >= 20
+                                  ? message.textContent!.substring(0, 20)
+                                  : message.textContent!}...",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onBackground.withAlpha(180)
+                                ),
+                              )
+                            ),
 
-                      if (message.recipes != null)
-                        const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipes"),
+                          if (message.recipes != null)
+                            const ReplyBoxAttachment(icon: Icons.fastfood_rounded, text: " Recipes"),
 
-                      if (message.imageURLs != null)
-                        const ReplyBoxAttachment(icon: Icons.image_rounded, text: " Images"),
-                    ],
+                          if (message.imageURLs != null)
+                            const ReplyBoxAttachment(icon: Icons.image_rounded, text: " Images"),
+                        ],
+                      )
+                    )
                   ),
                 const Spacer(),
                 if (replying)

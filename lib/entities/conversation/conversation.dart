@@ -1,7 +1,7 @@
 part of 'conversation_entities.dart';
 
-class Conversation extends Equatable with JsonConvertible {
-  const Conversation(
+class Conversation with JsonConvertible {
+  Conversation(
     this.id,
     this.connectionOrGroupId,
     this.name,
@@ -16,9 +16,9 @@ class Conversation extends Equatable with JsonConvertible {
   final String connectionOrGroupId;
   final String name;
   final bool isGroup;
-  final int messagesUnseen;
+  int messagesUnseen;
   final String? thumbnailId;
-  final Message? lastMessage;
+  Message? lastMessage;
   final List<String> userIds;
 
   static Conversation fromJsonStr(String jsonStr, JsonWrapper jsonWrapper) {

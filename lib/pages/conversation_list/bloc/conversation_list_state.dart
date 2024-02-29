@@ -6,6 +6,7 @@ class ConversationListState extends Equatable {
     this.shownConversations = const [],
     this.searchSuggestions = const [],
     this.pinnedIds = const [],
+    this.blockedIds = const [],
     this.prevSearchTerm = "",
     this.dialogTitle = "",
     this.dialogMessage = "",
@@ -16,6 +17,7 @@ class ConversationListState extends Equatable {
   final List<bool> shownConversations;
   final List<String> searchSuggestions;
   final List<String> pinnedIds;
+  final List<String> blockedIds;
   final String prevSearchTerm;
   final String dialogTitle;
   final String dialogMessage;
@@ -26,7 +28,7 @@ class ConversationListState extends Equatable {
     conversations, shownConversations,
     searchSuggestions, prevSearchTerm,
     pinnedIds, dialogTitle, dialogMessage,
-    pageLoading
+    pageLoading, blockedIds
   ];
 
   ConversationListState copyWith({
@@ -37,7 +39,8 @@ class ConversationListState extends Equatable {
     List<String>? pinnedIds,
     String? dialogTitle,
     String? dialogMessage,
-    bool? pageLoading
+    bool? pageLoading,
+    List<String>? blockedIds
   }) {
     return ConversationListState (
       conversations: conversations ?? this.conversations,
@@ -47,7 +50,8 @@ class ConversationListState extends Equatable {
       pinnedIds: pinnedIds ?? this.pinnedIds,
       dialogTitle: dialogTitle ?? this.dialogTitle,
       dialogMessage: dialogMessage ?? this.dialogMessage,
-      pageLoading: pageLoading ?? this.pageLoading
+      pageLoading: pageLoading ?? this.pageLoading,
+      blockedIds: blockedIds ?? this.blockedIds
     );
   }
 }

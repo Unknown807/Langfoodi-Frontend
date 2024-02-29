@@ -20,9 +20,7 @@ class ChatBubbleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool readByAll = isGroup
-      ? userIds.every((userId) => message.seenByUserIds.contains(userId))
-      : message.seenByUserIds.toSet().length == 2;
+    bool readByAll = userIds.every((userId) => message.seenByUserIds.contains(userId));
 
     return IntrinsicWidth(
       child: Column(
@@ -48,11 +46,13 @@ class ChatBubbleContent extends StatelessWidget {
           if (message.recipes != null) ChatBubbleRecipeCarousel(recipePreviews: message.recipes!),
           if (message.imageURLs != null || message.recipes != null) const SizedBox(height: 4),
           if (message.textContent != null)
-            Flexible(child: Text(message.textContent!,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+            Flexible(
+              child: Text(message.textContent!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                )
               )
-            )),
+            ),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
