@@ -62,7 +62,7 @@ class HandlerEmailInput extends StatelessWidget {
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
         return (FormInput(
-          hintText: "Email",
+          labelText: "Email",
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
           },
@@ -84,7 +84,7 @@ class PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           isConfidential: true,
-          hintText: "Password",
+          labelText: "Password",
           eventFunc: (password) {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
