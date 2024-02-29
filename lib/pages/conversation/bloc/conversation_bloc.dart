@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/entities/conversation/conversation_entities.dart';
 import 'package:recipe_social_media/entities/recipe/recipe_entities.dart';
 import 'package:recipe_social_media/entities/user/user_entities.dart';
@@ -29,7 +30,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     this._messageRepo,
     this._imageRepo,
     this._conversationRepo,
-    this._networkManager) : super(ConversationState(
+    this._networkManager,
+    this._messagingHub) : super(ConversationState(
       messageTextController: TextEditingController(),
       messageListScrollController: GroupedItemScrollController()
     )) {
@@ -46,7 +48,43 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
       on<RemoveMessage>(_removeMessage);
       on<ReplyToMessage>(_replyToMessage);
       on<SearchMessages>(_searchMessages);
-   }
+      on<ReceiveMessage>(_showReceivedMessage);
+      on<ReceiveMessageDeletion>(_showReceivedMessageDeletion);
+      on<ReceiveMessageMarkedAsRead>(_showReceivedMessageMarkedAsRead);
+
+      _messagingHub.onMessageReceived((message, conversationId) async {
+        if (conversationId != state.conversationId) {
+          return;
+        }
+        if (state.messages.any((m) => m.id == message.id)) {
+          return;
+        }
+
+        if (!isClosed) {
+          add(ReceiveMessage(message));
+        }
+      });
+
+      _messagingHub.onMessageDeleted((messageId) async {
+        if (!state.messages.any((m) => m.id == messageId)) {
+          return;
+        }
+
+        if (!isClosed) {
+          add(ReceiveMessageDeletion(messageId));
+        }
+      });
+
+      _messagingHub.onMessageMarkedAsRead((messageId, userId) async {
+        if (!state.messages.any((m) => m.id == messageId)) {
+          return;
+        }
+
+        if (!isClosed) {
+          add(ReceiveMessageMarkedAsRead(messageId, userId));
+        }
+      });
+  }
 
   final NavigationRepository _navigationRepo;
   final AuthenticationRepository _authRepo;
@@ -55,6 +93,43 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
   final ImageRepository _imageRepo;
   final ConversationRepository _conversationRepo;
   final NetworkManager _networkManager;
+  final MessagingHub _messagingHub;
+
+  void _showReceivedMessage(ReceiveMessage event, Emitter<ConversationState> emit) {
+    List<Message> newMessages = List.from(state.messages);
+    newMessages.add(event.message);
+
+    emit(state.copyWith(
+      messages: newMessages,
+    ));
+  }
+
+  void _showReceivedMessageDeletion(ReceiveMessageDeletion event, Emitter<ConversationState> emit) {
+    List<Message> messages = List.from(state.messages);
+    messages.removeWhere((msg) => msg.id == event.messageId);
+
+    emit(state.copyWith(
+      messages: messages,
+      repliedMessageIsSentByMe: false,
+      repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
+    ));
+  }
+
+  void _showReceivedMessageMarkedAsRead(ReceiveMessageMarkedAsRead event, Emitter<ConversationState> emit) {
+    List<Message> messages = List.from(state.messages);
+    messages.firstWhere((m) => m.id == event.messageId)
+        .seenByUserIds
+        .add(event.userId);
+
+    emit(state.copyWith(
+      pageLoading: true
+    ));
+
+    emit(state.copyWith(
+        messages: messages,
+        pageLoading: false
+    ));
+  }
 
   void _replyToMessage(ReplyToMessage event, Emitter<ConversationState> emit) async {
     emit(state.copyWith(
@@ -73,16 +148,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
 
     bool success = await _messageRepo.removeMessage(event.id);
 
-    if (success) {
-      List<Message> messages = List.from(state.messages);
-      messages.removeWhere((msg) => msg.id == event.id);
-
-      emit(state.copyWith(
-        messages: messages,
-        repliedMessageIsSentByMe: false,
-        repliedMessage: const Message("", UserPreviewForMessage("", "", null), [], null, null, "", "", null, null),
-      ));
-    } else {
+    if (!success) {
       emit(state.copyWith(
         dialogTitle: "Oops!",
         dialogMessage: "Could not delete message, please check and try again."
@@ -179,15 +245,7 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     );
     Message? sentMessage = await _messageRepo.sendMessage(contract);
 
-    if (sentMessage != null) {
-      List<Message> newMessages = List.from(state.messages);
-      newMessages.add(sentMessage);
-
-      emit(state.copyWith(
-        sendingMessage: false,
-        messages: newMessages,
-      ));
-    } else {
+    if (sentMessage == null) {
       if (hostedImages != null) {
         await _imageRepo.removeImages(hostedImages.map((i) => i.publicId).toList());
       }
@@ -196,6 +254,11 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         sendingMessage: false,
         dialogTitle: "Oops!",
         dialogMessage: "There was an issue sending your message, please check and try again.",
+      ));
+    }
+    else {
+      emit(state.copyWith(
+        sendingMessage: false,
       ));
     }
   }

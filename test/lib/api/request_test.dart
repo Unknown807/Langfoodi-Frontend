@@ -14,6 +14,7 @@ void main() {
   late ClientMock clientMock;
   late JsonWrapperMock jsonWrapperMock;
   late LocalStoreMock localStoreMock;
+  late MessagingHubMock messagingHubMock;
   late JsonConvertibleMock jsonConvertibleMock;
   late Request sut;
 
@@ -27,6 +28,7 @@ void main() {
     multipartFileProviderMock = MultipartFileProviderMock();
     clientMock = ClientMock();
     localStoreMock = LocalStoreMock();
+    messagingHubMock = MessagingHubMock();
     when(() => clientMock.put(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
     when(() => clientMock.post(fullPath, body: any(named: "body"), headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));
     when(() => clientMock.get(fullPath, headers: any(named: "headers"))).thenAnswer((invocation) => Future.value(responseMock));

@@ -13,6 +13,7 @@ class App extends StatelessWidget {
     required this.imageBuilder,
     required this.networkManager,
     required this.localStore,
+    required this.messagingHub,
   });
 
   // Repositories
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
   final ImageBuilder imageBuilder;
   final NetworkManager networkManager;
   final LocalStore localStore;
+  final MessagingHub messagingHub;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (_) => imageBuilder),
         RepositoryProvider(create: (_) => networkManager),
         RepositoryProvider(create: (_) => localStore),
+        RepositoryProvider(create: (_) => messagingHub),
       ],
       child: BlocProvider(
         create: (_) => AppBloc(localStore, authRepo)..add(const InitState()),

@@ -20,9 +20,7 @@ class ChatBubbleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool readByAll = isGroup
-      ? userIds.every((userId) => message.seenByUserIds.contains(userId))
-      : message.seenByUserIds.toSet().length == 2;
+    bool readByAll = userIds.every((userId) => message.seenByUserIds.contains(userId));
 
     return IntrinsicWidth(
       child: Column(

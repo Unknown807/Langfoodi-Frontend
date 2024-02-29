@@ -51,8 +51,8 @@ class User extends Equatable with JsonConvertible {
       jsonData["password"],
       DateTime.parse(jsonData["accountCreationDate"]),
       jsonData["profileImageId"],
-      (jsonData["pinnedConversationIds"] as List).map((id) => id as String).toList(),
-      (jsonData["blockedConnectionIds"] as List).map((id) => id as String).toList()
+      jsonData["pinnedConversationIds"] == null ? [] : (jsonData["pinnedConversationIds"] as List).map((id) => id as String).toList(),
+      jsonData["blockedConnectionIds"] == null ? [] : (jsonData["blockedConnectionIds"] as List).map((id) => id as String).toList()
     );
   }
 
