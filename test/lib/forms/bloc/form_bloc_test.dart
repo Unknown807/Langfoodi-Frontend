@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_social_media/forms/bloc/base_form.dart';
 import 'package:recipe_social_media/forms/models/form_models.dart';
@@ -8,13 +9,13 @@ void main() {
     blocTest("valid handler",
         build: () => FormBloc(),
         act: (bloc) => bloc.add(const HandlerChanged("handler123")),
-        expect: () => [const InputState(handler: Handler.dirty("handler123"), handlerValid: true)]
+        expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), handler: Handler.dirty("handler123"), handlerValid: true)]
     );
 
     blocTest("invalid handler",
         build: () => FormBloc(),
         act: (bloc) => bloc.add(const HandlerChanged("h1")),
-        expect: () => [const InputState(handler: Handler.dirty("h1"), handlerValid: false)]
+        expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), handler: Handler.dirty("h1"), handlerValid: false)]
     );
   });
 
@@ -22,13 +23,13 @@ void main() {
     blocTest("valid user name",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const UserNameChanged("username123")),
-      expect: () => [const InputState(userName: Username.dirty("username123"), userNameValid: true)]
+      expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), userName: Username.dirty("username123"), userNameValid: true)]
     );
 
     blocTest("invalid user name",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const UserNameChanged("u1")),
-      expect: () => [const InputState(userName: Username.dirty("u1"), userNameValid: false)]
+      expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), userName: Username.dirty("u1"), userNameValid: false)]
     );
   });
 
@@ -36,13 +37,13 @@ void main() {
     blocTest("valid email",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const EmailChanged("example@mail.com")),
-      expect: () => [const InputState(email: Email.dirty("example@mail.com"), emailValid: true)]
+      expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), email: Email.dirty("example@mail.com"), emailValid: true)]
     );
 
     blocTest("invalid email",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const EmailChanged("example@mail.")),
-      expect: () => [const InputState(email: Email.dirty("example@mail."), emailValid: false)]
+      expect: () => [InputState(emailTextController: TextEditingController(), passwordTextController: TextEditingController(), email: Email.dirty("example@mail."), emailValid: false)]
     );
   });
 
@@ -50,7 +51,9 @@ void main() {
     blocTest("valid password, invalid confirmed password",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const PasswordChanged("Password123!")),
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("Password123!"),
         confirmedPassword: ConfirmedPassword.dirty(password: "Password123!", value: ""),
         passwordValid: true,
@@ -64,7 +67,9 @@ void main() {
         ..add(const ConfirmedPasswordChanged("Password123!"))
         ..add(const PasswordChanged("Password123!")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("Password123!"),
         confirmedPassword: ConfirmedPassword.dirty(password: "Password123!", value: "Password123!"),
         passwordValid: true,
@@ -78,7 +83,9 @@ void main() {
         ..add(const ConfirmedPasswordChanged("pass"))
         ..add(const PasswordChanged("pass")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("pass"),
         confirmedPassword: ConfirmedPassword.dirty(password: "pass", value: "pass"),
         passwordValid: false,
@@ -89,7 +96,9 @@ void main() {
     blocTest("invalid password, invalid confirmed password",
       build: () => FormBloc(),
       act: (bloc) => bloc.add(const PasswordChanged("pass")),
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("pass"),
         confirmedPassword: ConfirmedPassword.dirty(password: "pass", value: ""),
         passwordValid: false,
@@ -105,7 +114,9 @@ void main() {
         ..add(const PasswordChanged("Password123!"))
         ..add(const ConfirmedPasswordChanged("Password123!")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("Password123!"),
         confirmedPassword: ConfirmedPassword.dirty(password: "Password123!", value: "Password123!"),
         passwordValid: true,
@@ -119,7 +130,9 @@ void main() {
         ..add(const PasswordChanged("pass"))
         ..add(const ConfirmedPasswordChanged("pass")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+        emailTextController: TextEditingController(),
+        passwordTextController: TextEditingController(),
         password: Password.dirty("pass"),
         confirmedPassword: ConfirmedPassword.dirty(password: "pass", value: "pass"),
         passwordValid: false,
@@ -133,7 +146,9 @@ void main() {
         ..add(const PasswordChanged("Password123!"))
         ..add(const ConfirmedPasswordChanged("pass")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController(),
           password: Password.dirty("Password123!"),
           confirmedPassword: ConfirmedPassword.dirty(password: "Password123!", value: "pass"),
           passwordValid: true,
@@ -147,7 +162,9 @@ void main() {
         ..add(const PasswordChanged("password"))
         ..add(const ConfirmedPasswordChanged("pass")),
       skip: 1,
-      expect: () => [const InputState(
+      expect: () => [InputState(
+          emailTextController: TextEditingController(),
+          passwordTextController: TextEditingController(),
           password: Password.dirty("password"),
           confirmedPassword: ConfirmedPassword.dirty(password: "password", value: "pass"),
           passwordValid: false,
