@@ -10,7 +10,12 @@ class RecipeTagList extends StatelessWidget {
         p.recipeTagList.length != c.recipeTagList.length
         || p.pageType != c.pageType,
       builder: (context, state) {
-        return Wrap(
+        return Column(children:
+        [
+          Visibility(
+              visible: state.recipeTagList.length > 0,
+              child: const Align(alignment: Alignment.topLeft, child:Text("Tags"))),
+          Wrap(
           spacing: 10,
           children:
           List.generate(
@@ -33,7 +38,7 @@ class RecipeTagList extends StatelessWidget {
               ));
             }
           )
-        );
+        )]);
       }
     );
   }

@@ -117,7 +117,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ),
 
                                 // TAGS
-                                const Align(alignment: Alignment.topLeft, child:Text("Tags")),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
