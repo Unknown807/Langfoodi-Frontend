@@ -100,7 +100,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                           ? const riw.ReadOnlyRecipeTitle()
                                           : null),
 
-                                  // THUMBNAIL
+                                // THUMBNAIL
                                 Row(children: <Widget>[
                                   Expanded(
                                     child: readonly
@@ -109,7 +109,14 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ]),
 
                                 // DESCRIPTION
-                                const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: readonly
+                                        ? const riw.ReadOnlyDescription()
+                                        : const riw.RecipeDescriptionInput()
+                                ),
+
+                                  // TAGS
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
