@@ -94,9 +94,14 @@ class RecipeInteractionPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 // RECIPE TITLE
-                                Container(child: readonly ? riw.ReadOnlyRecipeTitle() : null),
+                                  Container(
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                          child: readonly
+                                              ? const riw.ReadOnlyRecipeTitle()
+                                              : null)),
 
-                                // THUMBNAIL
+                                  // THUMBNAIL
                                 Row(children: <Widget>[
                                   Expanded(
                                     child: readonly
