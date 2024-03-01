@@ -135,6 +135,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                   title: Text(
                                     'Ingredients',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -160,6 +162,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                   title: Text(
                                     'Recipe Steps',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                   children: [
                                     readonly ? const SizedBox() : const SizedBox(
@@ -181,6 +185,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                   title: Text(
                                     'Extra Information',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                   children: const [
                                     SizedBox(
