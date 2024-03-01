@@ -17,7 +17,7 @@ class ReadonlyRecipeStepList extends StatelessWidget {
           itemBuilder: (context, index) {
             final step = state.recipeStepList[index];
             return Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
               child: Column(children: <Widget>[
                 step.imageUrl == null
                     ? const SizedBox(height: 0, width: 0)
