@@ -40,4 +40,5 @@ part 'readonly/readonly_ingredient_list.dart';
 part 'readonly/recipe_enable_edit_button.dart';
 part 'readonly/readonly_recipe_thumbnail.dart';
 part 'readonly/readonly_recipe_title.dart';
+part 'readonly/readonly_description.dart';
 part 'ingredient_submit_button.dart';
