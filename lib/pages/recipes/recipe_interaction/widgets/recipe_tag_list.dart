@@ -17,7 +17,9 @@ class RecipeTagList extends StatelessWidget {
             state.recipeTagList.length,
             (index) {
               final label = state.recipeTagList[index];
-              return Chip(
+              return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Chip(
                 label: Text(label,
                   style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
                 backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(50),
@@ -28,7 +30,7 @@ class RecipeTagList extends StatelessWidget {
                 onDeleted: state.pageType == RecipeInteractionType.readonly
                   ? null
                   : () => context.read<RecipeInteractionBloc>().add(RemoveRecipeTag(index)),
-              );
+              ));
             }
           )
         );
