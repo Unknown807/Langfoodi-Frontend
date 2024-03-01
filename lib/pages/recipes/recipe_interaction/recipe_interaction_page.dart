@@ -93,6 +93,10 @@ class RecipeInteractionPage extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                             child: Column(
                               children: <Widget>[
+                                // RECIPE TITLE
+                                Container(child: readonly ? riw.ReadOnlyRecipeTitle() : null),
+
+                                // THUMBNAIL
                                 Row(children: <Widget>[
                                   Expanded(
                                     child: readonly
