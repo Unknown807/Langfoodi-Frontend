@@ -44,17 +44,30 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                       ))),
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5),
-                      child: Text(
-                        "${index + 1}. ${step.text}",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16),
-                      )
-                    )
-                  )
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                    padding: const EdgeInsets.only(left: 20,top: 5, right: 20, bottom: 5),
+                                    child:Text(
+                                        "${index + 1}",
+                                        style: const TextStyle(fontSize: 16)))),
+                            Text(
+                              step.text,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16),
+                            )
+                          ])))
                 ])
               ]));
           },
