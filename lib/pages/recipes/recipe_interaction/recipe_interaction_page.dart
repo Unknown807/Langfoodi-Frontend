@@ -94,12 +94,11 @@ class RecipeInteractionPage extends StatelessWidget {
                             child: Column(
                               children: <Widget>[
                                 // RECIPE TITLE
-                                  Container(
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                          child: readonly
-                                              ? const riw.ReadOnlyRecipeTitle()
-                                              : null)),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                      child: readonly
+                                          ? const riw.ReadOnlyRecipeTitle()
+                                          : null),
 
                                   // THUMBNAIL
                                 Row(children: <Widget>[
@@ -108,6 +107,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                       ? const riw.ReadonlyRecipeThumbnail()
                                       : const riw.RecipeThumbnailPicker())
                                 ]),
+
+                                // DESCRIPTION
                                 const Padding(padding: EdgeInsets.only(top: 10), child: riw.RecipeDescriptionInput()),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
@@ -120,6 +121,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                           child: riw.RecipeTagList())
                                     ])
                                 ),
+
+                                // INGREDIENTS
                                 ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
@@ -142,6 +145,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                     readonly ? const riw.ReadonlyIngredientList() : const riw.IngredientList()
                                   ],
                                 ),
+
+                                // STEPS
                                 ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
@@ -160,6 +165,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                     readonly ? const riw.ReadonlyRecipeStepList() : const riw.RecipeStepList()
                                   ],
                                 ),
+
+                                // EXTRA INFORMATION
                                 ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
