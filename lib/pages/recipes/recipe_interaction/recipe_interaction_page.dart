@@ -131,7 +131,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 // INGREDIENTS
                                 ExpansionTile(
                                   initiallyExpanded: true,
-                                  controlAffinity: ListTileControlAffinity.leading,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   title: Text(
                                     'Ingredients',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
@@ -156,7 +156,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 // STEPS
                                 ExpansionTile(
                                   initiallyExpanded: true,
-                                  controlAffinity: ListTileControlAffinity.leading,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   title: Text(
                                     'Recipe Steps',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
@@ -177,7 +177,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 // EXTRA INFORMATION
                                 Container(child: readonly ? null : ExpansionTile(
                                   initiallyExpanded: true,
-                                  controlAffinity: ListTileControlAffinity.leading,
+                                  controlAffinity: ListTileControlAffinity.trailing,
                                   title: Text(
                                     'Extra Information',
                                     style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
