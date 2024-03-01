@@ -18,7 +18,7 @@ class ReadonlyRecipeThumbnail extends StatelessWidget {
                     .goTo(context, "/cloudinary-image-view",
                       arguments: ImageViewPageArguments(imageUrl: state.recipeThumbnailPath)),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(40),
                     child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                       isAsset: true,
                       imageUrl: noImage ? "assets/images/no_image.png" : state.recipeThumbnailPath,

@@ -29,7 +29,7 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 4 / 3,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(50),
                             child: context.read<ImageBuilder>().displayCloudinaryImage(
                               imageUrl: step.imageUrl!,
                               transformationType: ImageTransformationType.standard,

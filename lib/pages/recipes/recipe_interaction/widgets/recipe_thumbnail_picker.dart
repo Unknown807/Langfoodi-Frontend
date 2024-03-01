@@ -25,7 +25,7 @@ class RecipeThumbnailPicker extends StatelessWidget {
                             iconColor: Theme.of(context).colorScheme.tertiary,
                             tileColor: Theme.of(context).colorScheme.tertiary)
                         : ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(40),
                             child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                               imageUrl: state.recipeThumbnailPath,
                               transformationType: ImageTransformationType.standard,
