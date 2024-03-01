@@ -88,7 +88,6 @@ class RecipeInteractionPage extends StatelessWidget {
                     ),
                     resizeToAvoidBottomInset: false,
                     body: SingleChildScrollView(
-                        reverse: true,
                         child: Padding(
                             padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                             child: Column(
@@ -131,6 +130,7 @@ class RecipeInteractionPage extends StatelessWidget {
 
                                 // INGREDIENTS
                                 ExpansionTile(
+                                  initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
                                     'Ingredients',
@@ -155,6 +155,7 @@ class RecipeInteractionPage extends StatelessWidget {
 
                                 // STEPS
                                 ExpansionTile(
+                                  initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
                                     'Recipe Steps',
@@ -175,6 +176,7 @@ class RecipeInteractionPage extends StatelessWidget {
 
                                 // EXTRA INFORMATION
                                 Container(child: readonly ? null : ExpansionTile(
+                                  initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
                                     'Extra Information',
