@@ -116,7 +116,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                         : const riw.RecipeDescriptionInput()
                                 ),
 
-                                  // TAGS
+                                // TAGS
+                                const Align(alignment: Alignment.topLeft, child:Text("Tags")),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
@@ -174,7 +175,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                 ),
 
                                 // EXTRA INFORMATION
-                                ExpansionTile(
+                                Container(child: readonly ? null : ExpansionTile(
                                   controlAffinity: ListTileControlAffinity.leading,
                                   title: Text(
                                     'Extra Information',
@@ -201,7 +202,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                       ),
                                     )
                                   ],
-                                ),
+                                )),
                               ],
                             ))));
           }));
