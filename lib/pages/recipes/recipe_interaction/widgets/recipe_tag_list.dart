@@ -10,11 +10,13 @@ class RecipeTagList extends StatelessWidget {
         p.recipeTagList.length != c.recipeTagList.length
         || p.pageType != c.pageType,
       builder: (context, state) {
-        return Column(children:
+        return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:
         [
           Visibility(
               visible: state.recipeTagList.length > 0,
-              child: const Align(alignment: Alignment.topLeft, child:Text("Tags"))),
+              child: Text("Tags")),
           Wrap(
           spacing: 10,
           children:
