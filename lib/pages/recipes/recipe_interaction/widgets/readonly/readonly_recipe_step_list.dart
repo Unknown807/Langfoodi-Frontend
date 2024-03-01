@@ -19,6 +19,18 @@ class ReadonlyRecipeStepList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
               child: Column(children: <Widget>[
+                Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 30,top: 5, right: 30, bottom: 5),
+                        child:Text(
+                            "${index + 1}",
+                            style: const TextStyle(fontSize: 20))))),
+                SizedBox(height:8),
                 step.imageUrl == null
                     ? const SizedBox(height: 0, width: 0)
                     : GestureDetector(
@@ -49,15 +61,6 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(15)),
-                                child: Padding(
-                                    padding: const EdgeInsets.only(left: 20,top: 5, right: 20, bottom: 5),
-                                    child:Text(
-                                        "${index + 1}",
-                                        style: const TextStyle(fontSize: 16)))),
                             Text(
                               step.text,
                               style: TextStyle(
