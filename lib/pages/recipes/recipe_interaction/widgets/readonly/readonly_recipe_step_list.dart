@@ -27,7 +27,7 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                           .goTo(context, "/cloudinary-image-view",
                             arguments: ImageViewPageArguments(imageUrl: step.imageUrl!)),
                         child: AspectRatio(
-                          aspectRatio: 3 / 1,
+                          aspectRatio: 4 / 3,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: context.read<ImageBuilder>().displayCloudinaryImage(
