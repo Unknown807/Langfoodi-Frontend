@@ -30,3 +30,5 @@ part 'app_lifecycle_observer.dart';
 part 'bloc/app_bloc.dart';
 part 'bloc/app_event.dart';
 part 'bloc/app_state.dart';
+part 'color_schemes.dart';
+part 'themes.dart';
