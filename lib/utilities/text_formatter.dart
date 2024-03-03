@@ -45,7 +45,7 @@ class TextFormatter {
     // }
 
     if(servingQuantity != "" && kiloCalories != ""){
-      return "$kiloCalories kcal in a $servingQuantity $servingMeasurement serving";
+      return "$kiloCalories kcal in a\n$servingQuantity $servingMeasurement serving";
     }
 
     else {
