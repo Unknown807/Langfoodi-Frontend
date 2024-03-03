@@ -12,7 +12,7 @@ class ReadonlyIngredientList extends StatelessWidget {
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: state.ingredientList.length,
-              separatorBuilder: (context, _) => const SizedBox(height: 20),
+              separatorBuilder: (context, _) => const SizedBox(height: 14),
               itemBuilder: (context, index) {
                 final ing = state.ingredientList[index];
                 return Padding(
