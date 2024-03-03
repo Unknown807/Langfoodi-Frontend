@@ -23,13 +23,13 @@ class ReadonlyRecipeStepList extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(15)),
                     child: Padding(
                         padding: const EdgeInsets.only(left: 30,top: 5, right: 30, bottom: 5),
                         child:Text(
                             "${index + 1}",
-                            style: const TextStyle(fontSize: 20))))),
+                            style: TextStyle(fontSize: 20))))),
                 SizedBox(height:8),
                 step.imageUrl == null
                     ? const SizedBox(height: 0, width: 0)

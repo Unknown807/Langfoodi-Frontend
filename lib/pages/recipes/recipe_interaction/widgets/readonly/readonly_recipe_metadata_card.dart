@@ -19,7 +19,7 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
         child:Container(
       height: 200,
       width: 200,
-      decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(70)),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.background,borderRadius: BorderRadius.circular(70)),
       child:Padding(padding: const EdgeInsets.all(10),
       child: Expanded(child:Column(
       crossAxisAlignment: CrossAxisAlignment.center,
