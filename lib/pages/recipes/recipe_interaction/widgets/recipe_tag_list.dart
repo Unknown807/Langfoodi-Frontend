@@ -14,9 +14,6 @@ class RecipeTagList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
         [
-          Visibility(
-              visible: state.recipeTagList.length > 0,
-              child: Text("Tags")),
           Wrap(
           spacing: 10,
           children:

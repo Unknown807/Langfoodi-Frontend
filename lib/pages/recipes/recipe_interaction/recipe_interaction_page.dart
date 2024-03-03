@@ -145,17 +145,30 @@ class RecipeInteractionPage extends StatelessWidget {
                                           : null),]),
 
                                   // TAGS
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      readonly ? const SizedBox() : const riw.RecipeTagInput(),
-                                      const Padding(
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: riw.RecipeTagList())
-                                    ])
-                                ),
+                                Visibility(
+                                    visible: state.recipeTagList.isNotEmpty,
+                                    child:ExpansionTile(
+                                    initiallyExpanded: true,
+                                    controlAffinity: ListTileControlAffinity.trailing,
+                                    title: Text(
+                                      'Tags',
+                                      style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              children: <Widget>[
+                                                readonly ? const SizedBox() : const riw.RecipeTagInput(),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(top: 10),
+                                                    child: riw.RecipeTagList())
+                                              ])
+                                      ),],
+                                )),
 
                                 // INGREDIENTS
                                 ExpansionTile(
