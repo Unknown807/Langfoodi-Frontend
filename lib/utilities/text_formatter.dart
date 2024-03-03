@@ -16,14 +16,14 @@ class TextFormatter {
     String minutes = cookingTimeElements[1];
 
     if(hours != "00"){
-      formattedCookingTime += "${removeFirstLeadingZero(hours)}h";
+      formattedCookingTime += "${removeFirstLeadingZero(hours)}h ";
     }
 
     if(minutes != "00"){
       formattedCookingTime += "${removeFirstLeadingZero(minutes)}m";
     }
 
-    return formattedCookingTime;
+    return formattedCookingTime.trim();
   }
 
   static String servingInformationFormatter(String servingNumber, String servingQuantity, String servingMeasurement, String kiloCalories)
