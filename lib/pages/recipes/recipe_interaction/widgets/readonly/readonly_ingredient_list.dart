@@ -24,7 +24,7 @@ class ReadonlyIngredientList extends StatelessWidget {
                               width: 140,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.red,
+                                color: Theme.of(context).colorScheme.background,
                               ),
                               child: Padding(
                                   padding: const EdgeInsets.only(
@@ -33,7 +33,7 @@ class ReadonlyIngredientList extends StatelessWidget {
                                       child: Text(
                                     "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
                                     style: TextStyle(
-                                        color: Theme.of(context).hintColor,
+                                        color: Theme.of(context).colorScheme.onBackground,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16),
                                     maxLines: 2,
