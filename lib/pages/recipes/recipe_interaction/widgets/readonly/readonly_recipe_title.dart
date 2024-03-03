@@ -12,7 +12,7 @@ class ReadOnlyRecipeTitle extends StatelessWidget {
         builder: (context, state) {
           return Text(
             state.recipeTitle.value,
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 30),
             overflow: TextOverflow.ellipsis,
             maxLines: 2);
         });
