@@ -65,70 +65,8 @@ class _AppView extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Langfoodi',
-          theme: ThemeData(
-            scaffoldBackgroundColor: const Color.fromRGBO(254, 254, 254, 1),
-            primaryColor: const Color.fromRGBO(49, 183, 63, 1),
-            colorScheme: ColorScheme(
-              brightness: Brightness.light,
-              primary: Colors.green.shade400,
-              onPrimary: Colors.white,
-              secondary: Colors.orange,
-              tertiary: Colors.blueAccent,
-              onTertiary: Colors.white,
-              onSecondary: Colors.white,
-              inversePrimary: Colors.redAccent,
-              error: Colors.red,
-              onError: Colors.white,
-              background: const Color.fromRGBO(242, 242, 242, 1),
-              onBackground: Colors.black,
-              surface: Colors.white,
-              onSurface: Colors.black,
-              shadow: Colors.green.withAlpha(50)
-            ),
-            dividerColor: Colors.transparent,
-            expansionTileTheme: const ExpansionTileThemeData(
-              backgroundColor: Colors.transparent,
-              collapsedBackgroundColor: Colors.transparent,
-              iconColor: Colors.orange,
-              collapsedIconColor: Colors.blueAccent,
-            ),
-            hintColor: Colors.grey,
-            textTheme: const TextTheme(
-              displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
-            ),
-          ),
-          darkTheme: ThemeData(
-            scaffoldBackgroundColor: const Color.fromRGBO(37, 38, 39, 1),
-            primaryColor: const Color.fromRGBO(49, 183, 63, 1),
-            colorScheme: ColorScheme(
-              brightness: Brightness.dark,
-              primary: Colors.green.shade400,
-              onPrimary: Colors.white,
-              secondary: Colors.orange,
-              onSecondary: Colors.white,
-              tertiary: Colors.blueAccent,
-              onTertiary: Colors.white,
-              inversePrimary: Colors.redAccent,
-              error: Colors.red,
-              onError: Colors.white,
-              background: const Color.fromRGBO(70, 75, 78, 1),
-              onBackground: Colors.white,
-              surface: const Color.fromRGBO(70, 75, 78, 1),
-              onSurface: Colors.white,
-              shadow: Colors.green.withAlpha(50)
-            ),
-            dividerColor: Colors.transparent,
-            expansionTileTheme: const ExpansionTileThemeData(
-              backgroundColor: Colors.transparent,
-              collapsedBackgroundColor: Colors.transparent,
-              iconColor: Colors.orange,
-              collapsedIconColor: Colors.blueAccent,
-            ),
-            hintColor: Colors.grey,
-            textTheme: const TextTheme(
-              displayLarge: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)
-            ),
-          ),
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode: state.themeMode,
           routes: {
             "/splash": (context) => const SplashPage(),
