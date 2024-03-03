@@ -35,7 +35,7 @@ class ReadonlyIngredientList extends StatelessWidget {
                                     style: TextStyle(
                                         color: Theme.of(context).colorScheme.onBackground,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 16),
+                                        fontSize: 14),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   )))),
