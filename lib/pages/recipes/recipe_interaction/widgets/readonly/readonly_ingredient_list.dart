@@ -6,46 +6,55 @@ class ReadonlyIngredientList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
-      buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
-      builder: (context, state) {
-        return ListView.separated(
-          physics: const ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: state.ingredientList.length,
-          separatorBuilder: (context, _) => const SizedBox(height: 20),
-          itemBuilder: (context, index) {
-            final ing = state.ingredientList[index];
-            return Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-              Container(
-                width:140,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color:Colors.red,),
-            child: Padding(
-            padding: const EdgeInsets.only(left:10,right:10,top: 5,bottom:5),
-            child: Center(child:Text(
-            "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
-            style: TextStyle(
-            color: Theme.of(context).hintColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 16),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            )))),
-                const SizedBox(width:8),
-                Container(color:Colors.blue,child:Text(
-                  ing.name,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                )),
-              ]));
-          });
-      });
+        buildWhen: (p, c) => p.ingredientList.length != c.ingredientList.length,
+        builder: (context, state) {
+          return ListView.separated(
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: state.ingredientList.length,
+              separatorBuilder: (context, _) => const SizedBox(height: 20),
+              itemBuilder: (context, index) {
+                final ing = state.ingredientList[index];
+                return Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              width: 140,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.red,
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  child: Center(
+                                      child: Text(
+                                    "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
+                                    style: TextStyle(
+                                        color: Theme.of(context).hintColor,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  )))),
+                          const SizedBox(width: 8),
+                          Container(
+                              color: Colors.blue,
+                              child: Text(
+                                ing.name,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                        ]));
+              });
+        });
   }
 }
