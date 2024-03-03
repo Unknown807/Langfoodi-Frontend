@@ -36,13 +36,12 @@ class ReadonlyIngredientList extends StatelessWidget {
                                         color: Theme.of(context).hintColor,
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16),
-                                    maxLines: 1,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   )))),
                           const SizedBox(width: 8),
-                          Container(
-                              color: Colors.blue,
-                              child: Text(
+                          Expanded(child:
+                              Text(
                                 ing.name,
                                 style: TextStyle(
                                     color: Theme.of(context)
@@ -50,7 +49,7 @@ class ReadonlyIngredientList extends StatelessWidget {
                                         .onBackground,
                                     fontWeight: FontWeight.w400,
                                     fontSize: 20),
-                                maxLines: 2,
+                                maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                               )),
                         ]));
