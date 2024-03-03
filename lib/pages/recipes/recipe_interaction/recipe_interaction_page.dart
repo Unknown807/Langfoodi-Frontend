@@ -115,7 +115,36 @@ class RecipeInteractionPage extends StatelessWidget {
                                         : const riw.RecipeDescriptionInput()
                                 ),
 
-                                // TAGS
+                                  Wrap(
+                                      spacing:10,
+                                      children:[
+                                    Container(
+                                      child: readonly &&
+                                              state.cookingTime.value != ""
+                                          ? riw.ReadOnlyRecipeMetadataCard(
+                                              topText: "Cooking time",
+                                              mainText: TextFormatter
+                                                  .cookingTimeFormatter(
+                                                      state.cookingTime.value),
+                                              bottomText: "")
+                                          : null),
+                                  Container(
+                                      child: readonly && state.servingQuantity.value != ""
+                                          ? riw.ReadOnlyRecipeMetadataCard(
+                                              topText: "Servings",
+                                              mainText:
+                                                  state.servingNumber.value,
+                                              bottomText: TextFormatter
+                                                  .servingInformationFormatter(
+                                                      state.servingNumber.value,
+                                                      state.servingQuantity
+                                                          .value,
+                                                      state.servingMeasurement
+                                                          .value,
+                                                      state.kilocalories.value))
+                                          : null),]),
+
+                                  // TAGS
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
