@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/bloc/recipe_interaction_bloc.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/recipe_interaction_page_constants.dart';
 import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart' as riw;
+import 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/image/image_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/args/recipe_interaction/recipe_interaction_page_arguments.dart';
@@ -115,34 +116,25 @@ class RecipeInteractionPage extends StatelessWidget {
                                         : const riw.RecipeDescriptionInput()
                                 ),
 
-                                  Wrap(
-                                      spacing:10,
-                                      children:[
-                                    Container(
-                                      child: readonly &&
-                                              state.cookingTime.value != ""
-                                          ? riw.ReadOnlyRecipeMetadataCard(
-                                              topText: "Cooking time",
-                                              mainText: TextFormatter
-                                                  .cookingTimeFormatter(
-                                                      state.cookingTime.value),
-                                              bottomText: "")
-                                          : null),
-                                  Container(
-                                      child: readonly && state.servingQuantity.value != ""
-                                          ? riw.ReadOnlyRecipeMetadataCard(
-                                              topText: "Servings",
-                                              mainText:
-                                                  state.servingNumber.value,
-                                              bottomText: TextFormatter
-                                                  .servingInformationFormatter(
-                                                      state.servingNumber.value,
-                                                      state.servingQuantity
-                                                          .value,
-                                                      state.servingMeasurement
-                                                          .value,
-                                                      state.kilocalories.value))
-                                          : null),]),
+                                Container(child: readonly ? ReadOnlyRecipeMetadataShelf(
+                                  cards:[
+                                    riw.ReadOnlyRecipeMetadataCard(
+                                        topText: "Cooking time",
+                                        mainText: state.cookingTime.value == "" ? state.cookingTime.value : TextFormatter.cookingTimeFormatter(state.cookingTime.value),
+                                        bottomText: ""),
+
+                                  riw.ReadOnlyRecipeMetadataCard(
+                                      topText: "Servings",
+                                      mainText: state.servingNumber.value,
+                                      bottomText: TextFormatter.servingInformationFormatter(
+                                          state.servingNumber.value,
+                                          state.servingQuantity
+                                              .value,
+                                          state.servingMeasurement
+                                              .value,
+                                          state.kilocalories.value)
+                                  )
+                                  ],) : null),
 
                                   // TAGS
                                 Visibility(
@@ -253,7 +245,4 @@ class RecipeInteractionPage extends StatelessWidget {
                                   ],
                                 )),
                               ],
-                            ))));
-          }));
-  }
-}
+    ))));}));}}
