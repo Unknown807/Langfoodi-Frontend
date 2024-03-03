@@ -20,7 +20,7 @@ class ReadOnlyRecipeMetadataShelf extends StatelessWidget {
         return Center(child:cards[0]);
 
       default:
-        return (Wrap(spacing:10, children:[cards[0], cards[1]]));
+        return (Wrap(spacing:10, children: cards));
     }
   }
 }
