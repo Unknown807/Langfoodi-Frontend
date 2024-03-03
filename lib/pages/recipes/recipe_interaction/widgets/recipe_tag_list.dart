@@ -25,8 +25,9 @@ class RecipeTagList extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Chip(
                 label: Text(label,
-                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
-                backgroundColor: Theme.of(context).colorScheme.tertiary.withAlpha(50),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onBackground)),
+                backgroundColor: Theme.of(context).colorScheme.background,
+                shape: const StadiumBorder(side: BorderSide(style: BorderStyle.none)),
                 deleteButtonTooltipMessage: "",
                 deleteIcon: Icon(Icons.close_rounded,
                   color: Theme.of(context).colorScheme.tertiary,
