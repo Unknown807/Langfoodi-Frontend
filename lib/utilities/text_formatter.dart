@@ -16,11 +16,11 @@ class TextFormatter {
     String minutes = cookingTimeElements[1];
 
     if(hours != "00"){
-      formattedCookingTime += "${hours}h";
+      formattedCookingTime += "${removeFirstLeadingZero(hours)}h";
     }
 
     if(minutes != "00"){
-      formattedCookingTime += "${minutes}m";
+      formattedCookingTime += "${removeFirstLeadingZero(minutes)}m";
     }
 
     return formattedCookingTime;
@@ -51,6 +51,12 @@ class TextFormatter {
     else {
       throw ArgumentError("servingNumber:'$servingNumber', servingQuantity: '$servingQuantity', servingMeasurement: '$servingMeasurement', kiloCalories: '$kiloCalories' ");
     }
+
+  }
+
+  static String removeFirstLeadingZero(String number){
+    if(number.substring(0,1) == "0") return number.substring(1,);
+    return number;
 
   }
 }
