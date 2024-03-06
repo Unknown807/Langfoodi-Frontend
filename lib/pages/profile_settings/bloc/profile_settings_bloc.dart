@@ -79,7 +79,7 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
 
     emit(state.copyWith(pageLoading: true));
     User user = await _authRepo.currentUser;
-    await _authRepo.loginWithHandlerOrEmail(
+    await _authRepo.login(
       newEmail.isEmpty ? user.email : newEmail,
       newPassword.isEmpty ? user.password : newPassword
     );

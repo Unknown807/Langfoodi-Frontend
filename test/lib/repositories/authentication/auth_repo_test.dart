@@ -142,7 +142,7 @@ void main() {
         User("1", "handler1", "username1", "mail@example.com", "Password123!", DateTime(2024, 1, 1, 0, 0, 0, 0, 0), null, const [], const []), "token")));
 
       // Act
-      final result = await authRepo.loginWithHandlerOrEmail("mail@example.com", "Password123!");
+      final result = await authRepo.login("mail@example.com", "Password123!");
 
       // Assert
       expect(result, "");
@@ -154,7 +154,7 @@ void main() {
       when(() => requestMock.authenticate(any())).thenAnswer((_) => Future.value((null, "Invalid Credentials")));
 
       // Act
-      final result = await authRepo.loginWithHandlerOrEmail("handler1", "Password123!");
+      final result = await authRepo.login("handler1", "Password123!");
 
       // Assert
       expect(result, "Invalid Credentials");
@@ -166,7 +166,7 @@ void main() {
       when(() => requestMock.authenticate(any())).thenAnswer((_) => Future.value((null, null)));
 
       // Act
-      final result = await authRepo.loginWithHandlerOrEmail("mail@example.com", "Password123!");
+      final result = await authRepo.login("mail@example.com", "Password123!");
 
       // Assert
       expect(result, "Issue Signing In");
