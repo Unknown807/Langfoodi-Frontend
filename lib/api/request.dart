@@ -48,7 +48,7 @@ class Request {
       User loggedInUser = User.fromJsonStr(userStr, jsonWrapper);
 
       contract = AuthenticationAttemptContract(
-          handlerOrEmail: loggedInUser.email,
+          email: loggedInUser.email,
           password: loggedInUser.password);
     }
 
