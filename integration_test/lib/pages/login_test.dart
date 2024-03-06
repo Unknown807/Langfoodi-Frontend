@@ -7,6 +7,7 @@ import 'package:recipe_social_media/pages/login/login_bloc.dart';
 import 'package:recipe_social_media/pages/login/login_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import 'package:recipe_social_media/widgets/shared_widgets.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
@@ -15,10 +16,21 @@ void main() {
 
   late AuthenticationRepositoryMock authRepoMock;
   late NavigationRepositoryMock navigRepoMock;
+  late ImageBuilderMock imageBuilderMock;
+  late NetworkManagerMock networkManagerMock;
 
   setUp(() {
     authRepoMock = AuthenticationRepositoryMock();
     navigRepoMock = NavigationRepositoryMock();
+    imageBuilderMock = ImageBuilderMock();
+    networkManagerMock = NetworkManagerMock();
+
+    when(() => imageBuilderMock.getAssetImage(any()))
+        .thenReturn(const AssetImage("assets/images/light_auth_bg.png"));
+
+    when(() => networkManagerMock.isNetworkConnected())
+        .thenAnswer((invocation) => Future.value(true));
+
     registerFallbackValue(BuildContextMock());
   });
 
@@ -28,6 +40,8 @@ void main() {
         providers: [
           RepositoryProvider<AuthenticationRepository>(create: (_) => authRepoMock),
           RepositoryProvider<NavigationRepository>(create: (_) => navigRepoMock),
+          RepositoryProvider<ImageBuilder>(create: (_) => imageBuilderMock),
+          RepositoryProvider<NetworkManager>(create: (_) => networkManagerMock),
         ],
         child: const LoginPage(),
       )
@@ -37,12 +51,12 @@ void main() {
   group("login integration tests", () {
     testWidgets("valid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
+      when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value(""));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
-      final handlerOrEmailInput = find.byType(HandlerEmailInput);
-      final handlerOrEmailTextField = find.descendant(
-          of: handlerOrEmailInput,
+      final emailInput = find.byType(EmailInput);
+      final emailTextField = find.descendant(
+          of: emailInput,
           matching: find.byType(TextField)
       );
 
@@ -53,7 +67,7 @@ void main() {
       );
 
       // Act
-      await widgetTester.enterText(handlerOrEmailTextField, "handler1");
+      await widgetTester.enterText(emailTextField, "email@mail.com");
       await widgetTester.enterText(passwordTextField, "Password123!");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(find.byType(LoginButton));
@@ -72,12 +86,12 @@ void main() {
 
     testWidgets("invalid login submission", (widgetTester) async {
       // Arrange
-      when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value("Issue Signing In"));
+      when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value("Issue Signing In"));
       await widgetTester.pumpWidget(createSystemUnderTest());
 
-      final handlerOrEmailInput = find.byType(HandlerEmailInput);
-      final handlerOrEmailTextField = find.descendant(
-          of: handlerOrEmailInput,
+      final emailInput = find.byType(EmailInput);
+      final emailTextField = find.descendant(
+          of: emailInput,
           matching: find.byType(TextField)
       );
 
@@ -88,7 +102,7 @@ void main() {
       );
 
       // Act
-      await widgetTester.enterText(handlerOrEmailTextField, "handler1");
+      await widgetTester.enterText(emailTextField, "email@mail.com");
       await widgetTester.enterText(passwordTextField, "Password123!");
       await widgetTester.pumpAndSettle();
       await widgetTester.tap(find.byType(LoginButton));
