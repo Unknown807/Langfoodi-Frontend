@@ -17,8 +17,8 @@ class CustomFloatingButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100.0), // Adjust the radius
       ),
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      child: Icon(icon, color: Theme.of(context).colorScheme.onSecondary, size: 40),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary, size: 40),
       onPressed: () => eventFunc.call(),
     );
   }

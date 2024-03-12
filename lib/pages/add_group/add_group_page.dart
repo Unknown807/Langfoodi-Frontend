@@ -23,7 +23,7 @@ class AddGroupPage extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("New Group"),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
         floatingActionButton: const AddGroupButton(),
         body: BlocConsumer<AddGroupBloc, AddGroupState>(

@@ -54,14 +54,14 @@ class MessageList extends StatelessWidget {
                   height: 40,
                   child: Center(
                     child: Card(
-                      color: Theme.of(context).colorScheme.tertiary.withBlue(200),
+                      color: Theme.of(context).colorScheme.background,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           DateFormat.yMMMd().format(message.sentDate!),
                           style: TextStyle(
                             fontSize: 11,
-                            color: Theme.of(context).colorScheme.onTertiary
+                            color: Theme.of(context).colorScheme.onBackground
                           )
                         ),
                       ),
@@ -88,7 +88,7 @@ class MessageList extends StatelessWidget {
                                 top: 10,
                               ),
                               padding: const BubbleEdges.all(12),
-                              color: Theme.of(context).colorScheme.primary.withGreen(190),
+                              color: Theme.of(context).colorScheme.primary,
                               nip: BubbleNip.rightTop,
                               alignment: Alignment.centerRight,
                               child: ChatBubbleContent(
@@ -132,7 +132,7 @@ class MessageList extends StatelessWidget {
                                 left: 5,
                               ),
                               padding: const BubbleEdges.all(12),
-                              color: Theme.of(context).colorScheme.secondary.withRed(235),
+                              color: Theme.of(context).colorScheme.background,
                               nip: BubbleNip.leftTop,
                               child: ChatBubbleContent(
                                 userIds: state.userIds,

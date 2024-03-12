@@ -32,7 +32,7 @@ class MessageSearchAppBar extends StatelessWidget implements PreferredSizeWidget
             child: Text(conversationName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)
+              style: TextStyle(color: Theme.of(context).colorScheme.onBackground)
             )
           ),
         ],
