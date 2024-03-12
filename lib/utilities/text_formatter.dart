@@ -28,10 +28,6 @@ class TextFormatter {
 
   static String servingInformationFormatter(String servingNumber, String servingQuantity, String servingMeasurement, String kiloCalories)
   {
-    if(servingQuantity == ""){
-      return "";
-    }
-
     if(servingQuantity != "" && kiloCalories == ""){
       var servingWord = "servings";
       if(servingNumber == "1"){
@@ -44,8 +40,8 @@ class TextFormatter {
       return "$kiloCalories kcal in a\n$servingQuantity $servingMeasurement serving";
     }
 
-    else {
-      throw ArgumentError("servingNumber:'$servingNumber', servingQuantity: '$servingQuantity', servingMeasurement: '$servingMeasurement', kiloCalories: '$kiloCalories' ");
+    else{
+      return "";
     }
 
   }
