@@ -1,8 +1,5 @@
 part of 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart';
 
-/*
-Displays the recipe description.
-*/
 class ReadOnlyDescription extends StatelessWidget {
   const ReadOnlyDescription({super.key});
 

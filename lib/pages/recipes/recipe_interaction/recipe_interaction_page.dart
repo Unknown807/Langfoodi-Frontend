@@ -93,14 +93,12 @@ class RecipeInteractionPage extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(20, 10, 20, MediaQuery.of(context).viewInsets.bottom),
                             child: Column(
                               children: <Widget>[
-                                // RECIPE TITLE
                                   Align(
                                     alignment: Alignment.topLeft,
                                       child: readonly
                                           ? const riw.ReadOnlyRecipeTitle()
                                           : null),
 
-                                // THUMBNAIL
                                 Row(children: <Widget>[
                                   Expanded(
                                     child: readonly
@@ -108,7 +106,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                       : const riw.RecipeThumbnailPicker())
                                 ]),
 
-                                // DESCRIPTION
                                 Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: readonly
@@ -136,7 +133,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                   )
                                   ],) : null),
 
-                                  // TAGS
                                 Visibility(
                                     visible: state.recipeTagList.isNotEmpty,
                                     child:ExpansionTile(
@@ -162,7 +158,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                       ),],
                                 )),
 
-                                // INGREDIENTS
                                 ExpansionTile(
                                   initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.trailing,
@@ -189,7 +184,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                   ],
                                 ),
 
-                                // STEPS
                                 ExpansionTile(
                                   initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.trailing,
@@ -212,7 +206,6 @@ class RecipeInteractionPage extends StatelessWidget {
                                   ],
                                 ),
 
-                                // EXTRA INFORMATION
                                 Container(child: readonly ? null : ExpansionTile(
                                   initiallyExpanded: true,
                                   controlAffinity: ListTileControlAffinity.trailing,

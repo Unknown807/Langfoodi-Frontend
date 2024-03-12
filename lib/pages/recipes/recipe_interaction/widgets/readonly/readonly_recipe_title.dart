@@ -1,8 +1,5 @@
 part of 'package:recipe_social_media/pages/recipes/recipe_interaction/widgets/recipe_interaction_widgets.dart';
 
-/*
-Displays the recipe title using a Text widget.
-*/
 class ReadOnlyRecipeTitle extends StatelessWidget {
   const ReadOnlyRecipeTitle({super.key});
 
