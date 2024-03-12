@@ -7,6 +7,7 @@ import 'package:recipe_social_media/pages/register/register_bloc.dart';
 import 'package:recipe_social_media/pages/register/register_page.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
 import 'package:recipe_social_media/repositories/navigation/navigation_repo.dart';
+import 'package:recipe_social_media/utilities/utilities.dart';
 import '../../../test_utilities/mocks/generic_mocks.dart';
 
 void main() {
@@ -14,10 +15,21 @@ void main() {
 
   late AuthenticationRepositoryMock authRepoMock;
   late NavigationRepositoryMock navigRepoMock;
+  late ImageBuilderMock imageBuilderMock;
+  late NetworkManagerMock networkManagerMock;
 
   setUp(() {
     authRepoMock = AuthenticationRepositoryMock();
     navigRepoMock = NavigationRepositoryMock();
+    imageBuilderMock = ImageBuilderMock();
+    networkManagerMock = NetworkManagerMock();
+
+    when(() => imageBuilderMock.getAssetImage(any()))
+        .thenReturn(const AssetImage("assets/images/light_auth_bg.png"));
+
+    when(() => networkManagerMock.isNetworkConnected())
+        .thenAnswer((invocation) => Future.value(true));
+
     registerFallbackValue(BuildContextMock());
   });
 
@@ -27,6 +39,8 @@ void main() {
         providers: [
           RepositoryProvider<AuthenticationRepository>(create: (_) => authRepoMock),
           RepositoryProvider<NavigationRepository>(create: (_) => navigRepoMock),
+          RepositoryProvider<ImageBuilder>(create: (_) => imageBuilderMock),
+          RepositoryProvider<NetworkManager>(create: (_) => networkManagerMock),
         ],
         child: const RegisterPage(),
       )

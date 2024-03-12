@@ -26,7 +26,7 @@ class LoginForm extends StatelessWidget {
                   offset: const Offset(0, 10))
               ]),
             child: const Column(children: <Widget>[
-              HandlerEmailInput(),
+              EmailInput(),
               PasswordInput(),
             ])),
           const SizedBox(height: 20),
@@ -65,8 +65,8 @@ class FormErrorLabel extends StatelessWidget {
   }
 }
 
-class HandlerEmailInput extends StatelessWidget {
-  const HandlerEmailInput({super.key});
+class EmailInput extends StatelessWidget {
+  const EmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class HandlerEmailInput extends StatelessWidget {
       builder: (context, state) {
         return FormInput(
           boxDecorationType: FormInputBoxDecorationType.underlined,
-          hintText: "Handler or Email",
+          hintText: "Email",
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
           });

@@ -86,8 +86,8 @@ class AuthenticationRepository {
     return response.isBadRequest ? response.body : "Issue Signing Up";
   }
 
-  Future<String> loginWithHandlerOrEmail(String handlerOrEmail, String password) async {
-    var data = AuthenticationAttemptContract(handlerOrEmail: handlerOrEmail, password: password);
+  Future<String> login(String email, String password) async {
+    var data = AuthenticationAttemptContract(email: email, password: password);
 
     var (user, errorMessage) = await request.authenticate(data);
     if (user != null) {

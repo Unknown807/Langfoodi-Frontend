@@ -35,6 +35,7 @@ class ItemScrollPanel extends StatelessWidget {
   }
 
   Widget buildScrollItem(BuildContext context, ScrollItem item) {
+    final noImage = item.urlImage?.isEmpty ?? true;
     return Container(
       width: 200,
       padding: const EdgeInsets.only(top: 8.0),
@@ -62,7 +63,7 @@ class ItemScrollPanel extends StatelessWidget {
                     borderRadius: BorderRadius.circular(imageBorderRadius),
                     child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                       isAsset: true,
-                      imageUrl: item.urlImage ?? "assets/images/no_image.png",
+                      imageUrl: noImage ? "assets/images/no_image.png" : item.urlImage!,
                       transformationType: ImageTransformationType.standard,
                       errorBuilder: (context, obj1, obj2) {
                         return CustomIconTile(

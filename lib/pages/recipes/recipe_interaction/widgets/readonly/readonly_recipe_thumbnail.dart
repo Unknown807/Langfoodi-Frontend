@@ -7,7 +7,7 @@ class ReadonlyRecipeThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
       builder: (context, state) {
-        bool noImage = state.recipeThumbnailPath.isEmpty;
+        final noImage = state.recipeThumbnailPath.isEmpty;
         return Padding(
             padding: const EdgeInsets.only(top: 5, right: 5),
             child: AspectRatio(
