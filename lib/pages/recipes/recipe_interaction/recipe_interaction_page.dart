@@ -106,11 +106,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                       : const riw.RecipeThumbnailPicker())
                                 ]),
 
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: readonly
-                                        ? const riw.ReadOnlyDescription()
-                                        : const riw.RecipeDescriptionInput()
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: RecipeDescriptionInput()
                                 ),
 
                                 Container(child: readonly ? ReadOnlyRecipeMetadataShelf(
