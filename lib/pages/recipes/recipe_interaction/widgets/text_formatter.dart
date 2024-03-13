@@ -1,4 +1,4 @@
-part of 'utilities.dart';
+part of 'recipe_interaction_widgets.dart';
 
 class TextFormatter {
   static String cookingTimeFormatter(String cookingTime){

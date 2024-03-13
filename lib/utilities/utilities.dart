@@ -21,4 +21,3 @@ part 'image_builder/image_builder.dart';
 part 'image_builder/image_transformation_builder.dart';
 part 'image_builder/image_transformation_type.dart';
 part 'network_manager.dart';
-part 'text_formatter.dart';
