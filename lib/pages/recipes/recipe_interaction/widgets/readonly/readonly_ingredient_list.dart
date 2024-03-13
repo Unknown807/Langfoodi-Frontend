@@ -20,8 +20,9 @@ class ReadonlyIngredientList extends StatelessWidget {
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                              width: 140,
+                          Flexible(
+                              flex: 1,
+                              child:Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: Theme.of(context).colorScheme.background,
@@ -38,9 +39,11 @@ class ReadonlyIngredientList extends StatelessWidget {
                                         fontSize: 14),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                  )))),
+                                  ))))),
                           const SizedBox(width: 8),
-                          Expanded(child:
+                          Flexible(
+                              flex: 2,
+                              child:
                               Text(
                                 ing.name,
                                 style: TextStyle(
