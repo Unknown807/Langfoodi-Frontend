@@ -15,7 +15,7 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.all(5),
         child:Container(
       height: 200,
       width: 200,
