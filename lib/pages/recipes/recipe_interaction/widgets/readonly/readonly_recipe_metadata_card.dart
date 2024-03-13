@@ -5,11 +5,11 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
       {super.key,
       required this.topText,
       required this.mainText,
-      required this.bottomText});
+      this.bottomText});
 
   final String topText;
   final String mainText;
-  final String bottomText;
+  final String? bottomText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        bottomText,
+                        bottomText == null ? "" : bottomText!,
                         style: const TextStyle(
                             fontSize: 10, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,

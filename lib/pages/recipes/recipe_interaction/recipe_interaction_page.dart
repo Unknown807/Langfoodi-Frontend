@@ -126,7 +126,7 @@ class RecipeInteractionPage extends StatelessWidget {
                                                                 state
                                                                     .cookingTime
                                                                     .value),
-                                                    bottomText: ""),
+                                                    ),
                                                 riw.ReadOnlyRecipeMetadataCard(
                                                     topText: "Servings",
                                                     mainText: state
