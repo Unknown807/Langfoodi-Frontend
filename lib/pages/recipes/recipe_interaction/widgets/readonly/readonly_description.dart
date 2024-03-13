@@ -7,13 +7,15 @@ class ReadOnlyDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipeInteractionBloc, RecipeInteractionState>(
         builder: (context, state) {
-      return Align(alignment: Alignment.topLeft,child: SizedBox(
-          height: 150,
-          child: SingleChildScrollView(
-              child: Text(
-            state.recipeDescription.value,
-            style: const TextStyle(fontSize: 14),
-          ))));
+      return Align(
+          alignment: Alignment.topLeft,
+          child: SizedBox(
+              height: 150,
+              child: SingleChildScrollView(
+                  child: Text(
+                state.recipeDescription.value,
+                style: const TextStyle(fontSize: 14),
+              ))));
     });
   }
 }

@@ -22,29 +22,35 @@ class ReadonlyIngredientList extends StatelessWidget {
                         children: [
                           Flexible(
                               flex: 1,
-                              child:Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Theme.of(context).colorScheme.background,
-                              ),
-                              child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
-                                  child: Center(
-                                      child: Text(
-                                    "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
-                                    style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onBackground,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ))))),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  ),
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      child: Center(
+                                          child: Text(
+                                        "${ing.quantity.toStringAsFixed(ing.quantity.truncateToDouble() == ing.quantity ? 0 : 3)} ${ing.unitOfMeasurement}",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ))))),
                           const SizedBox(width: 8),
                           Flexible(
                               flex: 2,
-                              child:
-                              Text(
+                              child: Text(
                                 ing.name,
                                 style: TextStyle(
                                     color: Theme.of(context)
