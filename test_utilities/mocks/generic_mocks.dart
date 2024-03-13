@@ -40,6 +40,7 @@ class JsonWrapperMock extends Mock implements JsonWrapper {}
 class JsonConvertibleMock extends Mock implements JsonConvertible {}
 class LocalStoreMock extends Mock implements LocalStore {}
 class LoginBlocMock extends MockBloc<InputEvent, InputState> implements LoginBloc {}
+class MessagingHubMock extends Mock implements MessagingHub {}
 class MessageRepositoryMock extends Mock implements MessageRepository {}
 class MultipartFileMock extends Mock implements http.MultipartFile {}
 class MultipartFileProviderMock extends Mock implements MultipartFileProvider {}

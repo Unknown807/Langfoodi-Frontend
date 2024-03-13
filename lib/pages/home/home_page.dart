@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/pages/conversation_list/bloc/conversation_list_bloc.dart';
 import 'package:recipe_social_media/pages/conversation_list/conversation_list_page.dart';
 import 'package:recipe_social_media/pages/profile_settings/bloc/profile_settings_bloc.dart';
@@ -27,7 +28,9 @@ class HomePage extends StatelessWidget {
         BlocProvider(create: (_) => ConversationListBloc(
           context.read<ConversationRepository>(),
           context.read<AuthenticationRepository>(),
-          context.read<NetworkManager>()
+          context.read<NetworkManager>(),
+          context.read<NavigationRepository>(),
+          context.read<MessagingHub>(),
         )),
         BlocProvider(create: (_) => ProfileSettingsFormBloc(
           context.read<AuthenticationRepository>(),

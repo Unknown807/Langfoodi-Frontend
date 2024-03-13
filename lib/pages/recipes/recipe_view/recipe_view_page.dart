@@ -118,17 +118,3 @@ class RecipeViewPage extends StatelessWidget implements PageLander {
     );
   }
 }
-
-class PlaceholderPage extends StatelessWidget implements PageLander {
-  const PlaceholderPage({super.key});
-
-  @override
-  void onLanding(BuildContext context) {
-    print("Placeholder page here");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text("Placeholder page here");
-  }
-}

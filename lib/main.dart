@@ -56,6 +56,9 @@ Future<void> main() async {
   final conversationRepo = ConversationRepository(request, jsonWrapper);
   final messageRepo = MessageRepository(request, jsonWrapper);
 
+  final messagingHub = MessagingHub();
+  messagingHub.startConnection();
+
   // The below 2 (commented out) lines are used for manual testing purposes:
 
   //HttpOverrides.global = MyHttpOverrides();
@@ -73,9 +76,10 @@ Future<void> main() async {
     imageBuilder: imageBuilder,
     networkManager: networkManager,
     localStore: localStore,
+    messagingHub: messagingHub,
   ));
 
-  localStore.deleteKey("loggedInUser");
+  //localStore.deleteKey("loggedInUser");
 
   WidgetsBinding.instance.addObserver(appLifeCycleObserver);
 }

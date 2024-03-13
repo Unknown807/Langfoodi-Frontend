@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_social_media/api/api.dart';
 import 'package:recipe_social_media/pages/conversation/bloc/conversation_bloc.dart';
 import 'package:recipe_social_media/pages/conversation/widgets/conversation_widgets.dart';
 import 'package:recipe_social_media/repositories/authentication/auth_repo.dart';
@@ -26,7 +27,8 @@ class ConversationPage extends StatelessWidget {
         context.read<MessageRepository>(),
         context.read<ImageRepository>(),
         context.read<ConversationRepository>(),
-        context.read<NetworkManager>()
+        context.read<NetworkManager>(),
+        context.read<MessagingHub>(),
       )..add(InitState(args.conversation, args.isBlocked)),
       child: Scaffold(
         appBar: MessageSearchAppBar(

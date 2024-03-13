@@ -107,3 +107,31 @@ final class SearchMessages extends ConversationEvent {
   @override
   List<Object> get props => [searchTerm];
 }
+
+final class ReceiveMessage extends ConversationEvent {
+  const ReceiveMessage(this.message);
+
+  final Message message;
+
+  @override
+  List<Object?> get props => [message];
+}
+
+final class ReceiveMessageDeletion extends ConversationEvent {
+  const ReceiveMessageDeletion(this.messageId);
+
+  final String messageId;
+
+  @override
+  List<Object?> get props => [messageId];
+}
+
+final class ReceiveMessageMarkedAsRead extends ConversationEvent {
+  const ReceiveMessageMarkedAsRead(this.messageId, this.userId);
+
+  final String messageId;
+  final String userId;
+
+  @override
+  List<Object?> get props => [messageId, userId];
+}

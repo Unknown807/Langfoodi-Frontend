@@ -69,3 +69,50 @@ final class LeaveGroup extends ConversationListEvent {
 final class ResetPopupDialog extends ConversationListEvent {
   const ResetPopupDialog();
 }
+
+final class ReceiveMessage extends ConversationListEvent {
+  const ReceiveMessage(this.message, this.conversationId);
+
+  final Message message;
+  final String conversationId;
+
+  @override
+  List<Object> get props => [message, conversationId];
+}
+
+final class ReceiveMessageDeletion extends ConversationListEvent {
+  const ReceiveMessageDeletion(this.messageId);
+
+  final String messageId;
+
+  @override
+  List<Object> get props => [messageId];
+}
+
+final class GoToAddConnectionPageAndExpectResult extends ConversationListEvent {
+  const GoToAddConnectionPageAndExpectResult(this.context);
+
+  final BuildContext context;
+
+  @override
+  List<Object> get props => [context];
+}
+
+final class GoToAddGroupPageAndExpectResult extends ConversationListEvent {
+  const GoToAddGroupPageAndExpectResult(this.context);
+
+  final BuildContext context;
+
+  @override
+  List<Object> get props => [context];
+}
+
+final class GoToConversationPageAndExpectResult extends ConversationListEvent {
+  const GoToConversationPageAndExpectResult(this.context, this.arguments);
+
+  final BuildContext context;
+  final ConversationPageArguments arguments;
+
+  @override
+  List<Object> get props => [context, arguments];
+}
