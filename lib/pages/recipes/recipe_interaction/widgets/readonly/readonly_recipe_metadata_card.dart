@@ -21,7 +21,7 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
       width: 200,
       decoration: BoxDecoration(color: Theme.of(context).colorScheme.background,borderRadius: BorderRadius.circular(70)),
       child:Padding(padding: const EdgeInsets.all(10),
-      child: Expanded(child:Column(
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
 
       children: [
@@ -30,7 +30,7 @@ class ReadOnlyRecipeMetadataCard extends StatelessWidget {
         Text(mainText, style: TextStyle(fontSize: 35), overflow: TextOverflow.ellipsis, maxLines: 1,),
         SizedBox(height:10),
         Text(bottomText, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, maxLines: 2,),
-      ])))
+      ]))
     ));
   }
 }
