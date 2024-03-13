@@ -133,9 +133,9 @@ class RecipeInteractionPage extends StatelessWidget {
                                   )
                                   ],) : null),
 
-                                Visibility(
-                                    visible: state.recipeTagList.isNotEmpty,
-                                    child:ExpansionTile(
+                                Container(child:
+                                state.recipeTagList.isNotEmpty || !readonly
+                                ? ExpansionTile(
                                     initiallyExpanded: true,
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     title: Text(
@@ -156,7 +156,8 @@ class RecipeInteractionPage extends StatelessWidget {
                                                     child: riw.RecipeTagList())
                                               ])
                                       ),],
-                                )),
+                                )
+                                : null),
 
                                 ExpansionTile(
                                   initiallyExpanded: true,
