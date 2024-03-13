@@ -18,13 +18,16 @@ class ConversationCard extends StatelessWidget {
       builder: (context, state) {
         final isPinned = state.pinnedIds.contains(conversation.id);
         final isBlocked = state.blockedIds.contains(conversation.connectionOrGroupId);
+        final hasUnseen = conversation.messagesUnseen > 0;
         return GestureDetector(
           onTap: () => context
-            .read<NavigationRepository>()
-            .goTo(context, "/conversation",
-            arguments: ConversationPageArguments(
-              conversation: conversation,
-              isBlocked: isBlocked
+            .read<ConversationListBloc>()
+            .add(GoToConversationPageAndExpectResult(
+              context,
+              ConversationPageArguments(
+                conversation: conversation,
+                isBlocked: isBlocked
+              )
             )),
           child: ConversationContextMenu(
             isBlocked: isBlocked,
@@ -84,26 +87,29 @@ class ConversationCard extends StatelessWidget {
                           ),
                       )),
 
-                      if (conversation.messagesUnseen > 0)
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
-                          child: ClipOval(
-                            child: Container(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 25,
-                              height: 25,
-                              child: Center(
-                                child: Text(
-                                  "${conversation.messagesUnseen}",
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                )),
-                            ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+                        child: ClipOval(
+                          child: Container(
+                            color: hasUnseen
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).scaffoldBackgroundColor,
+                            width: 25,
+                            height: 25,
+                            child: Center(
+                              child: Text(
+                                "${conversation.messagesUnseen}",
+                                style: TextStyle(
+                                  color: hasUnseen
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                    : Theme.of(context).scaffoldBackgroundColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              )),
                           ),
                         ),
+                      ),
 
                       Transform.rotate(
                         angle: pi / 4,
