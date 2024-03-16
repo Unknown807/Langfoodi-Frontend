@@ -36,7 +36,7 @@ class TextFormatter {
       return "$servingWord of $servingQuantity $servingMeasurement";
     }
 
-    if(servingQuantity != "" && kiloCalories != ""){
+    else if(servingQuantity != "" && kiloCalories != ""){
       return "$kiloCalories kcal in a\n$servingQuantity $servingMeasurement serving";
     }
 
