@@ -175,14 +175,10 @@ class RecipeInteractionPage extends StatelessWidget {
                                                         children: <Widget>[
                                                           readonly
                                                               ? const SizedBox()
-                                                              : const riw
-                                                                  .RecipeTagInput(),
+                                                              : const riw.RecipeTagInput(),
                                                           const Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 10),
-                                                              child: riw
-                                                                  .RecipeTagList())
+                                                              padding: EdgeInsets.only(top: 10),
+                                                              child: riw.RecipeTagList())
                                                         ])),
                                               ],
                                             )
