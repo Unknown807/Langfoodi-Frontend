@@ -83,14 +83,14 @@ class ProfileSettingsBloc extends Bloc<ProfileSettingsEvent, ProfileSettingsStat
       newEmail.isEmpty ? user.email : newEmail,
       newPassword.isEmpty ? user.password : newPassword
     );
-    _getProfileInformation();
+    await _getProfileInformation(emit);
   }
 
   void _displayProfileInformation(DisplayProfileInformation event, Emitter<ProfileSettingsState> emit) async {
-    _getProfileInformation();
+    await _getProfileInformation(emit);
   }
 
-  void _getProfileInformation() async {
+  Future _getProfileInformation(Emitter<ProfileSettingsState> emit) async {
     User user = await _authRepo.currentUser;
     emit(state.copyWith(
       creationDate: DateFormat('dd-MM-yyyy').format(user.creationDate),

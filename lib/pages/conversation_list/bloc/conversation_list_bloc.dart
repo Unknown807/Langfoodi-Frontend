@@ -229,14 +229,14 @@ class ConversationListBloc extends Bloc<ConversationListEvent, ConversationListS
   }
 
   void _blockConnection(BlockConnection event, Emitter<ConversationListState> emit) async {
-    _blockOrUnblockConnection(event.connectionId, true, emit);
+    await _blockOrUnblockConnection(event.connectionId, true, emit);
   }
 
   void _unblockConnection(UnblockConnection event, Emitter<ConversationListState> emit) async {
-    _blockOrUnblockConnection(event.connectionId, false, emit);
+    await _blockOrUnblockConnection(event.connectionId, false, emit);
   }
 
-  void _blockOrUnblockConnection(String connectionId, bool toBlock, Emitter<ConversationListState> emit) async {
+  Future _blockOrUnblockConnection(String connectionId, bool toBlock, Emitter<ConversationListState> emit) async {
     List<String> blockedIds = List.from(state.blockedIds);
     if (toBlock) {
       blockedIds.add(connectionId);
