@@ -23,13 +23,15 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
           ),
           itemCount: recipePreviews.length,
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+            final recipe = recipePreviews[itemIndex];
+            final noImage = recipe.thumbnailId?.isEmpty ?? true;
             return GestureDetector(
               onTap: () => context
                 .read<ConversationBloc>()
                 .add(GoToInteractionPageAndExpectResult(
                   context, RecipeInteractionPageArguments(
                     pageType: RecipeInteractionType.readonly,
-                    recipeId: recipePreviews[itemIndex].id
+                    recipeId: recipe.id
                     ))),
               child: Container(
                 decoration: BoxDecoration(
@@ -44,7 +46,7 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                         child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                           isAsset: true,
-                          imageUrl: recipePreviews[itemIndex].thumbnailId ?? "assets/images/no_image.png",
+                          imageUrl: noImage ? "assets/images/no_image.png" : recipe.thumbnailId!,
                           transformationType: ImageTransformationType.lowHorizontal,
                           errorBuilder: (context, obj1, obj2) {
                             return CustomIconTile(
@@ -62,7 +64,7 @@ class ChatBubbleRecipeCarousel extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Flexible(child: Text(
-                          recipePreviews[itemIndex].title.capitalise(),
+                          recipe.title.capitalise(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

@@ -44,6 +44,7 @@ class ConversationContextMenu extends StatelessWidget {
         if (!isGroup && !isBlocked)
           ListTile(
             title: const Text("Block"),
+            contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
             onTap: () {
               context
                 .read<NavigationRepository>()
@@ -58,6 +59,7 @@ class ConversationContextMenu extends StatelessWidget {
         if (!isGroup && isBlocked)
           ListTile(
             title: const Text("Unblock"),
+            contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
             onTap: () {
               context
                 .read<NavigationRepository>()

@@ -45,6 +45,7 @@ class AttachRecipeButton extends StatelessWidget {
                                 separatorBuilder: (context, state) => const SizedBox(height: 10),
                                 itemBuilder: (context, index) {
                                   final recipe = state.currentRecipes[index];
+                                  final noImage = recipe.thumbnailId?.isEmpty ?? true;
                                   return Row(
                                     children: [
                                       SizedBox(
@@ -54,7 +55,7 @@ class AttachRecipeButton extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(5),
                                           child: context.read<ImageBuilder>().decideOnAndDisplayImage(
                                             isAsset: true,
-                                            imageUrl: recipe.thumbnailId ?? "assets/images/no_image.png",
+                                            imageUrl: noImage ? "assets/images/no_image.png" : recipe.thumbnailId!,
                                             transformationType: ImageTransformationType.tiny,
                                             errorBuilder: (context, obj1, obj2) {
                                               return CustomIconTile(

@@ -17,6 +17,7 @@ class RemoveMessageContextMenu extends StatelessWidget {
       builder: (_) => [
         ListTile(
           title: const Text("Remove"),
+          contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
           onTap: () {
             context.read<NavigationRepository>().dismissDialog(context);
             showDialog(
