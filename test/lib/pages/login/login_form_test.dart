@@ -37,24 +37,24 @@ void main() {
     });
   });
 
-  group("handlerEmailInput tests", () {
-    testWidgets("handler or email entered", (widgetTester) async {
+  group("EmailInput tests", () {
+    testWidgets("email entered", (widgetTester) async {
       // Arrange
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
           create: (_) => loginBlocMock,
-          child: Scaffold(
-            body: HandlerEmailInput()
+          child: const Scaffold(
+            body: EmailInput()
           )
         ),
       );
 
       // Act
       await widgetTester.pumpWidget(widget);
-      await widgetTester.enterText(find.byType(TextField), "handler here");
+      await widgetTester.enterText(find.byType(TextField), "email here");
 
       // Assert
-      verify(() => loginBlocMock.add(const EmailChanged("handler here"))).called(1);
+      verify(() => loginBlocMock.add(const EmailChanged("email here"))).called(1);
     });
   });
 
@@ -64,7 +64,7 @@ void main() {
       final widget = MaterialApp(
         home: BlocProvider<LoginBloc>(
             create: (_) => loginBlocMock,
-            child: Scaffold(
+            child: const Scaffold(
                 body: PasswordInput()
             )
         ),

@@ -8,35 +8,45 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginBloc, InputState>(
         listener: (context, state) {
           if (state.formStatus.isSuccess) {
-            context
-                .read<NavigationRepository>()
-                .goTo(context, "/home", routeType: RouteType.onlyThis);
+            context.read<NavigationRepository>().goTo(context, "/home", routeType: RouteType.onlyThis);
           }
         },
-        child: Container(
-            child: (Column(children: <Widget>[
-              Column(children: <Widget>[
-                HandlerEmailInput(),
-                PasswordInput(),
-          ]),
+        child: Column(children: <Widget>[
           const FormErrorLabel(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.shadow,
+                  blurRadius: 20.0,
+                  offset: const Offset(0, 10))
+              ]),
+            child: const Column(children: <Widget>[
+              EmailInput(),
+              PasswordInput(),
+            ])),
+          const SizedBox(height: 20),
           const LoginButton(),
-          const SizedBox(height: 10),
-          Row(children: [
-            Expanded(
-                child: Container(
-                    child: OutlinedButton(
-              onPressed: () {
-                context.read<NavigationRepository>().goTo(context, "/register");
-              },
-              style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.green)),
-              child: const Text("Create account",
-                  overflow: TextOverflow.ellipsis, maxLines: 1),
-            )))
-          ]),
-        ]))));
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Don't have an account?    ",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                )),
+              CustomTextButton(
+                eventFunc: () => context
+                  .read<NavigationRepository>()
+                  .goTo(context, "/register"),
+                text: "Sign Up"),
+            ],
+          ),
+        ]));
   }
 }
 
@@ -48,45 +58,34 @@ class FormErrorLabel extends StatelessWidget {
     return BlocBuilder<LoginBloc, InputState>(
       buildWhen: (p, c) => p.errorMessage != c.errorMessage,
       builder: (context, state) {
-        return Text(
-          state.errorMessage,
-          style: TextStyle(color: Theme.of(context).colorScheme.error),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        );
+        return Text(state.errorMessage,
+          style: TextStyle(color: Theme.of(context).colorScheme.error));
       },
     );
   }
 }
 
-class HandlerEmailInput extends StatelessWidget {
-  HandlerEmailInput({super.key, this.controller});
-
-  final TextEditingController? controller;
+class EmailInput extends StatelessWidget {
+  const EmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, InputState>(
       buildWhen: (p, c) => p.email != c.email,
       builder: (context, state) {
-        return (FormInput(
-          textController: state.emailTextController,
-          labelText: "Email",
+        return FormInput(
+          boxDecorationType: FormInputBoxDecorationType.underlined,
+          hintText: "Email",
           eventFunc: (value) {
             context.read<LoginBloc>().add(EmailChanged(value));
-          },
-          height: 100,
-          suffixIcon: Icons.clear,
-        ));
+          });
       },
     );
   }
 }
 
 class PasswordInput extends StatelessWidget {
-  PasswordInput({super.key, this.controller});
-
-  final TextEditingController? controller;
+  const PasswordInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +93,11 @@ class PasswordInput extends StatelessWidget {
       buildWhen: (p, c) => p.password != c.password,
       builder: (context, state) {
         return FormInput(
-          textController: state.passwordTextController,
           isConfidential: true,
-          labelText: "Password",
+          hintText: "Password",
           eventFunc: (password) {
             context.read<LoginBloc>().add(PasswordChanged(password));
           },
-          height: 100,
-          suffixIcon: Icons.clear,
         );
       },
     );
@@ -119,15 +115,10 @@ class LoginButton extends StatelessWidget {
           return const CircularProgressIndicator();
         }
 
-        return Row(children: [
-          Expanded(
-              child: Container(
-                  child: FormButton(
-            eventFunc: () =>
-                context.read<LoginBloc>().add(const FormSubmitted()),
-            text: "Sign in",
-          )))
-        ]);
+        return FormButton(
+          eventFunc: () => context.read<LoginBloc>().add(const FormSubmitted()),
+          text: "Login",
+        );
       },
     );
   }

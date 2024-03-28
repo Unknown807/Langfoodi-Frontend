@@ -21,7 +21,7 @@ void main() {
   group("formSubmitted method tests", () {
     blocTest("form submission success",
       build: () {
-        when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value(""));
+        when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value(""));
         return LoginBloc(authRepo: authRepoMock, networkManager: networkManagerMock);
       },
       act: (bloc) {
@@ -60,7 +60,7 @@ void main() {
 
     blocTest("general form submission failure",
       build: () {
-        when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value("form error"));
+        when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value("form error"));
         return LoginBloc(authRepo: authRepoMock, networkManager: networkManagerMock);
       },
       act: (bloc) {
@@ -115,7 +115,7 @@ void main() {
 
     blocTest("email/handler field empty, form submission failure",
         build: () {
-          when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value("form error"));
+          when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value("form error"));
           return LoginBloc(authRepo: authRepoMock, networkManager: networkManagerMock);
         },
         act: (bloc) {
@@ -139,7 +139,7 @@ void main() {
 
     blocTest("password field empty, form submission failure",
         build: () {
-          when(() => authRepoMock.loginWithHandlerOrEmail(any(), any())).thenAnswer((invocation) => Future.value("form error"));
+          when(() => authRepoMock.login(any(), any())).thenAnswer((invocation) => Future.value("form error"));
           return LoginBloc(authRepo: authRepoMock, networkManager: networkManagerMock);
         },
         act: (bloc) {

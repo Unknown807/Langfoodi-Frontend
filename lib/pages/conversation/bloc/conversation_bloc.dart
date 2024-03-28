@@ -126,8 +126,8 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     ));
 
     emit(state.copyWith(
-        messages: messages,
-        pageLoading: false
+      messages: messages,
+      pageLoading: false
     ));
   }
 
