@@ -11,9 +11,9 @@
 [![GitHub repo size](https://img.shields.io/github/repo-size/Unknown807/Langfoodi-Frontend?label=Repo%20Size)](https://shields.io/badges/git-hub-repo-size)
 [![GitHub License](https://img.shields.io/github/license/Unknown807/Langfoodi-Frontend?label=License)](LICENSE)
 
-The user-facing Android app for the Langfoodi recipe-sharing social media platform.
+The front-facing Android app for the Langfoodi recipe-sharing social media platform.
 
-Find the API (backend) that this app uses at [Langfoodi Api](https://github.com/Andrei-Constantin-Programmer/LangfoodiAPI).
+Find the API (backend) that this app uses at [Langfoodi Backend](https://github.com/Unknown807/Langfoodi-Backend).
 
 
 ## Table of Contents
